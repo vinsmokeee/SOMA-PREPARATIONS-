@@ -82,3 +82,38 @@ export async function findSimilarAction(stem: string, excludeId: string | null):
   const { data } = await supabase.rpc("find_similar_questions", { _stem: stem.slice(0, 2000), _exclude: excludeId });
   return (data ?? []) as SimilarQuestion[];
 }
+
+export type ImportRowResult = { row: number; ok: boolean; message: string; id?: string };
+
+/** Imports already-validated CSV rows as drafts (max 50 per call). */
+export async function importQuestionsAction(rows: { row: number; payload: QuestionPayload }[]): Promise<ImportRowResult[]> {
+  const user = await getCurrentUser();
+  if (!can(user, "questions.create")) return rows.map((r) => ({ row: r.row, ok: false, message: "Not allowed." }));
+  const out: ImportRowResult[] = [];
+  for (const { row, payload } of rows.slice(0, 50)) {
+    const res = await saveQuestionAction(payload);
+    out.push(res.ok ? { row, ok: true, message: "Imported as draft", id: res.id } : { row, ok: false, message: res.issues?.join("; ") || res.message });
+  }
+  return out;
+}
+
+const bulkSchema = z.object({ ids: z.array(z.uuid()).min(1).max(200), action: z.enum(REVIEW_ACTIONS) });
+
+/** Applies a review action to many questions; each is checked individually. */
+export async function bulkReviewAction(input: z.input<typeof bulkSchema>): Promise<{ done: number; failed: { id: string; message: string }[] }> {
+  const parsed = bulkSchema.safeParse(input);
+  if (!parsed.success) return { done: 0, failed: [] };
+  if (["request_revision", "reject"].includes(parsed.data.action)) return { done: 0, failed: parsed.data.ids.map((id) => ({ id, message: "This action needs a comment; use it on individual questions." })) };
+  const supabase = await createClient();
+  let done = 0;
+  const failed: { id: string; message: string }[] = [];
+  for (const id of parsed.data.ids) {
+    const { error } = await supabase.rpc("review_question", { _id: id, _action: parsed.data.action, _comment: null });
+    if (error) {
+      const key = Object.keys(REVIEW_MESSAGES).find((k) => error.message.includes(k));
+      failed.push({ id, message: key ? REVIEW_MESSAGES[key] : "Could not be changed." });
+    } else done++;
+  }
+  revalidatePath("/admin/questions");
+  return { done, failed };
+}

@@ -1,0 +1,3 @@
+stage,type,subject,topic,difficulty,marks,question,option_a,option_b,option_c,option_d,option_e,correct,explanation,model_answer,word_limit,reference,reference_url,free_sample
+PE,mcq,data-interpretation,,standard,1,"An office received 1,200 applications in 2023 and 1,500 in 2024. What was the percentage increase?",20%,25%,30%,300%,,B,"Increase = 300; 300 ÷ 1,200 × 100 = 25%.",,,,,no
+ME,essay,english-general-knowledge,,standard,20,Discuss the role of merit in an efficient civil service. (about 400 words),,,,,,,,Points a strong answer would make…,400,,,no

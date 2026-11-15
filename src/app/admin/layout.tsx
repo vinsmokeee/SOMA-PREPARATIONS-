@@ -26,8 +26,9 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
       title: "Content",
       items: [
         ...item("/admin/questions", "Question bank", "questions.create").concat(can(user, "questions.create") ? [] : item("/admin/questions", "Question bank", "questions.review")),
-        later("/admin/papers", "Historical papers", "M3"),
-        later("/admin/imports", "RCSC imports", "M3"),
+        ...item("/admin/imports", "Imports", "imports.run"),
+        ...item("/admin/papers", "Historical papers", "papers.manage"),
+        ...item("/admin/permissions", "Permissions", "papers.manage"),
         later("/admin/evaluations", "Written answers", "M5"),
         later("/admin/ai", "AI question drafts", "M6"),
         later("/admin/current-affairs", "Current affairs", "M7"),

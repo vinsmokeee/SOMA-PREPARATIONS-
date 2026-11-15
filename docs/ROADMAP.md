@@ -6,8 +6,8 @@ approval before the next one starts.
 | # | Milestone | Status |
 | --- | --- | --- |
 | 1 | Foundation and website | Complete (deployed) |
-| 2 | Examination engine (PE + ME simulation) | **Built — awaiting live testing and approval** |
-| 3 | Question bank, historical papers, RCSC import | Not started |
+| 2 | Examination engine (PE + ME simulation) | Complete (deployed; live exam-room run still to do) |
+| 3 | Question bank, historical papers, RCSC import | **Built — awaiting real past papers and approval** |
 | 4 | Student learning and analytics | Not started |
 | 5 | ME evaluation and expert system | Not started |
 | 6 | AI question intelligence | Not started |
@@ -40,6 +40,24 @@ approval before the next one starts.
 - "Purchasing opens soon" buttons are disabled with an explanation.
 - Logo: a typographic wordmark is used until the official file is supplied.
 - Legal pages carry a "Draft for legal review" notice.
+
+## Milestone 3 — what was built
+
+| Feature | Status |
+| --- | --- |
+| Upload many PDFs at once (year/stage guessed from file names) | Built |
+| Import from an RCSC link with SSRF protection, duplicate and version detection | Built — unit-tested; live RCSC fetch may be refused by the site (then upload) |
+| Text extraction and question splitter (sections, inline/line options, inline answers, answer-key sections, issue flags) | Working — unit-tested and checked end-to-end on a generated PDF; to be tuned on real RCSC papers |
+| Candidate review: edit, choose answer and its source, accept as drafts, reject, re-run extraction | Built |
+| Historical paper library (admin), build a timed practice examination from a paper | Built |
+| Permissions: record written permission with letter, apply to past papers by year | Built |
+| Publish rule: reproduced papers need authorised rights | Working — SQL-tested |
+| Student past-paper library by year and stage | Built |
+| Question bank: CSV import with row-by-row validation and template, filters (subject, type, difficulty, origin), pagination, bulk review | Built |
+
+Known limitations: scanned PDFs need OCR (flagged, not processed); images and tables
+inside questions are not extracted; the splitter is tuned to common layouts and will
+be adjusted to the real papers.
 
 ## Milestone 2 — what was built
 

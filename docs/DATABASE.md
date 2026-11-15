@@ -19,6 +19,8 @@ migrations are tested on plain PostgreSQL 16 with a minimal Supabase stub
 | `20261116000100_exam_engine` | Examination engine: `start_attempt`, `get_attempt_paper`, `save_answer`, `submit_attempt`, `get_attempt_result`, `finalize_expired_attempts`, `exam_catalogue`; answer-key guards on options/rubrics; exam publish rule; duplicate detection (`content_hash`, `find_similar_questions`) |
 | `20261116000200_question_authoring` | `save_question` (atomic question + options + rubric + references), `review_question` (workflow transitions with completeness checks and review history), exam builder helpers `add/remove/move_exam_question` |
 
+| `20261117000100_imports_and_papers` | `usage_permissions`; uploads in `source_documents` (origin, filename, permission link, content-hash uniqueness); `import_candidates` staging; import jobs from uploads; publish rule for reproduced papers; `exam_catalogue` with paper year/credit; private Storage bucket `source-documents` with staff-only policies |
+
 Sample content (not a migration — applied once, then managed in admin):
 `supabase/content/m2_sample_content.sql` — 16 original PE questions and 2 ME
 questions, all **awaiting review**, plus two draft sample examinations.
@@ -133,6 +135,23 @@ policy recursion.
 - **Content safety.** Only reviewers can change options or rubrics of verified or
   published questions; an exam can be published only when all its questions are
   published; questions cannot be removed from exams that students have taken.
+
+## Imports and historical papers (Milestone 3)
+
+- **Two entry points.** Admins upload PDFs (browser → private Storage → server
+  processing) or paste a link to an approved host (server fetch with SSRF
+  protection: HTTPS only, host allow-list in `app_settings.imports.allowed_hosts`
+  defaulting to rcsc.gov.bt, public-IP DNS check, every redirect re-validated,
+  25 MB / 30 s limits, PDF signature check).
+- **Duplicates and versions.** A re-imported URL with identical bytes is reported
+  as unchanged; changed bytes create a new `source_document_versions` row. The
+  same file uploaded twice is detected by its SHA-256.
+- **Staging, not publishing.** Extracted questions land in `import_candidates`.
+  Reviewers edit them, choose answers (recorded as official key or set by Soma),
+  then accept them as **draft** questions with a source reference.
+- **Rights.** `usage_permissions` records written permission (scope, years,
+  conditions, credit line, copy of the letter). A historical examination can be
+  published only when its paper's source document is `authorised`.
 
 ## Supabase security advisor
 
