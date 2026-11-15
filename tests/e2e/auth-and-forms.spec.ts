@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("protected areas redirect signed-out visitors to sign in, preserving the destination", async ({ page }) => {
-  for (const path of ["/dashboard", "/dashboard/profile", "/admin", "/admin/users"]) {
+  for (const path of ["/dashboard", "/dashboard/profile", "/admin", "/admin/users", "/admin/ai"]) {
     await page.goto(path);
     await expect(page).toHaveURL(new RegExp(`/login\\?next=${encodeURIComponent(path).replace(/%2F/g, "(%2F|/)")}`));
     await expect(page.getByRole("heading", { name: "Sign in to Soma" })).toBeVisible();
