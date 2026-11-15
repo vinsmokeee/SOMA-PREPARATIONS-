@@ -5,8 +5,8 @@ approval before the next one starts.
 
 | # | Milestone | Status |
 | --- | --- | --- |
-| 1 | Foundation and website | **Complete — awaiting approval** |
-| 2 | Examination engine (PE + ME simulation) | Not started |
+| 1 | Foundation and website | Complete (deployed) |
+| 2 | Examination engine (PE + ME simulation) | **Built — awaiting live testing and approval** |
 | 3 | Question bank, historical papers, RCSC import | Not started |
 | 4 | Student learning and analytics | Not started |
 | 5 | ME evaluation and expert system | Not started |
@@ -41,7 +41,25 @@ approval before the next one starts.
 - Logo: a typographic wordmark is used until the official file is supplied.
 - Legal pages carry a "Draft for legal review" notice.
 
-## Milestone 2 — next
+## Milestone 2 — what was built
+
+| Feature | Status |
+| --- | --- |
+| Examination engine (database functions, server time, autosave, idempotent submit, auto-submit, marking) | Working — SQL-tested |
+| Student: examination list, instructions + confirmation, resume notice | Built |
+| Exam room: countdown, one question at a time, palette, mark for review, previous/next, autosave with retry and device backup, OMR answer sheet, final review, submit confirmation, automatic submission | Working — browser-tested (desktop + mobile) via the preview harness |
+| ME written mode: word counts, debounced autosave, recovery | Working — browser-tested |
+| Results: score, accuracy, correct/incorrect/unanswered, subject breakdown, revision suggestions, time analysis, explanations, model answers, rubrics, evaluation labels | Built |
+| Examination history | Built |
+| Admin question bank: create/edit MCQ and written questions, options, rubrics, references, similar-question check, review workflow with history | Built |
+| Admin exam builder: settings, add/reorder/remove questions, publish rules | Built |
+| Sample content: 16 PE + 2 ME original questions (awaiting founder review), 2 draft sample exams | Ready to apply |
+
+Known limitations: option order is not shuffled per attempt (question order can be);
+exam stems are plain text (no images or tables yet); no Dzongkha sample questions
+(need a Dzongkha specialist); expert evaluation of written answers is Milestone 5.
+
+## Milestone 2 — original plan
 
 Exam delivery functions (`start_attempt`, `get_attempt_paper`, `save_answer`,
 `submit_attempt`, auto-submit), the PE examination interface (instructions,

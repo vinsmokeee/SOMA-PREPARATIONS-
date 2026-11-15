@@ -53,7 +53,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
       />
       <div className="space-y-6">
         {notice ? <Alert tone={notice.tone}>{notice.text}</Alert> : null}
-        {welcome ? <Alert tone="success" title="Your account is ready">Free practice and sample examinations will appear here as soon as they open.</Alert> : null}
+        {welcome ? <Alert tone="success" title="Your account is ready">Start with a free sample examination from <Link href="/dashboard/exams" className="font-medium text-primary underline">Examinations</Link>.</Alert> : null}
 
         <div className="grid gap-4 md:grid-cols-3">
           <StageCard icon={<BookOpenCheck className="size-5 text-primary" aria-hidden />} title="PE preparation" attempts={attemptRows.filter((a) => a.exams?.stage === "PE").length} />
@@ -87,15 +87,15 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
           </CardHeader>
           <CardContent>
             {attemptRows.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
-                You have not taken any examinations yet. The examination engine and free sample examinations are the next
-                stage of development.
-              </p>
+              <div className="flex flex-col items-start gap-3">
+                <p className="text-sm text-muted-foreground">You have not taken any examinations yet.</p>
+                <Button asChild size="sm"><Link href="/dashboard/exams">Browse examinations</Link></Button>
+              </div>
             ) : (
               <ul className="divide-y divide-border">
                 {attemptRows.map((a) => (
                   <li key={a.id} className="flex flex-wrap items-center justify-between gap-2 py-3 text-sm">
-                    <span className="font-medium text-ink">{a.exams?.title ?? "Examination"}</span>
+                    <Link href={a.status === "in_progress" ? `/exam/${a.id}` : `/dashboard/results/${a.id}`} className="font-medium text-ink hover:text-primary">{a.exams?.title ?? "Examination"}</Link>
                     <span className="flex items-center gap-3 text-muted-foreground">
                       {formatDate(a.started_at)}
                       <Badge tone={a.status === "in_progress" ? "warning" : "green"}>{a.status.replace("_", " ")}</Badge>

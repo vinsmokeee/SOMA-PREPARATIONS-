@@ -1,6 +1,7 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
+import { CACHE_TAGS } from "@/lib/data/public";
 import { redirect } from "next/navigation";
 import type { ActionState } from "@/components/app/action-form";
 import { assertPermission, AuthorizationError } from "@/lib/auth/dal";
@@ -48,6 +49,7 @@ export async function saveExam(_prev: ActionState, formData: FormData): Promise<
   const { data: rows, error } = await db.from("exams").update(data).eq("id", id).select("id");
   if (error) return { status: "error", message: message(error, "The examination could not be saved.") };
   if (!rows?.length) return { status: "error", message: "Nothing was changed." };
+  updateTag(CACHE_TAGS.exams);
   revalidatePath(`/admin/exams/${id}`);
   return { status: "success", message: "Saved." };
 }
@@ -60,6 +62,7 @@ export async function setExamStatus(_prev: ActionState, formData: FormData): Pro
   const db = await createClient();
   const { error } = await db.from("exams").update({ status: parsed.data.status }).eq("id", parsed.data.id);
   if (error) return { status: "error", message: message(error, "The status could not be changed.") };
+  updateTag(CACHE_TAGS.exams);
   revalidatePath(`/admin/exams/${parsed.data.id}`);
   revalidatePath("/admin/exams");
   return { status: "success", message: parsed.data.status === "published" ? "Published — students can now see it." : "Status updated." };

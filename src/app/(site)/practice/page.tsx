@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Alert } from "@/components/ui/alert";
+import { Suspense } from "react";
+import { FreeExams } from "@/components/site/free-exams";
 import { Button } from "@/components/ui/button";
 import { Container, PageHeader } from "@/components/ui/container";
 
@@ -18,11 +19,12 @@ export default function PracticePage() {
         description="Free sample questions with full explanations, covering each area tested in the Preliminary Examination."
       />
       <Container className="max-w-3xl space-y-8 py-12 sm:py-16">
-        <Alert tone="info" title="Free practice is being prepared">
-          Our first set of free questions is going through review. Every question is checked by a reviewer before it is
-          published, so we are opening practice only when the questions meet our standard. Create a free account and the
-          practice set will appear in your dashboard as soon as it opens.
-        </Alert>
+        <Suspense fallback={<div className="h-40 rounded-xl bg-muted" aria-hidden />}>
+          <FreeExams
+            emptyTitle="Free practice is being prepared"
+            emptyText="Our first set of free questions is going through review. Every question is checked by a reviewer before it is published. Create a free account and the practice set will appear in your dashboard as soon as it opens."
+          />
+        </Suspense>
         <div className="rounded-xl border border-border p-6">
           <h2 className="font-serif text-xl font-semibold">What free practice will include</h2>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-[15px] leading-relaxed text-foreground marker:text-primary">

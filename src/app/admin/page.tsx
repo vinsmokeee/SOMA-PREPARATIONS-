@@ -32,6 +32,8 @@ export default async function AdminOverview() {
   const checklist = [
     { done: true, label: "BCSE 2026 structure recorded from the official RCSC announcement", href: "/admin/exam-structure" },
     { done: (unverified.count ?? 0) === 0, label: "All examination papers verified against an RCSC source", href: "/admin/exam-structure" },
+    { done: (counts?.questions_published ?? 0) > 0, label: "Review and publish the sample questions", href: "/admin/questions?status=awaiting_review" },
+    { done: false, label: "Publish the sample examinations", href: "/admin/exams" },
     { done: false, label: "Upload the official Soma logo (see README → Branding)" },
     { done: false, label: "Confirm package access periods before sales open", href: "/admin/packages" },
     { done: false, label: "Approve the draft terms, privacy notice and disclaimer" },
