@@ -8,6 +8,8 @@ import { clockOffset, countWords, formatClock, questionState, remainingSeconds, 
 import type { AttemptPaper, PaperQuestion } from "@/lib/exam/types";
 import { cn } from "@/lib/utils";
 import { useAutosave } from "./use-autosave";
+import { HandwrittenPages, type PagesApi } from "@/components/written/handwritten-pages";
+import type { Result } from "@/app/dashboard/written/actions";
 
 type Answer = { selected: string | null; text: string; flagged: boolean };
 type LocalBackup = Record<string, Answer & { t: number }>;
@@ -15,23 +17,46 @@ type View = "question" | "review" | "sheet";
 
 const TEXT_DEBOUNCE_MS = 1200;
 
+export type WrittenMode = { mode: "typed" | "handwritten"; answerId: string | null; pages: number };
+
+/** Handwritten answer support (Milestone 5). Omitted in contexts without uploads. */
+export type WrittenSupport = {
+  initial: Record<string, WrittenMode>;
+  setMode: (examQuestionId: string, mode: "typed" | "handwritten") => Promise<Result<{ answerId: string }>>;
+  pagesApi: (examQuestionId: string) => PagesApi;
+  maxPages: number;
+};
+
 export type ExamRoomProps = {
   paper: AttemptPaper;
   save: (input: SaveInput) => Promise<SaveResult>;
   submit: (attemptId: string) => Promise<SubmitResult>;
   onFinished: () => void;
+  written?: WrittenSupport;
+  /** Untimed personal practice: no countdown is shown. */
+  untimed?: boolean;
 };
 
 function isWritten(q: PaperQuestion) {
   return q.type !== "mcq";
 }
 
-function isAnswered(q: PaperQuestion, a: Answer | undefined) {
+function isAnswered(q: PaperQuestion, a: Answer | undefined, w?: WrittenMode) {
+  if (w?.mode === "handwritten") return w.pages > 0;
   if (!a) return false;
   return isWritten(q) ? a.text.trim().length > 0 : Boolean(a.selected);
 }
 
-export function ExamRoom({ paper, save, submit, onFinished }: ExamRoomProps) {
+export function ExamRoom({ paper, save, submit, onFinished, written, untimed }: ExamRoomProps) {
+  const [modes, setModes] = useState<Record<string, WrittenMode>>(() => written?.initial ?? {});
+  const [modeError, setModeError] = useState<string | null>(null);
+  const changeMode = async (q: PaperQuestion, mode: "typed" | "handwritten") => {
+    if (!written) return;
+    setModeError(null);
+    const r = await written.setMode(q.exam_question_id, mode);
+    if (!r.ok) { setModeError(r.message); return; }
+    setModes((m) => ({ ...m, [q.exam_question_id]: { mode, answerId: r.data.answerId, pages: m[q.exam_question_id]?.pages ?? 0 } }));
+  };
   const attemptId = paper.attempt.id;
   const questions = paper.questions;
   const storageKey = `soma:attempt:${attemptId}`;
@@ -305,7 +330,7 @@ export function ExamRoom({ paper, save, submit, onFinished }: ExamRoomProps) {
   // ---- derived -------------------------------------------------------------
   const states: QuestionState[] = questions.map((q) => {
     const a = answers[q.exam_question_id];
-    return questionState(isAnswered(q, a), Boolean(a?.flagged));
+    return questionState(isAnswered(q, a, modes[q.exam_question_id]), Boolean(a?.flagged));
   });
   const answeredCount = states.filter((s) => s === "answered" || s === "answered_flagged").length;
   const flaggedCount = states.filter((s) => s === "flagged" || s === "answered_flagged").length;
@@ -328,6 +353,9 @@ export function ExamRoom({ paper, save, submit, onFinished }: ExamRoomProps) {
             </p>
           </div>
           <SaveIndicator status={status} pending={pendingCount} lastSavedAt={lastSavedAt} />
+          {untimed ? (
+            <span className="rounded-md bg-muted px-2.5 py-1.5 text-sm font-medium text-ink">Untimed practice</span>
+          ) : (
           <div
             role="timer"
             aria-label={`Time remaining ${formatClock(remaining)}`}
@@ -339,6 +367,7 @@ export function ExamRoom({ paper, save, submit, onFinished }: ExamRoomProps) {
             <Clock3 className="size-4" aria-hidden />
             {formatClock(remaining)}
           </div>
+          )}
         </div>
       </header>
 
@@ -347,6 +376,15 @@ export function ExamRoom({ paper, save, submit, onFinished }: ExamRoomProps) {
           {view === "question" && current ? (
             <QuestionView
               q={current}
+              written={written && isWritten(current) ? {
+                state: modes[current.exam_question_id] ?? { mode: "typed", answerId: null, pages: 0 },
+                onMode: (m) => changeMode(current, m),
+                api: written.pagesApi(current.exam_question_id),
+                maxPages: written.maxPages,
+                error: modeError,
+                onPages: (n) => setModes((m) => ({ ...m, [current.exam_question_id]: { ...(m[current.exam_question_id] ?? { mode: "handwritten", answerId: null }), pages: n } })),
+                onAnswerId: (id) => setModes((m) => ({ ...m, [current.exam_question_id]: { ...(m[current.exam_question_id] ?? { mode: "handwritten", pages: 0 }), answerId: id } })),
+              } : undefined}
               answer={answers[current.exam_question_id]}
               onChoose={(id) => choose(current, id)}
               onClear={() => clearChoice(current)}
@@ -528,8 +566,19 @@ function SaveIndicator({ status, pending, lastSavedAt }: { status: string; pendi
   );
 }
 
+type WrittenView = {
+  state: WrittenMode;
+  onMode: (m: "typed" | "handwritten") => void;
+  api: PagesApi;
+  maxPages: number;
+  error: string | null;
+  onPages: (n: number) => void;
+  onAnswerId: (id: string) => void;
+};
+
 function QuestionView({
   q,
+  written,
   answer,
   onChoose,
   onClear,
@@ -537,6 +586,7 @@ function QuestionView({
   onBlurText,
 }: {
   q: PaperQuestion;
+  written?: WrittenView;
   answer: Answer | undefined;
   onChoose: (optionId: string) => void;
   onClear: () => void;
@@ -592,8 +642,21 @@ function QuestionView({
             </button>
           ) : null}
         </fieldset>
+      ) : written && written.state.mode === "handwritten" ? (
+        <div className="mt-6 space-y-4">
+          <ModeSwitch written={written} />
+          <HandwrittenPages
+            key={q.exam_question_id}
+            api={{ ...written.api, ensureAnswer: async () => { const r = await written.api.ensureAnswer(); if (r.ok) written.onAnswerId(r.data.answerId); return r; } }}
+            initialAnswerId={written.state.answerId}
+            maxPages={written.maxPages}
+            onCountChange={written.onPages}
+          />
+          <p className="text-xs text-muted-foreground">After you submit, you will check the text read from your handwriting before it is evaluated.</p>
+        </div>
       ) : (
         <div className="mt-6">
+          {written ? <div className="mb-4"><ModeSwitch written={written} /></div> : null}
           <label htmlFor={`a-${q.exam_question_id}`} className="sr-only">Your answer</label>
           <textarea
             id={`a-${q.exam_question_id}`}
@@ -614,6 +677,26 @@ function QuestionView({
         </div>
       )}
     </article>
+  );
+}
+
+function ModeSwitch({ written }: { written: WrittenView }) {
+  const opts = [
+    { v: "typed" as const, label: "Type answer" },
+    { v: "handwritten" as const, label: "Upload handwritten" },
+  ];
+  return (
+    <div>
+      <div role="radiogroup" aria-label="How will you answer?" className="inline-flex rounded-lg border border-border-strong p-1">
+        {opts.map((o) => (
+          <button key={o.v} type="button" role="radio" aria-checked={written.state.mode === o.v} onClick={() => written.state.mode !== o.v && written.onMode(o.v)}
+            className={cn("rounded-md px-3 py-1.5 text-sm font-medium", written.state.mode === o.v ? "bg-primary text-white" : "text-foreground hover:bg-muted")}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+      {written.error ? <p role="alert" className="mt-2 text-sm text-danger">{written.error}</p> : null}
+    </div>
   );
 }
 

@@ -10,12 +10,14 @@ import { requireUser } from "@/lib/auth/dal";
 import { accuracy, readiness, recommendations } from "@/lib/analytics";
 import { loadLearningData } from "@/lib/analytics-server";
 import { formatDuration } from "@/lib/exam/logic";
+import { createClient } from "@/lib/supabase/server";
+import { writtenAdvice, type WrittenPerformance } from "@/lib/written/insights";
 
 export const metadata: Metadata = { title: "Performance" };
 
 export default async function AnalyticsPage() {
   await requireUser("/dashboard/analytics");
-  const { performance: p, options, error } = await loadLearningData();
+  const [{ performance: p, options, error }, written] = await Promise.all([loadLearningData(), loadWritten()]);
   if (error || !p) return <Alert tone="danger">Your performance could not be loaded. Please try again.</Alert>;
 
   const acc = accuracy(p.totals.correct, p.totals.answered);
@@ -26,7 +28,7 @@ export default async function AnalyticsPage() {
     .sort((a, b) => (accuracy(a.correct, a.answered) ?? 0) - (accuracy(b.correct, b.answered) ?? 0))
     .slice(0, 8);
 
-  if (p.totals.answered === 0 && p.totals.written_answers === 0) {
+  if (p.totals.answered === 0 && p.totals.written_answers === 0 && !written?.evaluated) {
     return (
       <>
         <PageTitle title="Performance" description="Your accuracy, timing and weak areas across every examination and practice set." />
@@ -110,11 +112,48 @@ export default async function AnalyticsPage() {
           ) : <p className="text-sm text-muted-foreground">Topic analysis appears once you have answered at least 3 questions in a topic.</p>}
         </section>
       </div>
-      {p.totals.written_answers ? (
-        <p className="mt-6 text-sm text-muted-foreground">
-          You have written {p.totals.written_answers} ME answer{p.totals.written_answers === 1 ? "" : "s"}. Written answers are not included in accuracy; compare them with the model answers in your results.
-        </p>
-      ) : null}
+      <WrittenSection w={written} fallbackCount={p.totals.written_answers} />
     </>
+  );
+}
+
+async function loadWritten() {
+  const db = await createClient();
+  const { data } = await db.rpc("my_written_performance");
+  return (data ?? null) as WrittenPerformance | null;
+}
+
+function WrittenSection({ w, fallbackCount }: { w: WrittenPerformance | null; fallbackCount: number }) {
+  if (!w || w.evaluated === 0) {
+    return fallbackCount ? (
+      <p className="mt-6 text-sm text-muted-foreground">
+        You have written {fallbackCount} ME answer{fallbackCount === 1 ? "" : "s"}. Get AI feedback on them from <Link href="/dashboard/written/history" className="font-medium text-primary hover:underline">My written answers</Link> to see written-answer analytics here.
+      </p>
+    ) : null;
+  }
+  const advice = writtenAdvice(w);
+  return (
+    <section className="mt-8 rounded-xl border border-border p-5" aria-labelledby="written-perf">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h2 id="written-perf" className="font-semibold text-ink">Written answers (ME)</h2>
+        <p className="text-sm text-muted-foreground">{w.evaluated} evaluated{w.avg_pct !== null ? ` · average indicative score ${w.avg_pct}%` : ""}</p>
+      </div>
+      {advice.length ? (
+        <ul className="mt-3 space-y-2">
+          {advice.map((a) => <li key={a.title} className="rounded-lg bg-muted/50 p-3 text-sm"><p className="font-medium text-ink">{a.title}</p><p className="text-muted-foreground">{a.detail}</p></li>)}
+        </ul>
+      ) : null}
+      <div className="mt-5 grid gap-6 lg:grid-cols-2">
+        <div>
+          <h3 className="mb-3 text-sm font-semibold text-ink">By subject</h3>
+          <AccuracyBars data={w.by_subject.map((s, i) => ({ id: s.subject_id ?? `none-${i}`, label: s.subject ?? "No subject", accuracy: s.avg_pct, detail: `${s.answers} answer${s.answers === 1 ? "" : "s"}` }))} />
+        </div>
+        <div>
+          <h3 className="mb-3 text-sm font-semibold text-ink">By paper</h3>
+          <AccuracyBars data={w.by_paper.map((s, i) => ({ id: s.paper_id ?? `none-${i}`, label: s.paper ?? "Other", accuracy: s.avg_pct, detail: `${s.answers} answer${s.answers === 1 ? "" : "s"}` }))} />
+        </div>
+      </div>
+      <p className="mt-4 text-xs text-muted-foreground">Percentages are indicative AI scores on Soma practice questions, not RCSC marks. <Link href="/dashboard/written" className="font-medium text-primary hover:underline">Practise written answers</Link></p>
+    </section>
   );
 }

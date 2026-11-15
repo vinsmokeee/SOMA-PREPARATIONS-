@@ -1,16 +1,35 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { saveAnswer, submitAttempt } from "@/app/exam/actions";
+import { setAnswerModeAction } from "@/app/dashboard/written/actions";
+import { createPagesApi } from "@/components/written/pages-api";
+import type { PagesApi } from "@/components/written/handwritten-pages";
 import type { AttemptPaper } from "@/lib/exam/types";
-import { ExamRoom } from "./exam-room";
+import { ExamRoom, type WrittenMode } from "./exam-room";
 
 /** Connects the exam room to the real server actions. */
-export function ExamRoomClient({ paper }: { paper: AttemptPaper }) {
+export function ExamRoomClient({ paper, userId, written, untimed, maxPages }: {
+  paper: AttemptPaper; userId: string; written: Record<string, WrittenMode>; untimed: boolean; maxPages: number;
+}) {
   const router = useRouter();
+  const attemptId = paper.attempt.id;
   const onFinished = useCallback(() => {
-    router.replace(`/dashboard/results/${paper.attempt.id}`);
-  }, [router, paper.attempt.id]);
-  return <ExamRoom paper={paper} save={saveAnswer} submit={submitAttempt} onFinished={onFinished} />;
+    router.replace(`/dashboard/results/${attemptId}`);
+  }, [router, attemptId]);
+  const support = useMemo(() => {
+    const cache = new Map<string, PagesApi>();
+    return {
+      initial: written,
+      maxPages,
+      setMode: (eqId: string, mode: "typed" | "handwritten") => setAnswerModeAction(attemptId, eqId, mode),
+      pagesApi: (eqId: string) => {
+        if (!cache.has(eqId)) cache.set(eqId, createPagesApi(userId, attemptId, eqId));
+        return cache.get(eqId)!;
+      },
+    };
+  }, [attemptId, maxPages, userId, written]);
+  const hasWritten = paper.questions.some((q) => q.type !== "mcq");
+  return <ExamRoom paper={paper} save={saveAnswer} submit={submitAttempt} onFinished={onFinished} written={hasWritten ? support : undefined} untimed={untimed} />;
 }

@@ -30,7 +30,13 @@ export class AnthropicProvider implements AiProvider {
         fallbacks: "default",
         output_config: { effort: req.effort ?? "high", format: betaZodOutputFormat(req.schema) },
         system: req.system,
-        messages: [{ role: "user", content: req.prompt }],
+        messages: [{
+          role: "user",
+          content: [
+            ...(req.images ?? []).map((img) => ({ type: "image" as const, source: { type: "base64" as const, media_type: img.mediaType, data: img.base64 } })),
+            { type: "text" as const, text: req.prompt },
+          ],
+        }],
       });
       const usage = { model: response.model, inputTokens: response.usage.input_tokens, outputTokens: response.usage.output_tokens };
       if (response.stop_reason === "refusal") {

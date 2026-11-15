@@ -73,6 +73,8 @@ export default async function EditQuestionPage({ params, searchParams }: PagePro
     options: (options ?? []).map((o) => ({ id: o.id, body: o.body, is_correct: o.is_correct })),
     rubric: (rubric ?? []).map((r) => ({ id: r.id, label: r.label, description: r.description, max_marks: String(Number(r.max_marks)) })),
     references: (refs ?? []).map((r) => ({ citation: r.citation, url: r.url ?? "" })),
+    key_points: ((q.key_points ?? []) as { point: string; marks: number | null }[]).map((k) => ({ point: k.point, marks: k.marks === null ? "" : String(k.marks) })),
+    alternative_answers: q.alternative_answers ?? "",
   };
   const locked = ["verified", "published"].includes(q.status) && !can(user, "questions.review");
   const actions = (TRANSITIONS[q.status] ?? []).filter((a) => can(user, a.permission));

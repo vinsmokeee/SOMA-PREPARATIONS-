@@ -7,7 +7,7 @@ same variables in Project → Settings → Environment Variables.
 | --- | --- | --- | --- | --- |
 | `NEXT_PUBLIC_SUPABASE_URL` | browser + server | No | Yes (production) | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | browser + server | No (RLS protects data) | Yes (production) | Supabase publishable key (`sb_publishable_…`), or the legacy `anon` key |
-| `SUPABASE_SECRET_KEY` | server only (`lib/supabase/admin.ts`, scripts) | **Yes** | For bootstrap script, future jobs | Supabase secret key (`sb_secret_…`) or legacy `service_role` key. Bypasses RLS. Never prefix with `NEXT_PUBLIC_`. |
+| `SUPABASE_SECRET_KEY` | server only (`lib/supabase/admin.ts`, scripts) | **Yes** | **Yes for AI evaluation (M5)**, bootstrap script | Supabase secret key (`sb_secret_…`) or legacy `service_role` key. Bypasses RLS. Never prefix with `NEXT_PUBLIC_`. |
 | `NEXT_PUBLIC_SITE_URL` | server | No | Yes (production) | Canonical URL, used in email links (e.g. `https://somapreparations.bt`) |
 | `NEXT_PUBLIC_SUPPORT_EMAIL` | browser + server | No | Optional | Shown on the contact page when set |
 | `SOMA_PUBLIC_DATA` | server | No | Never in production | `fixture` serves public reference data from `src/lib/data/fixtures` when Supabase is **not** configured (local UI work and automated tests). Ignored when Supabase is configured. |
@@ -25,7 +25,11 @@ Each "Draft questions" run is one Claude API call (logged in `ai_jobs` with
 token counts, visible on /admin/ai). With Claude Opus 5.5 ($4 per million input
 tokens, $20 per million output tokens) a batch of 10 multiple-choice drafts uses
 roughly 3–5k input and 5–8k output tokens — about US$0.12–0.20. Set a monthly
-spend limit in the Anthropic console. Requests use server-side fallback: if the
+spend limit in the Anthropic console.
+
+Written-answer evaluation (M5), estimated: typed answer US$0.05–0.08; handwritten
+answer with 3 pages US$0.08–0.12; improved answer on request about US$0.03–0.05.
+Admin → Written-answer evaluation shows usage and an estimated cost. Requests use server-side fallback: if the
 model declines a request on safety grounds, Anthropic retries it on another
 Claude model, and the job is labelled "fallback model used".
 

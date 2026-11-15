@@ -3,13 +3,15 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { ResultReview } from "@/components/exam/result-review";
-import { Alert } from "@/components/ui/alert";
 import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { requireUser } from "@/lib/auth/dal";
 import { breakdownBy, formatDuration, revisionSuggestions } from "@/lib/exam/logic";
 import type { AttemptResult } from "@/lib/exam/types";
 import { createClient } from "@/lib/supabase/server";
-import { formatDate } from "@/lib/utils";
+import { formatDate, requestTimeMs } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { ensureWrittenAnswerAction } from "@/app/dashboard/written/actions";
+import type { ResultQuestion } from "@/lib/exam/types";
 
 export const metadata: Metadata = { title: "Examination results" };
 
@@ -57,12 +59,7 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
           <Stat label="Unanswered" value={String(mcqs.filter((q) => !q.answer?.selected_option_id).length)} />
         </dl>
       ) : null}
-      {written.length > 0 ? (
-        <Alert tone="info" className="mt-6" title={`${written.length} written ${written.length === 1 ? "answer" : "answers"}`}>
-          Written answers are not scored automatically. Review them against the model answers and rubrics below. Expert
-          evaluation of written answers will be offered where available.
-        </Alert>
-      ) : null}
+      {written.length > 0 ? <WrittenPanel attemptId={a.id} written={written} closedAt={a.submitted_at ?? a.deadline_at} deadline={a.deadline_at} /> : null}
       {r.exam.negative_mark_per_wrong > 0 && mcqs.length > 0 ? (
         <p className="mt-3 text-xs text-muted-foreground">This practice examination deducted {Number(r.exam.negative_mark_per_wrong)} mark per wrong answer.</p>
       ) : null}
@@ -144,5 +141,52 @@ function Stat({ label, value, strong }: { label: string; value: string; strong?:
       <dt className="text-xs text-muted-foreground">{label}</dt>
       <dd className={strong ? "mt-1 text-2xl font-semibold tabular-nums text-primary" : "mt-1 text-2xl font-semibold tabular-nums text-ink"}>{value}</dd>
     </div>
+  );
+}
+
+async function WrittenPanel({ attemptId, written, closedAt, deadline }: { attemptId: string; written: ResultQuestion[]; closedAt: string; deadline: string }) {
+  const db = await createClient();
+  const ids = written.map((q) => q.answer?.id).filter(Boolean) as string[];
+  const [{ data: rows }, { data: cfg }] = await Promise.all([
+    ids.length
+      ? db.from("attempt_answers").select("id, answer_mode, transcript_status, answer_pages(count), evaluations(status, score, max_score, scored, method)").in("id", ids)
+      : Promise.resolve({ data: [] as never[] }),
+    db.rpc("evaluation_config"),
+  ]);
+  const info = new Map(((rows ?? []) as { id: string; answer_mode: string; transcript_status: string | null; answer_pages: { count: number }[]; evaluations: { status: string; score: number | null; max_score: number | null; scored: boolean | null; method: string }[] }[]).map((r) => [r.id, r]));
+  const windowMin = Number((cfg as { upload_window_minutes?: number } | null)?.upload_window_minutes ?? 15);
+  const windowEnds = Math.min(new Date(closedAt).getTime(), new Date(deadline).getTime()) + windowMin * 60 * 1000;
+  const windowOpen = requestTimeMs() <= windowEnds;
+  return (
+    <section className="mt-6 rounded-xl border border-border p-5" aria-labelledby="written-h">
+      <h2 id="written-h" className="font-semibold text-ink">Written answers — AI-assisted evaluation</h2>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Open each answer to check handwritten text and get indicative AI feedback. AI marks are not official RCSC marks.
+        {windowOpen ? ` You can still add handwritten answer-sheet photos for about ${Math.max(1, Math.round((windowEnds - requestTimeMs()) / 60000))} minutes.` : ""}
+      </p>
+      <ul className="mt-3 divide-y divide-border">
+        {written.map((q) => {
+          const r = q.answer?.id ? info.get(q.answer.id) : undefined;
+          const ev = r?.evaluations.find((e) => e.method === "ai_feedback" && e.status !== "failed");
+          const pages = r?.answer_pages?.[0]?.count ?? 0;
+          const hasContent = Boolean(q.answer?.text_answer?.trim()) || pages > 0;
+          const label = ev?.status === "completed" ? (ev.scored && ev.score !== null ? `${Number(ev.score)}/${Number(ev.max_score)} indicative` : "Feedback ready")
+            : ev ? "Evaluating" : r?.answer_mode === "handwritten" ? (r.transcript_status === "confirmed" ? "Ready to evaluate" : `${pages} page${pages === 1 ? "" : "s"} — check text`) : hasContent ? "Ready to evaluate" : "Not answered";
+          return (
+            <li key={q.exam_question_id} className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center">
+              <span className="flex-1 text-sm"><span className="font-medium text-ink">Question {q.number}</span> <span className="text-muted-foreground">· {Number(q.marks)} marks</span></span>
+              <Badge tone={ev?.status === "completed" ? "green" : hasContent ? "warning" : "neutral"}>{label}</Badge>
+              {q.answer?.id && hasContent ? (
+                <Link href={`/dashboard/written/${q.answer.id}`} className="text-sm font-medium text-primary hover:underline">Open</Link>
+              ) : windowOpen ? (
+                <form action={ensureWrittenAnswerAction.bind(null, attemptId, q.exam_question_id)}>
+                  <button type="submit" className="text-sm font-medium text-primary hover:underline">Upload handwritten pages</button>
+                </form>
+              ) : null}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
   );
 }

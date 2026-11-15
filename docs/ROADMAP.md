@@ -9,8 +9,8 @@ approval before the next one starts.
 | 2 | Examination engine (PE + ME simulation) | Complete (deployed; live exam-room run still to do) |
 | 3 | Question bank, historical papers, RCSC import | Complete (deployed; extraction to be tuned on real papers) |
 | 4 | Student learning and analytics | Complete (deployed) |
-| 5 | ME evaluation and expert system | Deferred by the founder (future, if evaluators are hired) |
-| 6 | AI question intelligence | **Built — awaiting approval** |
+| 5 | AI-assisted ME written-answer evaluation (handwritten + typed) | **Built — awaiting approval** (human evaluators deferred) |
+| 6 | AI question intelligence | Complete (deployed; live AI test pending the API key) |
 | 7 | Current-affairs automation | Not started |
 | 8 | Payments and commercial launch | Not started |
 
@@ -40,6 +40,28 @@ approval before the next one starts.
 - "Purchasing opens soon" buttons are disabled with an explanation.
 - Logo: a typographic wordmark is used until the official file is supplied.
 - Legal pages carry a "Draft for legal review" notice.
+
+## Milestone 5 — what was built
+
+| Feature | Status |
+| --- | --- |
+| Two answer methods per written question, chosen per question: type, or upload photos of handwritten pages | Built — browser-tested (desktop + mobile) |
+| Photo handling on the phone: camera or gallery, multiple pages, preview, rotate, crop, quality checks (blur, dark, glare, blank, small, cut-off), compression, reorder, remove | Built — checks unit-tested, flow browser-tested |
+| Private storage of answer sheets (owner + authorised staff only) | Working — SQL-tested |
+| Handwriting reading by AI with [unclear] marking, confidence and retake prompts; student must check and confirm the text; edits measured and flagged | Built — rules unit-tested, confirmation SQL-tested; live reading needs the API key |
+| One evaluation engine for both methods: rubric / reference answer / key points / alternatives / subject criteria; server-side mark limits; no score without an approved guide; prompt-injection fencing | Built — rules unit-tested; live evaluation needs the API key |
+| Feedback: indicative marks by criterion, strengths, missing points, inaccuracies, structure, suggestions, confidence, weakness tags; improved answer on request | Built — browser-tested with fixture data |
+| Written practice (one question, optional timer) and ME examination simulation with an upload window after time ends | Built — SQL-tested |
+| Allowances: free 3 in total, PE + ME package 100 (configurable); failed or withdrawn evaluations not counted | Working — SQL-tested |
+| Submission history, written-answer analytics and advice in Performance | Built |
+| Admin: answer guides on questions, subject criteria, quality review with photos, withdraw, student reports, settings, usage and cost | Built |
+
+Known limitations: AI handwriting reading and evaluation have not yet been run
+live (needs `ANTHROPIC_API_KEY` and `SUPABASE_SECRET_KEY` in Vercel); Dzongkha
+handwriting is Beta and may be unreliable; background AI work runs inside the
+request's time budget (up to 5 minutes) rather than a separate job queue; photo
+crop is edge trimming, not free-form; evaluation quality must be monitored in
+admin, especially early on.
 
 ## Milestone 6 — what was built
 

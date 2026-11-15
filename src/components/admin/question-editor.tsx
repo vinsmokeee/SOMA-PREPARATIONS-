@@ -33,6 +33,8 @@ export type EditorQuestion = {
   options: Option[];
   rubric: Criterion[];
   references: Ref[];
+  key_points: { point: string; marks: string }[];
+  alternative_answers: string;
 };
 
 export type EditorLookups = {
@@ -67,6 +69,8 @@ export function emptyQuestion(stage: "PE" | "ME" = "PE"): EditorQuestion {
     ],
     rubric: [],
     references: [],
+    key_points: [],
+    alternative_answers: "",
   };
 }
 
@@ -284,6 +288,26 @@ export function QuestionEditor({ initial, lookups, readOnlyReason }: { initial: 
             <Button type="button" variant="secondary" size="sm" className="mt-3" disabled={disabled} onClick={() => set("rubric", [...q.rubric, { id: null, label: "", description: "", max_marks: "" }])}>
               <Plus /> Add criterion
             </Button>
+          </div>
+          <div className="rounded-lg border border-border p-4">
+            <p className="text-sm font-medium text-ink">Answer guide for AI evaluation</p>
+            <p className="text-[13px] text-muted-foreground">Expected key points and accepted alternatives. Used only after this question is verified; never shown to students.</p>
+            <ol className="mt-3 space-y-2">
+              {q.key_points.map((k, i) => (
+                <li key={i} className="grid gap-2 sm:grid-cols-[1fr_90px_auto]">
+                  <Input value={k.point} disabled={disabled} placeholder="Key point the answer should make" aria-label="Key point" className="h-10" onChange={(e) => set("key_points", q.key_points.map((x, j) => (j === i ? { ...x, point: e.target.value } : x)))} />
+                  <Input type="number" min="0.5" step="0.5" value={k.marks} disabled={disabled} placeholder="Marks" aria-label="Marks for this point (optional)" className="h-10" onChange={(e) => set("key_points", q.key_points.map((x, j) => (j === i ? { ...x, marks: e.target.value } : x)))} />
+                  <button type="button" disabled={disabled} onClick={() => set("key_points", q.key_points.filter((_, j) => j !== i))} className="rounded p-2 text-muted-foreground hover:bg-muted hover:text-danger" aria-label="Remove key point"><Trash2 className="size-4" /></button>
+                </li>
+              ))}
+            </ol>
+            <Button type="button" variant="secondary" size="sm" className="mt-3" disabled={disabled} onClick={() => set("key_points", [...q.key_points, { point: "", marks: "" }])}>
+              <Plus /> Add key point
+            </Button>
+            <Field className="mt-4">
+              <Label htmlFor="alts">Accepted alternative answers or approaches (optional)</Label>
+              <Textarea id="alts" rows={3} value={q.alternative_answers} disabled={disabled} onChange={(e) => set("alternative_answers", e.target.value)} />
+            </Field>
           </div>
         </section>
       )}

@@ -30,7 +30,7 @@ export default async function PracticePage({ searchParams }: PageProps<"/dashboa
       </nav>
       {stage === "ME" ? (
         <Alert tone="info" className="mb-6">
-          Practice sets use objective questions. For written ME practice, sit an ME paper from <Link href="/dashboard/exams?stage=ME" className="font-medium underline">Examinations</Link>.
+          Practice sets use objective questions. For written ME practice with AI feedback, open <Link href="/dashboard/written" className="font-medium underline">Written answers</Link> or sit an ME paper from <Link href="/dashboard/exams?stage=ME" className="font-medium underline">Examinations</Link>.
         </Alert>
       ) : null}
       {error || !options ? (
