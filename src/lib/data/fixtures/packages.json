@@ -1,0 +1,54 @@
+[
+  {
+    "id": "cb7e2c05-199a-4675-8574-235b7e996907",
+    "slug": "pe-premium",
+    "name": "PE Premium",
+    "tagline": "Complete Preliminary Examination preparation",
+    "description": "Full-length PE simulations, subject-wise and topic-wise practice, detailed explanations and performance analytics.",
+    "price": 499,
+    "promo_price": null,
+    "promo_starts_at": null,
+    "promo_ends_at": null,
+    "features": [
+      "Full-length timed PE mock examinations",
+      "OMR-style answer-sheet practice",
+      "Subject-wise and topic-wise practice",
+      "Detailed answers and explanations",
+      "Bhutan current-affairs practice",
+      "Performance analytics and revision suggestions"
+    ],
+    "includes_pe": true,
+    "includes_me": false,
+    "status": "coming_soon",
+    "access_days": null,
+    "access_ends_at": null,
+    "terms": "Access period and included content will be confirmed before sales open.",
+    "sort_order": 10,
+    "cycle_name": "BCSE 2027"
+  },
+  {
+    "id": "ef12e144-526d-4395-89e4-f9ad2be4b17c",
+    "slug": "pe-me-premium",
+    "name": "PE + ME Premium",
+    "tagline": "Preparation for both stages of the BCSE",
+    "description": "Everything in PE Premium, plus Main Examination written-paper practice with model answers and marking rubrics.",
+    "price": 799,
+    "promo_price": null,
+    "promo_starts_at": null,
+    "promo_ends_at": null,
+    "features": [
+      "Everything in PE Premium",
+      "ME written-examination simulations by category",
+      "Model answers and marking rubrics",
+      "Written-answer practice with word counts"
+    ],
+    "includes_pe": true,
+    "includes_me": true,
+    "status": "coming_soon",
+    "access_days": null,
+    "access_ends_at": null,
+    "terms": "Offered only when ME materials are ready. Access period and included content will be confirmed before sales open.",
+    "sort_order": 20,
+    "cycle_name": "BCSE 2027"
+  }
+]

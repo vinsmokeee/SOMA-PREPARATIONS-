@@ -1,0 +1,38 @@
+import { AppShell } from "@/components/app/app-shell";
+import type { NavSection } from "@/components/app/app-nav";
+import { ROLE_LABELS } from "@/lib/auth/permissions";
+import { requireUser } from "@/lib/auth/dal";
+
+// Session-dependent area: render per request.
+export const instant = false;
+
+export default async function DashboardLayout({ children }: LayoutProps<"/dashboard">) {
+  const user = await requireUser("/dashboard");
+  const sections: NavSection[] = [
+    { items: [{ href: "/dashboard", label: "Overview", exact: true }] },
+    {
+      title: "Prepare",
+      items: [
+        { href: "/dashboard/pe", label: "PE practice", milestone: "M2" },
+        { href: "/dashboard/me", label: "ME practice", milestone: "M2" },
+        { href: "/dashboard/history", label: "Examination history", milestone: "M2" },
+        { href: "/dashboard/papers", label: "Historical papers", milestone: "M3" },
+        { href: "/dashboard/analytics", label: "Performance", milestone: "M4" },
+      ],
+    },
+    {
+      title: "Account",
+      items: [
+        { href: "/dashboard/profile", label: "Profile" },
+        { href: "/dashboard/billing", label: "Packages & access", milestone: "M8" },
+        ...(user.isStaff ? [{ href: "/admin", label: "Administration" }] : []),
+      ],
+    },
+  ];
+  const primaryRole = user.roles.find((r) => r !== "student") ?? "student";
+  return (
+    <AppShell area="student" sections={sections} user={{ name: user.fullName, email: user.email, roleLabel: ROLE_LABELS[primaryRole] }}>
+      {children}
+    </AppShell>
+  );
+}

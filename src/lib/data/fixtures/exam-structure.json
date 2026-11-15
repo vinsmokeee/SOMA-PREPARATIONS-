@@ -1,0 +1,693 @@
+{
+  "framework": {
+    "id": "00000000-0000-4000-8000-000000000201",
+    "code": "bcsr-2023",
+    "name": "BCSR 2023 examination framework",
+    "description": "PE and ME structure as stated in the BCSE 2026 announcement (\"as per the BCSR 2023\").",
+    "verification_status": "official_verified",
+    "source_document_id": "00000000-0000-4000-8000-000000000101",
+    "verified_at": "2026-11-15T11:40:00.000Z"
+  },
+  "cycles": [
+    {
+      "id": "00000000-0000-4000-8000-000000000502",
+      "code": "bcse-2027",
+      "name": "BCSE 2027",
+      "year": 2027,
+      "status": "planned",
+      "registration_opens": null,
+      "registration_closes": null,
+      "pe_date": null,
+      "me_start_date": null,
+      "me_end_date": null,
+      "pe_cutoff_note": null,
+      "verification_status": "unverified",
+      "source_document_id": null,
+      "notes": "Placeholder for Soma's BCSE 2027 preparation cycle. Assumes the BCSR 2023 framework continues; verify against the BCSE 2027 announcement when published."
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000501",
+      "code": "bcse-2026",
+      "name": "BCSE 2026",
+      "year": 2026,
+      "status": "announced",
+      "registration_opens": "2026-06-08",
+      "registration_closes": "2026-07-07",
+      "pe_date": null,
+      "me_start_date": null,
+      "me_end_date": null,
+      "pe_cutoff_note": "The minimum PE cut-off is decided by the Commission. PE marks are not carried forward to the ME.",
+      "verification_status": "official_verified",
+      "source_document_id": "00000000-0000-4000-8000-000000000101",
+      "notes": "PE and ME dates are published separately in the RCSC schedule and are not recorded yet. Update the cycle status as the examination progresses."
+    }
+  ],
+  "categories": [
+    {
+      "id": "00000000-0000-4000-8000-000000000301",
+      "code": "administrative",
+      "name": "Administrative Service",
+      "description": null,
+      "eligibility_summary": "Minimum of a Bachelor's Degree in any field.",
+      "pe_exempt": false,
+      "sort_order": 10
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000302",
+      "code": "finance",
+      "name": "Finance Service",
+      "description": null,
+      "eligibility_summary": "Minimum of a Bachelor's Degree in Commerce / Economics (Honours) / Economics (Majors) / Business Administration / Business Management.",
+      "pe_exempt": false,
+      "sort_order": 20
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000303",
+      "code": "pgde",
+      "name": "Education Service (PGDE)",
+      "description": null,
+      "eligibility_summary": "Minimum of a Bachelor's/Master's Degree with at least one relevant subject prescribed for the Bhutanese School Syllabus or Higher Educational Institute Programme.",
+      "pe_exempt": false,
+      "sort_order": 30
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000304",
+      "code": "dzongkha",
+      "name": "Dzongkha",
+      "description": null,
+      "eligibility_summary": "Minimum of a Bachelor's Degree in Dzongkha / Buddhist Studies.",
+      "pe_exempt": false,
+      "sort_order": 40
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000305",
+      "code": "bed",
+      "name": "B.Ed. Graduates (Primary / Secondary / Dzongkha)",
+      "description": "B.Ed. graduates are exempted from the PE (BCSE 2026 announcement, A.4) but must register for the BCSE.",
+      "eligibility_summary": "Minimum of a Bachelor of Education (B.Ed).",
+      "pe_exempt": true,
+      "sort_order": 50
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000306",
+      "code": "technical",
+      "name": "Technical Service",
+      "description": "Medical (clinical and curative subject) and engineering professionals are exempted from the PE (BCSE 2026 announcement, A.4); other technical graduates sit the PE.",
+      "eligibility_summary": "Minimum of a Bachelor's Degree in the relevant field of specialisation for the position announced, and a minimum of PGDNL for law graduates.",
+      "pe_exempt": false,
+      "sort_order": 60
+    }
+  ],
+  "papers": [
+    {
+      "id": "00000000-0000-4000-8000-000000000401",
+      "stage": "PE",
+      "code": "pe",
+      "paper_number": null,
+      "title": "Preliminary Examination",
+      "description": "Objective-type questions, common to all categories of graduates, answered on an OMR answer sheet. Tests English communication skills; Dzongkha communication skills; logic, analytical ability and problem-solving; data interpretation ability; and general awareness/current affairs. Duration, number of questions and total marks are not stated in the recorded source.",
+      "answer_format": "objective_omr",
+      "weightage_percent": null,
+      "max_marks": null,
+      "duration_minutes": null,
+      "question_count": null,
+      "verification_status": "official_verified",
+      "source_document_id": "00000000-0000-4000-8000-000000000101",
+      "sort_order": 0
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000411",
+      "stage": "ME",
+      "code": "me-general-1",
+      "paper_number": 1,
+      "title": "Dzongkha",
+      "description": null,
+      "answer_format": "written",
+      "weightage_percent": 15,
+      "max_marks": null,
+      "duration_minutes": null,
+      "question_count": null,
+      "verification_status": "official_verified",
+      "source_document_id": "00000000-0000-4000-8000-000000000101",
+      "sort_order": 11
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000412",
+      "stage": "ME",
+      "code": "me-general-2",
+      "paper_number": 2,
+      "title": "English & General Knowledge",
+      "description": null,
+      "answer_format": "written",
+      "weightage_percent": 15,
+      "max_marks": null,
+      "duration_minutes": null,
+      "question_count": null,
+      "verification_status": "official_verified",
+      "source_document_id": "00000000-0000-4000-8000-000000000101",
+      "sort_order": 12
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000413",
+      "stage": "ME",
+      "code": "me-general-3",
+      "paper_number": 3,
+      "title": "Bhutan and its (i) Socio-Political Institutions and (ii) Socio-Economic Development",
+      "description": "The BCSE 2025 written-examination announcement titles this paper \"... Socio Economic development since 1961\".",
+      "answer_format": "written",
+      "weightage_percent": 40,
+      "max_marks": null,
+      "duration_minutes": null,
+      "question_count": null,
+      "verification_status": "official_verified",
+      "source_document_id": "00000000-0000-4000-8000-000000000101",
+      "sort_order": 13
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000421",
+      "stage": "ME",
+      "code": "me-dzongkha-1",
+      "paper_number": 1,
+      "title": "Dzongkha Language & General Knowledge",
+      "description": null,
+      "answer_format": "written",
+      "weightage_percent": 15,
+      "max_marks": null,
+      "duration_minutes": null,
+      "question_count": null,
+      "verification_status": "official_verified",
+      "source_document_id": "00000000-0000-4000-8000-000000000101",
+      "sort_order": 21
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000422",
+      "stage": "ME",
+      "code": "me-dzongkha-2",
+      "paper_number": 2,
+      "title": "English Language & Current Affairs",
+      "description": null,
+      "answer_format": "written",
+      "weightage_percent": 15,
+      "max_marks": null,
+      "duration_minutes": null,
+      "question_count": null,
+      "verification_status": "official_verified",
+      "source_document_id": "00000000-0000-4000-8000-000000000101",
+      "sort_order": 22
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000423",
+      "stage": "ME",
+      "code": "me-dzongkha-3",
+      "paper_number": 3,
+      "title": "Buddhist Studies",
+      "description": null,
+      "answer_format": "written",
+      "weightage_percent": 40,
+      "max_marks": null,
+      "duration_minutes": null,
+      "question_count": null,
+      "verification_status": "official_verified",
+      "source_document_id": "00000000-0000-4000-8000-000000000101",
+      "sort_order": 23
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000431",
+      "stage": "ME",
+      "code": "me-technical-1",
+      "paper_number": 1,
+      "title": "Language and General Knowledge",
+      "description": null,
+      "answer_format": "written",
+      "weightage_percent": 15,
+      "max_marks": null,
+      "duration_minutes": null,
+      "question_count": null,
+      "verification_status": "official_verified",
+      "source_document_id": "00000000-0000-4000-8000-000000000101",
+      "sort_order": 31
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000432",
+      "stage": "ME",
+      "code": "me-technical-2",
+      "paper_number": 2,
+      "title": "General Subject Knowledge (common to subject groups)",
+      "description": "In BCSE 2025, B.Sc Nursing graduates sat a separate Nursing Subject paper as Paper II.",
+      "answer_format": "written",
+      "weightage_percent": 15,
+      "max_marks": null,
+      "duration_minutes": null,
+      "question_count": null,
+      "verification_status": "official_verified",
+      "source_document_id": "00000000-0000-4000-8000-000000000101",
+      "sort_order": 32
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000433",
+      "stage": "ME",
+      "code": "me-technical-3",
+      "paper_number": 3,
+      "title": "Subject Specialisation (for a specific position)",
+      "description": null,
+      "answer_format": "written",
+      "weightage_percent": 40,
+      "max_marks": null,
+      "duration_minutes": null,
+      "question_count": null,
+      "verification_status": "official_verified",
+      "source_document_id": "00000000-0000-4000-8000-000000000101",
+      "sort_order": 33
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000441",
+      "stage": "ME",
+      "code": "me-bed-1",
+      "paper_number": 1,
+      "title": "Dzongkha Language",
+      "description": null,
+      "answer_format": "written",
+      "weightage_percent": 15,
+      "max_marks": null,
+      "duration_minutes": null,
+      "question_count": null,
+      "verification_status": "official_verified",
+      "source_document_id": "00000000-0000-4000-8000-000000000101",
+      "sort_order": 41
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000442",
+      "stage": "ME",
+      "code": "me-bed-2",
+      "paper_number": 2,
+      "title": "English Language",
+      "description": null,
+      "answer_format": "written",
+      "weightage_percent": 15,
+      "max_marks": null,
+      "duration_minutes": null,
+      "question_count": null,
+      "verification_status": "official_verified",
+      "source_document_id": "00000000-0000-4000-8000-000000000101",
+      "sort_order": 42
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000443",
+      "stage": "ME",
+      "code": "me-bed-3",
+      "paper_number": 3,
+      "title": "Teacher Aptitude Test",
+      "description": null,
+      "answer_format": "written",
+      "weightage_percent": 30,
+      "max_marks": null,
+      "duration_minutes": null,
+      "question_count": null,
+      "verification_status": "official_verified",
+      "source_document_id": "00000000-0000-4000-8000-000000000101",
+      "sort_order": 43
+    }
+  ],
+  "paperCategories": [
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000401",
+      "category_id": "00000000-0000-4000-8000-000000000301",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000411",
+      "category_id": "00000000-0000-4000-8000-000000000301",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000412",
+      "category_id": "00000000-0000-4000-8000-000000000301",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000413",
+      "category_id": "00000000-0000-4000-8000-000000000301",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000401",
+      "category_id": "00000000-0000-4000-8000-000000000302",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000411",
+      "category_id": "00000000-0000-4000-8000-000000000302",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000412",
+      "category_id": "00000000-0000-4000-8000-000000000302",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000413",
+      "category_id": "00000000-0000-4000-8000-000000000302",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000401",
+      "category_id": "00000000-0000-4000-8000-000000000303",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000411",
+      "category_id": "00000000-0000-4000-8000-000000000303",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000412",
+      "category_id": "00000000-0000-4000-8000-000000000303",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000413",
+      "category_id": "00000000-0000-4000-8000-000000000303",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000401",
+      "category_id": "00000000-0000-4000-8000-000000000304",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000421",
+      "category_id": "00000000-0000-4000-8000-000000000304",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000422",
+      "category_id": "00000000-0000-4000-8000-000000000304",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000423",
+      "category_id": "00000000-0000-4000-8000-000000000304",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000441",
+      "category_id": "00000000-0000-4000-8000-000000000305",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000442",
+      "category_id": "00000000-0000-4000-8000-000000000305",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000443",
+      "category_id": "00000000-0000-4000-8000-000000000305",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000401",
+      "category_id": "00000000-0000-4000-8000-000000000306",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000431",
+      "category_id": "00000000-0000-4000-8000-000000000306",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000432",
+      "category_id": "00000000-0000-4000-8000-000000000306",
+      "weightage_percent": null
+    },
+    {
+      "paper_id": "00000000-0000-4000-8000-000000000433",
+      "category_id": "00000000-0000-4000-8000-000000000306",
+      "weightage_percent": null
+    }
+  ],
+  "meComponents": [
+    {
+      "category_id": "00000000-0000-4000-8000-000000000301",
+      "component": "academic_achievement",
+      "weightage_percent": 10
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000301",
+      "component": "written_examination",
+      "weightage_percent": 70
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000301",
+      "component": "viva_voce",
+      "weightage_percent": 20
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000302",
+      "component": "academic_achievement",
+      "weightage_percent": 10
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000302",
+      "component": "written_examination",
+      "weightage_percent": 70
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000302",
+      "component": "viva_voce",
+      "weightage_percent": 20
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000303",
+      "component": "academic_achievement",
+      "weightage_percent": 10
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000303",
+      "component": "written_examination",
+      "weightage_percent": 70
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000303",
+      "component": "viva_voce",
+      "weightage_percent": 20
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000304",
+      "component": "academic_achievement",
+      "weightage_percent": 10
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000304",
+      "component": "written_examination",
+      "weightage_percent": 70
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000304",
+      "component": "viva_voce",
+      "weightage_percent": 20
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000305",
+      "component": "academic_achievement",
+      "weightage_percent": 20
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000305",
+      "component": "written_examination",
+      "weightage_percent": 60
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000305",
+      "component": "viva_voce",
+      "weightage_percent": 20
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000306",
+      "component": "academic_achievement",
+      "weightage_percent": 10
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000306",
+      "component": "written_examination",
+      "weightage_percent": 70
+    },
+    {
+      "category_id": "00000000-0000-4000-8000-000000000306",
+      "component": "viva_voce",
+      "weightage_percent": 20
+    }
+  ],
+  "subjects": [
+    {
+      "id": "31b6e637-2e29-4f8d-8ebc-6795ab51692f",
+      "stage": "PE",
+      "slug": "english-communication",
+      "name": "English communication skills",
+      "description": null,
+      "paper_id": "00000000-0000-4000-8000-000000000401",
+      "is_official": true,
+      "sort_order": 10
+    },
+    {
+      "id": "c96c7f22-5021-4459-85c6-4229cb10e98b",
+      "stage": "PE",
+      "slug": "dzongkha-communication",
+      "name": "Dzongkha communication skills",
+      "description": null,
+      "paper_id": "00000000-0000-4000-8000-000000000401",
+      "is_official": true,
+      "sort_order": 20
+    },
+    {
+      "id": "081f2cc4-6c10-4bb9-bc6b-4c3a2f206b26",
+      "stage": "PE",
+      "slug": "logic-analytical-problem-solving",
+      "name": "Logic, analytical ability and problem-solving",
+      "description": null,
+      "paper_id": "00000000-0000-4000-8000-000000000401",
+      "is_official": true,
+      "sort_order": 30
+    },
+    {
+      "id": "49f9bde4-aca4-45a6-86ce-59a75e8b3531",
+      "stage": "PE",
+      "slug": "data-interpretation",
+      "name": "Data interpretation ability",
+      "description": null,
+      "paper_id": "00000000-0000-4000-8000-000000000401",
+      "is_official": true,
+      "sort_order": 40
+    },
+    {
+      "id": "231d791c-fd79-4193-b5c0-e8b83ca16268",
+      "stage": "PE",
+      "slug": "general-awareness-current-affairs",
+      "name": "General awareness and current affairs",
+      "description": null,
+      "paper_id": "00000000-0000-4000-8000-000000000401",
+      "is_official": true,
+      "sort_order": 50
+    },
+    {
+      "id": "1bc5e168-8f72-4bf2-a300-f3b4d5aa6099",
+      "stage": "ME",
+      "slug": "dzongkha",
+      "name": "Dzongkha",
+      "description": "ME Paper I (Administrative / Finance / PGDE).",
+      "paper_id": "00000000-0000-4000-8000-000000000411",
+      "is_official": true,
+      "sort_order": 110
+    },
+    {
+      "id": "4aeea962-0103-462d-ba5a-1c79cf72594d",
+      "stage": "ME",
+      "slug": "english-general-knowledge",
+      "name": "English & General Knowledge",
+      "description": "ME Paper II (Administrative / Finance / PGDE).",
+      "paper_id": "00000000-0000-4000-8000-000000000412",
+      "is_official": true,
+      "sort_order": 120
+    },
+    {
+      "id": "4126c52e-9fc4-4346-856e-3b14f8a2f220",
+      "stage": "ME",
+      "slug": "bhutan-institutions-development",
+      "name": "Bhutan: socio-political institutions and socio-economic development",
+      "description": "ME Paper III (Administrative / Finance / PGDE).",
+      "paper_id": "00000000-0000-4000-8000-000000000413",
+      "is_official": true,
+      "sort_order": 130
+    },
+    {
+      "id": "7bb0f5ab-0bf8-4750-870f-ee84b3fea4de",
+      "stage": "ME",
+      "slug": "dzongkha-language-general-knowledge",
+      "name": "Dzongkha Language & General Knowledge",
+      "description": "ME Paper I (Dzongkha).",
+      "paper_id": "00000000-0000-4000-8000-000000000421",
+      "is_official": true,
+      "sort_order": 210
+    },
+    {
+      "id": "8002f2c0-347b-450f-862c-3aff60bedd97",
+      "stage": "ME",
+      "slug": "english-language-current-affairs",
+      "name": "English Language & Current Affairs",
+      "description": "ME Paper II (Dzongkha).",
+      "paper_id": "00000000-0000-4000-8000-000000000422",
+      "is_official": true,
+      "sort_order": 220
+    },
+    {
+      "id": "39fff746-e58d-4178-a6f2-1ef0530113bb",
+      "stage": "ME",
+      "slug": "buddhist-studies",
+      "name": "Buddhist Studies",
+      "description": "ME Paper III (Dzongkha).",
+      "paper_id": "00000000-0000-4000-8000-000000000423",
+      "is_official": true,
+      "sort_order": 230
+    },
+    {
+      "id": "01007fb3-a42f-4e0a-ab95-a3ffabd0ec09",
+      "stage": "ME",
+      "slug": "language-general-knowledge",
+      "name": "Language and General Knowledge",
+      "description": "ME Paper I (Technical).",
+      "paper_id": "00000000-0000-4000-8000-000000000431",
+      "is_official": true,
+      "sort_order": 310
+    },
+    {
+      "id": "f95f1aab-8e71-48a2-907e-a66e10e6df0b",
+      "stage": "ME",
+      "slug": "general-subject-knowledge",
+      "name": "General Subject Knowledge",
+      "description": "ME Paper II (Technical).",
+      "paper_id": "00000000-0000-4000-8000-000000000432",
+      "is_official": true,
+      "sort_order": 320
+    },
+    {
+      "id": "70fb82ec-6765-40d0-867e-c5e75b3c9539",
+      "stage": "ME",
+      "slug": "dzongkha-language",
+      "name": "Dzongkha Language",
+      "description": "ME Paper I (B.Ed).",
+      "paper_id": "00000000-0000-4000-8000-000000000441",
+      "is_official": true,
+      "sort_order": 410
+    },
+    {
+      "id": "44691d90-e4fd-465d-9bb6-ccc029180b36",
+      "stage": "ME",
+      "slug": "english-language",
+      "name": "English Language",
+      "description": "ME Paper II (B.Ed).",
+      "paper_id": "00000000-0000-4000-8000-000000000442",
+      "is_official": true,
+      "sort_order": 420
+    },
+    {
+      "id": "a597d277-7bde-4936-bb21-c10bfced0499",
+      "stage": "ME",
+      "slug": "teacher-aptitude",
+      "name": "Teacher Aptitude",
+      "description": "ME Paper III (B.Ed).",
+      "paper_id": "00000000-0000-4000-8000-000000000443",
+      "is_official": true,
+      "sort_order": 430
+    }
+  ],
+  "citations": [
+    {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "title": "Announcement for Bhutan Civil Service Examination (BCSE) 2026",
+      "url": "https://rcsc.gov.bt/wp-content/uploads/2026/06/BCSE-2026-Announcement.docx-1.pdf",
+      "publisher": "Royal Civil Service Commission",
+      "reference_number": "RCSC/CSES-1/2025-26/117",
+      "published_on": "2026-06-08",
+      "last_retrieved_at": "2026-11-15T11:40:00.000Z"
+    }
+  ]
+}
