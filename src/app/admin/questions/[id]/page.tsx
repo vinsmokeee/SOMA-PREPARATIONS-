@@ -52,6 +52,7 @@ export default async function EditQuestionPage({ params, searchParams }: PagePro
     loadQuestionLookups(),
   ]);
   if (!q) notFound();
+  const aiNote = q.ai_job_id && can(user, "ai.run") ? await loadAiNote(db, q.ai_job_id, q.id) : null;
 
   const initial: EditorQuestion = {
     id: q.id,
@@ -103,6 +104,15 @@ export default async function EditQuestionPage({ params, searchParams }: PagePro
           readOnlyReason={locked ? "This question has been verified. Only reviewers can change its content." : undefined}
         />
         <aside className="space-y-6 xl:sticky xl:top-8 xl:self-start">
+          {aiNote ? (
+            <section className="rounded-xl border border-warning/40 bg-warning-soft/40 p-4 text-sm">
+              <h2 className="font-semibold text-ink">AI draft — check before verifying</h2>
+              <p className="mt-1 text-muted-foreground">Drafted by {aiNote.model}{aiNote.fallback ? " (fallback model)" : ""}. Model confidence: {aiNote.confidence ?? "—"}.</p>
+              {aiNote.notes ? <p className="mt-2 whitespace-pre-wrap">{aiNote.notes}</p> : null}
+              {aiNote.topic ? <p className="mt-2 text-xs text-muted-foreground">Suggested topic: {aiNote.topic}</p> : null}
+              <p className="mt-2 text-xs text-muted-foreground">Verify every fact, the answer key and any references against a reliable source. AI references can be wrong.</p>
+            </section>
+          ) : null}
           <section className="rounded-xl border border-border p-4">
             <h2 className="font-semibold text-ink">Review</h2>
             {actions.length === 0 ? <p className="mt-2 text-sm text-muted-foreground">No actions available for you at this status.</p> : null}
@@ -141,4 +151,12 @@ export default async function EditQuestionPage({ params, searchParams }: PagePro
       </div>
     </>
   );
+}
+
+async function loadAiNote(db: Awaited<ReturnType<typeof createClient>>, jobId: string, questionId: string) {
+  const { data } = await db.from("ai_jobs").select("model, output").eq("id", jobId).maybeSingle();
+  if (!data) return null;
+  const out = (data.output ?? {}) as { created?: { id: string; confidence?: string; fact_check_notes?: string; topic_suggestion?: string }[]; used_fallback?: boolean };
+  const c = out.created?.find((x) => x.id === questionId);
+  return { model: data.model as string, fallback: Boolean(out.used_fallback), confidence: c?.confidence, notes: c?.fact_check_notes, topic: c?.topic_suggestion };
 }

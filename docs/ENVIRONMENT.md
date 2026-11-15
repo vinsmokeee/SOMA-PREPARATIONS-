@@ -13,8 +13,21 @@ same variables in Project → Settings → Environment Variables.
 | `SOMA_PUBLIC_DATA` | server | No | Never in production | `fixture` serves public reference data from `src/lib/data/fixtures` when Supabase is **not** configured (local UI work and automated tests). Ignored when Supabase is configured. |
 | `DB_TEST_URL` | test scripts | Local only | Optional | Base Postgres URL for `npm run test:db` (default `postgresql://postgres:postgres@localhost:5432`) |
 
-Planned for later milestones: `CRON_SECRET` (M3), AI provider keys such as
-`ANTHROPIC_API_KEY` (M6), payment gateway credentials (M8). All server-only.
+| `ANTHROPIC_API_KEY` | server only (`lib/ai/anthropic.ts`) | **Yes** | For AI drafting (M6) | Claude API key from console.anthropic.com. Without it the AI page shows "AI is not configured" and nothing else is affected. |
+| `AI_PROVIDER` | server | No | Optional | `anthropic` (default). The AI layer is provider-agnostic (`lib/ai/provider.ts`); other adapters can be added. |
+| `AI_MODEL` | server | No | Optional | Overrides the default model `claude-opus-5-5`. |
+
+Planned for later milestones: payment gateway credentials (M8). All server-only.
+
+### AI usage and cost
+
+Each "Draft questions" run is one Claude API call (logged in `ai_jobs` with
+token counts, visible on /admin/ai). With Claude Opus 5.5 ($4 per million input
+tokens, $20 per million output tokens) a batch of 10 multiple-choice drafts uses
+roughly 3–5k input and 5–8k output tokens — about US$0.12–0.20. Set a monthly
+spend limit in the Anthropic console. Requests use server-side fallback: if the
+model declines a request on safety grounds, Anthropic retries it on another
+Claude model, and the job is labelled "fallback model used".
 
 ## Supabase Auth settings
 

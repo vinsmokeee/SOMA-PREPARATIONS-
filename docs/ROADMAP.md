@@ -8,9 +8,9 @@ approval before the next one starts.
 | 1 | Foundation and website | Complete (deployed) |
 | 2 | Examination engine (PE + ME simulation) | Complete (deployed; live exam-room run still to do) |
 | 3 | Question bank, historical papers, RCSC import | Complete (deployed; extraction to be tuned on real papers) |
-| 4 | Student learning and analytics | **Built — awaiting approval** |
-| 5 | ME evaluation and expert system | Not started |
-| 6 | AI question intelligence | Not started |
+| 4 | Student learning and analytics | Complete (deployed) |
+| 5 | ME evaluation and expert system | Deferred by the founder (future, if evaluators are hired) |
+| 6 | AI question intelligence | **Built — awaiting approval** |
 | 7 | Current-affairs automation | Not started |
 | 8 | Payments and commercial launch | Not started |
 
@@ -40,6 +40,23 @@ approval before the next one starts.
 - "Purchasing opens soon" buttons are disabled with an explanation.
 - Logo: a typographic wordmark is used until the official file is supplied.
 - Legal pages carry a "Draft for legal review" notice.
+
+## Milestone 6 — what was built
+
+| Feature | Status |
+| --- | --- |
+| Provider-agnostic AI layer (`lib/ai`), Claude adapter with structured outputs and server-side refusal fallback | Built — unit-tested with a mocked SDK; live call needs `ANTHROPIC_API_KEY` |
+| Question-bank coverage analysis: per subject/topic by status, origin, difficulty; topics without ready questions; past-paper questions per year | Working — SQL-tested |
+| AI drafting of original MCQs (PE) and written questions with model answers and rubrics (ME), with style examples and "avoid these" stems from the bank | Built |
+| Automatic checks on every draft: 4 distinct options, one answer, explanation, no all/none of the above, rubric totals, safe reference links, near-duplicate (≥ 80 % similar) and exact-duplicate rejection | Working — unit-tested |
+| Drafts saved as **AI generated**, linked to their AI job; reviewer sees the model's confidence and what to fact-check | Built |
+| Past-paper pattern analysis (frequent topics, styles, difficulty, trends) — descriptive, never a prediction | Built — usable once real papers are imported |
+| AI job log with model, tokens, fallback flag and errors | Built |
+| Guarantee: AI drafts cannot be verified or published without a person (database trigger) | Working — SQL-tested |
+
+Known limitations: generation runs inside the request (up to 5 minutes, 10
+questions per run); no Dzongkha generation; AI-cited references must be checked
+by the reviewer; fact accuracy depends on human review.
 
 ## Milestone 4 — what was built
 
