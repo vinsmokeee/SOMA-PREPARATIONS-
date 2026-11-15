@@ -38,7 +38,7 @@ export default async function MessagesPage() {
               <span className="ml-auto text-xs text-muted-foreground">{formatDate(m.created_at)}</span>
             </div>
             <p className="mt-3 whitespace-pre-wrap text-[15px] leading-relaxed text-foreground">{m.message}</p>
-            <ActionForm action={setMessageStatus} submitLabel="Update" variant="secondary" className="mt-4 flex flex-wrap items-end gap-3 space-y-0">
+            <ActionForm key={`${m.status}-${m.handled_at}`} action={setMessageStatus} submitLabel="Update" variant="secondary" className="mt-4 flex flex-wrap items-end gap-3 space-y-0">
               <input type="hidden" name="id" value={m.id} />
               <div className="w-44"><SelectField name="status" label="Status" defaultValue={m.status} options={STATUS} /></div>
             </ActionForm>

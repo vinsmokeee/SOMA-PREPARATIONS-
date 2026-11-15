@@ -62,7 +62,7 @@ export default async function SyllabusPage() {
                         <SelectField name="parent_id" label="Subtopic of" defaultValue="" options={[{ value: "", label: "— Top-level topic —" }, ...roots.map((r) => ({ value: r.id, label: r.name }))]} />
                       </div>
                     </ActionForm>
-                    <ActionForm action={setSubjectActive} submitLabel={s.is_active ? "Hide subject" : "Show subject"} variant="secondary">
+                    <ActionForm key={String(s.is_active)} action={setSubjectActive} submitLabel={s.is_active ? "Hide subject" : "Show subject"} variant="secondary">
                       <input type="hidden" name="id" value={s.id} />
                       <input type="hidden" name="is_active" value={s.is_active ? "false" : "true"} />
                     </ActionForm>
@@ -92,7 +92,7 @@ function TopicRow({ topic }: { topic: Topic }) {
     <div className="flex flex-wrap items-center gap-2">
       <span className={topic.is_active ? "text-ink" : "text-subtle line-through"}>{topic.name}</span>
       <code className="text-xs text-muted-foreground">{topic.slug}</code>
-      <ActionForm action={setTopicActive} submitLabel={topic.is_active ? "Hide" : "Show"} variant="secondary" className="inline-flex space-y-0 [&_button]:h-7 [&_button]:px-2 [&_button]:text-xs">
+      <ActionForm key={String(topic.is_active)} action={setTopicActive} submitLabel={topic.is_active ? "Hide" : "Show"} variant="secondary" className="inline-flex space-y-0 [&_button]:h-7 [&_button]:px-2 [&_button]:text-xs">
         <input type="hidden" name="id" value={topic.id} />
         <input type="hidden" name="is_active" value={topic.is_active ? "false" : "true"} />
       </ActionForm>

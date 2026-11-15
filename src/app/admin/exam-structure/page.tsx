@@ -27,7 +27,7 @@ export default async function ExamStructurePage() {
     db.from("exam_paper_categories").select("paper_id, category_id"),
     db.from("source_documents").select("id, title, url"),
   ]);
-  const catById = new Map((categories.data ?? []).map((c) => [c.id as string, c as Category & { is_active: boolean }]));
+  const catById = new Map((categories.data ?? []).map((c) => [c.id as string, c as Category & { is_active: boolean; updated_at: string }]));
   const sourceById = new Map((sources.data ?? []).map((s) => [s.id as string, s as { title: string; url: string }]));
   const loadError = [fw, cycles, categories, papers, links].some((r) => r.error);
 
@@ -55,7 +55,7 @@ export default async function ExamStructurePage() {
 
       <section className="mt-10 space-y-3">
         <h2 className="text-lg font-semibold">Examination cycles</h2>
-        {((cycles.data ?? []) as Cycle[]).map((c) => (
+        {((cycles.data ?? []) as (Cycle & { updated_at: string })[]).map((c) => (
           <details key={c.id} className="group rounded-lg border border-border">
             <summary className="flex cursor-pointer flex-wrap items-center gap-2 px-4 py-3">
               <span className="font-semibold text-ink">{c.name}</span>
@@ -65,7 +65,7 @@ export default async function ExamStructurePage() {
             </summary>
             <div className="border-t border-border p-4">
               <SourceLine source={c.source_document_id ? sourceById.get(c.source_document_id) : undefined} />
-              <ActionForm action={updateCycle} submitLabel="Save cycle">
+              <ActionForm key={String(c.updated_at)} action={updateCycle} submitLabel="Save cycle">
                 <input type="hidden" name="id" value={c.id} />
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   <TextField name="name" label="Name" defaultValue={c.name} />
@@ -101,7 +101,7 @@ export default async function ExamStructurePage() {
               <span className="ml-auto text-sm text-primary group-open:hidden">Edit</span>
             </summary>
             <div className="border-t border-border p-4">
-              <ActionForm action={updateCategory} submitLabel="Save category">
+              <ActionForm key={String(c.updated_at)} action={updateCategory} submitLabel="Save category">
                 <input type="hidden" name="id" value={c.id} />
                 <TextField name="name" label="Name" defaultValue={c.name} />
                 <AreaField name="description" label="Description (public)" defaultValue={c.description} />
@@ -122,7 +122,7 @@ export default async function ExamStructurePage() {
           Paper weightage is the percentage of the overall ME result. PE numeric parameters are empty because the recorded
           RCSC announcement does not state them.
         </p>
-        {((papers.data ?? []) as Paper[]).map((p) => {
+        {((papers.data ?? []) as (Paper & { updated_at: string })[]).map((p) => {
           const cats = (links.data ?? []).filter((l) => l.paper_id === p.id).map((l) => catById.get(l.category_id)?.name).filter(Boolean);
           return (
             <details key={p.id} className="group rounded-lg border border-border">
@@ -138,7 +138,7 @@ export default async function ExamStructurePage() {
               </summary>
               <div className="border-t border-border p-4">
                 <SourceLine source={p.source_document_id ? sourceById.get(p.source_document_id) : undefined} />
-                <ActionForm action={updatePaper} submitLabel="Save paper">
+                <ActionForm key={String(p.updated_at)} action={updatePaper} submitLabel="Save paper">
                   <input type="hidden" name="id" value={p.id} />
                   <TextField name="title" label="Title" defaultValue={p.title} />
                   <AreaField name="description" label="Description (public)" defaultValue={p.description} />

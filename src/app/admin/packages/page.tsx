@@ -42,7 +42,7 @@ export default async function AdminPackagesPage() {
               {(p.exam_cycles as { name: string } | null)?.name ? <span className="text-sm text-muted-foreground">{(p.exam_cycles as { name: string }).name}</span> : null}
             </summary>
             <div className="border-t border-border p-4">
-              <ActionForm action={updatePackage} submitLabel="Save package">
+              <ActionForm key={String(p.updated_at)} action={updatePackage} submitLabel="Save package">
                 <input type="hidden" name="id" value={p.id} />
                 <div className="grid gap-4 sm:grid-cols-2">
                   <TextField name="name" label="Name" defaultValue={p.name} required />
