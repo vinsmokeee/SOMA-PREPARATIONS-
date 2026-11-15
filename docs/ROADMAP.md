@@ -22,13 +22,13 @@ approval before the next one starts.
 | Responsive design | Working | Tested at desktop and phone sizes; no horizontal scrolling on any public page |
 | Official BCSE structure | Working | From the BCSE 2026 announcement, stored as data with citations; editable in admin |
 | Packages page | Working | Prices from the database (Nu. 499 / Nu. 799); both "coming soon" |
-| Contact form | Working (needs Supabase) | Validated server action, honeypot, RLS insert-only |
-| Registration / sign-in / password reset / email confirmation / sign-out | Built; **not yet tested against a live Supabase project** | Validation and not-configured paths are tested end-to-end |
+| Contact form | Working — verified live | Validated server action, honeypot, RLS insert-only |
+| Registration / sign-in / email confirmation / sign-out | Working — verified on the live site (15 Nov 2026) | Password reset built; not yet exercised live |
 | Route protection | Working | proxy redirects + server-side checks + RLS |
 | Student dashboard | Foundation | Overview (real attempt/entitlement queries, empty states), profile editing |
-| Admin dashboard | Foundation | Overview, exam structure, syllabus, packages, users & roles, messages, audit log |
+| Admin dashboard | Foundation — verified live with the founder account | Overview, exam structure, syllabus, packages, users & roles, messages, audit log |
 | Database (40+ tables, RLS, triggers) | Working | 6 SQL test suites pass on PostgreSQL 16 |
-| Super admin bootstrap | Built; needs live Supabase | `npm run admin:bootstrap -- <email>` |
+| Super admin bootstrap | Done for the founder (via Supabase table editor) | `npm run admin:bootstrap -- <email>` remains available |
 
 ## Known placeholders (clearly labelled in the UI)
 

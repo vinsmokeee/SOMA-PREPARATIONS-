@@ -19,17 +19,26 @@ SOMA_PUBLIC_DATA=fixture npm run build
 npm run test:e2e
 ```
 
-## What is NOT covered yet (needs a live Supabase project)
+## Manual checks on the live site (15 November 2026)
 
-The development environment for Milestone 1 had no Supabase project and could
-not run the Supabase Auth server locally, so these were built but not executed
-end to end:
+Production: https://soma-preparations.vercel.app (Vercel, `main` branch) with the
+Supabase project `ihmyqurrogrodtodxfef`.
 
-- Real sign-up → confirmation email → sign-in → dashboard.
-- Password reset email round-trip.
-- Admin pages rendering with a real Super Administrator session, and saving
-  changes through them.
-- Profile save, contact-form insert through PostgREST.
+| Check | Result |
+| --- | --- |
+| Public ME/PE structure read from Supabase | Pass |
+| Registration → confirmation email → dashboard | Pass |
+| Founder granted `super_admin`; `/admin` overview with live counts | Pass |
+| Contact form insert (anon) → admin inbox → status update | Pass |
+| Audit log records role changes | Pass |
+| Admin forms show saved values after save | Fixed (forms were reset to stale values by React's automatic form reset) |
+
+## What is NOT covered yet
+
+- Password reset email round-trip on the live site.
+- Profile save, and saving exam-structure/package edits through the live admin.
+- Automated (Playwright) tests with a signed-in session against a dedicated
+  Supabase test project.
 
 The database rules these flows rely on **are** tested by `npm run test:db`.
 Once Supabase credentials are available, the first task of Milestone 2 is to run
