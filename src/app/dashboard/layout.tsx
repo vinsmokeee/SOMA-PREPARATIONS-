@@ -13,10 +13,11 @@ export default async function DashboardLayout({ children }: LayoutProps<"/dashbo
     {
       title: "Prepare",
       items: [
+        { href: "/dashboard/practice", label: "Practice" },
         { href: "/dashboard/exams", label: "Examinations" },
         { href: "/dashboard/history", label: "Examination history" },
         { href: "/dashboard/papers", label: "Past papers" },
-        { href: "/dashboard/analytics", label: "Performance", milestone: "M4" },
+        { href: "/dashboard/analytics", label: "Performance" },
       ],
     },
     {

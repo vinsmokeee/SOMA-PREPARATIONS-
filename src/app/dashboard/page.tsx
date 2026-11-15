@@ -6,7 +6,10 @@ import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { QuickPractice } from "@/components/student/practice-builder";
 import { requireUser } from "@/lib/auth/dal";
+import { accuracy, readiness, recommendations, type Performance } from "@/lib/analytics";
+import { loadLearningData } from "@/lib/analytics-server";
 import { createClient } from "@/lib/supabase/server";
 import { formatDate } from "@/lib/utils";
 
@@ -33,14 +36,17 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
   const welcome = params.welcome === "1";
 
   const supabase = await createClient();
-  const [attempts, entitlements] = await Promise.all([
+  const [attempts, entitlements, learning] = await Promise.all([
     supabase
       .from("exam_attempts")
       .select("id, status, started_at, score, max_score, exams(title, stage)")
       .order("started_at", { ascending: false })
       .limit(5),
     supabase.from("entitlements").select("id, ends_at, revoked_at, packages(name)").is("revoked_at", null),
+    loadLearningData(),
   ]);
+  const perf = learning.performance;
+  const next = perf ? recommendations(perf, learning.options, 2) : [];
   const attemptRows = (attempts.data ?? []) as unknown as AttemptRow[];
   const access = (entitlements.data ?? []) as unknown as { id: string; ends_at: string | null; packages: { name: string } | null }[];
   const firstName = user.fullName.split(" ")[0];
@@ -56,8 +62,8 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
         {welcome ? <Alert tone="success" title="Your account is ready">Start with a free sample examination from <Link href="/dashboard/exams" className="font-medium text-primary underline">Examinations</Link>.</Alert> : null}
 
         <div className="grid gap-4 md:grid-cols-3">
-          <StageCard icon={<BookOpenCheck className="size-5 text-primary" aria-hidden />} title="PE preparation" attempts={attemptRows.filter((a) => a.exams?.stage === "PE").length} />
-          <StageCard icon={<PenLine className="size-5 text-primary" aria-hidden />} title="ME preparation" attempts={attemptRows.filter((a) => a.exams?.stage === "ME").length} />
+          <StageCard icon={<BookOpenCheck className="size-5 text-primary" aria-hidden />} title="PE preparation" stage="PE" perf={perf} />
+          <StageCard icon={<PenLine className="size-5 text-primary" aria-hidden />} title="ME preparation" stage="ME" perf={perf} />
           <Card>
             <CardHeader>
               <ClipboardList className="size-5 text-primary" aria-hidden />
@@ -80,6 +86,31 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
             </CardContent>
           </Card>
         </div>
+
+        {next.length || (perf?.mistakes ?? 0) > 0 ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>Next steps</CardTitle>
+              <CardDescription>
+                {perf?.mistakes ? `${perf.mistakes} question${perf.mistakes === 1 ? "" : "s"} pending revision. ` : ""}
+                <Link href="/dashboard/analytics" className="font-medium text-primary hover:underline">See full performance</Link>
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="divide-y divide-border">
+                {next.map((r, i) => (
+                  <li key={i} className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center">
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-ink">{r.title}</p>
+                      <p className="text-xs text-muted-foreground">{r.detail}</p>
+                    </div>
+                    <QuickPractice stage={r.stage} subjectId={r.subjectId} topicId={r.topicId} mode={r.kind === "mistakes" ? "mistakes" : "mixed"} label={r.kind === "mistakes" ? "Retry" : "Practise 10"} />
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        ) : null}
 
         <Card>
           <CardHeader>
@@ -117,19 +148,32 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
   );
 }
 
-function StageCard({ icon, title, attempts }: { icon: React.ReactNode; title: string; attempts: number }) {
+function StageCard({ icon, title, stage, perf }: { icon: React.ReactNode; title: string; stage: "PE" | "ME"; perf: Performance | null }) {
+  const subjects = perf?.by_subject.filter((s) => s.stage === stage) ?? [];
+  const answered = subjects.reduce((n, s) => n + s.answered, 0);
+  const correct = subjects.reduce((n, s) => n + s.correct, 0);
+  const acc = accuracy(correct, answered);
+  const cov = perf?.coverage.find((c) => c.stage === stage);
+  const covPct = cov && cov.total > 0 ? Math.round((cov.practised / cov.total) * 100) : 0;
+  const r = perf ? readiness(stage, perf) : null;
   return (
     <Card>
       <CardHeader>
         {icon}
         <CardTitle className="mt-2">{title}</CardTitle>
-        <CardDescription>{attempts === 0 ? "No attempts yet." : `${attempts} recent attempt${attempts === 1 ? "" : "s"}.`}</CardDescription>
+        <CardDescription>
+          {answered === 0 ? (stage === "ME" && perf?.totals.written_answers ? `${perf.totals.written_answers} written answers so far.` : "No answers yet.") : `${answered} answered · ${acc}% accuracy`}
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-2 rounded-full bg-muted" role="img" aria-label="Progress not yet available">
-          <div className="h-2 w-0 rounded-full bg-primary" />
+        <div className="h-2 rounded-full bg-muted" role="img" aria-label={`${covPct}% of subject areas practised`}>
+          <div className="h-2 rounded-full bg-primary" style={{ width: `${covPct}%` }} />
         </div>
-        <p className="mt-2 text-xs text-muted-foreground">Progress tracking starts with your first examination.</p>
+        <p className="mt-2 text-xs text-muted-foreground">
+          {cov ? `${cov.practised} of ${cov.total} subject areas practised` : "Subject coverage appears once questions are published."}
+          {r && r.band !== "not_enough" ? ` · Soma estimate: ${r.label}` : ""}
+        </p>
+        <Link href={`/dashboard/practice?stage=${stage}`} className="mt-3 inline-block text-sm font-medium text-primary hover:underline">Practise {stage}</Link>
       </CardContent>
     </Card>
   );
