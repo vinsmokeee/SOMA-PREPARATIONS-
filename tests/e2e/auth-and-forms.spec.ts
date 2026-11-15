@@ -65,3 +65,8 @@ test("mobile menu opens and navigates", async ({ page, isMobile }) => {
   await expect(page).toHaveURL(/\/me$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Main Examination (ME)");
 });
+
+test("email links without a token or code are rejected", async ({ page }) => {
+  await page.goto("/auth/confirm?next=/dashboard");
+  await expect(page).toHaveURL(/\/login\?error=link/);
+});
