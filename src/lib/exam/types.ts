@@ -117,6 +117,8 @@ export type CatalogueExam = {
   open_attempt_id: string | null;
   open_deadline_at: string | null;
   completed_attempts: number;
+  exam_year?: number | null;
+  attribution?: string | null;
 };
 
 export const KIND_LABELS: Record<CatalogueExam["kind"], string> = {

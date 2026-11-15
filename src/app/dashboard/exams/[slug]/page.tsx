@@ -52,6 +52,7 @@ export default async function ExamInstructionsPage({ params }: PageProps<"/dashb
       </div>
       <h1 className="mt-3 font-serif text-3xl font-semibold tracking-tight">{exam.title}</h1>
       {exam.description ? <p className="mt-2 text-muted-foreground">{exam.description}</p> : null}
+      {exam.kind === "historical" && exam.attribution ? <p className="mt-2 text-sm text-muted-foreground">{exam.attribution}</p> : null}
 
       <dl className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
@@ -85,8 +86,9 @@ export default async function ExamInstructionsPage({ params }: PageProps<"/dashb
       </section>
 
       <Alert tone="info" className="mt-6">
-        This is a Soma practice simulation. Its duration and number of questions are set by Soma and may differ from the
-        official RCSC examination. Soma scores are not RCSC marks.
+        {exam.kind === "historical"
+          ? "This is a past BCSE paper presented in Soma's practice environment. Timing and marking follow Soma's settings; Soma scores are not RCSC marks."
+          : "This is a Soma practice simulation. Its duration and number of questions are set by Soma and may differ from the official RCSC examination. Soma scores are not RCSC marks."}
       </Alert>
 
       <div className="mt-8">
