@@ -94,3 +94,27 @@ export const roleChangeSchema = z.object({
 });
 
 export const messageStatusSchema = z.object({ id: uuid, status: z.enum(["new", "in_progress", "resolved", "spam"]) });
+
+const emptyNull = (v: unknown) => (typeof v === "string" && v.trim() === "" ? null : v);
+
+export const examSettingsSchema = z.object({
+  id: z.preprocess(emptyNull, z.uuid().nullable()),
+  title: z.string().trim().min(3, "Give the examination a title.").max(200),
+  slug: z.string().trim().toLowerCase().regex(/^[a-z0-9-]+$/, "Web address: lowercase letters, numbers and hyphens only.").max(80),
+  description: z.preprocess(emptyNull, z.string().trim().max(1000).nullable()),
+  instructions: z.preprocess(emptyNull, z.string().trim().max(5000).nullable()),
+  stage: z.enum(["PE", "ME"]),
+  kind: z.enum(["mock", "sample", "historical", "practice", "revision"]),
+  cycle_id: z.preprocess(emptyNull, z.uuid().nullable()),
+  paper_id: z.preprocess(emptyNull, z.uuid().nullable()),
+  category_id: z.preprocess(emptyNull, z.uuid().nullable()),
+  duration_minutes: z.coerce.number().int().min(1, "Duration must be at least 1 minute.").max(600),
+  negative_mark_per_wrong: z.coerce.number().min(0).max(10),
+  omr_mode: z.preprocess((v) => v === "on", z.boolean()),
+  is_free: z.preprocess((v) => v === "on", z.boolean()),
+  shuffle_questions: z.preprocess((v) => v === "on", z.boolean()),
+});
+
+export const examStatusSchema = z.object({ id: z.uuid(), status: z.enum(["draft", "published", "archived"]) });
+export const examQuestionAddSchema = z.object({ exam_id: z.uuid(), question_id: z.uuid(), section: z.string().trim().max(120).optional() });
+export const examQuestionRefSchema = z.object({ id: z.uuid(), direction: z.enum(["up", "down"]).optional() });

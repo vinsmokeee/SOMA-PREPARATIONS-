@@ -8,6 +8,7 @@ import { requireUser } from "@/lib/auth/dal";
 import { formatClock } from "@/lib/exam/logic";
 import { KIND_LABELS, type CatalogueExam } from "@/lib/exam/types";
 import { createClient } from "@/lib/supabase/server";
+import { requestTimeMs } from "@/lib/utils";
 import { StartForm } from "./start-form";
 
 export const metadata: Metadata = { title: "Examination instructions" };
@@ -20,7 +21,7 @@ export default async function ExamInstructionsPage({ params }: PageProps<"/dashb
   const exam = ((data ?? []) as CatalogueExam[]).find((e) => e.slug === slug);
   if (!exam) notFound();
   const resume = Boolean(exam.open_attempt_id);
-  const remainingMs = exam.open_deadline_at ? new Date(exam.open_deadline_at).getTime() - Date.now() : 0;
+  const remainingMs = exam.open_deadline_at ? new Date(exam.open_deadline_at).getTime() - requestTimeMs() : 0;
   const isPE = exam.stage === "PE";
 
   const rules = isPE

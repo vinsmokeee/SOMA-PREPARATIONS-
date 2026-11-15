@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { requireUser } from "@/lib/auth/dal";
 import { formatDuration } from "@/lib/exam/logic";
 import { createClient } from "@/lib/supabase/server";
-import { formatDate } from "@/lib/utils";
+import { formatDate, requestTimeMs } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Examination history" };
 
@@ -31,7 +31,7 @@ export default async function HistoryPage() {
     .order("started_at", { ascending: false })
     .limit(100);
   const rows = (data ?? []) as unknown as Row[];
-  const now = Date.now();
+  const now = requestTimeMs();
 
   return (
     <>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Dialog } from "radix-ui";
 import { AlertTriangle, ChevronLeft, ChevronRight, Clock3, Flag, LayoutGrid, Loader2, Save, WifiOff, X } from "lucide-react";
 import type { SaveInput, SaveResult, SubmitResult } from "@/app/exam/actions";
@@ -111,7 +111,10 @@ export function ExamRoom({ paper, save, submit, onFinished }: ExamRoomProps) {
   const [index, setIndex] = useState(0);
   const [view, setView] = useState<View>("question");
   const [paletteOpen, setPaletteOpen] = useState(false);
-  const activeSince = useRef<number>(Date.now());
+  const activeSince = useRef<number>(0);
+  useEffect(() => {
+    activeSince.current = Date.now();
+  }, []);
   const current = questions[index];
 
   const takeTime = useCallback(() => {
@@ -215,7 +218,8 @@ export function ExamRoom({ paper, save, submit, onFinished }: ExamRoomProps) {
   };
 
   // ---- timer ---------------------------------------------------------------
-  const offset = useMemo(() => clockOffset(paper.attempt.server_now, Date.now()), [paper.attempt.server_now]);
+  // Server time minus device time, measured once when the paper loads.
+  const [offset] = useState(() => clockOffset(paper.attempt.server_now, Date.now()));
   const [remaining, setRemaining] = useState(() => remainingSeconds(paper.attempt.deadline_at, Date.now(), offset));
   const [announcement, setAnnouncement] = useState("");
   const warned = useRef({ five: false, one: false });
@@ -229,7 +233,6 @@ export function ExamRoom({ paper, save, submit, onFinished }: ExamRoomProps) {
   useEffect(() => {
     if (remaining <= 300 && remaining > 60 && !warned.current.five) {
       warned.current.five = true;
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- time-based announcement
       setAnnouncement("5 minutes remaining.");
     } else if (remaining <= 60 && remaining > 0 && !warned.current.one) {
       warned.current.one = true;
