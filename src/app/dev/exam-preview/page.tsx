@@ -55,5 +55,5 @@ export default async function ExamPreviewPage({ searchParams }: PageProps<"/dev/
     questions,
     answers: [],
   };
-  return <DevExamHarness paper={paper} failSaves={failSaves} />;
+  return <DevExamHarness paper={paper} failSaves={failSaves} untimed={sp.untimed === "1"} />;
 }

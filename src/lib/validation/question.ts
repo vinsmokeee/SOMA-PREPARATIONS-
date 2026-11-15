@@ -38,6 +38,12 @@ export const questionPayloadSchema = z
       )
       .max(20),
     references: z.array(z.object({ citation: z.string().trim().max(500), url: z.string().trim().max(1000) })).max(10),
+    // Answer guide for AI evaluation (written questions)
+    key_points: z
+      .array(z.object({ point: z.string().trim().max(1000), marks: z.preprocess((v) => (v === "" || v === null || v === undefined ? null : Number(v)), z.number().positive().max(1000).nullable()) }))
+      .max(30)
+      .default([]),
+    alternative_answers: z.string().trim().max(20000).default(""),
   })
   .superRefine((q, ctx) => {
     if (q.question_type === "mcq") {

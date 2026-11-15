@@ -50,7 +50,7 @@ export function AnswerWorkflow(p: WorkflowProps) {
     router.refresh();
   };
 
-  const locked = Boolean(p.evaluation && p.evaluation.status !== "failed");
+  const locked = Boolean(p.evaluation && !["failed", "withdrawn"].includes(p.evaluation.status));
   const unclear = (text.match(/\[unclear\]/gi) ?? []).length;
   const ts = p.transcript.status;
 
@@ -124,6 +124,7 @@ export function AnswerWorkflow(p: WorkflowProps) {
           <p className="flex items-center gap-2 text-sm text-muted-foreground" role="status"><Loader2 className="size-4 animate-spin" aria-hidden /> Evaluating your answer… this usually takes one to two minutes. You can leave this page and come back.</p>
         ) : (
           <div className="space-y-2">
+            {evStatus === "withdrawn" ? <p className="rounded-lg bg-muted p-3 text-sm">Your previous evaluation was withdrawn by the Soma team after review. You can request a new one; it was not counted towards your allowance.</p> : null}
             {evStatus === "failed" ? <p className="rounded-lg bg-warning-soft p-3 text-sm text-warning">{p.evaluation?.error_message ?? "The evaluation could not be completed."} This did not use up your allowance.</p> : null}
             {p.allowance ? <p className="text-sm text-muted-foreground">{p.allowance.remaining} of {p.allowance.limit} AI evaluations left{p.allowance.plan === "free" ? " on your free account" : ""}.</p> : null}
             <button type="button"

@@ -259,7 +259,7 @@ begin
   _limit := case when _paid then coalesce((_cfg ->> 'me_package_total')::int, 100)
                  else coalesce((_cfg ->> 'free_total')::int, 3) end;
   select count(*) into _used from public.evaluations ev
-  where ev.requested_by = _uid and ev.method = 'ai_feedback' and ev.status <> 'failed'
+  where ev.requested_by = _uid and ev.method = 'ai_feedback' and ev.status not in ('failed', 'withdrawn')
     and (not _paid or ev.assigned_at >= _since);
   return jsonb_build_object('limit', _limit, 'used', _used, 'remaining', greatest(_limit - _used, 0), 'plan', case when _paid then 'me' else 'free' end);
 end;

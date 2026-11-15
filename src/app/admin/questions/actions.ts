@@ -25,7 +25,7 @@ export async function saveQuestionAction(payload: QuestionPayload): Promise<Save
   }
   const parsed = questionPayloadSchema.safeParse(payload);
   if (!parsed.success) return { ok: false, message: "Please correct the following:", issues: [...new Set(parsed.error.issues.map((i) => i.message))] };
-  const { id, options, rubric, references, ...q } = parsed.data;
+  const { id, options, rubric, references, key_points, alternative_answers, ...q } = parsed.data;
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("save_question", {
     _id: id,
@@ -38,6 +38,14 @@ export async function saveQuestionAction(payload: QuestionPayload): Promise<Save
     console.error("save_question failed", error.code, error.message);
     const known = DB_MESSAGES.find(([k]) => error.message.includes(k));
     return { ok: false, message: known?.[1] ?? "The question could not be saved." };
+  }
+  if (q.question_type !== "mcq") {
+    const { error: gErr } = await supabase.rpc("save_question_guide", { _id: data as string, _key_points: key_points.filter((k) => k.point), _alternatives: alternative_answers });
+    if (gErr) {
+      console.error("save_question_guide failed", gErr.code, gErr.message);
+      const known = DB_MESSAGES.find(([k]) => gErr.message.includes(k));
+      return { ok: false, message: known?.[1] ?? "The question was saved, but its answer guide could not be saved." };
+    }
   }
   revalidatePath("/admin/questions");
   return { ok: true, id: data as string };

@@ -29,7 +29,7 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
         ...item("/admin/imports", "Imports", "imports.run"),
         ...item("/admin/papers", "Historical papers", "papers.manage"),
         ...item("/admin/permissions", "Permissions", "papers.manage"),
-        later("/admin/evaluations", "Written answers", "Future"),
+        ...item("/admin/evaluations", "Written-answer evaluation", "evaluations.assign"),
         ...item("/admin/ai", "AI question drafts", "ai.run"),
         later("/admin/current-affairs", "Current affairs", "M7"),
       ],
