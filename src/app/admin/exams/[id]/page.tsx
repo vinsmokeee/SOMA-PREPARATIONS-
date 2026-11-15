@@ -6,6 +6,7 @@ import { PageTitle } from "@/components/app/app-shell";
 import { ActionForm } from "@/components/app/action-form";
 import { SelectField, TextField } from "@/components/app/fields";
 import { ExamSettingsForm, type ExamSettings } from "@/components/admin/exam-settings-form";
+import { PreviewExamButton } from "@/components/admin/preview-exam-button";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { requirePermission } from "@/lib/auth/dal";
@@ -53,10 +54,22 @@ export default async function EditExamPage({ params }: PageProps<"/admin/exams/[
         <PageTitle
           title={exam.title}
           description={<span className="inline-flex flex-wrap items-center gap-2"><Badge tone={STATUS_TONES[exam.status]}>{STATUS_LABELS[exam.status]}</Badge> {items.length} questions · {totalMarks} marks · {attempts ?? 0} attempts</span>}
-          actions={exam.status === "published" ? <Link href={`/dashboard/exams/${exam.slug}`} className="inline-flex h-10 items-center rounded-md border border-border-strong px-4 text-sm font-medium hover:bg-muted">View as student</Link> : undefined}
+          actions={
+            exam.status === "published" ? (
+              <Link href={`/dashboard/exams/${exam.slug}`} className="inline-flex h-10 items-center rounded-md border border-border-strong px-4 text-sm font-medium hover:bg-muted">View as student</Link>
+            ) : items.length > 0 ? (
+              <PreviewExamButton examId={exam.id} />
+            ) : undefined
+          }
         />
       </div>
 
+      {exam.status !== "published" && items.length > 0 ? (
+        <Alert tone="info" className="mb-6">
+          “Preview as candidate” lets you sit this draft examination exactly as a student would, including unpublished
+          questions. Your preview attempts appear in your own examination history; students cannot see this examination.
+        </Alert>
+      ) : null}
       <section className="rounded-xl border border-border p-4 sm:p-5">
         <h2 className="font-semibold text-ink">Publishing</h2>
         {exam.status !== "published" && unpublished > 0 ? (
