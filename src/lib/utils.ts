@@ -48,3 +48,12 @@ export function safeRedirectPath(value: unknown, fallback = "/dashboard"): strin
   if (/[\r\n\t]/.test(value)) return fallback;
   return value;
 }
+
+/**
+ * Current time for request-scoped server rendering (pages that are rendered
+ * per request, never prerendered). Kept in one place so purity lint rules for
+ * client components are not silenced ad hoc.
+ */
+export function requestTimeMs(): number {
+  return Date.now();
+}

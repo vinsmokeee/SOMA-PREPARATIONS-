@@ -8,6 +8,7 @@ export const CACHE_TAGS = {
   examStructure: "exam-structure",
   packages: "packages",
   currentAffairs: "current-affairs",
+  exams: "exams",
 } as const;
 
 export type PublishedCaItem = {
@@ -159,5 +160,42 @@ export async function getPublishedCurrentAffairs(limit = 30): Promise<DataResult
   } catch (e) {
     console.error("getPublishedCurrentAffairs failed", e);
     return { ok: false, reason: "error", message: "Current affairs could not be loaded. Please try again shortly." };
+  }
+}
+
+export type PublicExam = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  stage: "PE" | "ME";
+  kind: string;
+  duration_minutes: number;
+  is_free: boolean;
+  question_count: number;
+};
+
+/** Published examinations (free ones are listed on the public practice pages). */
+export async function getPublishedExams(): Promise<DataResult<PublicExam[]>> {
+  "use cache";
+  cacheTag(CACHE_TAGS.exams);
+  cacheLife("hours");
+
+  const source = publicDataSource();
+  if (source === "none") return NOT_CONFIGURED;
+  if (source === "fixture") return { ok: true, data: [], source };
+  try {
+    const { data, error } = await createPublicClient().rpc("exam_catalogue", { _stage: null });
+    if (error) throw error;
+    return {
+      ok: true,
+      source,
+      data: ((data ?? []) as PublicExam[]).map(({ id, slug, title, description, stage, kind, duration_minutes, is_free, question_count }) => ({
+        id, slug, title, description, stage, kind, duration_minutes, is_free, question_count,
+      })),
+    };
+  } catch (e) {
+    console.error("getPublishedExams failed", e);
+    return { ok: false, reason: "error", message: "Examinations could not be loaded." };
   }
 }

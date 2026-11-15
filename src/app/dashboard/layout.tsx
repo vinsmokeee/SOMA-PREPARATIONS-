@@ -13,9 +13,8 @@ export default async function DashboardLayout({ children }: LayoutProps<"/dashbo
     {
       title: "Prepare",
       items: [
-        { href: "/dashboard/pe", label: "PE practice", milestone: "M2" },
-        { href: "/dashboard/me", label: "ME practice", milestone: "M2" },
-        { href: "/dashboard/history", label: "Examination history", milestone: "M2" },
+        { href: "/dashboard/exams", label: "Examinations" },
+        { href: "/dashboard/history", label: "Examination history" },
         { href: "/dashboard/papers", label: "Historical papers", milestone: "M3" },
         { href: "/dashboard/analytics", label: "Performance", milestone: "M4" },
       ],

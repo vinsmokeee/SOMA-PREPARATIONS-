@@ -16,6 +16,12 @@ migrations are tested on plain PostgreSQL 16 with a minimal Supabase stub
 | `…0800_admin_functions` | `admin_list_users()`, `admin_overview_counts()` |
 | `…0900_function_privileges` | Revokes EXECUTE on trigger functions from all client roles and on signed-in-only helpers from `anon` (Supabase's default privileges grant it directly) |
 | `…1000_platform_function_privileges` | Revokes client EXECUTE on Supabase's `rls_auto_enable()` helper when present |
+| `20261116000100_exam_engine` | Examination engine: `start_attempt`, `get_attempt_paper`, `save_answer`, `submit_attempt`, `get_attempt_result`, `finalize_expired_attempts`, `exam_catalogue`; answer-key guards on options/rubrics; exam publish rule; duplicate detection (`content_hash`, `find_similar_questions`) |
+| `20261116000200_question_authoring` | `save_question` (atomic question + options + rubric + references), `review_question` (workflow transitions with completeness checks and review history), exam builder helpers `add/remove/move_exam_question` |
+
+Sample content (not a migration — applied once, then managed in admin):
+`supabase/content/m2_sample_content.sql` — 16 original PE questions and 2 ME
+questions, all **awaiting review**, plus two draft sample examinations.
 
 ## Entity overview
 
@@ -105,6 +111,28 @@ delete audit rows.
 `is_super_admin`, `my_permissions`, `owns_answer`, `is_evaluator_for` are
 `SECURITY DEFINER` with `search_path = ''` to prevent search-path attacks and
 policy recursion.
+
+## Examination engine (Milestone 2)
+
+- **Server-authoritative time.** `start_attempt` fixes `deadline_at`. `save_answer`
+  rejects writes after the deadline plus a 10-second grace for answers already in
+  flight (`attempt_save_grace()`); `time_spent_seconds` is measured to the deadline at most.
+- **Resume, never duplicate.** A partial unique index allows one open attempt per
+  user and exam; `start_attempt` returns the open attempt (and handles the race of
+  two simultaneous starts).
+- **Lazy closing.** Any call that touches an expired attempt closes it as
+  `auto_submitted` (`close_if_expired`). `finalize_expired_attempts()` exists for
+  an optional scheduled job (service role only).
+- **Idempotent submission.** `finalize_attempt` locks the row and does nothing if
+  the attempt is already closed.
+- **Marking.** Objective answers are marked against the key, with optional
+  negative marking per exam. Written answers are never auto-marked; `evaluations`
+  records automated / AI-assisted / expert feedback separately.
+- **No leakage.** `get_attempt_paper` returns no `is_correct`, explanations or
+  model answers; `get_attempt_result` refuses until the attempt is submitted.
+- **Content safety.** Only reviewers can change options or rubrics of verified or
+  published questions; an exam can be published only when all its questions are
+  published; questions cannot be removed from exams that students have taken.
 
 ## Supabase security advisor
 

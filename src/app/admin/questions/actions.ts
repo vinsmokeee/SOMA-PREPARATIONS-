@@ -1,0 +1,84 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+import type { ActionState } from "@/components/app/action-form";
+import { assertPermission, AuthorizationError, can, getCurrentUser } from "@/lib/auth/dal";
+import { createClient } from "@/lib/supabase/server";
+import { questionPayloadSchema, REVIEW_ACTIONS, type QuestionPayload } from "@/lib/validation/question";
+
+export type SaveQuestionResult = { ok: true; id: string } | { ok: false; message: string; issues?: string[] };
+
+const DB_MESSAGES: [string, string][] = [
+  ["questions_content_hash_uniq", "A question with exactly the same wording already exists."],
+  ["Only reviewers may", "Only reviewers can change the content of a verified or published question."],
+  ["QUESTION_NOT_FOUND", "This question no longer exists."],
+];
+
+export async function saveQuestionAction(payload: QuestionPayload): Promise<SaveQuestionResult> {
+  try {
+    await assertPermission("questions.create");
+  } catch (e) {
+    // Reviewers without questions.create may still edit content.
+    const user = await getCurrentUser();
+    if (!can(user, "questions.review")) return { ok: false, message: e instanceof AuthorizationError ? e.message : "Not allowed." };
+  }
+  const parsed = questionPayloadSchema.safeParse(payload);
+  if (!parsed.success) return { ok: false, message: "Please correct the following:", issues: [...new Set(parsed.error.issues.map((i) => i.message))] };
+  const { id, options, rubric, references, ...q } = parsed.data;
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("save_question", {
+    _id: id,
+    _q: { ...q, word_limit: q.word_limit ?? "", estimated_seconds: q.estimated_seconds ?? "" },
+    _options: q.question_type === "mcq" ? options : [],
+    _rubric: q.question_type === "mcq" ? [] : rubric,
+    _refs: references.filter((r) => r.citation),
+  });
+  if (error) {
+    console.error("save_question failed", error.code, error.message);
+    const known = DB_MESSAGES.find(([k]) => error.message.includes(k));
+    return { ok: false, message: known?.[1] ?? "The question could not be saved." };
+  }
+  revalidatePath("/admin/questions");
+  return { ok: true, id: data as string };
+}
+
+const REVIEW_MESSAGES: Record<string, string> = {
+  INVALID_TRANSITION: "That action is not possible from the question's current status.",
+  COMMENT_REQUIRED: "Please add a comment explaining what needs to change.",
+  MCQ_NEEDS_TWO_OPTIONS_ONE_CORRECT: "A multiple-choice question needs at least two options and exactly one correct answer.",
+  EXPLANATION_REQUIRED: "Add an explanation before verifying.",
+  MODEL_ANSWER_REQUIRED: "Add a model answer before verifying.",
+  SUBJECT_REQUIRED: "Choose a subject before verifying.",
+  QUESTION_IN_PUBLISHED_EXAM: "This question is in a published examination. Unpublish the examination first.",
+  "Missing permission": "You do not have permission for this action.",
+};
+
+export async function reviewQuestionAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const parsed = z
+    .object({ id: z.uuid(), action: z.enum(REVIEW_ACTIONS), comment: z.string().trim().max(2000).optional() })
+    .safeParse({ id: formData.get("id"), action: formData.get("action"), comment: formData.get("comment") ?? undefined });
+  if (!parsed.success) return { status: "error", message: "Invalid request." };
+  const user = await getCurrentUser();
+  if (!user || !(can(user, "questions.create") || can(user, "questions.review") || can(user, "questions.publish"))) {
+    return { status: "error", message: "You do not have permission for this action." };
+  }
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("review_question", { _id: parsed.data.id, _action: parsed.data.action, _comment: parsed.data.comment ?? null });
+  if (error) {
+    const key = Object.keys(REVIEW_MESSAGES).find((k) => error.message.includes(k));
+    return { status: "error", message: key ? REVIEW_MESSAGES[key] : "The status could not be changed." };
+  }
+  revalidatePath("/admin/questions");
+  revalidatePath(`/admin/questions/${parsed.data.id}`);
+  return { status: "success", message: "Status updated." };
+}
+
+export type SimilarQuestion = { id: string; stem: string; status: string; similarity: number };
+
+export async function findSimilarAction(stem: string, excludeId: string | null): Promise<SimilarQuestion[]> {
+  if (typeof stem !== "string" || stem.trim().length < 15) return [];
+  const supabase = await createClient();
+  const { data } = await supabase.rpc("find_similar_questions", { _stem: stem.slice(0, 2000), _exclude: excludeId });
+  return (data ?? []) as SimilarQuestion[];
+}

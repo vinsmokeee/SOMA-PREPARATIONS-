@@ -19,13 +19,13 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
       items: [
         ...item("/admin/exam-structure", "Examination structure", "exam_config.manage"),
         ...item("/admin/syllabus", "Subjects & topics", "syllabus.manage"),
-        later("/admin/exams", "Mock examinations", "M2"),
+        ...item("/admin/exams", "Examinations", "exams.manage"),
       ],
     },
     {
       title: "Content",
       items: [
-        later("/admin/questions", "Question bank", "M3"),
+        ...item("/admin/questions", "Question bank", "questions.create").concat(can(user, "questions.create") ? [] : item("/admin/questions", "Question bank", "questions.review")),
         later("/admin/papers", "Historical papers", "M3"),
         later("/admin/imports", "RCSC imports", "M3"),
         later("/admin/evaluations", "Written answers", "M5"),
