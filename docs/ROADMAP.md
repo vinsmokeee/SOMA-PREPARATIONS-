@@ -7,8 +7,8 @@ approval before the next one starts.
 | --- | --- | --- |
 | 1 | Foundation and website | Complete (deployed) |
 | 2 | Examination engine (PE + ME simulation) | Complete (deployed; live exam-room run still to do) |
-| 3 | Question bank, historical papers, RCSC import | **Built — awaiting real past papers and approval** |
-| 4 | Student learning and analytics | Not started |
+| 3 | Question bank, historical papers, RCSC import | Complete (deployed; extraction to be tuned on real papers) |
+| 4 | Student learning and analytics | **Built — awaiting approval** |
 | 5 | ME evaluation and expert system | Not started |
 | 6 | AI question intelligence | Not started |
 | 7 | Current-affairs automation | Not started |
@@ -40,6 +40,20 @@ approval before the next one starts.
 - "Purchasing opens soon" buttons are disabled with an explanation.
 - Logo: a typographic wordmark is used until the official file is supplied.
 - Legal pages carry a "Draft for legal review" notice.
+
+## Milestone 4 — what was built
+
+| Feature | Status |
+| --- | --- |
+| Practice builder: stage, subject, topic, difficulty, number of questions, time limit, mode (unseen first / only unseen / only mistakes) | Built — SQL-tested |
+| Free accounts practise free-sample questions; premium unlocks the full bank | Working — SQL-tested |
+| Review my mistakes (questions last answered incorrectly) | Working — SQL-tested |
+| Performance page: totals, accuracy trend chart, accuracy by subject, weakest topics, time per question | Built — charts browser-tested (desktop + mobile, keyboard tooltips, table view) |
+| Readiness indicator per stage (Building foundations / Developing / Strong) with reasons, labelled as a Soma estimate | Built — unit-tested; never shown as a pass probability |
+| Recommendations with one-tap targeted practice; dashboard progress cards, coverage, pending revision | Built |
+
+Notes: analytics count objective questions only; written ME answers are counted
+separately and reviewed against model answers.
 
 ## Milestone 3 — what was built
 

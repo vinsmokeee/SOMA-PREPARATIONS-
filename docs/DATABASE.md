@@ -20,6 +20,7 @@ migrations are tested on plain PostgreSQL 16 with a minimal Supabase stub
 | `20261116000200_question_authoring` | `save_question` (atomic question + options + rubric + references), `review_question` (workflow transitions with completeness checks and review history), exam builder helpers `add/remove/move_exam_question` |
 
 | `20261117000100_imports_and_papers` | `usage_permissions`; uploads in `source_documents` (origin, filename, permission link, content-hash uniqueness); `import_candidates` staging; import jobs from uploads; publish rule for reproduced papers; `exam_catalogue` with paper year/credit; private Storage bucket `source-documents` with staff-only policies |
+| `20261118000100_learning_analytics` | Personal practice sets (`exams.owner_id`, private to their owner, excluded from the catalogue); `create_practice_set` (filters, unseen-first selection, mistakes mode, free-sample limit for free accounts, daily cap); `practice_options`; `my_performance` (totals, subject/topic accuracy, trend, coverage, pending mistakes) — all scoped to the caller |
 
 Sample content (not a migration — applied once, then managed in admin):
 `supabase/content/m2_sample_content.sql` — 16 original PE questions and 2 ME
