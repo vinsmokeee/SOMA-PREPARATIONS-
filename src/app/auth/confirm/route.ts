@@ -5,11 +5,19 @@ import { safeRedirectPath } from "@/lib/utils";
 
 const OTP_TYPES: EmailOtpType[] = ["signup", "invite", "magiclink", "recovery", "email_change", "email"];
 
-/** Handles email links (sign-up confirmation, password recovery) using token_hash. */
+/**
+ * Handles links from authentication emails (sign-up confirmation, password recovery).
+ *
+ *  - `token_hash` + `type` (Soma's email templates): verified server-side, so the
+ *    link works even when opened on a different device or browser.
+ *  - `code` (Supabase's default templates, PKCE): exchanged for a session. This
+ *    only works in the browser that started the flow.
+ */
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
+  const code = searchParams.get("code");
   const next = safeRedirectPath(searchParams.get("next"));
 
   if (tokenHash && type && OTP_TYPES.includes(type)) {
@@ -18,6 +26,10 @@ export async function GET(request: NextRequest) {
     if (!error) {
       return NextResponse.redirect(new URL(type === "recovery" ? "/reset-password" : next, request.url));
     }
+  } else if (code) {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (!error) return NextResponse.redirect(new URL(next, request.url));
   }
   return NextResponse.redirect(new URL("/login?error=link", request.url));
 }
