@@ -55,6 +55,12 @@ alter table public.source_documents
   add column page_count int check (page_count is null or page_count >= 0),
   add constraint source_documents_url_required check (origin = 'upload' or url is not null);
 
+-- Import jobs can come from uploads (no URL).
+alter table public.import_jobs
+  alter column url drop not null,
+  add column filename text check (filename is null or char_length(filename) <= 255),
+  add constraint import_jobs_source_required check (url is not null or filename is not null);
+
 -- The same file (by content) is recorded once.
 create unique index source_documents_sha_uniq on public.source_documents (current_sha256) where current_sha256 is not null;
 
