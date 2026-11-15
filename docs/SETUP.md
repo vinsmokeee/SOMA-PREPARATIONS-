@@ -19,6 +19,18 @@ SOMA_PUBLIC_DATA=fixture npm run dev   # …browse public pages without Supabase
    [ENVIRONMENT.md](ENVIRONMENT.md#supabase-auth-settings).
 4. Copy the project URL, publishable key and secret key into `.env.local`.
 
+### Current project (created 15 November 2026)
+
+- Project: **Soma Preparation**, region Asia-Pacific, ref `ihmyqurrogrodtodxfef`
+  (`https://ihmyqurrogrodtodxfef.supabase.co`).
+- Migrations `0100`–`1000` applied through the Management API; migration history
+  matches the files in `supabase/migrations`.
+- **Still to do (needs the production URL):** Auth → Site URL, redirect URLs, the
+  email templates in `supabase/templates/` (confirmation, recovery; set the
+  subjects to "Confirm your Soma Preparations account" and "Reset your Soma
+  Preparations password"), password minimum length 8 with letters + digits, and a
+  custom SMTP sender.
+
 ## 3. Create the Super Administrator (founder)
 
 1. Register on the website with the founder's email and confirm it.

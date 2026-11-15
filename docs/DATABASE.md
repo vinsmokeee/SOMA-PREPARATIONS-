@@ -14,6 +14,8 @@ migrations are tested on plain PostgreSQL 16 with a minimal Supabase stub
 | `…0600_reference_data` | Verified BCSE structure from official RCSC documents, initial packages |
 | `…0700_public_read_functions` | `get_official_citations()` |
 | `…0800_admin_functions` | `admin_list_users()`, `admin_overview_counts()` |
+| `…0900_function_privileges` | Revokes EXECUTE on trigger functions from all client roles and on signed-in-only helpers from `anon` (Supabase's default privileges grant it directly) |
+| `…1000_platform_function_privileges` | Revokes client EXECUTE on Supabase's `rls_auto_enable()` helper when present |
 
 ## Entity overview
 
@@ -103,6 +105,17 @@ delete audit rows.
 `is_super_admin`, `my_permissions`, `owns_answer`, `is_evaluator_for` are
 `SECURITY DEFINER` with `search_path = ''` to prevent search-path attacks and
 policy recursion.
+
+## Supabase security advisor
+
+After applying all migrations, the advisor reports `*_security_definer_function_executable`
+warnings for helpers that clients may call by design: `has_permission`, `is_staff`
+and `get_official_citations` (anon + authenticated), and `has_role`,
+`is_super_admin`, `my_permissions`, `owns_answer`, `is_evaluator_for`,
+`has_stage_access`, `admin_list_users`, `admin_overview_counts` (authenticated).
+Each either reveals only facts about the caller or raises unless the caller holds
+the required permission (covered by `supabase/tests`). A later clean-up may move
+the RLS helpers into a non-exposed `private` schema to silence these warnings.
 
 ## Applying migrations to Supabase
 
