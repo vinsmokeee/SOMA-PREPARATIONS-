@@ -14,7 +14,11 @@ export type StructuredRequest<S extends z.ZodType> = {
   maxTokens?: number;
   /** Relative thinking/effort level; providers map it to their own setting. */
   effort?: "low" | "medium" | "high";
+  /** Images sent before the prompt (e.g. photographed answer sheets), in order. */
+  images?: AiImage[];
 };
+
+export type AiImage = { mediaType: "image/jpeg" | "image/png" | "image/webp"; base64: string };
 
 export type StructuredResult<T> =
   | { ok: true; data: T; model: string; inputTokens: number; outputTokens: number; usedFallback: boolean }

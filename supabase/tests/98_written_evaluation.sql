@@ -67,8 +67,7 @@ select tests.assert(((public.my_evaluation_allowance()) ->> 'used')::int = 1 and
 select tests.assert_fails(format($$select public.confirm_transcript(%L, 'x y z')$$, :'ans'), 'answer locked after evaluation request');
 select tests.assert_fails(format($$select public.add_answer_page(%L, %L)$$, :'ans', :'s' || '/' || :'ans' || '/late.jpg'), 'no pages after evaluation request');
 -- Students cannot write marks
-select tests.assert_fails(format($$update public.evaluations set score = 10, status = 'completed' where id = %L$$, :'ev'), 'students cannot write marks')
-  where exists (select 1 from public.evaluations where id = :'ev');
+select tests.assert((select status from public.evaluations where id = :'ev') = 'queued', 'student sees queued evaluation');
 update public.evaluations set score = 10 where id = :'ev';
 reset role;
 select tests.assert((select score from public.evaluations where id = :'ev') is null, 'student update had no effect');

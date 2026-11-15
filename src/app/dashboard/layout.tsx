@@ -15,6 +15,7 @@ export default async function DashboardLayout({ children }: LayoutProps<"/dashbo
       items: [
         { href: "/dashboard/practice", label: "Practice" },
         { href: "/dashboard/exams", label: "Examinations" },
+        { href: "/dashboard/written", label: "Written answers" },
         { href: "/dashboard/history", label: "Examination history" },
         { href: "/dashboard/papers", label: "Past papers" },
         { href: "/dashboard/analytics", label: "Performance" },

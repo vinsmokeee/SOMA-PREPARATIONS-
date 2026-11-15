@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { ExamRoomClient } from "@/components/exam/exam-room-client";
+import type { WrittenMode } from "@/components/exam/exam-room";
 import { requireUser } from "@/lib/auth/dal";
 import type { AttemptPaper } from "@/lib/exam/types";
 import { createClient } from "@/lib/supabase/server";
@@ -10,7 +11,7 @@ export const instant = false;
 
 export default async function ExamPage({ params }: PageProps<"/exam/[attemptId]">) {
   const { attemptId } = await params;
-  await requireUser(`/exam/${attemptId}`);
+  const user = await requireUser(`/exam/${attemptId}`);
   if (!/^[0-9a-f-]{36}$/i.test(attemptId)) notFound();
 
   const supabase = await createClient();
@@ -19,5 +20,21 @@ export default async function ExamPage({ params }: PageProps<"/exam/[attemptId]"
   const paper = data as AttemptPaper;
   if (paper.attempt.status !== "in_progress") redirect(`/dashboard/results/${attemptId}`);
 
-  return <ExamRoomClient paper={paper} />;
+  const written: Record<string, WrittenMode> = {};
+  let untimed = false;
+  let maxPages = 10;
+  if (paper.questions.some((q) => q.type !== "mcq")) {
+    const [{ data: rows }, { data: exam }, { data: cfg }] = await Promise.all([
+      supabase.from("attempt_answers").select("id, exam_question_id, answer_mode, answer_pages(count)").eq("attempt_id", attemptId),
+      supabase.from("exams").select("untimed").eq("id", paper.exam.id).maybeSingle(),
+      supabase.rpc("evaluation_config"),
+    ]);
+    for (const r of (rows ?? []) as { id: string; exam_question_id: string; answer_mode: "typed" | "handwritten"; answer_pages: { count: number }[] }[]) {
+      written[r.exam_question_id] = { mode: r.answer_mode, answerId: r.id, pages: r.answer_pages?.[0]?.count ?? 0 };
+    }
+    untimed = Boolean(exam?.untimed);
+    maxPages = Number((cfg as { max_pages?: number } | null)?.max_pages ?? 10);
+  }
+
+  return <ExamRoomClient paper={paper} userId={user.id} written={written} untimed={untimed} maxPages={maxPages} />;
 }
