@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, BarChart3, ChevronLeft, BookOpenCheck, Check, ClipboardCheck, Crown, Flame, Newspaper, PenLine, PlayCircle } from "lucide-react";
+import { ArrowLeftRight, ArrowRight, BarChart3, BookOpenCheck, Check, ClipboardCheck, Crown, Flame, Newspaper, PenLine, PlayCircle } from "lucide-react";
 import { startFreeAction, setMeEntryAction } from "@/app/dashboard/exam-actions";
 import { StartButton } from "@/components/training/start-button";
 import { TodayPlan } from "@/components/training/today-plan";
 import { PUBLIC_GROUP_LABELS } from "@/lib/exam/entry";
 import { itemAction, type TrainingData } from "@/lib/training/model";
 import { cn } from "@/lib/utils";
+import { WhyPremium } from "./exam-info";
 
 type Stage = "PE" | "ME";
 const STAGE_INFO: Record<Stage, { name: string; full: string; gradient: string; blurb: string }> = {
@@ -97,6 +98,7 @@ export function PackageChoice({ stage, entryLabel, pkg, free, onFree = false }: 
           <p className="relative mt-2 text-sm">Premium details are coming soon.</p>
         )}
       </div>
+      <div className="order-last"><WhyPremium stage={stage} /></div>
     </div>
   );
 }
@@ -107,6 +109,12 @@ export function PackageChoice({ stage, entryLabel, pkg, free, onFree = false }: 
 export type EntryOptions = {
   categories: { id: string; name: string; public_group: string | null }[];
   specialisations: { id: string; name: string }[];
+};
+
+const GROUP_HINT: Record<string, string> = {
+  general: "Next: choose your category",
+  technical: "Next: choose your specialisation",
+  dzongkha: "Dzongkha entry",
 };
 
 export function EntryPicker({ options, group, error }: { options: EntryOptions; group: string | null; error?: string | null }) {
@@ -121,17 +129,21 @@ export function EntryPicker({ options, group, error }: { options: EntryOptions; 
           <h2 className="text-xl font-extrabold text-ink">Which graduates are you?</h2>
           <div className="grid gap-3">
             {groups.map((g) => (
-              <Link key={g} href={`/dashboard/me?group=${g}`} className="flex items-center justify-between rounded-2xl bg-white p-5 shadow-sm ring-1 ring-border active:scale-[0.99]">
-                <span className="text-lg font-bold text-ink">{PUBLIC_GROUP_LABELS[g]}</span>
-                <ArrowRight className="size-5 text-primary" aria-hidden />
+              <Link key={g} href={`/dashboard/me?group=${g}`} className={cn("relative flex min-h-24 items-center justify-between overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-lg active:scale-[0.99]", STAGE_INFO.ME.gradient)}>
+                <span className="absolute -right-6 -top-6 size-24 rounded-full bg-white/10" aria-hidden />
+                <span className="relative">
+                  <span className="block text-lg font-extrabold">{PUBLIC_GROUP_LABELS[g]}</span>
+                  <span className="block text-sm text-white/85">{GROUP_HINT[g]}</span>
+                </span>
+                <ArrowRight className="relative size-6" aria-hidden />
               </Link>
             ))}
           </div>
         </>
       ) : (
         <>
-          <Link href="/dashboard/me" className="text-sm font-semibold text-primary">← {PUBLIC_GROUP_LABELS[group]}</Link>
-          <h2 className="text-xl font-extrabold text-ink">{group === "technical" ? "Your specialisation" : group === "general" ? "Your category" : "Confirm your entry"}</h2>
+          <p className="text-sm font-semibold text-primary">{PUBLIC_GROUP_LABELS[group]}</p>
+          <h2 className="-mt-4 text-xl font-extrabold text-ink">{group === "technical" ? "Your specialisation" : group === "general" ? "Your category" : "Confirm your entry"}</h2>
           <div className="grid gap-2">
             {group === "technical"
               ? options.specialisations.map((s) => (
@@ -151,8 +163,8 @@ function EntryButton({ label, category, specialisation }: { label: string; categ
     <form action={setMeEntryAction}>
       <input type="hidden" name="category" value={category} />
       <input type="hidden" name="specialisation" value={specialisation ?? ""} />
-      <button type="submit" className="flex w-full items-center justify-between rounded-2xl bg-white p-4 text-left font-semibold text-ink shadow-sm ring-1 ring-border active:scale-[0.99]">
-        {label} <ArrowRight className="size-4 text-primary" aria-hidden />
+      <button type="submit" className={cn("flex w-full items-center justify-between rounded-2xl bg-gradient-to-r p-4 text-left font-bold text-white shadow-md active:scale-[0.99]", "from-[#be123c] to-[#7a1e3a]")}>
+        {label} <ArrowRight className="size-5 shrink-0" aria-hidden />
       </button>
     </form>
   );
@@ -310,9 +322,6 @@ function Header({ stage, subtitle, badge }: { stage: Stage; subtitle: string; ba
   return (
     <div className="flex items-start justify-between gap-3">
       <div>
-        <Link href="/dashboard?choose=1" className="-ml-1 mb-2 inline-flex items-center gap-0.5 rounded-full px-1 py-1 text-sm font-semibold text-primary">
-          <ChevronLeft className="size-4" aria-hidden /> PE / ME
-        </Link>
         <p className="flex items-center gap-2 text-2xl font-black tracking-tight text-ink">
           {stage}
           {badge ? (
@@ -323,6 +332,10 @@ function Header({ stage, subtitle, badge }: { stage: Stage; subtitle: string; ba
         </p>
         <p className="text-sm text-muted-foreground">{subtitle}</p>
       </div>
+      <Link href="/dashboard?choose=1" aria-label="Switch between PE and ME"
+        className="flex shrink-0 items-center gap-1.5 rounded-2xl bg-primary px-3.5 py-2.5 text-sm font-bold text-white shadow-md active:scale-[0.97]">
+        <ArrowLeftRight className="size-4" aria-hidden /> PE / ME
+      </Link>
 
     </div>
   );

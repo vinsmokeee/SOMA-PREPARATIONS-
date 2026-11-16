@@ -39,6 +39,8 @@ export const footerNav = {
     { href: "/me", label: "Main Examination" },
     { href: "/practice", label: "Free practice" },
     { href: "/samples", label: "Sample examinations" },
+    { href: "/me", label: "AI answer marking and feedback" },
+    { href: "/pe", label: "Your coach after every test" },
     { href: "/current-affairs", label: "Current affairs" },
     { href: "/resources", label: "Study resources" },
   ],

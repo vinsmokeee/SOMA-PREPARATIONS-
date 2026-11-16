@@ -4,6 +4,7 @@ import { connection } from "next/server";
 import { AppShell } from "@/components/app/app-shell";
 import { CoachCard } from "@/components/exam/coach-card";
 import { MockCta } from "@/components/exam/mock-cta";
+import { ChooserInfo } from "@/components/student/exam-info";
 import { coach } from "@/lib/exam/coach";
 import { ResultHero, SectionBars } from "@/components/exam/result-hero";
 import { studentNav } from "@/components/app/student-nav";
@@ -40,11 +41,12 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     training, answered: 64, accuracy: 72, written: 0, freeUsedUp: false, aiMarks: null, premiumSlug: "pe-premium", ...over,
   });
   const content = {
-    choose: <ExamChooser firstName="Pema" status={{ PE: null, ME: null }} />,
+    choose: <><ExamChooser firstName="Pema" status={{ PE: null, ME: null }} /><ChooserInfo packages={{ PE: pePkg, ME: mePkg }} /></>,
     "pe-packages": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} />,
     "pe-upgrade": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} onFree />,
     "me-packages": <PackageChoice stage="ME" entryLabel="Technical Graduates · Civil Engineering" pkg={mePkg} free={FREE_POINTS.ME} />,
     "me-entry": <EntryPicker options={{ categories: [{ id: id(1), name: "Administrative Service", public_group: "general" }, { id: id(2), name: "Technical Service", public_group: "technical" }, { id: id(3), name: "Dzongkha", public_group: "dzongkha" }], specialisations: [] }} group={null} />,
+    "me-general": <EntryPicker options={{ categories: [{ id: id(1), name: "Administrative Service", public_group: "general" }, { id: id(4), name: "Finance Service", public_group: "general" }], specialisations: [] }} group="general" />,
     "me-technical": <EntryPicker options={{ categories: [{ id: id(2), name: "Technical Service", public_group: "technical" }], specialisations: ["Civil Engineering", "Computer Science and Engineering", "Electrical Engineering", "Forestry", "Medicine", "Nursing"].map((name, i) => ({ id: id(i + 1), name })) }} group="technical" />,
     pe: <ExamArea d={area({})} />,
     "mock-free": <div className="mx-auto max-w-2xl"><MockCta premium={false} /></div>,

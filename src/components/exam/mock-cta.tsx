@@ -5,20 +5,23 @@ import { useActionState } from "react";
 import { Crown, Sparkles } from "lucide-react";
 import { createMockAction, type StartState } from "@/app/exam/actions";
 
+/** Free accounts: one practice or mock test a day, then a note to join Premium. */
+export function FreeLimitNote({ title = "You have used today's free practice" }: { title?: string }) {
+  return (
+    <Link href="/dashboard/pe?plans=1" role="status" className="flex items-center gap-3 rounded-2xl bg-yellow-100 p-4 text-yellow-950 ring-1 ring-yellow-300">
+      <Crown className="size-6 shrink-0 text-yellow-700" aria-hidden />
+      <span className="text-sm">
+        <span className="block font-bold">{title}</span>
+        Free accounts get one practice or mock test a day. Join PE Premium for unlimited practice and mock tests, with new questions every time. Or come back tomorrow.
+      </span>
+    </Link>
+  );
+}
+
 /** Premium: "New mock test" with fresh questions. Free: one test a day, then Premium. */
 export function MockCta({ premium }: { premium: boolean }) {
   const [state, action, pending] = useActionState(createMockAction, {} as StartState);
-  if (!premium) {
-    return (
-      <Link href="/dashboard/pe?plans=1" className="flex items-center gap-3 rounded-2xl bg-yellow-100 p-4 text-yellow-950 ring-1 ring-yellow-300">
-        <Crown className="size-6 shrink-0 text-yellow-700" aria-hidden />
-        <span className="text-sm">
-          <span className="block font-bold">Want another mock test today?</span>
-          Free accounts get one mock test a day. Join PE Premium for unlimited mock tests, a new set of questions every time.
-        </span>
-      </Link>
-    );
-  }
+  if (!premium) return <FreeLimitNote title="Want another test today?" />;
   return (
     <form action={action} className="rounded-3xl bg-gradient-to-br from-amber-400 via-orange-500 to-orange-700 p-5 text-white shadow-xl">
       <p className="flex items-center gap-2 text-lg font-extrabold"><Sparkles className="size-5 text-yellow-200" aria-hidden /> New mock test</p>

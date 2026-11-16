@@ -5,7 +5,7 @@ import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth/dal";
 import { createClient } from "@/lib/supabase/server";
 
-export type PracticeState = { error?: string };
+export type PracticeState = { error?: string; freeLimit?: boolean };
 
 const schema = z.object({
   stage: z.enum(["PE", "ME"]),
@@ -46,6 +46,7 @@ export async function startPractice(_prev: PracticeState, formData: FormData): P
     _minutes: d.minutes,
     _mode: d.mode,
   });
+  if (error?.message.includes("FREE_DAILY_LIMIT")) return { freeLimit: true };
   if (error || !data) {
     const key = Object.keys(MESSAGES).find((k) => error?.message.includes(k));
     return { error: key ? MESSAGES[key] : "The practice set could not be created. Please try again." };

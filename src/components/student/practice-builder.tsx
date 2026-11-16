@@ -2,6 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { startPractice, type PracticeState } from "@/app/dashboard/practice/actions";
+import { FreeLimitNote } from "@/components/exam/mock-cta";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Field, FieldHint, Label, Select } from "@/components/ui/input";
@@ -24,6 +25,7 @@ export function PracticeBuilder({ stage, options }: { stage: "PE" | "ME"; option
   return (
     <form action={action} className="space-y-5">
       <input type="hidden" name="stage" value={stage} />
+      {state.freeLimit ? <FreeLimitNote /> : null}
       {state.error ? <Alert tone="danger">{state.error}</Alert> : null}
       <div className="grid gap-4 sm:grid-cols-2">
         <Field>
