@@ -7,11 +7,12 @@ import { loadExamState } from "@/lib/student/exam-state";
 export const metadata: Metadata = { title: "PE" };
 
 /** PE: choose Free or Premium the first time, then the PE area. */
-export default async function PePage() {
+export default async function PePage({ searchParams }: PageProps<"/dashboard/pe">) {
   const user = await requireUser("/dashboard/pe");
   const state = await loadExamState(user.id);
-  if (!state.started.PE) {
-    return <PackageChoice stage="PE" pkg={await loadPackage("PE")} free={FREE_POINTS.PE} />;
+  const plans = (await searchParams).plans === "1";
+  if (!state.started.PE || plans) {
+    return <PackageChoice stage="PE" pkg={await loadPackage("PE")} free={FREE_POINTS.PE} onFree={state.started.PE} />;
   }
   return <ExamArea d={await loadArea("PE", state)} />;
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BarChart3, BookOpenCheck, Check, ClipboardCheck, Crown, Flame, Newspaper, PenLine, PlayCircle } from "lucide-react";
+import { ArrowRight, BarChart3, ChevronLeft, BookOpenCheck, Check, ClipboardCheck, Crown, Flame, Newspaper, PenLine, PlayCircle } from "lucide-react";
 import { startFreeAction, setMeEntryAction } from "@/app/dashboard/exam-actions";
 import { StartButton } from "@/components/training/start-button";
 import { TodayPlan } from "@/components/training/today-plan";
@@ -49,22 +49,30 @@ export function ExamChooser({ firstName, status }: { firstName: string; status: 
 // ---------------------------------------------------------------------------
 export type PackageInfo = { slug: string; name: string; price: number; accessDays: number | null; features: string[]; available: boolean } | null;
 
-export function PackageChoice({ stage, entryLabel, pkg, free }: { stage: Stage; entryLabel?: string | null; pkg: PackageInfo; free: string[] }) {
+export function PackageChoice({ stage, entryLabel, pkg, free, onFree = false }: {
+  stage: Stage; entryLabel?: string | null; pkg: PackageInfo; free: string[];
+  /** The student already uses Free and came here to upgrade. */
+  onFree?: boolean;
+}) {
   return (
-    <div data-exam={stage} className="mx-auto max-w-lg space-y-5">
+    <div data-exam={stage} className="mx-auto flex max-w-lg flex-col gap-5">
       <Header stage={stage} subtitle={entryLabel ?? STAGE_INFO[stage].full} />
-      <h2 className="text-xl font-extrabold text-ink">Choose how to start</h2>
+      <h2 className="text-xl font-extrabold text-ink">{onFree ? "Upgrade to Premium" : "Choose how to start"}</h2>
 
-      <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-border">
+      <div className={cn("rounded-3xl bg-white p-5 shadow-sm ring-1 ring-border", onFree && "order-last")}>
         <p className="text-lg font-extrabold text-ink">Free</p>
         <p className="text-sm text-muted-foreground">Try Soma at no cost</p>
         <ul className="mt-3 space-y-1.5 text-sm">
           {free.map((f) => <li key={f} className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-success" aria-hidden />{f}</li>)}
         </ul>
-        <form action={startFreeAction} className="mt-4">
-          <input type="hidden" name="stage" value={stage} />
-          <button type="submit" className="h-12 w-full rounded-2xl bg-muted text-base font-bold text-ink active:scale-[0.98]">Start free</button>
-        </form>
+        {onFree ? (
+          <Link href={`/dashboard/${stage.toLowerCase()}`} className="mt-4 flex h-12 items-center justify-center rounded-2xl bg-muted text-base font-bold text-ink">You are using Free · go back</Link>
+        ) : (
+          <form action={startFreeAction} className="mt-4">
+            <input type="hidden" name="stage" value={stage} />
+            <button type="submit" className="h-12 w-full rounded-2xl bg-muted text-base font-bold text-ink active:scale-[0.98]">Start free</button>
+          </form>
+        )}
       </div>
 
       <div className={cn("relative overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-xl", STAGE_INFO[stage].gradient)}>
@@ -229,7 +237,7 @@ export function ExamArea({ d }: { d: AreaData }) {
 
       {/* Free plan note */}
       {!d.premium ? (
-        <Link href={d.premiumSlug ? `/dashboard/subscription/checkout/${d.premiumSlug}` : "/packages"}
+        <Link href={`/dashboard/${d.stage.toLowerCase()}?plans=1`}
           className="flex items-center gap-3 rounded-2xl bg-yellow-100 p-4 text-yellow-950 ring-1 ring-yellow-300">
           <Crown className="size-6 shrink-0 text-yellow-700" aria-hidden />
           <span className="text-sm">
@@ -302,6 +310,9 @@ function Header({ stage, subtitle, badge }: { stage: Stage; subtitle: string; ba
   return (
     <div className="flex items-start justify-between gap-3">
       <div>
+        <Link href="/dashboard?choose=1" className="-ml-1 mb-2 inline-flex items-center gap-0.5 rounded-full px-1 py-1 text-sm font-semibold text-primary">
+          <ChevronLeft className="size-4" aria-hidden /> PE / ME
+        </Link>
         <p className="flex items-center gap-2 text-2xl font-black tracking-tight text-ink">
           {stage}
           {badge ? (

@@ -42,19 +42,27 @@ private preview mode, and master-plan phases:
   tests, monthly mock, streaks with rest days, badges, reminders, admin page.
 - **Phase 4 AI variations:** variations of verified questions, independent AI check,
   review queue with batch approve/reject, origin labels for students. Runs in the background.
-- **New look (first step):** warm saffron/maroon palette, new student home, bottom tab bar on phones.
+- **New student look (PR #29, merged):** home → choose PE or ME → (ME: choose entry) → Free or
+  Premium → the exam's own home. Returning students go straight back to their exam. Top bar:
+  profile left, logo centre, bell right. Bottom tabs follow the exam. PE is saffron, ME maroon
+  (`data-exam="ME"` in `globals.css`). Preview with sample data: `/dev/home-preview?screen=…`
+  (fixture build only).
+- **Results:** coloured score card, last year's cut-off as a reference, section bars and a rule-based
+  "Your coach" card (`src/lib/exam/coach.ts`): marks lost per section, tips, pace (too fast /
+  out of time), skip advice.
+- **Mock tests:** Free gets one PE test per Bhutan day (`start_attempt`). Premium makes a new
+  test each time (`create_mock_test`), with about 1 in 10 questions the student got wrong
+  before. ME Free gets 3 AI marks. Migrations `20261127000100` and `20261128000100` are
+  applied live.
 
 See `docs/ROADMAP.md` for detail.
 
 ## Open items (in order)
 
-1. **Design is not yet what the founder wants** ("still not up to the expectation"). Only the
-   student home was redesigned; other student pages still use the old layout with new colours.
-   Next: get the founder's examples or feelings (an app they like, screenshots of what they
-   dislike), then redesign all student pages, show **screenshots first** (use a `/dev/...`
-   preview page with sample data and Playwright on an iPhone profile), then one PR.
-   Note: Vercel preview links need Vercel login, and the new-device email check sends the
-   founder to the live site, so screenshots are the reliable way to show previews.
+1. **Founder is testing the new student look on the live site** and will send changes. Show
+   **screenshots first** (a `/dev/home-preview` screen plus Playwright on an iPhone profile), then
+   one PR. Vercel preview links need a Vercel login, so screenshots are the reliable way.
+   Inner pages (practice, exams list, written) still use the older layout with the new colours.
 2. **Founder's change list** — they will send more changes after testing with friends.
 3. **Phase 2 (old papers):** waiting for PDFs (PE, Technical, General, Dzongkha ME samples).
    Then Dzongkha–English dictionary/reference books.
