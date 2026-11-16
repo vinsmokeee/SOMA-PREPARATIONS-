@@ -1,0 +1,73 @@
+# Handover — read this first in a new conversation
+
+Last updated: 2026-11-16. This note lets a new Claude session continue the work
+without the previous chat. Keep it up to date at the end of every working session.
+
+## The founder and how to work with them
+
+- Non-technical; works on an iPhone. Wants **step-by-step**, **one step at a time**,
+  plain words, short messages. Sends screenshots. Does not want jargon or long options lists.
+- **Do not change the live site or live database without explicit approval.** Build and
+  test first; show screenshots; then one pull request to merge. Avoid many small PRs.
+- Do not ask the founder to publish/unpublish content during development.
+- Always give direct links (GitHub PR, site pages, Supabase/Vercel settings pages).
+- Never invent RCSC exam rules; mark unconfirmed values ("from the founder's brief").
+- No guaranteed-success claims. AI content needs human review (except current affairs, see CLAUDE.md).
+
+## Accounts and services
+
+| Service | Detail |
+| --- | --- |
+| Site | https://soma-preparations.vercel.app (private: access code in Vercel env `SITE_ACCESS_CODE`, Production only) |
+| Code | GitHub `vinsmokeee/SOMA-PREPARATIONS-`; work branch `claude/soma-bcse-platform-sr39ur`; founder merges PRs on `main` |
+| Hosting | Vercel team `soma-9932`, project `soma-preparations` (Hobby plan) |
+| Database | Supabase project `ihmyqurrogrodtodxfef` (free plan). Migrations applied through the Management API; then set the version in `supabase_migrations.schema_migrations` |
+| AI | Anthropic API key in Vercel (`ANTHROPIC_API_KEY`); prepaid credit, auto-reload off; current-affairs budget $0.50/day |
+| Email | **No email service yet** (Supabase built-in: 2/hour, owner only). "Confirm email" is **OFF** (founder's choice): sign-up needs no email; emails only for new-device checks and password reset |
+| Payments | Manual + T Bank QR (admin approval); sandbox gateway for tests; no bank gateway yet |
+
+The founder's master plan audit is a Claude Doc: "Soma Master Plan — Audit and Roadmap".
+
+## What is built (all live)
+
+M1–M8 (site, exam engine, imports, practice/analytics, AI written-answer marking,
+AI question drafts, current affairs with 3-hourly scheduler, payments/subscriptions/security),
+private preview mode, and master-plan phases:
+
+- **Phase 1 Exam architecture:** General/Technical/Dzongkha pathways (B.Ed hidden), 31
+  specialisations (duplicates flagged), Paper II groups (unlinked until verified), per-paper
+  settings with source, PE four sections, cut-off history (reference only), entry-based
+  delivery, PE Nu 699 / ME Nu 799 (ME "coming soon"), ME final-result note.
+- **Phase 3 Daily training:** daily plan, 30-day cycle, spaced revision, weekly/fortnightly
+  tests, monthly mock, streaks with rest days, badges, reminders, admin page.
+- **Phase 4 AI variations:** variations of verified questions, independent AI check,
+  review queue with batch approve/reject, origin labels for students. Runs in the background.
+- **New look (first step):** warm saffron/maroon palette, new student home, bottom tab bar on phones.
+
+See `docs/ROADMAP.md` for detail.
+
+## Open items (in order)
+
+1. **Design is not yet what the founder wants** ("still not up to the expectation"). Only the
+   student home was redesigned; other student pages still use the old layout with new colours.
+   Next: get the founder's examples or feelings (an app they like, screenshots of what they
+   dislike), then redesign all student pages, show **screenshots first** (use a `/dev/...`
+   preview page with sample data and Playwright on an iPhone profile), then one PR.
+   Note: Vercel preview links need Vercel login, and the new-device email check sends the
+   founder to the live site, so screenshots are the reliable way to show previews.
+2. **Founder's change list** — they will send more changes after testing with friends.
+3. **Phase 2 (old papers):** waiting for PDFs (PE, Technical, General, Dzongkha ME samples).
+   Then Dzongkha–English dictionary/reference books.
+4. **Content:** only a handful of published questions; plans are short until papers/variations are added.
+5. **Before launch:** real email service (Brevo or Resend), email check before payment,
+   one real QR test payment, Vercel Pro + Supabase Pro (~$45/month), domain, policy blanks
+   and legal check, confirm RCSC facts (paper marks/durations, PE exemptions, Paper II groups),
+   final launch checks (Phase 6), logo.
+6. Phase 5 (batch PDF processing, pattern reports) after Phase 2.
+7. Two old current-affairs questions say "According to the note…" / "According to The Hindu
+   report…" — to archive later (ids 3d4b2b6e-…, 672bb8d3-…).
+
+## Working rules for the code
+
+See `CLAUDE.md`. Checks before any PR: lint, typecheck, unit, SQL (`npm run test:db`, needs a
+local PostgreSQL), build with `SOMA_PUBLIC_DATA=fixture`, Playwright.
