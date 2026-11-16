@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { AppShell } from "@/components/app/app-shell";
+import { studentNav } from "@/components/app/student-nav";
 import { EntryPicker, ExamArea, ExamChooser, FREE_POINTS, PackageChoice, type AreaData } from "@/components/student/exam-flow";
 import type { TrainingData } from "@/lib/training/model";
 
@@ -45,7 +46,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 3 }, premiumSlug: "me-premium" })} />,
   }[screen as string] ?? null;
   return (
-    <AppShell area="student" sections={[{ items: [{ href: "/dashboard", label: "Home", exact: true }] }]} user={{ name: "Pema", email: "pema@example.com", roleLabel: "Student" }}>
+    <AppShell area="student" stage={String(screen).startsWith("me") ? "ME" : "PE"} unread={3} sections={studentNav(false)} user={{ name: "Pema", email: "pema@example.com", roleLabel: "Student" }}>
       {content}
     </AppShell>
   );

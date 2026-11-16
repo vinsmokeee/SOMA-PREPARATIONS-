@@ -5,14 +5,20 @@ import { Dialog } from "radix-ui";
 import { Menu, X } from "lucide-react";
 import { AppNav, type NavSection } from "./app-nav";
 
-export function MobileAppNav({ sections, user }: { sections: NavSection[]; user: { name: string; email: string | null; roleLabel: string } }) {
+export function MobileAppNav({ sections, user, avatar = false }: { sections: NavSection[]; user: { name: string; email: string | null; roleLabel: string }; avatar?: boolean }) {
   const [open, setOpen] = useState(false);
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <button type="button" className="inline-flex size-10 items-center justify-center rounded-md hover:bg-muted" aria-label="Open navigation">
-          <Menu className="size-5" />
-        </button>
+        {avatar ? (
+          <button type="button" className="inline-flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-orange-600 text-base font-extrabold text-white shadow-sm" aria-label="Open my menu">
+            {(user.name.trim()[0] ?? "S").toUpperCase()}
+          </button>
+        ) : (
+          <button type="button" className="inline-flex size-10 items-center justify-center rounded-md hover:bg-muted" aria-label="Open navigation">
+            <Menu className="size-5" />
+          </button>
+        )}
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-40 bg-ink/30" />

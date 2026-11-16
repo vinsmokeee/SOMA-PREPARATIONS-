@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
+import { Bell } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { AppNav, type NavSection } from "./app-nav";
 import { BottomNav } from "./bottom-nav";
@@ -9,11 +11,16 @@ export function AppShell({
   user,
   area,
   children,
+  stage = "PE",
+  unread = 0,
 }: {
   sections: NavSection[];
   user: { name: string; email: string | null; roleLabel: string };
   area: "student" | "admin";
   children: ReactNode;
+  /** Student area: exam for the bottom tabs, and unread notifications for the bell. */
+  stage?: "PE" | "ME";
+  unread?: number;
 }) {
   return (
     <div className="flex min-h-full flex-1 flex-col lg:flex-row">
@@ -27,10 +34,21 @@ export function AppShell({
         <UserBlock user={user} />
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-background/95 px-4 backdrop-blur lg:hidden">
-          <Logo href={area === "admin" ? "/admin" : "/dashboard"} />
-          <MobileAppNav sections={sections} user={user} />
-        </header>
+        {area === "student" ? (
+          <header className="sticky top-0 z-30 grid h-16 grid-cols-[2.5rem_1fr_2.5rem] items-center gap-2 border-b border-border bg-background/95 px-4 backdrop-blur lg:hidden">
+            <MobileAppNav sections={sections} user={user} avatar />
+            <Logo href="/dashboard" className="justify-self-center" />
+            <Link href="/dashboard/notifications" className="relative inline-flex size-10 items-center justify-center rounded-full hover:bg-muted" aria-label={`Notifications${unread ? `: ${unread} new` : ""}`}>
+              <Bell className="size-5 text-ink" aria-hidden />
+              {unread ? <span className="absolute right-0.5 top-0.5 flex min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[11px] font-bold text-white">{unread > 9 ? "9+" : unread}</span> : null}
+            </Link>
+          </header>
+        ) : (
+          <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-background/95 px-4 backdrop-blur lg:hidden">
+            <Logo href="/admin" />
+            <MobileAppNav sections={sections} user={user} />
+          </header>
+        )}
         {area === "admin" ? (
           <div className="border-b border-border bg-ink px-4 py-1.5 text-center text-xs font-medium text-white/85 lg:px-8 lg:text-left">
             Administration · changes here affect the live platform and are recorded in the audit log
@@ -40,7 +58,7 @@ export function AppShell({
           <div className="mx-auto w-full max-w-6xl">{children}</div>
         </main>
       </div>
-      {area === "student" ? <BottomNav /> : null}
+      {area === "student" ? <BottomNav stage={stage} /> : null}
     </div>
   );
 }
