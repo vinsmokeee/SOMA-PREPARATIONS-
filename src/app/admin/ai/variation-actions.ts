@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { z } from "zod";
 import type { ActionState } from "@/components/app/action-form";
 import { assertPermission, AuthorizationError, can, getCurrentUser } from "@/lib/auth/dal";
@@ -28,11 +29,16 @@ export async function generateVariationsAction(_prev: ActionState, formData: For
   if (!source.success) return { status: "error", message: "Choose a source question." };
   if (!types.success) return { status: "error", message: types.error.issues[0]?.message ?? "Choose variation types." };
   const db = await createClient();
-  const r = await generateVariations(db, source.data, types.data);
-  revalidatePath("/admin/ai/review");
-  revalidatePath("/admin/ai");
-  return { status: r.ok ? "success" : "error", message: r.ok ? `${r.message} Estimated cost: $${r.cost.toFixed(3)}.` : r.message };
+  const { data: src } = await db.from("questions").select("status").eq("id", source.data).maybeSingle();
+  if (!src || !["verified", "published"].includes(src.status)) return { status: "error", message: "Use a verified or published question as the source." };
+  // Writing and checking takes 1–2 minutes: run it after the response, so a
+  // slow mobile connection never has to hold the request open.
+  after(() => generateVariations(db, source.data, types.data).then(() => undefined, (e) => console.error("variations failed", e)));
+  return { status: "success", message: started("1–2 minutes") };
 }
+
+const started = (time: string) =>
+  `Started. The AI is writing and checking the drafts; they appear in Review AI drafts in ${time}. Refresh this page to see the result and cost under Recent runs.`;
 
 /** Variations for several sources in one subject: least-varied sources first, past-paper questions first. */
 export async function batchVariationsAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
@@ -55,17 +61,12 @@ export async function batchVariationsAction(_prev: ActionState, formData: FormDa
       || Number(b.origin === "historical_official") - Number(a.origin === "historical_official")
       || a.created_at.localeCompare(b.created_at))
     .slice(0, count.data);
-  let created = 0, flagged = 0, cost = 0;
-  const errors: string[] = [];
-  for (const p of picked) {
-    const r = await generateVariations(db, p.id, types.data);
-    created += r.created; flagged += r.flagged; cost += r.cost;
-    if (!r.ok) errors.push(r.message);
-  }
-  revalidatePath("/admin/ai/review");
-  revalidatePath("/admin/ai");
-  const msg = `${created} variation${created === 1 ? "" : "s"} from ${picked.length} question${picked.length === 1 ? "" : "s"}${flagged ? ` (${flagged} flagged)` : ""}. Estimated cost: $${cost.toFixed(3)}.${errors.length ? ` Problems: ${[...new Set(errors)].join(" ")}` : ""}`;
-  return { status: created ? "success" : "error", message: msg };
+  after(async () => {
+    for (const p of picked) {
+      await generateVariations(db, p.id, types.data).then(() => undefined, (e) => console.error("variations failed", e));
+    }
+  });
+  return { status: "success", message: `${picked.length} question${picked.length === 1 ? "" : "s"} chosen. ${started(`about ${picked.length * 2} minutes`)}` };
 }
 
 const REVIEW_ERRORS: Record<string, string> = {
