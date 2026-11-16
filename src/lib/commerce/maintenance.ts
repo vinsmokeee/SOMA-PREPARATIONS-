@@ -12,9 +12,11 @@ import { createAdminClient } from "@/lib/supabase/admin";
 export async function runCommerceMaintenance() {
   const db = createAdminClient();
   const { data: maint, error } = await db.rpc("run_commerce_maintenance");
+  // Daily training: evening streak reminders and the Sunday weekly report.
+  const { data: training } = await db.rpc("run_training_maintenance");
   const reconcile = await reconcilePending().catch(() => ({ checked: 0, activated: 0, failed: 0 }));
   const emails = await sendQueuedEmails().catch(() => ({ sent: 0, failed: 0, skipped: true }));
-  return { maintenance: error ? { error: error.message } : maint, reconcile, emails };
+  return { maintenance: error ? { error: error.message } : maint, training, reconcile, emails };
 }
 
 export async function sendQueuedEmails(limit = 50) {

@@ -18,14 +18,32 @@ approval before the next one starts.
 
 | Phase | Scope | Status |
 | --- | --- | --- |
-| 1 | Examination architecture: pathways, 31 specialisations, Paper II groups, paper settings with their source, PE sections, cut-off history, entry-based question delivery | **Built — awaiting approval** |
+| 1 | Examination architecture: pathways, 31 specialisations, Paper II groups, paper settings with their source, PE sections, cut-off history, entry-based question delivery | Complete (deployed) |
 | 2 | PDF reading (scanned + Dzongkha) and the historical bank (extends M3) | Planned — needs 4 sample PDFs |
-| 3 | Daily personalised training | Planned |
+| 3 | Daily personalised training | **Built — awaiting approval** |
 | 4 | AI question variations (extends M6) | Planned |
 | 5 | Batch processing and pattern reports (4A + 8) | Planned |
 | 6 | Dzongkha reference, integration, launch checks | Planned |
 
 The audit and roadmap are in the founder's doc "Soma Master Plan — Audit and Roadmap".
+
+## Phase 3 — what was built
+
+| Feature | Status |
+| --- | --- |
+| A plan for today for every student, created automatically on first visit each day (no admin work) | Built — SQL-tested |
+| Repeating cycle (default 30 days): foundation → development → improvement → revision; exam-readiness when the exam date is near | Built — SQL-tested |
+| Practice chosen from the student's own pathway/entry: least-covered section first (coverage), weakest section in the improvement phase, unseen questions first, nothing answered in the last 3 days | Built |
+| Spaced repetition of mistakes (1, 3, 7, 14, 30 days; mastered after box 5) | Built — SQL-tested |
+| Weak-topic sets, Question of the Day, written-answer practice (ME pathways) | Built |
+| Weekly tests (days 7/14/21/28), fortnightly revision tests (15/29), monthly mock (last day; a published mock when one fits, otherwise generated) | Built — SQL-tested |
+| Streaks with rest days (one missed day forgiven per rest day, earned every 7 days), 13 badges, personal bests, weekly challenge | Built — SQL-tested |
+| "Today's training" card on the dashboard and a full training page | Built — browser-tested (preview harness) |
+| Evening streak reminders and a Sunday weekly report (in-app; e-mail once a provider is set) | Built |
+| Admin: Daily training page with usage figures and editable plan settings | Built |
+
+Not built (by design or later): leaderboards (optional; privacy-sensitive, can be added opt-in);
+plans are only as good as the published question bank — with few questions, plans are short.
 
 ## Phase 1 — what was built
 

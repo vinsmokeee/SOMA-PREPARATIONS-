@@ -237,3 +237,17 @@ Or paste each migration, in order, into the Supabase SQL editor.
   students only offered entries, and locks the entry while the student has ME access
   (administrators can change it).
 
+## Daily training (master plan Phase 3)
+
+- `ensure_today_plan()` creates the caller's plan on first request each Bhutan day
+  (`daily_plans` + `daily_plan_items`). Questions come only from `practice_pool()`, so
+  publication, access and entry rules apply automatically. Settings: `app_settings`
+  key `training.config` (read through `training_config()`).
+- `start_plan_item()` builds a personal exam for the item (or opens a linked mock, the
+  Question of the Day or a written practice) and starts an ordinary attempt.
+- Trigger `exam_attempts_finished` → `on_attempt_finished()`: updates the
+  `revision_queue` (Leitner boxes), marks plan items done, records activity for
+  streaks (`training_stats`, `register_activity`) and awards `achievements`.
+- `run_training_maintenance()` (scheduler, service role) sends evening streak reminders
+  and the Sunday weekly report. `training_overview()` feeds the admin page.
+

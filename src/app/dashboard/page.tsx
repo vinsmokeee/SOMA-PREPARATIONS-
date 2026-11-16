@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { QuickPractice } from "@/components/student/practice-builder";
+import { TodayPlan } from "@/components/training/today-plan";
+import type { TrainingData } from "@/lib/training/model";
 import { requireUser } from "@/lib/auth/dal";
 import { accuracy, readiness, recommendations, type Performance } from "@/lib/analytics";
 import { loadLearningData } from "@/lib/analytics-server";
@@ -36,7 +38,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
   const welcome = params.welcome === "1";
 
   const supabase = await createClient();
-  const [attempts, entitlements, learning, profile, unread] = await Promise.all([
+  const [attempts, entitlements, learning, profile, unread, training] = await Promise.all([
     supabase
       .from("exam_attempts")
       .select("id, status, started_at, score, max_score, exams(title, stage)")
@@ -46,7 +48,9 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
     loadLearningData(),
     supabase.from("profiles").select("onboarded_at").eq("id", user.id).maybeSingle(),
     supabase.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null),
+    supabase.rpc("my_training"),
   ]);
+  const today = (training.data ?? null) as TrainingData | null;
   const perf = learning.performance;
   const next = perf ? recommendations(perf, learning.options, 2) : [];
   const attemptRows = (attempts.data ?? []) as unknown as AttemptRow[];
@@ -66,6 +70,20 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
         ) : null}
         {unread.count ? <Alert tone="info">You have {unread.count} new notification{unread.count === 1 ? "" : "s"}. <Link href="/dashboard/notifications" className="font-medium text-primary underline">View</Link></Alert> : null}
         {welcome ? <Alert tone="success" title="Your account is ready">Start with a free sample examination from <Link href="/dashboard/exams" className="font-medium text-primary underline">Examinations</Link>.</Alert> : null}
+
+        {today ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>Today&apos;s training</CardTitle>
+              <CardDescription>
+                Your plan is ready. <Link href="/dashboard/training" className="font-medium text-primary hover:underline">See streak, badges and progress</Link>
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <TodayPlan data={today} />
+            </CardContent>
+          </Card>
+        ) : null}
 
         <div className="grid gap-4 md:grid-cols-3">
           <StageCard icon={<BookOpenCheck className="size-5 text-primary" aria-hidden />} title="PE preparation" stage="PE" perf={perf} />
