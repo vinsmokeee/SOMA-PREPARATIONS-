@@ -19,6 +19,7 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
         ...item("/admin/exam-structure", "Examination structure", "exam_config.manage"),
         ...item("/admin/syllabus", "Subjects & topics", "syllabus.manage"),
         ...item("/admin/exams", "Examinations", "exams.manage"),
+        ...item("/admin/training", "Daily training", "reports.view"),
       ],
     },
     {

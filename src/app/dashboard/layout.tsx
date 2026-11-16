@@ -9,7 +9,7 @@ export const instant = false;
 export default async function DashboardLayout({ children }: LayoutProps<"/dashboard">) {
   const user = await requireUser("/dashboard");
   const sections: NavSection[] = [
-    { items: [{ href: "/dashboard", label: "Overview", exact: true }] },
+    { items: [{ href: "/dashboard", label: "Overview", exact: true }, { href: "/dashboard/training", label: "Today's training" }] },
     {
       title: "Prepare",
       items: [
