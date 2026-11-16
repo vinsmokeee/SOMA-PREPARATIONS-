@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Bell } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { AppNav, type NavSection } from "./app-nav";
+import { BackButton } from "./back-button";
 import { BottomNav } from "./bottom-nav";
 import { MobileAppNav } from "./mobile-app-nav";
 
@@ -55,7 +56,7 @@ export function AppShell({
           </div>
         ) : null}
         <main id="main" className={area === "student" ? "flex-1 px-4 pb-28 pt-5 sm:px-6 lg:px-10 lg:py-10" : "flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-10"}>
-          <div className="mx-auto w-full max-w-6xl">{children}</div>
+          <div className="mx-auto w-full max-w-6xl">{area === "student" ? <BackButton /> : null}{children}</div>
         </main>
       </div>
       {area === "student" ? <BottomNav stage={stage} /> : null}

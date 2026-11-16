@@ -1,14 +1,13 @@
 import { ME_RESULT_NOTE } from "@/lib/exam/entry";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Check } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Check, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container, PageHeader } from "@/components/ui/container";
 import { DataUnavailable, FixtureDataNotice } from "@/components/site/official";
 import { getPublicPackages } from "@/lib/data/public";
 import type { PackageSummary } from "@/lib/data/types";
-import { formatDate, formatNu } from "@/lib/utils";
+import { cn, formatDate, formatNu } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Packages and pricing",
@@ -33,7 +32,7 @@ export default async function PackagesPage() {
             <div className="grid gap-6 lg:grid-cols-3">
               <FreeTier />
               {result.data.map((p) => (
-                <PackageCard key={p.id} pkg={p} highlighted={p.includes_pe && !p.includes_me} />
+                <PackageCard key={p.id} pkg={p} />
               ))}
             </div>
           </div>
@@ -59,8 +58,8 @@ export default async function PackagesPage() {
 
 function FreeTier() {
   return (
-    <div className="flex flex-col rounded-xl border border-border p-6 sm:p-7">
-      <p className="font-serif text-xl font-semibold text-ink">Free</p>
+    <div className="flex flex-col rounded-3xl bg-white p-6 shadow-sm ring-1 ring-border sm:p-7">
+      <p className="text-xl font-extrabold text-ink">Free</p>
       <p className="mt-1 text-sm text-muted-foreground">Try the platform before you decide</p>
       <p className="mt-6 text-4xl font-semibold tracking-tight text-ink">Nu. 0</p>
       <ul className="mt-6 flex-1 space-y-3">
@@ -77,34 +76,37 @@ function FreeTier() {
   );
 }
 
-function PackageCard({ pkg, highlighted }: { pkg: PackageSummary; highlighted: boolean }) {
+function PackageCard({ pkg }: { pkg: PackageSummary }) {
   const comingSoon = pkg.status === "coming_soon";
+  const me = pkg.includes_me && !pkg.includes_pe;
   return (
-    <div className={highlighted ? "flex flex-col rounded-xl border-2 border-primary p-6 sm:p-7" : "flex flex-col rounded-xl border border-border p-6 sm:p-7"}>
-      <div className="flex items-start justify-between gap-3">
-        <p className="font-serif text-xl font-semibold text-ink">{pkg.name}</p>
-        {comingSoon ? <Badge>Coming soon</Badge> : null}
+    <div className={cn("relative flex flex-col overflow-hidden rounded-3xl bg-gradient-to-br p-6 text-white shadow-xl sm:p-7",
+      me ? "from-rose-500 via-[#9b2c4b] to-[#5b1530]" : "from-amber-400 via-orange-500 to-orange-700")}>
+      <span className="absolute -right-8 -top-8 size-36 rounded-full bg-white/10" aria-hidden />
+      <div className="relative flex items-start justify-between gap-3">
+        <p className="flex items-center gap-2 text-xl font-extrabold"><Crown className="size-5 text-yellow-200" aria-hidden />{pkg.name}</p>
+        {comingSoon ? <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-bold">Coming soon</span> : null}
       </div>
-      {pkg.tagline ? <p className="mt-1 text-sm text-muted-foreground">{pkg.tagline}</p> : null}
-      <p className="mt-6 text-4xl font-semibold tracking-tight text-ink">{formatNu(pkg.price)}</p>
+      {pkg.tagline ? <p className="relative mt-1 text-sm text-white/85">{pkg.tagline}</p> : null}
+      <p className="relative mt-5 text-4xl font-black tracking-tight">{formatNu(pkg.price)}</p>
       {pkg.promo_price !== null ? (
-        <p className="mt-1 text-sm font-medium text-primary">
+        <p className="relative mt-1 text-sm font-semibold text-yellow-100">
           Promotional price {formatNu(pkg.promo_price)}
           {pkg.promo_starts_at || pkg.promo_ends_at
             ? ` (${pkg.promo_starts_at ? `from ${formatDate(pkg.promo_starts_at)}` : ""}${pkg.promo_ends_at ? ` until ${formatDate(pkg.promo_ends_at)}` : ""})`
             : ""}
         </p>
       ) : null}
-      {pkg.cycle_name ? <p className="mt-2 text-sm text-muted-foreground">For {pkg.cycle_name}</p> : null}
-      <ul className="mt-6 flex-1 space-y-3">
+      {pkg.cycle_name ? <p className="relative mt-2 text-sm text-white/85">For {pkg.cycle_name}</p> : null}
+      <ul className="relative mt-5 flex-1 space-y-2.5">
         {pkg.features.map((f) => (
           <li key={f} className="flex gap-2.5 text-[15px]">
-            <Check className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden /> {f}
+            <Check className="mt-0.5 size-4 shrink-0 text-yellow-200" aria-hidden /> {f}
           </li>
         ))}
       </ul>
-      <div className="mt-6 rounded-lg bg-muted px-4 py-3 text-sm text-muted-foreground">
-        <span className="font-medium text-ink">Access: </span>
+      <div className="relative mt-5 rounded-2xl bg-white/15 px-4 py-3 text-sm text-white/90">
+        <span className="font-bold text-white">Access: </span>
         {pkg.access_days
           ? `${pkg.access_days} days from activation`
           : pkg.access_ends_at
@@ -113,19 +115,19 @@ function PackageCard({ pkg, highlighted }: { pkg: PackageSummary; highlighted: b
         {pkg.terms ? <p className="mt-1">{pkg.terms}</p> : null}
       </div>
       {comingSoon ? (
-        <Button className="mt-6 h-11" disabled aria-describedby={`${pkg.slug}-soon`}>
-          Purchasing opens soon
-        </Button>
+        <>
+          <button type="button" disabled aria-describedby={`${pkg.slug}-soon`} className="relative mt-5 h-12 rounded-2xl bg-white/25 text-base font-bold text-white">
+            Purchasing opens soon
+          </button>
+          <p id={`${pkg.slug}-soon`} className="relative mt-2 text-center text-xs text-white/85">
+            Create a free account now — you can upgrade once sales open.
+          </p>
+        </>
       ) : (
-        <Button asChild className="mt-6 h-11">
-          <Link href={`/dashboard/subscription/checkout/${pkg.slug}`}>Get {pkg.name}</Link>
-        </Button>
+        <Link href={`/dashboard/subscription/checkout/${pkg.slug}`} className={cn("relative mt-5 flex h-12 items-center justify-center rounded-2xl bg-white text-base font-bold", me ? "text-[#881337]" : "text-[#9a3412]")}>
+          Get {pkg.name}
+        </Link>
       )}
-      {comingSoon ? (
-        <p id={`${pkg.slug}-soon`} className="mt-2 text-center text-xs text-muted-foreground">
-          Create a free account now — you can upgrade once sales open.
-        </p>
-      ) : null}
     </div>
   );
 }

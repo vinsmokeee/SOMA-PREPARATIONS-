@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { ExamChooser } from "@/components/student/exam-flow";
+import { ChooserInfo } from "@/components/student/exam-info";
+import { loadPackage } from "@/lib/student/area";
 import { Alert } from "@/components/ui/alert";
 import { requireUser } from "@/lib/auth/dal";
 import { loadExamState } from "@/lib/student/exam-state";
@@ -29,6 +31,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
     <>
       {notice ? <Alert tone={notice.tone} className="mx-auto mb-4 max-w-lg">{notice.text}</Alert> : null}
       <ExamChooser firstName={user.fullName.split(" ")[0] ?? ""} status={{ PE: status("PE"), ME: status("ME") }} />
+      <ChooserInfo packages={{ PE: await loadPackage("PE"), ME: await loadPackage("ME") }} />
     </>
   );
 }
