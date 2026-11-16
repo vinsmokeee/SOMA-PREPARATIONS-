@@ -24,7 +24,7 @@ export async function SiteFooter() {
             <p className="text-sm font-semibold text-ink">{group}</p>
             <ul className="mt-3 space-y-2">
               {links.map((l) => (
-                <li key={l.href}>
+                <li key={l.label}>
                   <Link href={l.href} className="text-sm text-muted-foreground hover:text-ink">
                     {l.label}
                   </Link>

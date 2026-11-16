@@ -98,7 +98,7 @@ export function PackageChoice({ stage, entryLabel, pkg, free, onFree = false }: 
           <p className="relative mt-2 text-sm">Premium details are coming soon.</p>
         )}
       </div>
-      <div className="order-last"><WhyPremium stage={stage} pkg={pkg} /></div>
+      <div className="order-last"><WhyPremium stage={stage} /></div>
     </div>
   );
 }

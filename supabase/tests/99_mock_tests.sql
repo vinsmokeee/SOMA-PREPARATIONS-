@@ -2,6 +2,7 @@ begin;
 select tests.create_user('mt-free@test.bt', 'Free') as f \gset
 select tests.create_user('mt-paid@test.bt', 'Paid') as p \gset
 select tests.create_user('mt-boss@test.bt') as b \gset
+select tests.create_user('mt-free2@test.bt', 'Free two') as f2 \gset
 insert into public.user_roles (user_id, role) values (:'b', 'super_admin');
 set local role authenticated;
 select tests.login(:'b');
@@ -29,12 +30,21 @@ select tests.assert(public.start_attempt(:'ex') = :'a1'::uuid, 'resuming the ope
 select public.submit_attempt(:'a1');
 select tests.assert_fails(format($$select public.start_attempt(%L)$$, :'ex'), 'second free test on the same day asks for Premium');
 select tests.assert_fails($$select public.create_mock_test('PE')$$, 'free accounts cannot create new mock tests');
+select tests.assert_fails($$select public.create_practice_set('PE')$$, 'free practice after today''s test asks for Premium');
+
+-- Free practice: the first practice of the day works, the next asks for Premium
+select tests.login(:'f2');
+select public.create_practice_set('PE', _count => 5) as fp \gset
+select public.submit_attempt(:'fp');
+select tests.assert_fails($$select public.create_practice_set('PE', _count => 5)$$, 'second free practice on the same day asks for Premium');
+select tests.assert_fails(format($$select public.start_attempt(%L)$$, :'ex'), 'and so does a free mock test after it');
 
 -- Premium: unlimited, and new tests start with unseen questions
 select tests.login(:'p');
 select public.start_attempt(:'ex') as p1 \gset
 select public.submit_attempt(:'p1');
 select tests.assert(public.start_attempt(:'ex') is not null, 'premium can retake the same day');
+select tests.assert(public.create_practice_set('PE', _count => 5) is not null, 'premium practice is unlimited');
 select public.create_mock_test('PE') as m1 \gset
 select tests.assert(jsonb_array_length(public.get_attempt_paper(:'m1') -> 'questions') = 12, 'new mock uses the available questions');
 select tests.assert((select kind from public.exams e join public.exam_attempts a on a.exam_id = e.id where a.id = :'m1') = 'mock', 'it is a mock test');

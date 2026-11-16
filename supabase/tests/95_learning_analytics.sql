@@ -53,6 +53,11 @@ select tests.assert(((:'perf'::jsonb) ->> 'mistakes')::int = 1, 'one mistake pen
 select tests.assert(((:'perf'::jsonb) -> 'by_subject' -> 0 ->> 'answered')::int = 2, 'subject breakdown');
 select tests.assert(jsonb_array_length((:'perf'::jsonb) -> 'trend') = 1, 'trend has the attempt');
 
+-- (free accounts get one practice a day: move the first one to yesterday)
+reset role;
+update public.exam_attempts set started_at = started_at - interval '1 day' where id = :'att';
+set local role authenticated;
+select tests.login(:'s');
 -- Mistakes mode builds a set from the wrong answer only
 select public.create_practice_set('PE', null, null, null, 10, null, 'mistakes') as att2 \gset
 select tests.assert(jsonb_array_length(public.get_attempt_paper(:'att2') -> 'questions') = 1, 'mistakes set contains the one wrong question');

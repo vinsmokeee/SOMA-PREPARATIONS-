@@ -16,7 +16,7 @@ export type StartState = { error?: string };
 
 const START_MESSAGES: Partial<Record<EngineError, string>> = {
   ACCESS_REQUIRED: "This examination is part of a premium package.",
-  FREE_DAILY_LIMIT: "You have taken today's free mock test. Join PE Premium for unlimited mock tests, or come back tomorrow.",
+  FREE_DAILY_LIMIT: "Free accounts get one practice or mock test a day, and you have used today's. Join PE Premium for unlimited practice and mock tests, or come back tomorrow.",
   EXAM_NOT_FOUND: "This examination is not available.",
   EXAM_EMPTY: "This examination has no questions yet.",
   NOT_SIGNED_IN: "Your session has expired. Please sign in again.",

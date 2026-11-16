@@ -14,7 +14,8 @@ export function studentNav(isStaff: boolean): NavSection[] {
       items: [
         { href: "/dashboard/practice", label: "Practice" },
         { href: "/dashboard/exams", label: "Mock tests & papers" },
-        { href: "/dashboard/written", label: "Written answers" },
+        { href: "/dashboard/written", label: "Written answers & AI marking" },
+        { href: "/dashboard/history", label: "Your coach (test results)" },
         { href: "/dashboard/current-affairs", label: "Current affairs" },
         { href: "/dashboard/papers", label: "Past papers" },
       ],
