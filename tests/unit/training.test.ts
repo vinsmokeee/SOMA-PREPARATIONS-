@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { trainingConfigSchema } from "@/lib/validation/training";
-import { BADGES, itemAction, phaseForDay, streakMessage, upcomingAssessments, type TrainingItem } from "@/lib/training/model";
+import { BADGES, itemAction, streakLabel, phaseForDay, streakMessage, upcomingAssessments, type TrainingItem } from "@/lib/training/model";
 
 const stats = { current_streak: 0, best_streak: 0, rest_tokens: 0, active_days: 0, mastered: 0, active_today: false };
 const item = (over: Partial<TrainingItem>): TrainingItem => ({
@@ -36,6 +36,10 @@ describe("motivation", () => {
   it("tells an active student what keeps the streak", () => {
     expect(streakMessage({ ...stats, current_streak: 4 })).toBe("Practise today to make it 5 days in a row.");
     expect(streakMessage({ ...stats, current_streak: 5, active_today: true })).toBe("Day 5 done. See you tomorrow.");
+  });
+  it("labels streaks", () => {
+    expect(streakLabel(0)).toBe("No streak yet");
+    expect(streakLabel(3)).toBe("3-day streak");
   });
   it("has unique badge codes", () => {
     expect(new Set(BADGES.map((b) => b.code)).size).toBe(BADGES.length);

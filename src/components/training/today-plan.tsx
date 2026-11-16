@@ -1,6 +1,6 @@
 import { BookOpenCheck, CalendarCheck2, CheckCircle2, Circle, Flame, History, Newspaper, PenLine, SkipForward, Target, Trophy } from "lucide-react";
 import { ItemButtons } from "@/components/training/item-buttons";
-import { phaseLabel, type ItemKind, type TrainingData } from "@/lib/training/model";
+import { phaseLabel, streakLabel, type ItemKind, type TrainingData } from "@/lib/training/model";
 import { cn } from "@/lib/utils";
 
 const ICONS: Record<ItemKind, typeof BookOpenCheck> = {
@@ -21,7 +21,7 @@ export function TodayPlan({ data }: { data: TrainingData }) {
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
         <span>Day {data.plan.cycle_day} of {data.plan.cycle_days}{data.plan.cycle_no > 1 ? ` · cycle ${data.plan.cycle_no}` : ""}</span>
         <span>{phaseLabel(data.plan.phase)} phase</span>
-        <span className="inline-flex items-center gap-1"><Flame className="size-4 text-warning" aria-hidden /> {data.stats.current_streak}-day streak</span>
+        <span className="inline-flex items-center gap-1"><Flame className="size-4 text-warning" aria-hidden /> {streakLabel(data.stats.current_streak)}</span>
         {data.items.length ? <span>{done} of {data.items.length} done</span> : null}
       </div>
       {data.items.length === 0 ? (
