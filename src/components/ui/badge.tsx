@@ -8,7 +8,7 @@ const badgeVariants = cva(
     variants: {
       tone: {
         neutral: "border-border bg-muted text-muted-foreground",
-        green: "border-transparent bg-primary-soft text-primary",
+        green: "border-transparent bg-success-soft text-success",
         solid: "border-transparent bg-primary text-primary-foreground",
         warning: "border-transparent bg-warning-soft text-warning",
         danger: "border-transparent bg-danger-soft text-danger",

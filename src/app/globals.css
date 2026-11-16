@@ -2,31 +2,33 @@
 
 /*
  * Soma Preparations design tokens.
- * White surfaces, charcoal type, forest-green accent. Light theme by design:
- * the brand is a print-like academic look; examination screens favour
- * maximum contrast and minimal distraction.
+ * Warm Bhutanese palette: saffron and marigold on a soft cream background,
+ * deep maroon for depth. Light theme by design; examination screens keep high
+ * contrast for reading.
  */
 :root {
-  --background: #ffffff;
-  --foreground: #1b1d1c;          /* charcoal */
-  --muted: #f5f6f4;               /* warm off-white surface */
-  --muted-foreground: #5b605d;
-  --subtle: #8a908c;
-  --border: #e4e6e2;
-  --border-strong: #cfd3cd;
-  --primary: #1f5137;             /* forest green */
-  --primary-hover: #183f2b;
+  --background: #fffaf3;          /* soft cream */
+  --foreground: #2a1d17;          /* warm charcoal */
+  --muted: #fdf1e2;               /* light saffron wash */
+  --muted-foreground: #6b5a4e;
+  --subtle: #9a8778;
+  --border: #f0e2cf;
+  --border-strong: #e2cdb2;
+  --primary: #c2410c;             /* saffron */
+  --primary-hover: #9a3412;
   --primary-foreground: #ffffff;
-  --primary-soft: #eaf2ec;
-  --accent: #2e6b49;
-  --ink: #0e100f;                 /* near-black for headings */
-  --danger: #a3261b;
-  --danger-soft: #fbeeec;
-  --warning: #8a5a00;
-  --warning-soft: #fdf5e3;
-  --info-soft: #eef3f8;
-  --ring: #2e6b49;
-  --radius: 0.625rem;
+  --primary-soft: #ffedd5;
+  --accent: #7a1e3a;              /* maroon */
+  --ink: #1f1410;                 /* headings */
+  --danger: #b42318;
+  --danger-soft: #fdecea;
+  --warning: #b45309;
+  --warning-soft: #fef3c7;
+  --info-soft: #eef4fb;
+  --success: #15803d;
+  --success-soft: #dcfce7;
+  --ring: #ea580c;
+  --radius: 0.875rem;
 }
 
 @theme inline {
@@ -49,6 +51,8 @@
   --color-warning-soft: var(--warning-soft);
   --color-info-soft: var(--info-soft);
   --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
