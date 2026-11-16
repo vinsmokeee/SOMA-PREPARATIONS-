@@ -48,7 +48,7 @@ export default async function EditQuestionPage({ params, searchParams }: PagePro
     db.from("rubric_criteria").select("id, label, description, max_marks, position").eq("question_id", id).order("position"),
     db.from("question_references").select("citation, url").eq("question_id", id),
     db.from("content_reviews").select("id, action, from_status, to_status, comment, created_at, reviewer_id").eq("entity_type", "question").eq("entity_id", id).order("created_at", { ascending: false }),
-    db.from("exam_questions").select("exams(title, status)").eq("question_id", id),
+    db.from("exam_questions").select("exams!inner(title, status, owner_id)").eq("question_id", id).is("exams.owner_id", null),
     loadQuestionLookups(),
   ]);
   if (!q) notFound();

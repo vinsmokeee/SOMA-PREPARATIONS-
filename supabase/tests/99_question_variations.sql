@@ -28,4 +28,16 @@ select public.create_practice_set('PE', null, null, null, 5, null, 'mixed') as a
 select public.submit_attempt(:'att');
 select tests.assert((select count(*) from jsonb_array_elements(public.get_attempt_result(:'att') -> 'questions') q where q ->> 'origin' = 'ai_variation') = 1, 'result shows the AI variation origin');
 select tests.assert((select count(*) from jsonb_array_elements(public.get_attempt_result(:'att') -> 'questions') q where q ->> 'origin' = 'original') = 1, 'result shows the original origin');
+
+-- A student's personal practice set does not stop staff withdrawing a question
+select tests.login(:'b');
+select tests.assert(public.review_question(:'v', 'unpublish') = 'verified', 'question in a personal practice set can be unpublished');
+select tests.assert(public.review_question(:'v', 'archive') = 'archived', 'and archived');
+-- A shared published examination still protects its questions
+select public.review_question(:'src', 'unpublish');
+select public.review_question(:'src', 'publish');
+insert into public.exams (slug, title, stage, kind, duration_minutes, is_free, status) values ('qv-shared', 'Shared exam', 'PE', 'mock', 10, true, 'draft') returning id as ex \gset
+insert into public.exam_questions (exam_id, question_id, position) values (:'ex', :'src', 1);
+update public.exams set status = 'published' where id = :'ex';
+select tests.assert_fails(format($$select public.review_question(%L, 'unpublish')$$, :'src'), 'shared published exam still blocks unpublishing');
 rollback;
