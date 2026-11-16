@@ -18,7 +18,7 @@ const STATUS: Record<string, { label: string; tone: "green" | "warning" | "neutr
   failed: { label: "Failed", tone: "danger" }, expired: { label: "Expired", tone: "neutral" },
 };
 
-type Options = { manual_enabled: boolean; manual_instructions: string | null; manual_methods: { label: string; details: string }[]; gateway_provider: string | null; sandbox: boolean };
+type Options = { manual_enabled: boolean; manual_instructions: string | null; manual_methods: { label: string; details: string; image_url?: string }[]; gateway_provider: string | null; sandbox: boolean };
 
 export default async function OrderPage({ params, searchParams }: PageProps<"/dashboard/subscription/order/[id]">) {
   const { id } = await params;
@@ -66,7 +66,14 @@ export default async function OrderPage({ params, searchParams }: PageProps<"/da
               <h2 id="manual-h" className="text-lg font-semibold">Pay by bank transfer or mobile banking</h2>
               {options.manual_instructions ? <p className="mt-2 text-sm leading-relaxed">{options.manual_instructions}</p> : null}
               {options.manual_methods.length ? (
-                <ul className="mt-3 space-y-2">{options.manual_methods.map((m) => <li key={m.label} className="rounded-lg border border-border p-3 text-sm"><p className="font-medium text-ink">{m.label}</p><p className="whitespace-pre-wrap text-muted-foreground">{m.details}</p></li>)}</ul>
+                <ul className="mt-3 space-y-2">{options.manual_methods.map((m) => (
+                  <li key={m.label} className="rounded-lg border border-border p-3 text-sm">
+                    <p className="font-medium text-ink">{m.label}</p>
+                    {/* eslint-disable-next-line @next/next/no-img-element -- payment QR set by Soma */}
+                    {m.image_url ? <img src={m.image_url} alt={`${m.label} QR code — scan to pay`} className="mx-auto my-3 w-56 max-w-full rounded-lg border border-border bg-white p-2" /> : null}
+                    {m.details ? <p className="whitespace-pre-wrap text-muted-foreground">{m.details}</p> : null}
+                    {m.image_url ? <p className="mt-1 text-xs text-muted-foreground">Scan with your banking app (or save the image and open it from the app), then pay exactly {formatNu(o.amount)}.</p> : null}
+                  </li>))}</ul>
               ) : <p className="mt-2 text-sm text-warning">Payment account details have not been published yet. Please contact Soma support.</p>}
               <p className="mt-3 text-sm">Use <b>{o.reference}</b> as the payment remark if your bank allows it.</p>
               <div className="mt-4"><ManualPaymentForm orderId={o.id} amount={Number(o.amount)} userId={user.id} /></div>

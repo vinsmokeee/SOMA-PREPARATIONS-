@@ -9,7 +9,7 @@ import { listProviders } from "@/lib/payments/registry";
 import { createClient } from "@/lib/supabase/server";
 import { cn, formatDate, formatNu, requestTimeMs } from "@/lib/utils";
 import {
-  createCouponAction, grantAction, refundAction, reviewPaymentAction, savePaymentSettingsAction, subscriptionAction, toggleCouponAction,
+  addQrMethodAction, createCouponAction, grantAction, refundAction, removeMethodAction, reviewPaymentAction, savePaymentSettingsAction, subscriptionAction, toggleCouponAction,
 } from "./actions";
 
 export const metadata: Metadata = { title: "Orders & payments" };
@@ -334,11 +334,36 @@ async function Settings({ db, canEdit }: { db: Db; canEdit: boolean }) {
     db.from("app_settings").select("value").eq("key", "payments.config").maybeSingle(),
     db.from("app_settings").select("value").eq("key", "security.config").maybeSingle(),
   ]);
-  const c = (pay?.value ?? {}) as { manual_enabled?: boolean; sandbox_enabled?: boolean; gateway_provider?: string | null; order_expiry_hours?: number; manual_instructions?: string; manual_methods?: { label: string; details: string }[]; expiry_reminder_days?: number[] };
+  const c = (pay?.value ?? {}) as { manual_enabled?: boolean; sandbox_enabled?: boolean; gateway_provider?: string | null; order_expiry_hours?: number; manual_instructions?: string; manual_methods?: { label: string; details: string; image_url?: string }[]; expiry_reminder_days?: number[] };
   const s = (sec?.value ?? {}) as { max_concurrent_sessions?: number };
   const providers = listProviders();
   return (
-    <section className="max-w-2xl rounded-xl border border-border p-5">
+    <div className="max-w-2xl space-y-6">
+    <section className="rounded-xl border border-border p-5">
+      <h2 className="font-semibold text-ink">Payment methods students see</h2>
+      {(c.manual_methods ?? []).length === 0 ? <p className="mt-2 text-sm text-warning">No payment methods yet — students cannot pay until you add one.</p> : (
+        <ul className="mt-3 space-y-3">
+          {(c.manual_methods ?? []).map((m) => (
+            <li key={m.label} className="flex flex-wrap items-start gap-3 rounded-lg border border-border p-3 text-sm">
+              {/* eslint-disable-next-line @next/next/no-img-element -- admin-uploaded QR */}
+              {m.image_url ? <img src={m.image_url} alt={`${m.label} QR code`} className="size-24 rounded border border-border object-contain" /> : null}
+              <div className="min-w-0 flex-1"><p className="font-medium text-ink">{m.label}</p><p className="whitespace-pre-wrap text-muted-foreground">{m.details || "—"}</p></div>
+              {canEdit ? <ActionForm action={removeMethodAction} submitLabel="Remove" variant="danger" className="space-y-0" confirm="Remove this payment method?"><input type="hidden" name="label" value={m.label} /></ActionForm> : null}
+            </li>
+          ))}
+        </ul>
+      )}
+      {canEdit ? (
+        <ActionForm action={addQrMethodAction} submitLabel="Add QR payment method" className="mt-4">
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Field><Label htmlFor="qr-label">Name</Label><Input id="qr-label" name="label" placeholder="T Bank QR" className="h-10" /></Field>
+            <Field><Label htmlFor="qr-file">QR code image</Label><Input id="qr-file" name="qr" type="file" accept="image/png,image/jpeg,image/webp" className="h-10 py-1.5" /></Field>
+          </div>
+          <Field><Label htmlFor="qr-details">Details (optional)</Label><Textarea id="qr-details" name="details" rows={2} placeholder={"Account name: …\nScan with any Bhutanese banking app and pay the exact amount."} /></Field>
+        </ActionForm>
+      ) : null}
+    </section>
+    <section className="rounded-xl border border-border p-5">
       {!canEdit ? <p className="mb-4 text-sm text-warning">Only users with the settings permission can change these.</p> : null}
       <ActionForm action={savePaymentSettingsAction} submitLabel="Save settings">
         <div className="space-y-2 text-sm">
@@ -353,7 +378,7 @@ async function Settings({ db, canEdit }: { db: Db; canEdit: boolean }) {
           <FieldHint>Bank gateways appear here once their adapter is installed (see the Payment Integration Guide).</FieldHint>
         </Field>
         <Field><Label htmlFor="mi">Instructions shown to students</Label><Textarea id="mi" name="manual_instructions" rows={3} defaultValue={c.manual_instructions ?? ""} /></Field>
-        <Field><Label htmlFor="mm">Payment accounts</Label>
+        <Field><Label htmlFor="mm">Payment accounts (text)</Label>
           <Textarea id="mm" name="manual_methods" rows={7} defaultValue={(c.manual_methods ?? []).map((m) => `${m.label}\n${m.details}`).join("\n\n")} placeholder={"Bank of Bhutan transfer\nAccount name: …\nAccount number: …\n\nmBoB / mPay\nScan the QR or pay to …"} />
           <FieldHint>First line = name of the method, following lines = details. Leave a blank line between methods.</FieldHint>
         </Field>
@@ -364,5 +389,6 @@ async function Settings({ db, canEdit }: { db: Db; canEdit: boolean }) {
         </div>
       </ActionForm>
     </section>
+    </div>
   );
 }
