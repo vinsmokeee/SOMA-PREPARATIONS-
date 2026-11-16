@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { ACCESS_COOKIE, accessToken, isOpenPath } from "@/lib/site-access";
 
 /**
  * Runs before protected routes:
@@ -10,8 +11,26 @@ import { createServerClient } from "@supabase/ssr";
  * re-verifies the user (lib/auth/dal.ts) and the database enforces RLS.
  */
 const PROTECTED_PREFIXES = ["/dashboard", "/admin", "/exam"];
+// Paths that need the Supabase session refreshed here (others skip the auth call).
+const SESSION_PREFIXES = ["/dashboard", "/admin", "/exam", "/login", "/register", "/auth", "/reset-password", "/verify-device", "/pay"];
 
 export async function proxy(request: NextRequest) {
+  // Private preview mode (SITE_ACCESS_CODE set): everything except /access and machine endpoints needs the code.
+  const code = process.env.SITE_ACCESS_CODE;
+  if (code && !isOpenPath(request.nextUrl.pathname)) {
+    const ok = request.cookies.get(ACCESS_COOKIE)?.value === (await accessToken(code));
+    if (!ok) {
+      const gate = request.nextUrl.clone();
+      gate.pathname = "/access";
+      gate.search = "";
+      gate.searchParams.set("next", request.nextUrl.pathname + request.nextUrl.search);
+      return NextResponse.redirect(gate);
+    }
+  }
+  if (!SESSION_PREFIXES.some((p) => request.nextUrl.pathname === p || request.nextUrl.pathname.startsWith(`${p}/`))) {
+    return NextResponse.next();
+  }
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   const { pathname, search } = request.nextUrl;
@@ -76,5 +95,6 @@ function redirectToLogin(request: NextRequest, next: string, carry?: NextRespons
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*", "/exam/:path*", "/login", "/register", "/auth/:path*", "/reset-password"],
+  // Every page (for private preview mode); static files and images are skipped.
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|icon|apple-icon|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml|woff2?)$).*)"],
 };

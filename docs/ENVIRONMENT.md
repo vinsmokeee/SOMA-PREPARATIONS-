@@ -17,6 +17,7 @@ same variables in Project → Settings → Environment Variables.
 | `AI_PROVIDER` | server | No | Optional | `anthropic` (default). The AI layer is provider-agnostic (`lib/ai/provider.ts`); other adapters can be added. |
 | `AI_MODEL` | server | No | Optional | Overrides the default model `claude-opus-5-5`. |
 
+| `SITE_ACCESS_CODE` | server | **Yes** | Optional | **Private preview mode.** When set, every page first asks for this code (stored as a hash in a 30-day cookie) and search engines are told not to index the site. Remove it (and redeploy) to open the site to the public. Use a long code (e.g. 4 random words). |
 | `PAYMENT_SANDBOX_SECRET` | server | **Yes** | Optional | Signs test-gateway notifications; defaults to a value derived from `SUPABASE_SECRET_KEY` |
 | `RESEND_API_KEY`, `EMAIL_FROM` | server | **Yes** / No | Optional | E-mail notifications (needs your own domain, e.g. `Soma <no-reply@yourdomain>`). Without them notifications are in-app only |
 | Bank gateway variables | server | **Yes** | When a bank is integrated | Defined by the bank adapter — see `docs/PAYMENT_INTEGRATION_GUIDE.md` |
