@@ -36,7 +36,7 @@ export function ProfileForm({ values, cycles }: { values: ProfileValues; cycles:
         <FieldError>{fe.dzongkhag}</FieldError>
       </Field>
       <Field>
-        <Label htmlFor="targetCycle">Preparing for (optional)</Label>
+        <Label htmlFor="targetCycle">Exam year (optional)</Label>
         <Select id="targetCycle" name="targetCycle" defaultValue={values.targetCycle}>
           <option value="">Not decided</option>
           {cycles.map((c) => <option key={c} value={c}>{c}</option>)}
