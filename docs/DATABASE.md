@@ -251,3 +251,15 @@ Or paste each migration, in order, into the Supabase SQL editor.
 - `run_training_maintenance()` (scheduler, service role) sends evening streak reminders
   and the Sunday weekly report. `training_overview()` feeds the admin page.
 
+## AI question variations (master plan Phase 4)
+
+- `questions.parent_question_id` links a variation to its source; `variation_type`
+  records how it differs; `ai_review` holds the automatic pre-review result
+  (`verdict` pass/flag, `issues`, writer's notes). Origin `ai_variation` marks
+  variations; `ai_generated` marks new questions (including "same objective").
+- The review workflow is unchanged: AI drafts start as `ai_generated` and can only be
+  published after a reviewer verifies them.
+- `get_attempt_result` now returns each question's `origin` and `source_year` so
+  results can say where a question comes from. `ai_question_overview()` feeds the
+  admin pages.
+
