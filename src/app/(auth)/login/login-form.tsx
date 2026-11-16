@@ -13,11 +13,18 @@ export function LoginForm() {
   const [state, action, pending] = useActionState<AuthState, FormData>(signIn, { status: "idle" });
   const fe = state.fieldErrors ?? {};
   const linkError = params.get("error") === "link";
+  const notice = params.get("notice");
 
   return (
     <form action={action} className="space-y-5" noValidate>
       {linkError && state.status === "idle" ? (
         <Alert tone="warning">That link is invalid or has expired. Please sign in or request a new link.</Alert>
+      ) : null}
+      {notice === "revoked" && state.status === "idle" ? (
+        <Alert tone="warning">You were signed out because your account was used on another device or signed out from your security page. Sign in again to continue. One subscription is for one student.</Alert>
+      ) : null}
+      {notice === "restricted" && state.status === "idle" ? (
+        <Alert tone="danger">This account is restricted. Please contact Soma support.</Alert>
       ) : null}
       {state.message ? <Alert tone="danger">{state.message}</Alert> : null}
       <input type="hidden" name="next" value={params.get("next") ?? "/dashboard"} />

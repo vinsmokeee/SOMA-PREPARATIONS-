@@ -50,6 +50,9 @@ export const footerNav = {
   ],
   Legal: [
     { href: "/terms", label: "Terms of use" },
+    { href: "/subscription-terms", label: "Subscription terms" },
+    { href: "/refunds", label: "Refunds" },
+    { href: "/account-policy", label: "Account sharing" },
     { href: "/privacy", label: "Privacy" },
     { href: "/disclaimer", label: "Disclaimer" },
   ],

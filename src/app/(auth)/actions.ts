@@ -25,10 +25,26 @@ export async function signIn(_prev: AuthState, formData: FormData): Promise<Auth
     if (error.code === "email_not_confirmed") {
       return { status: "error", message: "Please confirm your email address first. Check your inbox for the confirmation link." };
     }
+    await recordFailedLogin(parsed.data.email);
     // Deliberately generic: do not reveal whether the email exists.
     return { status: "error", message: "The email or password is incorrect." };
   }
   redirect(safeRedirectPath(formData.get("next")));
+}
+
+/** Records a failed sign-in for risk checks (by e-mail hash; never reveals whether the account exists). */
+async function recordFailedLogin(email: string) {
+  if (!process.env.SUPABASE_SECRET_KEY) return;
+  try {
+    const [{ createHash }, { headers }, { createAdminClient }] = await Promise.all([import("node:crypto"), import("next/headers"), import("@/lib/supabase/admin")]);
+    const country = (await headers()).get("x-vercel-ip-country");
+    await createAdminClient().rpc("record_failed_login", {
+      _email_hash: createHash("sha256").update(email.trim().toLowerCase()).digest("hex"),
+      _country: country && /^[A-Z]{2}$/.test(country) ? country : null,
+    });
+  } catch {
+    // monitoring must never block sign-in
+  }
 }
 
 export async function signUp(_prev: AuthState, formData: FormData): Promise<AuthState> {
@@ -96,4 +112,22 @@ export async function updatePassword(_prev: AuthState, formData: FormData): Prom
     return { status: "error", message: "Your password could not be updated. Please request a new link." };
   }
   redirect("/dashboard?notice=password-updated");
+}
+
+/** Sends a one-time sign-in link to the signed-in user's own e-mail (device confirmation). */
+export async function sendDeviceLink(_prev: AuthState, formData: FormData): Promise<AuthState> {
+  if (!isSupabaseConfigured()) return NOT_CONFIGURED;
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+  const email = typeof data?.claims?.email === "string" ? data.claims.email : null;
+  if (!email) return { status: "error", message: "Please sign in again." };
+  const next = safeRedirectPath(formData.get("next"));
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: { shouldCreateUser: false, emailRedirectTo: `${siteConfig.url}/auth/confirm?next=${encodeURIComponent(next)}` },
+  });
+  if (error) {
+    return { status: "error", message: error.code === "over_email_send_rate_limit" ? "Too many e-mails were sent recently. Please wait a few minutes and try again." : "The link could not be sent. Please try again." };
+  }
+  return { status: "success", message: "Check your e-mail and open the link on this device." };
 }

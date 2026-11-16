@@ -116,7 +116,7 @@ function PackageCard({ pkg, highlighted }: { pkg: PackageSummary; highlighted: b
         </Button>
       ) : (
         <Button asChild className="mt-6 h-11">
-          <Link href={`/register?package=${pkg.slug}`}>Get {pkg.name}</Link>
+          <Link href={`/dashboard/subscription/checkout/${pkg.slug}`}>Get {pkg.name}</Link>
         </Button>
       )}
       {comingSoon ? (

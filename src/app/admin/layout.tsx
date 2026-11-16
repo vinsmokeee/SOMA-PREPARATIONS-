@@ -10,7 +10,6 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
 
   const item = (href: string, label: string, permission: Permission, exact = false): NavItem[] =>
     can(user, permission) ? [{ href, label, exact }] : [];
-  const later = (href: string, label: string, milestone: string): NavItem => ({ href, label, milestone });
 
   const sections: NavSection[] = [
     { items: [{ href: "/admin", label: "Overview", exact: true }, { href: "/admin/status", label: "Setup status" }] },
@@ -38,8 +37,9 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
       title: "Business",
       items: [
         ...item("/admin/packages", "Packages & pricing", "packages.manage"),
-        later("/admin/orders", "Orders & payments", "M8"),
+        ...item("/admin/commerce", "Orders & payments", "payments.verify"),
         ...item("/admin/users", "Users & roles", "users.manage"),
+        ...item("/admin/security", "Account security", "users.manage"),
         ...item("/admin/messages", "Support messages", "support.manage"),
         ...item("/admin/audit", "Audit log", "audit.read"),
       ],

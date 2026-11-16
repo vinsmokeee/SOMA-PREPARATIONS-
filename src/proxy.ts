@@ -42,10 +42,22 @@ export async function proxy(request: NextRequest) {
     },
   });
 
+  // A random, http-only device identifier for account security (recognised devices).
+  let newDeviceId: string | null = null;
+  if (!request.cookies.get("soma_did")) {
+    const bytes = crypto.getRandomValues(new Uint8Array(32));
+    newDeviceId = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+    request.cookies.set("soma_did", newDeviceId);
+    response = NextResponse.next({ request });
+  }
+
   // getClaims() validates the JWT and refreshes the session when needed.
   const { data } = await supabase.auth.getClaims();
   const signedIn = Boolean(data?.claims?.sub);
 
+  if (newDeviceId) {
+    response.cookies.set("soma_did", newDeviceId, { httpOnly: true, secure: true, sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 730 });
+  }
   if (isProtected && !signedIn) {
     return redirectToLogin(request, pathname + search, response);
   }

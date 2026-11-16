@@ -21,6 +21,7 @@ migrations are tested on plain PostgreSQL 16 with a minimal Supabase stub
 | `20261117000100_imports_and_papers` | `usage_permissions`; uploads in `source_documents` (origin, filename, permission link, content-hash uniqueness); `import_candidates` staging; import jobs from uploads; publish rule for reproduced papers; `exam_catalogue` with paper year/credit; private Storage bucket `source-documents` with staff-only policies |
 | `20261118000100_learning_analytics` | Personal practice sets (`exams.owner_id`, private to their owner, excluded from the catalogue); `create_practice_set` (filters, unseen-first selection, mistakes mode, free-sample limit for free accounts, daily cap); `practice_options`; `my_performance` (totals, subject/topic accuracy, trend, coverage, pending mistakes) — all scoped to the caller |
 | `20261120000100_written_evaluation` | Written-answer evaluation: answer method and handwriting transcript on `attempt_answers`; `answer_pages`; private bucket `answer-sheets`; answer guides (`questions.key_points`, `alternative_answers`) and `subjects.assessment_criteria`; structured AI fields and queue states on `evaluations`; `evaluation_reports`; `evaluation.config` setting; functions for pages, transcription, confirmation, evaluation requests and allowances, improved answers, written practice, history, analytics and usage |
+| `20261122000100_commerce` | Payments, subscriptions and account security: extended `packages`, `orders`, `entitlements`, `profiles`; `payment_transactions`, `payment_events`, `refunds`, `coupons`, `coupon_redemptions`, `subscription_events`, `user_devices`, `user_sessions`, `login_events`, `security_flags`, `notifications`; settings `payments.config` / `security.config`; private bucket `payment-proofs`; functions for orders, coupons, manual and gateway payments, `confirm_payment` (server key only, idempotent), refunds, subscription administration, reports, maintenance and sessions |
 | `20261121000100_current_affairs` | Current affairs: `ca_sources` (feeds, area, tier, health), `ca_articles` (raw evidence), `ca_items` extended into stories (area, verification, confidence, sensitivity, structured note, pipeline status, auto-publish, feature date, search), `ca_categories`, `ca_runs`, `ca_daily`, `ca_scheduler` (token, server-only); `questions.auto_published`; `exams.ca_period`; functions `ca_today`, `start_question_of_day`, `create_ca_practice`, `create_ca_item_practice`, `ca_archive`, `ca_item_sources`, `ca_question_count`, `ca_overview`, `has_any_package`, `bhutan_today` |
 | `20261119000100_ai_intelligence` | `question_bank_analysis()` (coverage by subject/topic/status/origin/difficulty, past-paper questions per year; staff only); index on `questions.ai_job_id` |
 
@@ -205,4 +206,17 @@ Or paste each migration, in order, into the Supabase SQL editor.
 - **Scheduler.** `supabase/ops/schedule_current_affairs.sql` sets up Supabase Cron to call
   the endpoint every 3 hours with the token in `ca_scheduler` (readable only with the
   secret key).
+
+## Commerce and account security (Milestone 8)
+
+- **Access comes only from `activate_order()`**, reached through `confirm_payment()`
+  (server key, after provider verification) or `review_manual_payment()` (staff).
+  Both are idempotent. Students cannot write orders, transactions or entitlements.
+- **`has_stage_access` / `has_feature`** check status `active`, dates, revocation and
+  that the account is not restricted. Expired subscriptions keep all history.
+- **Renewals** extend the existing subscription from its current end date.
+- **Sessions:** `touch_session()` runs on page views (throttled) and records devices,
+  applies the concurrent-session limit (revoking the oldest via `auth.sessions`) and
+  risk rules; `security_flags` are created for admin review — never automatic suspension.
+- See `docs/PAYMENT_INTEGRATION_GUIDE.md` for adding a bank gateway.
 

@@ -11,8 +11,8 @@ approval before the next one starts.
 | 4 | Student learning and analytics | Complete (deployed) |
 | 5 | AI-assisted ME written-answer evaluation (handwritten + typed) | Complete (deployed; live AI test pending the API key) |
 | 6 | AI question intelligence | Complete (deployed; live AI test pending the API key) |
-| 7 | Current-affairs intelligence (Bhutan, regional, world) | **Built — awaiting approval** |
-| 8 | Payments and commercial launch | Not started |
+| 7 | Current-affairs intelligence (Bhutan, regional, world) | Complete (deployed; collecting and writing live) |
+| 8 | Payments, subscriptions, account security, commercial readiness | **Built — awaiting approval** (bank gateway pending the bank) |
 
 ## Milestone 1 — what works
 
@@ -40,6 +40,28 @@ approval before the next one starts.
 - "Purchasing opens soon" buttons are disabled with an explanation.
 - Logo: a typographic wordmark is used until the official file is supplied.
 - Legal pages carry a "Draft for legal review" notice.
+
+## Milestone 8 — what was built
+
+| Feature | Status |
+| --- | --- |
+| Provider-independent payment interface, webhook endpoint, server-side verification, duplicate protection, reconciliation, refunds | Built — unit- and SQL-tested |
+| Sandbox test gateway (admins only) for the full automated flow | Built — tested |
+| Manual payments: instructions and accounts set in admin, reference + screenshot, admin approve/reject with audit trail, reused-reference and amount warnings, can be switched off | Built — SQL-tested |
+| Configurable packages: price, promo price, duration or fixed end, pathway, entry group, programme, feature list, AI evaluations, renewable, coupons allowed; create packages | Built |
+| Subscriptions: new, renewal (extends expiry), expiry, pending, failed, refund, complimentary, promotional, manual extension, suspension and restoration — all recorded | Working — SQL-tested |
+| Coupons: percent / fixed, limits, per-student limit, dates, package- and student-specific, server-side validation | Working — SQL-tested |
+| Account security: device cookie, session tracking, 2-device limit with real revocation, risk signals with e-mail-link verification, flags for admin review, restrict/restore, student Security page | Working — SQL-tested; e-mail links use Supabase's default sender (rate-limited) |
+| Student: checkout, payment page, My subscription, notifications, short onboarding | Built |
+| Admin: Orders & payments (overview, approvals, orders, subscriptions, coupons, reconciliation, settings, CSV exports), Account security | Built |
+| Reports: collected (net of refunds) by day / period / package, pending, failed, renewals, active / expiring / expired | Built — SQL-tested |
+| Notifications: in-app for all events; e-mail adapter (Resend) ready | In-app working; e-mail needs a domain |
+| Policies: subscription terms, refund policy (placeholders in [brackets]), account-sharing policy, privacy updates | Drafts for legal review |
+
+Pending external dependencies: bank merchant gateway (documents, credentials,
+approval); own domain + e-mail provider for e-mail notifications and branded auth
+e-mails; Vercel Pro before commercial sales; Supabase Pro recommended for backups;
+legal review of the policy pages.
 
 ## Milestone 7 — what was built
 
