@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { buildCheckPrompt, buildVariationPrompt, mcqVariationSchema, reviewVerdict, VARIATION_TYPES, wordSimilarity, type DraftCheckResult } from "@/lib/ai/question-variations";
+import { buildCheckPrompt, buildVariationPrompt, mcqVariationSchema, modelAnswerIssues, reviewVerdict, VARIATION_TYPES, wordSimilarity, type DraftCheckResult } from "@/lib/ai/question-variations";
 import { originLabel } from "@/lib/exam/origin";
 
-const goodCheck: DraftCheckResult = { number: 1, chosen_option: 2, clear: true, single_correct: true, plausible_distractors: true, syllabus_fit: true, factual_concerns: "", model_answer_ok: true, difficulty: "standard" };
+const goodCheck: DraftCheckResult = { number: 1, chosen_option: 2, clear: true, single_correct: true, plausible_distractors: true, syllabus_fit: true, factual_concerns: "", notes: "", model_answer_ok: true, difficulty: "standard" };
 const source = { stage: "PE" as const, kind: "mcq" as const, origin: "historical_official", sourceYear: 2019, subject: "Data Interpretation", topic: "Percentages",
   stem: "A shop sells 40 kg of rice at Nu 60 per kg. What is the total?", options: ["Nu 2,000", "Nu 2,400", "Nu 2,600", "Nu 3,000"], answer: "Nu 2,400", marks: 1 };
 
@@ -44,6 +44,14 @@ describe("automatic check verdict", () => {
   it("flags ambiguity, facts to check, low confidence and closeness to the source", () => {
     const v = reviewVerdict("mcq", 2, "low", { ...goodCheck, single_correct: false, factual_concerns: "Year of event" }, 0.7);
     expect(v.issues).toEqual(expect.arrayContaining(["More than one option may be correct", "Facts to check: Year of event", "The writer had low confidence", "Close to the source wording"]));
+  });
+  it("does not treat 'none' as a factual concern", () => {
+    expect(reviewVerdict("mcq", 2, "high", { ...goodCheck, factual_concerns: "None." }, 0).verdict).toBe("pass");
+  });
+  it("catches unfinished and over-long model answers", () => {
+    expect(modelAnswerIssues("The answer stops how far,", 250)).toEqual(["Model answer seems unfinished (no final full stop)"]);
+    expect(modelAnswerIssues(Array(400).fill("word").join(" ") + ".", 250)[0]).toMatch(/400 words, well over the 250-word limit/);
+    expect(modelAnswerIssues("A complete answer.", 250)).toEqual([]);
   });
   it("flags when the check could not run", () => {
     expect(reviewVerdict("written", null, "high", undefined, 0).verdict).toBe("flag");

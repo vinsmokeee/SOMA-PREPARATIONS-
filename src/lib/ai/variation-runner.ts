@@ -2,7 +2,7 @@ import "server-only";
 import { estimateCost, getAiProvider } from "@/lib/ai";
 import { checkMcqDraft, checkWrittenDraft, cleanReferences } from "@/lib/ai/question-drafts";
 import {
-  buildCheckPrompt, buildVariationPrompt, CHECK_SYSTEM, checkSchema, mcqVariationSchema, reviewVerdict, VARIATION_SYSTEM,
+  buildCheckPrompt, buildVariationPrompt, CHECK_SYSTEM, checkSchema, mcqVariationSchema, modelAnswerIssues, reviewVerdict, VARIATION_SYSTEM,
   wordSimilarity, writtenVariationSchema, type DraftCheckResult, type McqVariation, type VariationSource, type VariationType, type WrittenVariation,
 } from "@/lib/ai/question-variations";
 import type { createClient } from "@/lib/supabase/server";
@@ -85,8 +85,12 @@ export async function generateVariations(db: Db, sourceId: string, types: Variat
     const { data: similar } = await db.rpc("find_similar_questions", { _stem: d.stem.slice(0, 2000), _exclude: null });
     const top = ((similar ?? []) as { id: string; similarity: number }[])[0];
     if (top && top.similarity >= 0.85) { skipped.push({ stem: d.stem.slice(0, 200), reason: "Too similar to an existing question" }); continue; }
-    const verdict = reviewVerdict(isMcq ? "mcq" : "written", m ? m.correct_option : null, d.confidence,
-      checks.find((c) => c.number === i + 1), wordSimilarity(d.stem, src.stem));
+    const check = checks.find((c) => c.number === i + 1);
+    const verdict = reviewVerdict(isMcq ? "mcq" : "written", m ? m.correct_option : null, d.confidence, check, wordSimilarity(d.stem, src.stem));
+    if (w) {
+      const extra = modelAnswerIssues(w.model_answer, w.word_limit);
+      if (extra.length) { verdict.issues.push(...extra); verdict.verdict = "flag"; }
+    }
     const { data: qid, error } = await db.rpc("save_question", {
       _id: null,
       _q: {
@@ -105,7 +109,7 @@ export async function generateVariations(db: Db, sourceId: string, types: Variat
     await db.from("questions").update({
       status: "ai_generated", ai_job_id: job.id, parent_question_id: src.id, variation_type: d.variation_type,
       specialisation_id: src.specialisation_id, subject_group_id: src.subject_group_id,
-      ai_review: { ...verdict, what_changed: d.what_changed, confidence: d.confidence, fact_check_notes: d.fact_check_notes, concept: result.data.concept,
+      ai_review: { ...verdict, checker_notes: check?.notes ?? "", what_changed: d.what_changed, confidence: d.confidence, fact_check_notes: d.fact_check_notes, concept: result.data.concept,
         checker_model: CHECK_MODEL, checked: checks.length > 0 },
     }).eq("id", qid as string);
     created++;

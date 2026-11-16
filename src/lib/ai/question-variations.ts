@@ -60,7 +60,7 @@ Rules:
 - Factual accuracy is essential. Use only well-established, stable facts; if something must be checked, say exactly what in fact_check_notes and lower your confidence.
 - When changing numbers, recalculate every answer and option carefully.
 - Multiple choice: exactly four options, exactly one unambiguously correct answer, plausible distractors of similar length, no "all/none of the above". Explanations say why the answer is right and why each distractor is wrong.
-- Written questions: a clear task, a model answer of about the suggested length, and a rubric whose marks add up to the question's total.
+- Written questions: a clear task, a complete model answer that stays within the suggested length (finish every sentence), and a rubric whose marks add up to the question's total.
 - Stay within the same subject and examination level. Clear British English; respectful and neutral about people and institutions.`;
 
 export function buildVariationPrompt(s: VariationSource, types: VariationType[]): string {
@@ -96,7 +96,8 @@ export const checkSchema = z.object({
     single_correct: z.boolean().describe("Multiple choice: exactly one option is defensibly correct. Written: the task is answerable"),
     plausible_distractors: z.boolean().describe("Multiple choice: wrong options are plausible. Written: true"),
     syllabus_fit: z.boolean().describe("Fits the stated subject and examination level"),
-    factual_concerns: z.string().describe("Specific facts that look wrong or uncertain; empty if none"),
+    factual_concerns: z.string().describe("ONLY specific statements that look wrong or doubtful. Leave EMPTY when the facts check out — do not write confirmations here"),
+    notes: z.string().describe("Optional short remarks for the reviewer (e.g. facts you confirmed); not treated as problems"),
     model_answer_ok: z.boolean().describe("Written: the model answer is accurate and answers the task. Multiple choice: true"),
     difficulty: z.enum(["foundation", "standard", "advanced"]),
   })),
@@ -118,6 +119,16 @@ export function buildCheckPrompt(subject: string | null, stage: "PE" | "ME", dra
 
 export type ReviewVerdict = { verdict: "pass" | "flag"; issues: string[] };
 
+/** Rule checks on a written draft's model answer that do not need AI. */
+export function modelAnswerIssues(modelAnswer: string, wordLimit: number | null | undefined): string[] {
+  const issues: string[] = [];
+  const text = modelAnswer.trim();
+  if (text && !/[.!?)"'’”]$/.test(text)) issues.push("Model answer seems unfinished (no final full stop)");
+  const words = text.split(/\s+/).filter(Boolean).length;
+  if (wordLimit && words > wordLimit * 1.3) issues.push(`Model answer is ${words} words, well over the ${wordLimit}-word limit`);
+  return issues;
+}
+
 /** Combines the independent check with the draft's own key and confidence. */
 export function reviewVerdict(kind: "mcq" | "written", correctIndex: number | null, confidence: string, check: DraftCheckResult | undefined, similarityToSource: number): ReviewVerdict {
   const issues: string[] = [];
@@ -129,7 +140,8 @@ export function reviewVerdict(kind: "mcq" | "written", correctIndex: number | nu
     if (!check.plausible_distractors) issues.push("Weak distractors");
     if (!check.syllabus_fit) issues.push("May not fit the subject or level");
     if (!check.model_answer_ok) issues.push("Model answer may be inaccurate");
-    if (check.factual_concerns.trim()) issues.push(`Facts to check: ${check.factual_concerns.trim().slice(0, 300)}`);
+    const concern = check.factual_concerns.trim();
+    if (concern && !/^(none|n\/a|no concerns?)\.?$/i.test(concern)) issues.push(`Facts to check: ${concern.slice(0, 300)}`);
   }
   if (confidence === "low") issues.push("The writer had low confidence");
   if (similarityToSource >= 0.6) issues.push("Close to the source wording");
