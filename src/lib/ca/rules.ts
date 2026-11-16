@@ -66,3 +66,11 @@ export function publishDecision(e: StoryEvidence, cfg: CaConfig): PublishDecisio
 export function bhutanDate(d: Date = new Date()): string {
   return new Date(d.getTime() + 6 * 3600 * 1000).toISOString().slice(0, 10);
 }
+
+/** For aggregator feeds (Google News), the real outlet is the " - Outlet" suffix of the headline. */
+export function outletOf(sourceName: string, title: string): string {
+  if (!/^google news/i.test(sourceName)) return sourceName;
+  const m = title.match(/\s[-–—]\s([^-–—]{2,60})$/);
+  return m ? m[1].trim() : sourceName;
+}
+
