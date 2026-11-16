@@ -1,0 +1,42 @@
+import type { Metadata } from "next";
+import { EntryPicker, ExamArea, FREE_POINTS, PackageChoice } from "@/components/student/exam-flow";
+import { requireUser } from "@/lib/auth/dal";
+import { createClient } from "@/lib/supabase/server";
+import { loadArea, loadPackage } from "@/lib/student/area";
+import { entryComplete, loadExamState } from "@/lib/student/exam-state";
+
+export const metadata: Metadata = { title: "ME" };
+
+const ERRORS: Record<string, string> = {
+  locked: "Your ME entry is fixed while your ME subscription is active. Contact support to change it.",
+  "not-offered": "Soma does not offer preparation for that entry yet.",
+  mismatch: "Please choose again.",
+  failed: "Could not save. Please try again.",
+};
+
+/** ME: choose your entry, then Free or Premium, then the ME area. */
+export default async function MePage({ searchParams }: PageProps<"/dashboard/me">) {
+  const user = await requireUser("/dashboard/me");
+  const sp = await searchParams;
+  const state = await loadExamState(user.id);
+  const changing = sp.change === "1";
+  if (!entryComplete(state.entry) || changing || typeof sp.group === "string") {
+    const db = await createClient();
+    const [{ data: categories }, { data: specialisations }] = await Promise.all([
+      db.from("exam_categories").select("id, name, public_group").eq("is_active", true).eq("is_offered", true).order("sort_order"),
+      db.from("specialisations").select("id, name").eq("is_active", true).order("name"),
+    ]);
+    const group = typeof sp.group === "string" && ["general", "technical", "dzongkha"].includes(sp.group) ? sp.group : null;
+    return (
+      <EntryPicker
+        options={{ categories: categories ?? [], specialisations: specialisations ?? [] }}
+        group={group}
+        error={typeof sp.error === "string" ? ERRORS[sp.error] ?? ERRORS.failed : null}
+      />
+    );
+  }
+  if (!state.started.ME) {
+    return <PackageChoice stage="ME" entryLabel={state.entry.label} pkg={await loadPackage("ME")} free={FREE_POINTS.ME} />;
+  }
+  return <ExamArea d={await loadArea("ME", state)} />;
+}
