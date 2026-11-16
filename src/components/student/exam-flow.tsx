@@ -163,6 +163,7 @@ export type AreaData = {
   accuracy: number | null;
   written: number;
   freeUsedUp: boolean;             // free questions/tests or AI marks used up
+  aiMarks: { used: number; limit: number } | null; // ME: AI-marked answers
   premiumSlug: string | null;
 };
 
@@ -183,7 +184,7 @@ export function ExamArea({ d }: { d: AreaData }) {
         { href: "/dashboard/written", label: "Written answers", sub: "Get AI feedback", icon: PenLine, tint: "from-rose-600 to-[#7a1e3a]" },
         { href: "/dashboard/exams?stage=ME", label: "ME papers", sub: "Timed papers for your entry", icon: ClipboardCheck, tint: "from-orange-500 to-rose-500" },
         { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-sky-600 to-indigo-500" },
-        { href: "/dashboard/analytics", label: "My scores", sub: d.written ? `${d.written} answers marked` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
+        { href: "/dashboard/analytics", label: "My scores", sub: d.written ? `${d.written} answer${d.written === 1 ? "" : "s"} marked` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
       ];
 
   return (
@@ -232,8 +233,19 @@ export function ExamArea({ d }: { d: AreaData }) {
           className="flex items-center gap-3 rounded-2xl bg-yellow-100 p-4 text-yellow-950 ring-1 ring-yellow-300">
           <Crown className="size-6 shrink-0 text-yellow-700" aria-hidden />
           <span className="text-sm">
-            <span className="block font-bold">{d.freeUsedUp ? "You have used your free practice" : "You are on Free"}</span>
-            {d.freeUsedUp ? "Join Premium to unlock every question, mock test and your full daily plan." : "Premium unlocks every question, all mock tests and your full daily plan."}
+            {pe ? (
+              <>
+                <span className="block font-bold">{d.freeUsedUp ? "You have used your free practice" : "You are on Free"}</span>
+                {d.freeUsedUp ? "Join Premium to unlock every question, all mock tests and your full daily plan." : "Premium unlocks every question, all mock tests and your full daily plan."}
+              </>
+            ) : (
+              <>
+                <span className="block font-bold">
+                  {d.freeUsedUp ? "You have used your 3 free AI marks" : `${Math.max((d.aiMarks?.limit ?? 3) - (d.aiMarks?.used ?? 0), 0)} of ${d.aiMarks?.limit ?? 3} free AI marks left`}
+                </span>
+                Join Premium for 100 AI-marked answers, handwritten answer upload and AI feedback.
+              </>
+            )}
           </span>
           <ArrowRight className="ml-auto size-5 shrink-0" aria-hidden />
         </Link>
@@ -269,8 +281,10 @@ export function ExamArea({ d }: { d: AreaData }) {
       {/* Scores */}
       <div className="grid grid-cols-3 gap-3 text-center">
         {[
-          [pe ? String(d.answered) : String(d.written), pe ? "answered" : "answers"],
-          [d.accuracy !== null && pe ? `${d.accuracy}%` : "—", "correct"],
+          [pe ? String(d.answered) : String(d.written), pe ? "answered" : d.written === 1 ? "answer" : "answers"],
+          pe
+            ? [d.accuracy !== null ? `${d.accuracy}%` : "—", "correct"]
+            : [d.aiMarks ? String(Math.max(d.aiMarks.limit - d.aiMarks.used, 0)) : "—", "AI marks left"],
           [t ? String(t.stats.best_streak) : "0", "best streak"],
         ].map(([v, l]) => (
           <div key={l} className="rounded-2xl bg-white p-3 shadow-sm ring-1 ring-border">
@@ -279,15 +293,6 @@ export function ExamArea({ d }: { d: AreaData }) {
           </div>
         ))}
       </div>
-      {pe ? (
-        <Link href="/dashboard/me" className="block rounded-2xl bg-white p-4 text-center text-sm shadow-sm ring-1 ring-border">
-          Qualified for the Main Examination? <span className="font-bold text-primary">Start ME preparation →</span>
-        </Link>
-      ) : (
-        <Link href="/dashboard/pe" className="block text-center text-xs text-muted-foreground">
-          Still preparing for the PE? <span className="font-semibold text-primary">Open PE</span>
-        </Link>
-      )}
       <p className="text-center text-[11px] text-subtle">Soma&apos;s figures are estimates from your practice, not RCSC assessments.</p>
     </div>
   );
@@ -314,5 +319,5 @@ function Header({ stage, subtitle, badge }: { stage: Stage; subtitle: string; ba
 
 export const FREE_POINTS: Record<Stage, string[]> = {
   PE: ["Free sample questions in every section", "A sample mock test", "Today's Question of the Day"],
-  ME: ["3 written answers marked by AI", "Sample written questions for your entry", "Today's current affairs"],
+  ME: ["3 written answers marked by AI: typed, or a photo of your handwritten answer", "AI feedback with an improved model answer", "Sample written questions for your entry", "Today's current affairs"],
 };

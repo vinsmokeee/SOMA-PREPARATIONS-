@@ -47,6 +47,7 @@ export async function loadArea(stage: Stage, state: ExamState): Promise<AreaData
     accuracy: answered ? accuracy(correct, answered) : null,
     written: perf?.totals.written_answers ?? 0,
     freeUsedUp,
+    aiMarks: stage === "ME" && allowance.data ? { used: (allowance.data as { used: number }).used, limit: (allowance.data as { limit: number }).limit } : null,
     premiumSlug: PACKAGE_SLUG[stage],
   };
 }

@@ -27,19 +27,22 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     bests: { weekly_test: null, monthly_mock: null, most_in_a_day: 32 }, subjects: [], exam_date: null,
   };
   const pePkg = { slug: "pe-premium", name: "PE Premium", price: 699, accessDays: 45, available: true,
-    features: ["Every practice question in all four sections", "All timed mock tests", "Your full daily plan and revision", "Scores and progress for every section"] };
+    features: ["Every practice question in all four sections (English, Dzongkha, Aptitude, Data Interpretation)", "All timed mock tests, like the real PE", "Your daily plan with revision of your mistakes", "Explanations for every answer", "Scores and progress for every section", "Current affairs: daily news and quizzes"] };
+  const mePkg = { slug: "me-premium", name: "ME Premium", price: 799, accessDays: 45, available: true,
+    features: ["Written questions and papers for your entry", "100 AI-marked answers: type your answer or upload photos of your handwritten pages", "AI feedback: strengths, missing points and an improved answer", "Model answers and marking guides", "Current affairs: daily news and quizzes", "Scores and progress"] };
   const area = (over: Partial<AreaData>): AreaData => ({
     stage: "PE", entryLabel: null, premium: "Premium until 30 Jan 2027", openAttempt: { id: id(7), title: "Mock test: PE paper 1" },
-    training, answered: 64, accuracy: 72, written: 0, freeUsedUp: false, premiumSlug: "pe-premium", ...over,
+    training, answered: 64, accuracy: 72, written: 0, freeUsedUp: false, aiMarks: null, premiumSlug: "pe-premium", ...over,
   });
   const content = {
     choose: <ExamChooser firstName="Pema" status={{ PE: null, ME: null }} />,
     "pe-packages": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} />,
+    "me-packages": <PackageChoice stage="ME" entryLabel="Technical Graduates · Civil Engineering" pkg={mePkg} free={FREE_POINTS.ME} />,
     "me-entry": <EntryPicker options={{ categories: [{ id: id(1), name: "Administrative Service", public_group: "general" }, { id: id(2), name: "Technical Service", public_group: "technical" }, { id: id(3), name: "Dzongkha", public_group: "dzongkha" }], specialisations: [] }} group={null} />,
     "me-technical": <EntryPicker options={{ categories: [{ id: id(2), name: "Technical Service", public_group: "technical" }], specialisations: ["Civil Engineering", "Computer Science and Engineering", "Electrical Engineering", "Forestry", "Medicine", "Nursing"].map((name, i) => ({ id: id(i + 1), name })) }} group="technical" />,
     pe: <ExamArea d={area({})} />,
     "pe-free": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} />,
-    me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 2, premiumSlug: "me-premium" })} />,
+    me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 3 }, premiumSlug: "me-premium" })} />,
   }[screen as string] ?? null;
   return (
     <AppShell area="student" sections={[{ items: [{ href: "/dashboard", label: "Home", exact: true }] }]} user={{ name: "Pema", email: "pema@example.com", roleLabel: "Student" }}>

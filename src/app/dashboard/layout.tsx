@@ -25,6 +25,7 @@ export default async function DashboardLayout({ children }: LayoutProps<"/dashbo
     {
       title: "Account",
       items: [
+        { href: "/dashboard?choose=1", label: "Change exam (PE / ME)" },
         { href: "/dashboard/subscription", label: "My subscription" },
         { href: "/dashboard/notifications", label: "Notifications" },
         { href: "/dashboard/profile", label: "Profile" },
