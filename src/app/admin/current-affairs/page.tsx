@@ -10,7 +10,7 @@ import { AREA_LABELS, VERIFICATION_LABELS } from "@/lib/ca/labels";
 import type { CaConfig } from "@/lib/ca/rules";
 import { createClient } from "@/lib/supabase/server";
 import { cn, formatDate } from "@/lib/utils";
-import { addCategoryAction, addSourceAction, runPipelineNowAction, saveCaSettingsAction, toggleSourceAction } from "./actions";
+import { addCategoryAction, addSourceAction, runPipelineNowAction, saveCaSettingsAction, toggleSourceAction, updateFeedAction } from "./actions";
 
 export const metadata: Metadata = { title: "Current affairs" };
 // "Run now" executes the pipeline after the response (up to 5 minutes).
@@ -159,6 +159,13 @@ async function Sources({ db }: { db: Db }) {
                 {s.last_success_at ? <span className="text-primary">Last success {formatDate(s.last_success_at)} · {s.items_collected} collected</span> : <span className="text-muted-foreground">Not collected yet</span>}
                 {s.last_error ? <span className="text-warning"> · Last error: {s.last_error}{s.consecutive_failures > 1 ? ` (${s.consecutive_failures} in a row)` : ""}</span> : null}
               </p>
+              <details className="mt-1">
+                <summary className="cursor-pointer text-xs font-medium text-primary">Change feed address</summary>
+                <ActionForm action={updateFeedAction} submitLabel="Save address" variant="secondary" className="mt-2 space-y-2">
+                  <input type="hidden" name="id" value={s.id} />
+                  <Input name="feed_url" defaultValue={s.feed_url ?? ""} placeholder="https://…/feed" aria-label={`Feed address for ${s.name}`} className="h-9" />
+                </ActionForm>
+              </details>
             </div>
             <ActionForm action={toggleSourceAction} submitLabel={s.is_active ? "Switch off" : "Switch on"} variant="secondary" className="space-y-0">
               <input type="hidden" name="id" value={s.id} /><input type="hidden" name="active" value={s.is_active ? "false" : "true"} />

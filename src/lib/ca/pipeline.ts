@@ -116,13 +116,21 @@ async function collect(db: Db, add: (k: string, n?: number) => void, errors: { s
         await db.from("ca_sources").update({ last_checked_at: now(), last_error: res.reason, consecutive_failures: s.consecutive_failures + 1 }).eq("id", s.id);
         return;
       }
-      const entries = parseFeed(res.text, { keepBody: s.full_text_allowed, max: 40 })
-        .filter((e) => !e.publishedAt || new Date(e.publishedAt).getTime() >= cutoff);
+      const parsed = parseFeed(res.text, { keepBody: s.full_text_allowed, max: 40 });
+      const entries = parsed.filter((e) => !e.publishedAt || new Date(e.publishedAt).getTime() >= cutoff);
       const rows = entries.map((e) => ({ source_id: s.id, url: e.url, title: e.title, snippet: e.snippet, body: e.body, published_at: e.publishedAt, fingerprint: fingerprint(e.title) }));
       let inserted = 0;
       if (rows.length) {
-        const { data } = await db.from("ca_articles").upsert(rows, { onConflict: "url", ignoreDuplicates: true }).select("id");
+        const { data, error } = await db.from("ca_articles").upsert(rows, { onConflict: "url", ignoreDuplicates: true }).select("id");
+        if (error) errors.push({ step: "collect", message: `${s.name}: could not save entries (${error.message.slice(0, 120)})` });
         inserted = data?.length ?? 0;
+      }
+      // Explain empty results so a wrong or stale feed is easy to spot in admin.
+      if (parsed.length === 0) {
+        errors.push({ step: "collect", message: `${s.name}: feed answered but no entries could be read${/<(item|entry)[\s>]/i.test(res.text) ? " (unusual format)" : " (feed is empty)"}` });
+      } else if (entries.length === 0) {
+        const newest = parsed.map((e) => e.publishedAt).filter(Boolean).sort().pop();
+        errors.push({ step: "collect", message: `${s.name}: all ${parsed.length} entries are older than 7 days${newest ? ` (newest ${newest.slice(0, 10)})` : ""}` });
       }
       add("sources_ok");
       add("articles_new", inserted);
