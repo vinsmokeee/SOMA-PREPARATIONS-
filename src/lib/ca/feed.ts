@@ -68,7 +68,7 @@ export function parseFeed(xml: string, opts: { keepBody?: boolean; max?: number 
   type Raw = Record<string, unknown>;
   const items: Raw[] = rss?.channel ? asArray(rss.channel.item as Raw | Raw[]) : rdf ? asArray(rdf.item as Raw | Raw[]) : atom ? asArray(atom.entry as Raw | Raw[]) : [];
 
-  const out: FeedEntry[] = [];
+  const all: FeedEntry[] = [];
   for (const it of items) {
     const title = htmlToText(text(it.title)).slice(0, 500);
     let link = text(it.link);
@@ -77,20 +77,22 @@ export function parseFeed(xml: string, opts: { keepBody?: boolean; max?: number 
       const alt = links.find((l) => !l["@rel"] || l["@rel"] === "alternate") ?? links[0];
       link = String(alt?.["@href"] ?? "");
     }
-    if (!link && typeof it.guid === "string" && /^https?:/.test(it.guid)) link = it.guid;
+    if (!link) { const g = text(it.guid) || text(it.id); if (/^https?:/.test(g)) link = g; }
     const url = cleanUrl(link);
     if (!title || !url) continue;
     const descHtml = text(it.description) || text(it.summary) || "";
     const bodyHtml = text(it["content:encoded"]) || text(it.content) || "";
     const snippet = htmlToText(descHtml || bodyHtml).slice(0, 1500) || null;
-    out.push({
+    all.push({
       title,
       url,
       publishedAt: parseDate(text(it.pubDate) || text(it.published) || text(it.updated) || text(it["dc:date"])),
       snippet,
       body: opts.keepBody && bodyHtml ? htmlToText(bodyHtml).slice(0, 20000) : null,
     });
-    if (out.length >= (opts.max ?? 50)) break;
+    if (all.length >= 300) break;
   }
-  return out;
+  // Some feeds list oldest first: keep the newest entries (undated ones last).
+  all.sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""));
+  return all.slice(0, opts.max ?? 50);
 }
