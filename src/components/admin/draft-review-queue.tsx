@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useActionState, useState } from "react";
-import { approveDraftsAction, rejectDraftsAction } from "@/app/admin/ai/variation-actions";
+import { approveAndPublishDraftsAction, approveDraftsAction, rejectDraftsAction } from "@/app/admin/ai/variation-actions";
 import type { ActionState } from "@/components/app/action-form";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 
 export type ReviewDraft = {
   id: string;
+  status: string;
   stem: string;
   question_type: string;
   origin: string;
@@ -25,15 +26,21 @@ export type ReviewDraft = {
 };
 
 export function DraftReviewQueue({ drafts, canPublish }: { drafts: ReviewDraft[]; canPublish: boolean }) {
+  // Separate actions for the two approve buttons, so "publish" never depends on
+  // which submit button the browser reports.
+  const [publishState, approvePublish, publishing] = useActionState(approveAndPublishDraftsAction, { status: "idle" } as ActionState);
   const [approveState, approve, approving] = useActionState(approveDraftsAction, { status: "idle" } as ActionState);
   const [rejectState, reject, rejecting] = useActionState(rejectDraftsAction, { status: "idle" } as ActionState);
-  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [picked, setSelected] = useState<Set<string>>(new Set());
+  // Drafts that were approved or rejected leave the list; never count them as selected.
+  const selected = new Set(drafts.map((d) => d.id).filter((id) => picked.has(id)));
   const toggle = (id: string) => setSelected((s) => { const n = new Set(s); if (n.has(id)) n.delete(id); else n.add(id); return n; });
   const passing = drafts.filter((d) => d.ai_review?.verdict === "pass").map((d) => d.id);
+  const busy = publishing || approving || rejecting;
 
   return (
     <form className="space-y-4">
-      {[approveState, rejectState].map((s, i) =>
+      {[publishState, approveState, rejectState].map((s, i) =>
         s.status !== "idle" && s.message ? <Alert key={i} tone={s.status === "success" ? "success" : "danger"}>{s.message}</Alert> : null)}
       <div className="sticky top-0 z-10 flex flex-wrap items-center gap-2 rounded-lg border border-border bg-background p-3 text-sm shadow-sm">
         <span className="font-medium text-ink">{selected.size} selected</span>
@@ -41,15 +48,15 @@ export function DraftReviewQueue({ drafts, canPublish }: { drafts: ReviewDraft[]
         <button type="button" onClick={() => setSelected(new Set())} className="rounded-md px-3 py-1.5 text-muted-foreground">Clear</button>
         <span className="flex-1" />
         {canPublish ? (
-          <button type="submit" formAction={approve} name="publish" value="1" disabled={!selected.size || approving} className="h-10 rounded-md bg-primary px-4 font-semibold text-primary-foreground disabled:opacity-50">
-            {approving ? "Working…" : "Approve and publish"}
+          <button type="submit" formAction={approvePublish} disabled={!selected.size || busy} className="h-10 rounded-md bg-primary px-4 font-semibold text-primary-foreground disabled:opacity-50">
+            {publishing ? "Working…" : "Approve and publish"}
           </button>
         ) : null}
-        <button type="submit" formAction={approve} name="publish" value="0" disabled={!selected.size || approving} className="h-10 rounded-md border border-border-strong px-4 font-semibold disabled:opacity-50">
-          Approve only
+        <button type="submit" formAction={approve} disabled={!selected.size || busy} className="h-10 rounded-md border border-border-strong px-4 font-semibold disabled:opacity-50">
+          {approving ? "Working…" : "Approve only"}
         </button>
         <input name="reason" placeholder="Reason (for reject)" aria-label="Reason for rejecting" className="h-10 w-44 rounded-md border border-border-strong px-2" />
-        <button type="submit" formAction={reject} disabled={!selected.size || rejecting} className="h-10 rounded-md border border-danger px-4 font-semibold text-danger disabled:opacity-50">
+        <button type="submit" formAction={reject} disabled={!selected.size || busy} className="h-10 rounded-md border border-danger px-4 font-semibold text-danger disabled:opacity-50">
           Reject
         </button>
       </div>
@@ -67,6 +74,7 @@ export function DraftReviewQueue({ drafts, canPublish }: { drafts: ReviewDraft[]
                 <input type="checkbox" name="ids" value={d.id} checked={selected.has(d.id)} onChange={() => toggle(d.id)} className="mt-1 size-5 accent-[var(--primary)]" aria-label="Select this draft" />
                 <div className="min-w-0 flex-1 space-y-2 text-sm">
                   <div className="flex flex-wrap items-center gap-2">
+                    {d.status === "verified" ? <Badge tone="green">Approved — not yet published</Badge> : null}
                     {d.ai_review?.verdict ? <Badge tone={flag ? "warning" : "green"}>{flag ? "Check flagged issues" : "Passed automatic check"}</Badge> : <Badge>Not checked</Badge>}
                     <Badge tone="outline">{d.variation_type ? variationLabel(d.variation_type) : "New question"}</Badge>
                     <span className="text-muted-foreground">{d.subject ?? "No subject"} · {d.difficulty}</span>

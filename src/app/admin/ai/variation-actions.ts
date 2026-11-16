@@ -77,14 +77,24 @@ const REVIEW_ERRORS: Record<string, string> = {
   INVALID_TRANSITION: "is not in a state that can be approved",
 };
 
-/** Human approval of AI drafts (one or many). Publishing also needs questions.publish. */
+/** Human approval of AI drafts (one or many): verify only. */
 export async function approveDraftsAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  return approve(formData, false);
+}
+
+/** Human approval and publication (needs questions.publish). */
+export async function approveAndPublishDraftsAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  return approve(formData, true);
+}
+
+async function approve(formData: FormData, wantPublish: boolean): Promise<ActionState> {
   const denied = await guard("questions.review");
   if (denied) return { status: "error", message: denied };
   const ids = z.array(z.uuid()).min(1, "Select at least one draft.").max(50).safeParse(formData.getAll("ids"));
   if (!ids.success) return { status: "error", message: ids.error.issues[0]?.message ?? "Select drafts." };
   const user = await getCurrentUser();
-  const publish = formData.get("publish") === "1" && can(user, "questions.publish");
+  if (wantPublish && !can(user, "questions.publish")) return { status: "error", message: "You do not have permission to publish questions." };
+  const publish = wantPublish;
   const db = await createClient();
   const { data: rows } = await db.from("questions").select("id, status").in("id", ids.data);
   let approved = 0;
