@@ -17,9 +17,10 @@ export type PublishedCaItem = {
   url: string;
   primary_source_url: string | null;
   published_on: string | null;
+  feature_date: string | null;
+  area: "bhutan" | "regional" | "world" | null;
+  verification: string;
   category: string | null;
-  pe_relevant: boolean;
-  me_relevant: boolean;
   summary: string | null;
 };
 
@@ -139,11 +140,11 @@ export function effectivePrice(p: Pick<PackageSummary, "price" | "promo_price" |
   return started && notEnded ? { price: p.promo_price, promo: true } : { price: p.price, promo: false };
 }
 
-/** Published (human-reviewed) current-affairs items, newest first. */
+/** Published current-affairs stories from the last 7 days (open to everyone), newest first. */
 export async function getPublishedCurrentAffairs(limit = 30): Promise<DataResult<PublishedCaItem[]>> {
   "use cache";
   cacheTag(CACHE_TAGS.currentAffairs);
-  cacheLife("hours");
+  cacheLife("minutes");
 
   const source = publicDataSource();
   if (source === "none") return NOT_CONFIGURED;
@@ -151,12 +152,13 @@ export async function getPublishedCurrentAffairs(limit = 30): Promise<DataResult
   try {
     const { data, error } = await createPublicClient()
       .from("ca_items")
-      .select("id, title, url, primary_source_url, published_on, category, pe_relevant, me_relevant, summary")
+      .select("id, title, url, primary_source_url, published_on, feature_date, area, verification, summary, ca_categories(name)")
       .eq("status", "published")
-      .order("published_on", { ascending: false, nullsFirst: false })
+      .order("published_at", { ascending: false, nullsFirst: false })
       .limit(limit);
     if (error) throw error;
-    return { ok: true, data: (data ?? []) as PublishedCaItem[], source };
+    const rows = (data ?? []) as unknown as (Omit<PublishedCaItem, "category"> & { ca_categories: { name: string } | null })[];
+    return { ok: true, data: rows.map(({ ca_categories, ...r }) => ({ ...r, category: ca_categories?.name ?? null })), source };
   } catch (e) {
     console.error("getPublishedCurrentAffairs failed", e);
     return { ok: false, reason: "error", message: "Current affairs could not be loaded. Please try again shortly." };

@@ -1,4 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
+import { revalidateTag } from "next/cache";
+import { CACHE_TAGS } from "@/lib/data/public";
 import { runPipeline } from "@/lib/ca/pipeline";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -24,5 +26,6 @@ export async function POST(request: Request) {
   const a = Buffer.from(given), b = Buffer.from(expected);
   if (!expected || a.length !== b.length || !timingSafeEqual(a, b)) return Response.json({ error: "unauthorised" }, { status: 401 });
   const result = await runPipeline({ trigger: "schedule" });
+  revalidateTag(CACHE_TAGS.currentAffairs, "max");
   return Response.json({ status: result.status });
 }

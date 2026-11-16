@@ -9,9 +9,9 @@ approval before the next one starts.
 | 2 | Examination engine (PE + ME simulation) | Complete (deployed; live exam-room run still to do) |
 | 3 | Question bank, historical papers, RCSC import | Complete (deployed; extraction to be tuned on real papers) |
 | 4 | Student learning and analytics | Complete (deployed) |
-| 5 | AI-assisted ME written-answer evaluation (handwritten + typed) | **Built — awaiting approval** (human evaluators deferred) |
+| 5 | AI-assisted ME written-answer evaluation (handwritten + typed) | Complete (deployed; live AI test pending the API key) |
 | 6 | AI question intelligence | Complete (deployed; live AI test pending the API key) |
-| 7 | Current-affairs automation | Not started |
+| 7 | Current-affairs intelligence (Bhutan, regional, world) | **Built — awaiting approval** |
 | 8 | Payments and commercial launch | Not started |
 
 ## Milestone 1 — what works
@@ -40,6 +40,31 @@ approval before the next one starts.
 - "Purchasing opens soon" buttons are disabled with an explanation.
 - Logo: a typographic wordmark is used until the official file is supplied.
 - Legal pages carry a "Draft for legal review" notice.
+
+## Milestone 7 — what was built
+
+| Feature | Status |
+| --- | --- |
+| Source registry (14 starting feeds: Bhutanese outlets, UN, WHO, IMF, Indian, Nepali, Bangladeshi and international outlets), health tracking, back-off, add/switch off in admin | Built — first live run verifies each feed |
+| Collection every 3 hours (Supabase Cron → secured endpoint), SSRF-safe feed fetching, RSS/Atom parsing, 7-day freshness window, duplicate URLs ignored | Built — parser and rules unit-tested |
+| AI triage (relevance, Bhutan/regional/world, category, fact vs opinion, developing, sensitive) with a cheap model | Built — needs the API key |
+| Story grouping across outlets; verification status (official / confirmed by 2+ / single source / developing / conflicting / opinion) | Working — unit-tested |
+| Learning notes grounded in numbered sources (key facts cite sources; background, why it matters, relevance to Bhutan, dates, names) | Built — needs the API key |
+| Questions: MCQ, true/false, fill-in-the-blank (PE) and short-answer / analytical (ME), linked to the story, labelled Soma AI-generated | Built — needs the API key |
+| Automatic publishing when rules pass (founder decision); sensitive, single-source, developing, conflicting, opinion and low-confidence stories held | Working — rules unit-tested |
+| Daily: Bhutan / Regional / World today, Question of the Day; weekly challenge and monthly assessment built automatically; personalised practice; archive with search | Built — access rules SQL-tested |
+| Free: last 7 days and Question of the Day; packages: archive, assessments, personalised practice | Working — SQL-tested |
+| Admin: overview, run log with errors, held-story review, edit / publish / unpublish / reject, collected articles, sources, categories, settings (quotas, budget, model, sensitive terms) | Built |
+| Daily AI budget cap, one run at a time, time limits | Built |
+
+Dependencies: AI steps need `ANTHROPIC_API_KEY`; the scheduler and pipeline need
+`SUPABASE_SECRET_KEY` in Vercel. Without the AI key, articles are collected and wait
+("awaiting AI"). The future Soma AI Knowledge Assistant can reuse the structured,
+source-linked stories (full-text search index included).
+
+Known limitations: feeds that block automated access fail and must be replaced;
+news-site content is limited to what their RSS feeds provide (rights); quality of
+notes and questions has not yet been checked on live output.
 
 ## Milestone 5 — what was built
 
