@@ -28,7 +28,7 @@ export default async function TrainingPreviewPage() {
   return (
     <main id="main" className="mx-auto max-w-3xl p-4 sm:p-6">
       <h1 className="mb-4 font-serif text-2xl font-semibold">Today&apos;s training (preview)</h1>
-      <TodayPlan data={data} />
+      <TodayPlan data={data} compact={false} />
     </main>
   );
 }

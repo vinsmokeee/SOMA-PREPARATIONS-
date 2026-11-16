@@ -44,7 +44,7 @@ export default async function TrainingPage() {
               {t.plan.focus ? <CardDescription>Focus today: {t.plan.focus}</CardDescription> : null}
             </CardHeader>
             <CardContent>
-              <TodayPlan data={t} />
+              <TodayPlan data={t} compact={false} />
             </CardContent>
           </Card>
 

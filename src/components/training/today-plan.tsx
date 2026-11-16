@@ -16,7 +16,7 @@ export const KIND_STYLE: Record<ItemKind, { icon: typeof BookOpenCheck; tint: st
 };
 
 /** Today's tasks as a simple tick-list. */
-export function TodayPlan({ data }: { data: TrainingData }) {
+export function TodayPlan({ data, compact = true }: { data: TrainingData; compact?: boolean }) {
   if (data.items.length === 0) {
     return (
       <p className="rounded-2xl bg-muted p-4 text-sm text-muted-foreground">
@@ -41,7 +41,7 @@ export function TodayPlan({ data }: { data: TrainingData }) {
                 {done && i.max_score ? `Scored ${Number(i.score)}/${Number(i.max_score)}` : skipped ? "Skipped" : i.minutes ? `About ${i.minutes} min` : ""}
               </p>
             </div>
-            <ItemButtons item={i} compact />
+            <ItemButtons item={i} compact={compact} />
           </li>
         );
       })}
