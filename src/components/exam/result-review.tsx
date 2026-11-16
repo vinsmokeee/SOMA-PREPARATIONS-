@@ -78,7 +78,7 @@ export function ResultReview({ questions }: { questions: ResultQuestion[] }) {
 function QuestionCard({ q }: { q: ResultQuestion }) {
   const o = outcome(q);
   const tone = {
-    correct: "border-l-primary",
+    correct: "border-l-success",
     incorrect: "border-l-danger",
     unanswered: "border-l-border-strong",
     written: "border-l-accent",
@@ -87,7 +87,7 @@ function QuestionCard({ q }: { q: ResultQuestion }) {
     <li className={cn("rounded-xl border border-border border-l-4 p-5", tone)}>
       <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-muted-foreground">
         <span className="font-semibold text-ink">Question {q.number}</span>
-        {o === "correct" ? <span className="inline-flex items-center gap-1 text-primary"><Check className="size-3.5" aria-hidden /> Correct</span> : null}
+        {o === "correct" ? <span className="inline-flex items-center gap-1 text-success"><Check className="size-3.5" aria-hidden /> Correct</span> : null}
         {o === "incorrect" ? <span className="inline-flex items-center gap-1 text-danger"><X className="size-3.5" aria-hidden /> Incorrect</span> : null}
         {o === "unanswered" ? <span>Not answered</span> : null}
         {o === "written" ? <span>{TYPE_LABELS[q.type]}</span> : null}
@@ -110,12 +110,12 @@ function QuestionCard({ q }: { q: ResultQuestion }) {
                 key={opt.id}
                 className={cn(
                   "flex items-start gap-3 rounded-lg border px-3 py-2.5 text-[15px]",
-                  opt.is_correct ? "border-primary bg-primary-soft" : chosen ? "border-danger bg-danger-soft" : "border-border",
+                  opt.is_correct ? "border-success bg-success-soft" : chosen ? "border-danger bg-danger-soft" : "border-border",
                 )}
               >
                 <span className="font-semibold">{opt.label}</span>
                 <span className="flex-1">{opt.body}</span>
-                {opt.is_correct ? <span className="text-xs font-semibold text-primary">Correct answer</span> : null}
+                {opt.is_correct ? <span className="text-xs font-semibold text-success">Correct answer</span> : null}
                 {chosen && !opt.is_correct ? <span className="text-xs font-semibold text-danger">Your answer</span> : null}
                 {chosen && opt.is_correct ? <span className="sr-only">(your answer)</span> : null}
               </li>

@@ -36,7 +36,7 @@ export function renderNotificationEmail(n: { title: string; body: string | null;
   const html = `<div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;color:#1a1a1a">
 <p style="font-family:Georgia,serif;font-size:20px;margin:0 0 16px"><b>Soma</b> Preparations</p>
 <h1 style="font-size:18px">${esc(n.title)}</h1><p style="line-height:1.6">${esc(n.body ?? "")}</p>
-<p><a href="${esc(url)}" style="background:#1f5137;color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none">Open Soma</a></p>
+<p><a href="${esc(url)}" style="background:#c2410c;color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none">Open Soma</a></p>
 <p style="color:#666;font-size:12px">You receive this because you have a Soma Preparations account.</p></div>`;
   return { subject: n.title, text, html };
 }

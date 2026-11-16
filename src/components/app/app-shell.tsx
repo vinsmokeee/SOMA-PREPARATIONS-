@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Logo } from "@/components/brand/logo";
 import { AppNav, type NavSection } from "./app-nav";
+import { BottomNav } from "./bottom-nav";
 import { MobileAppNav } from "./mobile-app-nav";
 
 export function AppShell({
@@ -35,10 +36,11 @@ export function AppShell({
             Administration · changes here affect the live platform and are recorded in the audit log
           </div>
         ) : null}
-        <main id="main" className="flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-10">
+        <main id="main" className={area === "student" ? "flex-1 px-4 pb-28 pt-5 sm:px-6 lg:px-10 lg:py-10" : "flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-10"}>
           <div className="mx-auto w-full max-w-6xl">{children}</div>
         </main>
       </div>
+      {area === "student" ? <BottomNav /> : null}
     </div>
   );
 }

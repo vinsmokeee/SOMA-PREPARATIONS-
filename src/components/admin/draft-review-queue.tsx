@@ -84,7 +84,7 @@ export function DraftReviewQueue({ drafts, canPublish }: { drafts: ReviewDraft[]
                   {d.options.length ? (
                     <ol className="space-y-1">
                       {d.options.map((o, i) => (
-                        <li key={i} className={cn("rounded px-2 py-1", o.is_correct ? "bg-primary-soft font-medium text-ink" : "text-muted-foreground")}>
+                        <li key={i} className={cn("rounded px-2 py-1", o.is_correct ? "bg-success-soft font-medium text-ink" : "text-muted-foreground")}>
                           {String.fromCharCode(65 + i)}. {o.body}{o.is_correct ? " ✓" : ""}
                         </li>
                       ))}
