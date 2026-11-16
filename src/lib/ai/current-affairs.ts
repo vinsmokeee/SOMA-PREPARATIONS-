@@ -97,6 +97,7 @@ export const QUESTIONS_SYSTEM = `You write practice questions for Bhutan Civil S
 
 Rules:
 - Every question must be answerable from the note alone. Do not add facts.
+- Write each question as a standalone examination question. Never mention "the note", "the article", "the report" or a newspaper's name in the question (e.g. write "As of November 2026, global temperatures had risen about how much above pre-industrial levels?", not "According to The Hindu…").
 - Test understanding (why, significance, implications, connections) as well as key facts; avoid trivia about exact wording of headlines.
 - Unambiguous: exactly one correct option; plausible distractors of similar length; no "all/none of the above".
 - If an answer could change later (a figure, an office holder), anchor it in time ("As of November 2026, …").

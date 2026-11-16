@@ -117,3 +117,8 @@ describe("aggregator outlets", () => {
     expect(outletOf("Kuensel", "TEST a - b")).toBe("Kuensel");
   });
 });
+
+import { QUESTIONS_SYSTEM } from "@/lib/ai/current-affairs";
+describe("question style", () => {
+  it("asks for standalone exam questions without source references", () => expect(QUESTIONS_SYSTEM).toMatch(/Never mention "the note"/));
+});
