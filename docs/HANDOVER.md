@@ -58,6 +58,9 @@ private preview mode, and master-plan phases:
 - **Student pages (PR #30, #31):** Back button on every student page, coloured PE / ME switch button,
   coloured public packages page, maroon ME entry boxes, About Soma + benefits below the PE/ME
   choice, "Why go Premium?" below Free/Premium. Payment wording is left out until the founder confirms it.
+- **PR #32 (merged):** bottom bar is Home + News only; no PE/ME button (Back on an exam home goes to
+  the PE/ME choice; "Change exam" is in the profile menu); ME "Change entry" link; "Free · see
+  Premium" badge; News page has a blue "Practise with the news" box on top, news below.
 
 See `docs/ROADMAP.md` for detail.
 
