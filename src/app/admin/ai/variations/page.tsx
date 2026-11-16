@@ -9,6 +9,7 @@ import { requirePermission } from "@/lib/auth/dal";
 import { getAiProvider } from "@/lib/ai";
 import { VARIATION_TYPES } from "@/lib/ai/question-variations";
 import { createClient } from "@/lib/supabase/server";
+import { formatDate } from "@/lib/utils";
 import { batchVariationsAction, generateVariationsAction } from "../variation-actions";
 
 export const metadata: Metadata = { title: "AI question variations" };
@@ -45,10 +46,11 @@ export default async function VariationsPage({ searchParams }: PageProps<"/admin
   if (search) q = q.ilike("stem", `%${search}%`);
   if (subjectFilter) q = q.eq("subject_id", subjectFilter);
   if (preselected) q = db.from("questions").select("id, stem, stage, question_type, origin, source_year, subjects(name)").eq("id", preselected);
-  const [{ data: sources }, { data: subjects }, { data: overview }] = await Promise.all([
+  const [{ data: sources }, { data: subjects }, { data: overview }, { data: runs }] = await Promise.all([
     q,
     db.from("subjects").select("id, stage, name").eq("is_active", true).order("stage").order("sort_order"),
     db.rpc("ai_question_overview"),
+    db.from("ai_jobs").select("id, status, created_at, error_message, output").eq("input->>mode", "variation").order("created_at", { ascending: false }).limit(8),
   ]);
   const o = overview as { awaiting_review: number; flagged: number; variations: number } | null;
   const configured = Boolean(getAiProvider());
@@ -64,6 +66,33 @@ export default async function VariationsPage({ searchParams }: PageProps<"/admin
         <p className="mb-6 text-sm text-muted-foreground">
           {o.variations} variations so far · <Link href="/admin/ai/review" className="font-medium text-primary hover:underline">{o.awaiting_review} drafts waiting for review{o.flagged ? ` (${o.flagged} flagged)` : ""}</Link>
         </p>
+      ) : null}
+
+      {(runs ?? []).length ? (
+        <section className="mb-8 rounded-xl border border-border p-5" aria-labelledby="runs-h">
+          <h2 id="runs-h" className="text-lg font-semibold">Recent runs</h2>
+          <ul className="mt-2 divide-y divide-border text-sm">
+            {(runs ?? []).map((r) => {
+              const out = (r.output ?? {}) as { created?: number; flagged?: number; skipped?: unknown[]; estimated_cost_usd?: number; concept?: string };
+              return (
+                <li key={r.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2">
+                  <span className="text-muted-foreground">{formatDate(r.created_at)}</span>
+                  {r.status === "running" ? <Badge tone="warning">Working…</Badge> : r.status === "failed" ? <Badge tone="danger">Failed</Badge> : <Badge tone="green">Done</Badge>}
+                  {r.status === "succeeded" ? (
+                    <span>
+                      {out.created ?? 0} drafted{out.flagged ? `, ${out.flagged} flagged` : ""}{out.skipped?.length ? `, ${out.skipped.length} discarded` : ""} · about US$ {Number(out.estimated_cost_usd ?? 0).toFixed(2)}
+                    </span>
+                  ) : null}
+                  {r.status === "failed" ? <span className="text-danger">{r.error_message?.slice(0, 160)}</span> : null}
+                  {out.concept ? <span className="w-full text-xs text-muted-foreground">Concept: {out.concept}</span> : null}
+                </li>
+              );
+            })}
+          </ul>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Refresh the page to update. <Link href="/admin/ai/review" className="font-medium text-primary hover:underline">Open the review queue</Link>
+          </p>
+        </section>
       ) : null}
 
       <div className="grid gap-8 xl:grid-cols-2">
