@@ -6,6 +6,7 @@ import { formatNu } from "@/lib/utils";
 import { sandboxDecideAction } from "./actions";
 
 export const metadata: Metadata = { title: "Test bank", robots: { index: false } };
+export const instant = false;
 
 /** The sandbox provider's "bank page". Admins only; no real money moves. */
 export default async function SandboxBankPage({ params }: PageProps<"/pay/sandbox/[tx]">) {

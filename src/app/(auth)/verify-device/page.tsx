@@ -4,6 +4,7 @@ import { requireUser } from "@/lib/auth/dal";
 import { VerifyDeviceForm } from "./verify-form";
 
 export const metadata: Metadata = { title: "Confirm it's you" };
+export const instant = false;
 
 export default async function VerifyDevicePage({ searchParams }: PageProps<"/verify-device">) {
   const sp = await searchParams;

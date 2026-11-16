@@ -66,7 +66,7 @@ export const subjectCreateSchema = z.object({
 
 export const toggleSchema = z.object({ id: uuid, is_active: z.enum(["true", "false"]).transform((v) => v === "true") });
 
-const emptyNullEarly = (v: unknown) => (typeof v === "string" && v.trim() === "" ? null : v);
+const emptyNullEarly = (v: unknown) => (v === undefined || (typeof v === "string" && v.trim() === "") ? null : v);
 
 export const packageUpdateSchema = z
   .object({
@@ -89,7 +89,7 @@ export const packageUpdateSchema = z
     promo_allowed: z.preprocess((v) => v === "on", z.boolean()),
     programme: z.string().trim().regex(/^[a-z0-9_-]{2,40}$/, "Programme: lower-case letters, numbers or dashes.").default("bcse"),
     category_id: z.preprocess(emptyNullEarly, z.uuid().nullable()),
-    ai_evaluations: optInt(0, 10000),
+    ai_evaluations: z.preprocess((v) => (v === undefined || v === "" || v === null ? null : Number(v)), z.number().int().min(0).max(10000).nullable()),
     feature_keys: z.array(z.string().regex(/^[a-z_]{2,40}$/)).max(20).default([]),
   })
   .refine((p) => p.promo_price === null || p.promo_price < p.price, { path: ["promo_price"], message: "Promotional price must be lower than the regular price." })
