@@ -26,8 +26,8 @@ export class AnthropicProvider implements AiProvider {
       const response = await this.client.beta.messages.parse({
         model: this.model,
         max_tokens: req.maxTokens ?? 16000,
-        betas: ["server-side-fallback-2026-07-01"],
-        fallbacks: "default",
+        // Server-side refusal fallback is not offered for Haiku models.
+        ...(this.model.includes("haiku") ? {} : { betas: ["server-side-fallback-2026-07-01"], fallbacks: "default" as const }),
         output_config: { effort: req.effort ?? "high", format: betaZodOutputFormat(req.schema) },
         system: req.system,
         messages: [{
