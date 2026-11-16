@@ -158,10 +158,12 @@ export async function savePaymentSettingsAction(_prev: ActionState, formData: Fo
     db.from("app_settings").select("value").eq("key", "payments.config").maybeSingle(),
     db.from("app_settings").select("value").eq("key", "security.config").maybeSingle(),
   ]);
+  const previous = ((pay?.value as { manual_methods?: { label: string; image_url?: string }[] } | null)?.manual_methods ?? []);
+  const withImages = methods.map((m) => ({ ...m, image_url: previous.find((x) => x.label === m.label)?.image_url ?? undefined }));
   const e1 = await db.from("app_settings").upsert({ key: "payments.config", is_public: false, value: {
     ...((pay?.value as object) ?? {}), manual_enabled: p.data.manual_enabled, sandbox_enabled: p.data.sandbox_enabled,
     gateway_provider: p.data.gateway_provider || null, order_expiry_hours: p.data.order_expiry_hours,
-    manual_instructions: p.data.manual_instructions, manual_methods: methods,
+    manual_instructions: p.data.manual_instructions, manual_methods: withImages,
     expiry_reminder_days: p.data.expiry_reminder_days.split(",").map((x) => Number(x.trim())).filter((n) => n > 0),
   } });
   const e2 = await db.from("app_settings").upsert({ key: "security.config", is_public: false, value: { ...((sec?.value as object) ?? {}), max_concurrent_sessions: p.data.max_concurrent_sessions } });
@@ -189,4 +191,42 @@ export async function flagAction(_prev: ActionState, formData: FormData): Promis
   await db.from("security_flags").update({ status: p.data.status, note: p.data.note || null, reviewed_by: user?.id, reviewed_at: new Date().toISOString() }).eq("id", p.data.id);
   revalidatePath("/admin/security");
   return { status: "success", message: "Updated." };
+}
+
+/** Adds a payment method with a QR code image (shown to students on the payment page). */
+export async function addQrMethodAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const d = await guard("settings.manage"); if (d) return d;
+  const label = String(formData.get("label") ?? "").trim().slice(0, 80);
+  const details = String(formData.get("details") ?? "").trim().slice(0, 600);
+  const file = formData.get("qr");
+  if (!label) return { status: "error", message: "Give the method a name, e.g. “T Bank QR”." };
+  if (!(file instanceof File) || file.size === 0) return { status: "error", message: "Choose the QR code image." };
+  if (file.size > 2 * 1024 * 1024) return { status: "error", message: "The image must be under 2 MB." };
+  const ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : file.type === "image/jpeg" ? "jpg" : null;
+  if (!ext) return { status: "error", message: "Use a PNG or JPG image." };
+  const db = await createClient();
+  const path = `payment-qr/${crypto.randomUUID()}.${ext}`;
+  const { error: upErr } = await db.storage.from("site-assets").upload(path, file, { contentType: file.type, upsert: false });
+  if (upErr) return { status: "error", message: "The image could not be uploaded." };
+  const imageUrl = db.storage.from("site-assets").getPublicUrl(path).data.publicUrl;
+  const { data: pay } = await db.from("app_settings").select("value").eq("key", "payments.config").maybeSingle();
+  const value = (pay?.value ?? {}) as { manual_methods?: { label: string; details: string; image_url?: string }[] };
+  const methods = [...(value.manual_methods ?? []).filter((m) => m.label !== label), { label, details, image_url: imageUrl }].slice(0, 10);
+  const { error } = await db.from("app_settings").upsert({ key: "payments.config", is_public: false, value: { ...value, manual_methods: methods } });
+  if (error) return { status: "error", message: "Could not save the method." };
+  return ok(`“${label}” added with its QR code.`);
+}
+
+export async function removeMethodAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const d = await guard("settings.manage"); if (d) return d;
+  const label = String(formData.get("label") ?? "");
+  const db = await createClient();
+  const { data: pay } = await db.from("app_settings").select("value").eq("key", "payments.config").maybeSingle();
+  const value = (pay?.value ?? {}) as { manual_methods?: { label: string; image_url?: string }[] };
+  const removed = (value.manual_methods ?? []).find((m) => m.label === label);
+  const { error } = await db.from("app_settings").upsert({ key: "payments.config", is_public: false, value: { ...value, manual_methods: (value.manual_methods ?? []).filter((m) => m.label !== label) } });
+  if (error) return { status: "error", message: "Could not remove the method." };
+  const path = removed?.image_url?.split("/site-assets/")[1];
+  if (path) await db.storage.from("site-assets").remove([path]);
+  return ok("Method removed.");
 }
