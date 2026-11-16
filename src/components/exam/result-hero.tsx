@@ -25,13 +25,14 @@ export function ResultHero({ title, score, max, correct, incorrect, unanswered, 
   const cmp = stage === "PE" ? cutoffComparison(score, max, cutoff) : null;
   const ring = `conic-gradient(#fde68a ${pct * 3.6}deg, rgba(255,255,255,0.25) 0deg)`;
   return (
-    <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-400 via-orange-600 to-[#7a1e3a] p-5 text-white shadow-xl sm:p-7">
+    <section className={cn("relative overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-xl sm:p-7",
+      stage === "PE" ? "from-amber-400 via-orange-500 to-orange-700" : "from-rose-500 via-[#9b2c4b] to-[#5b1530]")}>
       <span className="absolute -right-10 -top-10 size-40 rounded-full bg-white/10" aria-hidden />
       <p className="relative text-sm font-semibold uppercase tracking-wider text-white/80">Your result</p>
       <h1 className="relative mt-1 text-xl font-extrabold leading-snug text-white sm:text-2xl">{title}</h1>
       <div className="relative mt-5 flex items-center gap-5">
         <div className="flex size-28 shrink-0 items-center justify-center rounded-full" style={{ background: ring }} role="img" aria-label={`${pct} percent`}>
-          <div className="flex size-[5.5rem] flex-col items-center justify-center rounded-full bg-[#9a3412]">
+          <div className={cn("flex size-[5.5rem] flex-col items-center justify-center rounded-full", stage === "PE" ? "bg-[#9a3412]" : "bg-[#5b1530]")}>
             <span className="text-3xl font-black leading-none">{pct}%</span>
           </div>
         </div>

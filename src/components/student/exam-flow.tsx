@@ -51,7 +51,7 @@ export type PackageInfo = { slug: string; name: string; price: number; accessDay
 
 export function PackageChoice({ stage, entryLabel, pkg, free }: { stage: Stage; entryLabel?: string | null; pkg: PackageInfo; free: string[] }) {
   return (
-    <div className="mx-auto max-w-lg space-y-5">
+    <div data-exam={stage} className="mx-auto max-w-lg space-y-5">
       <Header stage={stage} subtitle={entryLabel ?? STAGE_INFO[stage].full} />
       <h2 className="text-xl font-extrabold text-ink">Choose how to start</h2>
 
@@ -78,7 +78,7 @@ export function PackageChoice({ stage, entryLabel, pkg, free }: { stage: Stage; 
               {pkg.features.map((f) => <li key={f} className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-yellow-200" aria-hidden />{f}</li>)}
             </ul>
             {pkg.available ? (
-              <Link href={`/dashboard/subscription/checkout/${pkg.slug}`} className="relative mt-4 flex h-12 items-center justify-center rounded-2xl bg-white text-base font-bold text-[#9a3412] active:scale-[0.98]">
+              <Link href={`/dashboard/subscription/checkout/${pkg.slug}`} className="relative mt-4 flex h-12 items-center justify-center rounded-2xl bg-white text-base font-bold text-[var(--on-white,#9a3412)] active:scale-[0.98]">
                 Get Premium
               </Link>
             ) : (
@@ -105,7 +105,7 @@ export function EntryPicker({ options, group, error }: { options: EntryOptions; 
   const groups = ["general", "technical", "dzongkha"].filter((g) => options.categories.some((c) => c.public_group === g));
   const inGroup = options.categories.filter((c) => c.public_group === group);
   return (
-    <div className="mx-auto max-w-lg space-y-5">
+    <div data-exam="ME" className="mx-auto max-w-lg space-y-5">
       <Header stage="ME" subtitle="Main Examination" />
       {error ? <p role="alert" className="rounded-2xl bg-danger-soft p-3 text-sm text-danger">{error}</p> : null}
       {!group ? (
@@ -182,13 +182,13 @@ export function ExamArea({ d }: { d: AreaData }) {
       ]
     : [
         { href: "/dashboard/written", label: "Written answers", sub: "Get AI feedback", icon: PenLine, tint: "from-rose-600 to-[#7a1e3a]" },
-        { href: "/dashboard/exams?stage=ME", label: "ME papers", sub: "Timed papers for your entry", icon: ClipboardCheck, tint: "from-orange-500 to-rose-500" },
+        { href: "/dashboard/exams?stage=ME", label: "ME papers", sub: "Timed papers for your entry", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
         { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-sky-600 to-indigo-500" },
         { href: "/dashboard/analytics", label: "My scores", sub: d.written ? `${d.written} answer${d.written === 1 ? "" : "s"} marked` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
       ];
 
   return (
-    <div className="mx-auto max-w-2xl space-y-6">
+    <div data-exam={d.stage} className="mx-auto max-w-2xl space-y-6">
       <Header stage={d.stage} subtitle={d.entryLabel ?? STAGE_INFO[d.stage].full} badge={d.premium ?? "Free"} />
 
       {/* Continue where you left off */}
@@ -214,13 +214,13 @@ export function ExamArea({ d }: { d: AreaData }) {
         </div>
         <div className="relative mt-5">
           {d.openAttempt ? (
-            <Link href={`/exam/${d.openAttempt.id}`} className="flex h-14 items-center justify-center gap-2 rounded-2xl bg-white text-lg font-bold text-[#9a3412] shadow-lg">
+            <Link href={`/exam/${d.openAttempt.id}`} className="flex h-14 items-center justify-center gap-2 rounded-2xl bg-white text-lg font-bold text-[var(--on-white,#9a3412)] shadow-lg">
               <PlayCircle className="size-5" aria-hidden /> Continue
             </Link>
           ) : next ? (
-            <StartButton itemId={next.id} label={itemAction(next)} className="bg-white text-[#9a3412]" />
+            <StartButton itemId={next.id} label={itemAction(next)} className="bg-white text-[var(--on-white,#9a3412)]" />
           ) : (
-            <Link href={pe ? "/dashboard/practice?stage=PE" : "/dashboard/written"} className="flex h-14 items-center justify-center rounded-2xl bg-white text-lg font-bold text-[#9a3412] shadow-lg">
+            <Link href={pe ? "/dashboard/practice?stage=PE" : "/dashboard/written"} className="flex h-14 items-center justify-center rounded-2xl bg-white text-lg font-bold text-[var(--on-white,#9a3412)] shadow-lg">
               {pe ? "Start practice" : "Write an answer"}
             </Link>
           )}

@@ -94,6 +94,7 @@ declare
   _s record;
   _exam uuid;
   _n int;
+  _w int;
 begin
   if _uid is null then raise exception 'NOT_SIGNED_IN' using errcode = '42501'; end if;
   if not public.has_stage_access(_stage) and not public.has_permission('exams.manage') then
@@ -107,13 +108,22 @@ begin
   select count(*) into _sections from public.paper_sections where paper_id = _paper.id and subject_id is not null;
   _per := case when _sections > 0 then ceil(_total::numeric / _sections) else _total end;
 
-  -- Questions never answered first, then those answered longest ago.
+  -- In each section: about 1 in 10 are questions the student got wrong
+  -- before (a second chance), the rest are questions never answered first,
+  -- then those answered longest ago. The pool already holds past-paper
+  -- questions and verified variations made from them.
   for _s in select subject_id, coalesce(question_count, _per) as n from public.paper_sections
             where paper_id = _paper.id and subject_id is not null order by sort_order loop
     select coalesce(array_agg(x.id), '{}') into _more from (
+      select q.id from public.questions q join public.my_latest_answers() la on la.question_id = q.id
+      where q.id in (select public.practice_pool(_stage)) and q.subject_id = _s.subject_id and la.is_correct = false
+      order by random() limit ceil(_s.n * 0.1)::int) x;
+    _ids := _ids || _more;
+    _w := cardinality(_more);
+    select coalesce(array_agg(x.id), '{}') into _more from (
       select q.id from public.questions q left join public.my_latest_answers() la on la.question_id = q.id
-      where q.id in (select public.practice_pool(_stage)) and q.subject_id = _s.subject_id
-      order by la.answered_at nulls first, random() limit _s.n) x;
+      where q.id in (select public.practice_pool(_stage)) and q.subject_id = _s.subject_id and not (q.id = any(_ids))
+      order by la.answered_at nulls first, random() limit _s.n - _w) x;
     _ids := _ids || _more;
   end loop;
   -- Fill up from any section if some sections are short.

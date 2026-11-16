@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
+import { CoachCard } from "@/components/exam/coach-card";
 import { MockCta } from "@/components/exam/mock-cta";
+import { coach } from "@/lib/exam/coach";
 import { ResultHero, SectionBars } from "@/components/exam/result-hero";
 import { ResultReview } from "@/components/exam/result-review";
 import { requireUser } from "@/lib/auth/dal";
@@ -62,6 +64,14 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
             {a.status === "auto_submitted" ? "Submitted automatically when time ran out" : "Submitted"} on {formatDate(a.submitted_at)}
             {accuracy !== null ? ` · ${accuracy}% of the questions you answered were correct` : ""}
           </p>
+          <div className="mt-6">
+            <CoachCard advice={coach({
+              sections: subjects, total: mcqs.length, correct: a.correct_count, wrong: a.incorrect_count,
+              skipped: mcqs.filter((q) => !q.answer?.selected_option_id).length,
+              timeUsedSeconds: a.time_spent_seconds ?? 0, timeAllowedMinutes: r.exam.duration_minutes,
+              negativeMarking: Number(r.exam.negative_mark_per_wrong), autoSubmitted: a.status === "auto_submitted",
+            })} />
+          </div>
         </div>
       ) : (
         <>

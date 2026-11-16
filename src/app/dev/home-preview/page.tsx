@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { AppShell } from "@/components/app/app-shell";
+import { CoachCard } from "@/components/exam/coach-card";
 import { MockCta } from "@/components/exam/mock-cta";
+import { coach } from "@/lib/exam/coach";
 import { ResultHero, SectionBars } from "@/components/exam/result-hero";
 import { studentNav } from "@/components/app/student-nav";
 import { EntryPicker, ExamArea, ExamChooser, FREE_POINTS, PackageChoice, type AreaData } from "@/components/student/exam-flow";
@@ -53,6 +55,25 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
           <h2 className="mb-3 text-lg font-bold">Score by section</h2>
           <SectionBars rows={[{ name: "English", correct: 20, total: 25, accuracy: 80 }, { name: "Dzongkha", correct: 14, total: 25, accuracy: 56 }, { name: "Aptitude", correct: 19, total: 25, accuracy: 76 }, { name: "Data Interpretation", correct: 15, total: 25, accuracy: 60 }]} />
         </div>
+      </div>
+    ),
+    "result-coach": (
+      <div className="mx-auto max-w-2xl space-y-6">
+        <ResultHero title="Mock test: PE paper 1" score={58} max={100} correct={58} incorrect={40} unanswered={2} time="32m of 150 min" stage="PE" cutoff={{ year: 2026, value: 55, unit: "percent" }} />
+        <CoachCard advice={coach({
+          sections: [
+            { name: "English", total: 25, correct: 17, incorrect: 8, unanswered: 0, accuracy: 68, timeSeconds: 0 },
+            { name: "Dzongkha", total: 25, correct: 11, incorrect: 13, unanswered: 1, accuracy: 46, timeSeconds: 0 },
+            { name: "Aptitude", total: 25, correct: 18, incorrect: 7, unanswered: 0, accuracy: 72, timeSeconds: 0 },
+            { name: "Data Interpretation", total: 25, correct: 12, incorrect: 12, unanswered: 1, accuracy: 50, timeSeconds: 0 },
+          ],
+          total: 100, correct: 58, wrong: 40, skipped: 2, timeUsedSeconds: 32 * 60, timeAllowedMinutes: 150, negativeMarking: 0, autoSubmitted: false,
+        })} />
+      </div>
+    ),
+    "me-result": (
+      <div className="mx-auto max-w-2xl space-y-6">
+        <ResultHero title="Practice paper: General Paper II" score={34} max={50} correct={0} incorrect={0} unanswered={0} time="1h 40m of 180 min" stage="ME" cutoff={null} />
       </div>
     ),
     "pe-free": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} />,

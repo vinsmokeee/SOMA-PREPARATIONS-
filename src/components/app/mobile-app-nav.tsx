@@ -11,7 +11,7 @@ export function MobileAppNav({ sections, user, avatar = false }: { sections: Nav
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
         {avatar ? (
-          <button type="button" className="inline-flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-orange-600 text-base font-extrabold text-white shadow-sm" aria-label="Open my menu">
+          <button type="button" className="inline-flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-[var(--avatar-from,#fbbf24)] to-[var(--avatar-to,#ea580c)] text-base font-extrabold text-white shadow-sm" aria-label="Open my menu">
             {(user.name.trim()[0] ?? "S").toUpperCase()}
           </button>
         ) : (

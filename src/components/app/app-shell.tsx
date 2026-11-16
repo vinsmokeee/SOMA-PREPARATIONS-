@@ -23,7 +23,7 @@ export function AppShell({
   unread?: number;
 }) {
   return (
-    <div className="flex min-h-full flex-1 flex-col lg:flex-row">
+    <div data-exam={area === "student" ? stage : undefined} className="flex min-h-full flex-1 flex-col lg:flex-row">
       <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-muted/50 lg:flex">
         <div className="flex h-16 items-center border-b border-border px-5">
           <Logo href={area === "admin" ? "/admin" : "/dashboard"} />
