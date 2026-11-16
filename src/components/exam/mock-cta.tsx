@@ -10,7 +10,7 @@ export function MockCta({ premium }: { premium: boolean }) {
   const [state, action, pending] = useActionState(createMockAction, {} as StartState);
   if (!premium) {
     return (
-      <Link href="/dashboard/subscription/checkout/pe-premium" className="flex items-center gap-3 rounded-2xl bg-yellow-100 p-4 text-yellow-950 ring-1 ring-yellow-300">
+      <Link href="/dashboard/pe?plans=1" className="flex items-center gap-3 rounded-2xl bg-yellow-100 p-4 text-yellow-950 ring-1 ring-yellow-300">
         <Crown className="size-6 shrink-0 text-yellow-700" aria-hidden />
         <span className="text-sm">
           <span className="block font-bold">Want another mock test today?</span>

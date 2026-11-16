@@ -35,8 +35,8 @@ export default async function MePage({ searchParams }: PageProps<"/dashboard/me"
       />
     );
   }
-  if (!state.started.ME) {
-    return <PackageChoice stage="ME" entryLabel={state.entry.label} pkg={await loadPackage("ME")} free={FREE_POINTS.ME} />;
+  if (!state.started.ME || sp.plans === "1") {
+    return <PackageChoice stage="ME" entryLabel={state.entry.label} pkg={await loadPackage("ME")} free={FREE_POINTS.ME} onFree={state.started.ME} />;
   }
   return <ExamArea d={await loadArea("ME", state)} />;
 }

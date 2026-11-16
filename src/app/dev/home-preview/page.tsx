@@ -42,6 +42,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
   const content = {
     choose: <ExamChooser firstName="Pema" status={{ PE: null, ME: null }} />,
     "pe-packages": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} />,
+    "pe-upgrade": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} onFree />,
     "me-packages": <PackageChoice stage="ME" entryLabel="Technical Graduates · Civil Engineering" pkg={mePkg} free={FREE_POINTS.ME} />,
     "me-entry": <EntryPicker options={{ categories: [{ id: id(1), name: "Administrative Service", public_group: "general" }, { id: id(2), name: "Technical Service", public_group: "technical" }, { id: id(3), name: "Dzongkha", public_group: "dzongkha" }], specialisations: [] }} group={null} />,
     "me-technical": <EntryPicker options={{ categories: [{ id: id(2), name: "Technical Service", public_group: "technical" }], specialisations: ["Civil Engineering", "Computer Science and Engineering", "Electrical Engineering", "Forestry", "Medicine", "Nursing"].map((name, i) => ({ id: id(i + 1), name })) }} group="technical" />,
