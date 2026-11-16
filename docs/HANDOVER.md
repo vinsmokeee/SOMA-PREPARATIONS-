@@ -52,8 +52,12 @@ private preview mode, and master-plan phases:
   out of time), skip advice.
 - **Mock tests:** Free gets one PE test per Bhutan day (`start_attempt`). Premium makes a new
   test each time (`create_mock_test`), with about 1 in 10 questions the student got wrong
-  before. ME Free gets 3 AI marks. Migrations `20261127000100` and `20261128000100` are
-  applied live.
+  before. ME Free gets 3 AI marks. Free PE: one practice OR mock test a day in total
+  (daily plan and Question of the Day not counted). Migrations `20261127000100`,
+  `20261128000100` and `20261129000100` are applied live.
+- **Student pages (PR #30, #31):** Back button on every student page, coloured PE / ME switch button,
+  coloured public packages page, maroon ME entry boxes, About Soma + benefits below the PE/ME
+  choice, "Why go Premium?" below Free/Premium. Payment wording is left out until the founder confirms it.
 
 See `docs/ROADMAP.md` for detail.
 
