@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
+import { ResultHero, SectionBars } from "@/components/exam/result-hero";
 import { ResultReview } from "@/components/exam/result-review";
-import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { requireUser } from "@/lib/auth/dal";
 import { breakdownBy, formatDuration, revisionSuggestions } from "@/lib/exam/logic";
 import type { AttemptResult } from "@/lib/exam/types";
@@ -20,7 +20,10 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
   await requireUser(`/dashboard/results/${attemptId}`);
   if (!/^[0-9a-f-]{36}$/i.test(attemptId)) notFound();
   const supabase = await createClient();
-  const { data, error } = await supabase.rpc("get_attempt_result", { _attempt_id: attemptId });
+  const [{ data, error }, { data: cut }] = await Promise.all([
+    supabase.rpc("get_attempt_result", { _attempt_id: attemptId }),
+    supabase.from("pe_cutoff_history").select("year, value, unit").order("year", { ascending: false }).limit(1).maybeSingle(),
+  ]);
   if (error?.message?.includes("ATTEMPT_IN_PROGRESS")) redirect(`/exam/${attemptId}`);
   if (error || !data) notFound();
   const r = data as AttemptResult;
@@ -44,21 +47,26 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
       <Link href="/dashboard/history" className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-ink">
         <ChevronLeft className="size-4" aria-hidden /> Examination history
       </Link>
-      <h1 className="mt-3 font-serif text-3xl font-semibold tracking-tight">{r.exam.title}</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        {a.status === "auto_submitted" ? "Submitted automatically when time ran out" : "Submitted"} on {formatDate(a.submitted_at)} ·
-        time used {formatDuration(a.time_spent_seconds)} of {r.exam.duration_minutes} min
-      </p>
-
       {mcqs.length > 0 ? (
-        <dl className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-5">
-          <Stat label="Score" value={`${Number(a.score)} / ${mcqMax}`} strong />
-          <Stat label="Accuracy" value={accuracy === null ? "—" : `${accuracy}%`} />
-          <Stat label="Correct" value={String(a.correct_count)} />
-          <Stat label="Incorrect" value={String(a.incorrect_count)} />
-          <Stat label="Unanswered" value={String(mcqs.filter((q) => !q.answer?.selected_option_id).length)} />
-        </dl>
-      ) : null}
+        <div className="mt-3">
+          <ResultHero
+            title={r.exam.title} score={Number(a.score)} max={mcqMax} correct={a.correct_count} incorrect={a.incorrect_count}
+            unanswered={mcqs.filter((q) => !q.answer?.selected_option_id).length}
+            time={`${formatDuration(a.time_spent_seconds)} of ${r.exam.duration_minutes} min`}
+            stage={r.exam.stage as "PE" | "ME"}
+            cutoff={cut ? { year: cut.year, value: Number(cut.value), unit: cut.unit as "percent" | "marks" } : null}
+          />
+          <p className="mt-2 text-xs text-muted-foreground">
+            {a.status === "auto_submitted" ? "Submitted automatically when time ran out" : "Submitted"} on {formatDate(a.submitted_at)}
+            {accuracy !== null ? ` · ${accuracy}% of the questions you answered were correct` : ""}
+          </p>
+        </div>
+      ) : (
+        <>
+          <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-ink">{r.exam.title}</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Submitted on {formatDate(a.submitted_at)} · time used {formatDuration(a.time_spent_seconds)}</p>
+        </>
+      )}
       {written.length > 0 ? <WrittenPanel attemptId={a.id} written={written} closedAt={a.submitted_at ?? a.deadline_at} deadline={a.deadline_at} /> : null}
       {r.exam.negative_mark_per_wrong > 0 && mcqs.length > 0 ? (
         <p className="mt-3 text-xs text-muted-foreground">This practice examination deducted {Number(r.exam.negative_mark_per_wrong)} mark per wrong answer.</p>
@@ -66,35 +74,16 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
 
       {subjects.length > 0 ? (
         <section className="mt-10">
-          <h2 className="font-serif text-2xl font-semibold">Performance by subject</h2>
+          <h2 className="text-lg font-bold">Score by section</h2>
           <div className="mt-4">
-            <Table>
-              <THead><TR><TH>Subject</TH><TH className="text-right">Correct</TH><TH className="text-right">Accuracy</TH><TH className="hidden text-right sm:table-cell">Time</TH></TR></THead>
-              <TBody>
-                {subjects.map((s) => (
-                  <TR key={s.name}>
-                    <TD className="text-ink">{s.name}</TD>
-                    <TD className="text-right tabular-nums">{s.correct} / {s.total}</TD>
-                    <TD className="text-right tabular-nums">
-                      {s.accuracy === null ? "—" : (
-                        <span className="inline-flex items-center gap-2">
-                          <span className="hidden h-1.5 w-16 overflow-hidden rounded-full bg-muted sm:inline-block"><span className="block h-full bg-primary" style={{ width: `${s.accuracy}%` }} /></span>
-                          {s.accuracy}%
-                        </span>
-                      )}
-                    </TD>
-                    <TD className="hidden text-right tabular-nums sm:table-cell">{formatDuration(s.timeSeconds)}</TD>
-                  </TR>
-                ))}
-              </TBody>
-            </Table>
+            <SectionBars rows={subjects} />
           </div>
         </section>
       ) : null}
 
       <section className="mt-10 grid gap-4 md:grid-cols-2">
-        <div className="rounded-xl border border-border p-5">
-          <h2 className="font-semibold text-ink">Suggested revision</h2>
+        <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-border">
+          <h2 className="font-bold text-ink">What to revise next</h2>
           {revise.length === 0 ? (
             <p className="mt-2 text-sm text-muted-foreground">{mcqs.length ? "No weak areas stood out in this attempt. Keep practising with full-length examinations." : "Compare your written answers with the rubrics to find areas to improve."}</p>
           ) : (
@@ -109,8 +98,8 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
           )}
           <p className="mt-3 text-xs text-muted-foreground">A Soma estimate from this attempt only — not an official assessment.</p>
         </div>
-        <div className="rounded-xl border border-border p-5">
-          <h2 className="font-semibold text-ink">Time analysis</h2>
+        <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-border">
+          <h2 className="font-bold text-ink">Your time</h2>
           <p className="mt-2 text-sm text-foreground">Average {formatDuration(avg)} per question.</p>
           {slowest.length ? (
             <ul className="mt-2 space-y-1.5 text-sm">
@@ -128,18 +117,9 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
       <ResultReview questions={r.questions} />
 
       <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row">
-        <Link href={`/dashboard/exams/${r.exam.slug}`} className="inline-flex h-11 items-center justify-center rounded-md bg-primary px-5 text-sm font-semibold text-primary-foreground hover:bg-primary-hover">Take this examination again</Link>
-        <Link href="/dashboard/exams" className="inline-flex h-11 items-center justify-center rounded-md border border-border-strong px-5 text-sm font-medium hover:bg-muted">More examinations</Link>
+        <Link href={`/dashboard/exams/${r.exam.slug}`} className="inline-flex h-12 items-center justify-center rounded-2xl bg-primary px-5 text-base font-bold text-primary-foreground hover:bg-primary-hover">Take this test again</Link>
+        <Link href="/dashboard" className="inline-flex h-12 items-center justify-center rounded-2xl bg-white px-5 text-base font-semibold shadow-sm ring-1 ring-border hover:bg-muted">Back to home</Link>
       </div>
-    </div>
-  );
-}
-
-function Stat({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
-  return (
-    <div className="rounded-xl border border-border p-4">
-      <dt className="text-xs text-muted-foreground">{label}</dt>
-      <dd className={strong ? "mt-1 text-2xl font-semibold tabular-nums text-primary" : "mt-1 text-2xl font-semibold tabular-nums text-ink"}>{value}</dd>
     </div>
   );
 }

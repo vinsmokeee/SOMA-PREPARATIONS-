@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { AppShell } from "@/components/app/app-shell";
+import { ResultHero, SectionBars } from "@/components/exam/result-hero";
 import { studentNav } from "@/components/app/student-nav";
 import { EntryPicker, ExamArea, ExamChooser, FREE_POINTS, PackageChoice, type AreaData } from "@/components/student/exam-flow";
 import type { TrainingData } from "@/lib/training/model";
@@ -42,6 +43,15 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     "me-entry": <EntryPicker options={{ categories: [{ id: id(1), name: "Administrative Service", public_group: "general" }, { id: id(2), name: "Technical Service", public_group: "technical" }, { id: id(3), name: "Dzongkha", public_group: "dzongkha" }], specialisations: [] }} group={null} />,
     "me-technical": <EntryPicker options={{ categories: [{ id: id(2), name: "Technical Service", public_group: "technical" }], specialisations: ["Civil Engineering", "Computer Science and Engineering", "Electrical Engineering", "Forestry", "Medicine", "Nursing"].map((name, i) => ({ id: id(i + 1), name })) }} group="technical" />,
     pe: <ExamArea d={area({})} />,
+    result: (
+      <div className="mx-auto max-w-2xl space-y-6">
+        <ResultHero title="Mock test: PE paper 1" score={68} max={100} correct={68} incorrect={24} unanswered={8} time="2h 05m of 150 min" stage="PE" cutoff={{ year: 2026, value: 55, unit: "percent" }} />
+        <div>
+          <h2 className="mb-3 text-lg font-bold">Score by section</h2>
+          <SectionBars rows={[{ name: "English", correct: 20, total: 25, accuracy: 80 }, { name: "Dzongkha", correct: 14, total: 25, accuracy: 56 }, { name: "Aptitude", correct: 19, total: 25, accuracy: 76 }, { name: "Data Interpretation", correct: 15, total: 25, accuracy: 60 }]} />
+        </div>
+      </div>
+    ),
     "pe-free": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} />,
     me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 3 }, premiumSlug: "me-premium" })} />,
   }[screen as string] ?? null;
