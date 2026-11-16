@@ -20,7 +20,7 @@ export type ReviewDraft = {
   options: { body: string; is_correct: boolean }[];
   explanation: string | null;
   model_answer: string | null;
-  ai_review: { verdict?: string; issues?: string[]; what_changed?: string; fact_check_notes?: string; concept?: string } | null;
+  ai_review: { verdict?: string; issues?: string[]; what_changed?: string; fact_check_notes?: string; checker_notes?: string; concept?: string } | null;
   source: { id: string; stem: string; origin: string } | null;
 };
 
@@ -87,6 +87,7 @@ export function DraftReviewQueue({ drafts, canPublish }: { drafts: ReviewDraft[]
                   {d.ai_review?.issues?.length ? (
                     <ul className="list-disc space-y-0.5 pl-5 text-warning">{d.ai_review.issues.map((i) => <li key={i}>{i}</li>)}</ul>
                   ) : null}
+                  {d.ai_review?.checker_notes ? <p className="text-muted-foreground"><span className="font-medium text-ink">Checker&apos;s notes: </span>{d.ai_review.checker_notes}</p> : null}
                   {d.ai_review?.fact_check_notes ? <p className="text-muted-foreground"><span className="font-medium text-ink">Writer&apos;s notes to check: </span>{d.ai_review.fact_check_notes}</p> : null}
                   {d.source ? (
                     <details className="rounded-md bg-muted/60 p-2">

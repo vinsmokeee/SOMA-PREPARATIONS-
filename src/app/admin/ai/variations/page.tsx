@@ -99,7 +99,7 @@ export default async function VariationsPage({ searchParams }: PageProps<"/admin
               </ul>
             </fieldset>
             <TypeChoices />
-            <FieldHint>About $0.01–0.02 per question, including the automatic check. Takes about a minute.</FieldHint>
+            <FieldHint>Cost per question, including the automatic check: about $0.01–0.02 for multiple choice, about $0.07 for written questions. Takes 1–2 minutes.</FieldHint>
           </ActionForm>
         </section>
 
