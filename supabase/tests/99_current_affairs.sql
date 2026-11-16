@@ -73,4 +73,5 @@ select tests.login(:'b');
 select tests.assert((select count(*) from public.ca_items) = 3, 'staff see every story');
 select tests.assert(((public.ca_overview()) ->> 'held')::int = 1, 'overview counts held stories');
 select tests.assert((select count(*) from public.ca_articles) = 2, 'staff see articles');
+select tests.assert_fails($$select token from public.ca_scheduler$$, 'scheduler token is not readable by any signed-in user');
 rollback;

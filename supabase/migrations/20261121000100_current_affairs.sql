@@ -448,3 +448,17 @@ end;
 $$;
 revoke all on function public.ca_overview(int) from public, anon;
 grant execute on function public.ca_overview(int) to authenticated;
+
+-- -----------------------------------------------------------------------------
+-- Scheduler token: the database scheduler sends it to the Soma endpoint. Only
+-- the server key can read it (no policies), and it is generated here, so it
+-- never appears in code, chat or environment settings.
+-- -----------------------------------------------------------------------------
+create table public.ca_scheduler (
+  id     int primary key default 1 check (id = 1),
+  token  text not null default replace(gen_random_uuid()::text || gen_random_uuid()::text, '-', ''),
+  created_at timestamptz not null default now()
+);
+alter table public.ca_scheduler enable row level security;
+revoke all on public.ca_scheduler from anon, authenticated;
+insert into public.ca_scheduler (id) values (1) on conflict do nothing;
