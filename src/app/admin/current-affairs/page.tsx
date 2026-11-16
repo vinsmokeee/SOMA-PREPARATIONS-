@@ -153,7 +153,7 @@ async function Sources({ db }: { db: Db }) {
         {(data ?? []).map((s) => (
           <li key={s.id} className="flex flex-col gap-2 p-4 sm:flex-row sm:items-center">
             <div className="min-w-0 flex-1">
-              <p className="font-medium text-ink">{s.name} <span className="text-xs font-normal text-muted-foreground">· {AREA_LABELS[s.area]}{s.country ? ` · ${s.country}` : ""} · {s.tier}</span></p>
+              <p className="font-medium text-ink"><Badge tone={s.is_active ? "green" : "neutral"} className="mr-2 align-middle">{s.is_active ? "On" : "Off"}</Badge>{s.name} <span className="text-xs font-normal text-muted-foreground">· {AREA_LABELS[s.area]}{s.country ? ` · ${s.country}` : ""} · {s.tier}</span></p>
               <p className="truncate text-xs text-muted-foreground">{s.feed_url ?? "No feed configured"}</p>
               <p className="text-xs">
                 {s.last_success_at ? <span className="text-primary">Last success {formatDate(s.last_success_at)} · {s.items_collected} collected</span> : <span className="text-muted-foreground">Not collected yet</span>}
@@ -167,7 +167,7 @@ async function Sources({ db }: { db: Db }) {
                 </ActionForm>
               </details>
             </div>
-            <ActionForm action={toggleSourceAction} submitLabel={s.is_active ? "Switch off" : "Switch on"} variant="secondary" className="space-y-0">
+            <ActionForm action={toggleSourceAction} submitLabel={s.is_active ? "Turn off" : "Turn on"} variant="secondary" className="space-y-0">
               <input type="hidden" name="id" value={s.id} /><input type="hidden" name="active" value={s.is_active ? "false" : "true"} />
             </ActionForm>
           </li>
