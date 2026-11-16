@@ -165,3 +165,14 @@ export async function saveCaSettingsAction(_prev: ActionState, formData: FormDat
   if (error) return { status: "error", message: "Could not save settings." };
   return done("Settings saved.");
 }
+
+export async function updateFeedAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const denied = await guard();
+  if (denied) return denied;
+  const parsed = z.object({ id: z.uuid(), feed_url: z.url().startsWith("https://") }).safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { status: "error", message: "Enter a full https:// feed address." };
+  const db = await createClient();
+  const { error } = await db.from("ca_sources").update({ feed_url: parsed.data.feed_url, consecutive_failures: 0, last_error: null, last_checked_at: null }).eq("id", parsed.data.id);
+  if (error) return { status: "error", message: "Could not update." };
+  return done("Feed address saved. It will be checked on the next run.");
+}
