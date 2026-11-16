@@ -40,8 +40,8 @@ export async function loadExamState(userId: string): Promise<ExamState> {
     PE: pathway === "PE" || pathway === "both" || Boolean(premium.PE),
     ME: pathway === "ME" || pathway === "both" || Boolean(premium.ME),
   };
-  const lastUsed = rows.find((a) => a.exams?.stage && started[a.exams.stage])?.exams?.stage ?? null;
-  const lastStage: Stage | null = lastUsed ?? (started.PE ? "PE" : started.ME ? "ME" : null);
+  // PE comes first and the ME months later: once a student has started ME, open ME.
+  const lastStage: Stage | null = started.ME ? "ME" : started.PE ? "PE" : null;
   const cat = profile?.exam_categories as unknown as { name: string; public_group: string | null } | null;
   const spec = profile?.specialisations as unknown as { name: string } | null;
   const group = cat?.public_group ?? null;

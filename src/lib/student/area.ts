@@ -48,6 +48,5 @@ export async function loadArea(stage: Stage, state: ExamState): Promise<AreaData
     written: perf?.totals.written_answers ?? 0,
     freeUsedUp,
     premiumSlug: PACKAGE_SLUG[stage],
-    otherStage: stage === "PE" ? "ME" : "PE",
   };
 }

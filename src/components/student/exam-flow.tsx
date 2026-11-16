@@ -164,7 +164,6 @@ export type AreaData = {
   written: number;
   freeUsedUp: boolean;             // free questions/tests or AI marks used up
   premiumSlug: string | null;
-  otherStage: Stage;
 };
 
 export function ExamArea({ d }: { d: AreaData }) {
@@ -189,7 +188,7 @@ export function ExamArea({ d }: { d: AreaData }) {
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
-      <Header stage={d.stage} subtitle={d.entryLabel ?? STAGE_INFO[d.stage].full} badge={d.premium ?? "Free"} switchTo={d.otherStage} />
+      <Header stage={d.stage} subtitle={d.entryLabel ?? STAGE_INFO[d.stage].full} badge={d.premium ?? "Free"} />
 
       {/* Continue where you left off */}
       <section className={cn("relative overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-xl sm:p-7", STAGE_INFO[d.stage].gradient)}>
@@ -280,12 +279,21 @@ export function ExamArea({ d }: { d: AreaData }) {
           </div>
         ))}
       </div>
+      {pe ? (
+        <Link href="/dashboard/me" className="block rounded-2xl bg-white p-4 text-center text-sm shadow-sm ring-1 ring-border">
+          Qualified for the Main Examination? <span className="font-bold text-primary">Start ME preparation →</span>
+        </Link>
+      ) : (
+        <Link href="/dashboard/pe" className="block text-center text-xs text-muted-foreground">
+          Still preparing for the PE? <span className="font-semibold text-primary">Open PE</span>
+        </Link>
+      )}
       <p className="text-center text-[11px] text-subtle">Soma&apos;s figures are estimates from your practice, not RCSC assessments.</p>
     </div>
   );
 }
 
-function Header({ stage, subtitle, badge, switchTo }: { stage: Stage; subtitle: string; badge?: string; switchTo?: Stage }) {
+function Header({ stage, subtitle, badge }: { stage: Stage; subtitle: string; badge?: string }) {
   return (
     <div className="flex items-start justify-between gap-3">
       <div>
@@ -299,11 +307,7 @@ function Header({ stage, subtitle, badge, switchTo }: { stage: Stage; subtitle: 
         </p>
         <p className="text-sm text-muted-foreground">{subtitle}</p>
       </div>
-      {switchTo ? (
-        <Link href="/dashboard?choose=1" className="shrink-0 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-primary shadow-sm ring-1 ring-border">
-          Switch to {switchTo}
-        </Link>
-      ) : null}
+
     </div>
   );
 }

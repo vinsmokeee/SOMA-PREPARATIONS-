@@ -30,7 +30,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     features: ["Every practice question in all four sections", "All timed mock tests", "Your full daily plan and revision", "Scores and progress for every section"] };
   const area = (over: Partial<AreaData>): AreaData => ({
     stage: "PE", entryLabel: null, premium: "Premium until 30 Jan 2027", openAttempt: { id: id(7), title: "Mock test: PE paper 1" },
-    training, answered: 64, accuracy: 72, written: 0, freeUsedUp: false, premiumSlug: "pe-premium", otherStage: "ME", ...over,
+    training, answered: 64, accuracy: 72, written: 0, freeUsedUp: false, premiumSlug: "pe-premium", ...over,
   });
   const content = {
     choose: <ExamChooser firstName="Pema" status={{ PE: null, ME: null }} />,
@@ -39,7 +39,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     "me-technical": <EntryPicker options={{ categories: [{ id: id(2), name: "Technical Service", public_group: "technical" }], specialisations: ["Civil Engineering", "Computer Science and Engineering", "Electrical Engineering", "Forestry", "Medicine", "Nursing"].map((name, i) => ({ id: id(i + 1), name })) }} group="technical" />,
     pe: <ExamArea d={area({})} />,
     "pe-free": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} />,
-    me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 2, otherStage: "PE", premiumSlug: "me-premium" })} />,
+    me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 2, premiumSlug: "me-premium" })} />,
   }[screen as string] ?? null;
   return (
     <AppShell area="student" sections={[{ items: [{ href: "/dashboard", label: "Home", exact: true }] }]} user={{ name: "Pema", email: "pema@example.com", roleLabel: "Student" }}>
