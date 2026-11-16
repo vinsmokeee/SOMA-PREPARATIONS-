@@ -1128,3 +1128,17 @@ begin
   end if;
 end;
 $$;
+
+-- What a signed-in student may see of the payment configuration.
+create or replace function public.payment_options()
+returns jsonb language sql stable security definer set search_path = '' as $$
+  select jsonb_build_object(
+    'manual_enabled', coalesce((c ->> 'manual_enabled')::boolean, true),
+    'manual_instructions', c ->> 'manual_instructions',
+    'manual_methods', coalesce(c -> 'manual_methods', '[]'::jsonb),
+    'gateway_provider', c ->> 'gateway_provider',
+    'sandbox', coalesce((c ->> 'sandbox_enabled')::boolean, false) and public.has_permission('payments.verify'))
+  from (select public.setting('payments.config') as c) x
+$$;
+revoke all on function public.payment_options() from public, anon;
+grant execute on function public.payment_options() to authenticated;

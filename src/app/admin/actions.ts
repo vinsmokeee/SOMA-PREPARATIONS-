@@ -5,13 +5,14 @@ import type { z } from "zod";
 import type { ActionState } from "@/components/app/action-form";
 import { assertPermission, AuthorizationError } from "@/lib/auth/dal";
 import type { Permission } from "@/lib/auth/permissions";
+import { PACKAGE_FEATURES } from "@/lib/commerce/features";
 import { CACHE_TAGS } from "@/lib/data/public";
 import { createClient } from "@/lib/supabase/server";
 import {
   categoryUpdateSchema,
   cycleUpdateSchema,
   messageStatusSchema,
-  packageUpdateSchema,
+  packageUpdateSchema, packageCreateSchema,
   paperUpdateSchema,
   roleChangeSchema,
   subjectCreateSchema,
@@ -102,15 +103,33 @@ export async function setTopicActive(_prev: ActionState, formData: FormData) {
 }
 
 export async function updatePackage(_prev: ActionState, formData: FormData) {
+  // Multi-select checkboxes arrive as repeated keys.
+  const data = new FormData();
+  for (const [k, v] of formData.entries()) if (k !== "feature_keys") data.append(k, v);
+  const keys = formData.getAll("feature_keys");
   return run(
     "packages.manage",
-    packageUpdateSchema,
-    formData,
+    packageUpdateSchema.transform((v) => ({ ...v, feature_keys: keys.map(String).filter((k) => k in PACKAGE_FEATURES) })),
+    data,
     ({ id, ...rest }, db) => db.from("packages").update(rest).eq("id", id).select("id"),
     () => {
       updateTag(CACHE_TAGS.packages);
       revalidatePath("/admin/packages");
     },
+  );
+}
+
+export async function createPackage(_prev: ActionState, formData: FormData) {
+  return run(
+    "packages.manage",
+    packageCreateSchema,
+    formData,
+    (d, db) => db.from("packages").insert({ ...d, status: "draft", features: [], sort_order: 100 }),
+    () => {
+      updateTag(CACHE_TAGS.packages);
+      revalidatePath("/admin/packages");
+    },
+    "Package created as a draft. Open it below to complete it.",
   );
 }
 

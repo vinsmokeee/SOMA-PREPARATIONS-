@@ -66,6 +66,8 @@ export const subjectCreateSchema = z.object({
 
 export const toggleSchema = z.object({ id: uuid, is_active: z.enum(["true", "false"]).transform((v) => v === "true") });
 
+const emptyNullEarly = (v: unknown) => (typeof v === "string" && v.trim() === "" ? null : v);
+
 export const packageUpdateSchema = z
   .object({
     id: uuid,
@@ -81,6 +83,14 @@ export const packageUpdateSchema = z
     status: z.enum(["draft", "coming_soon", "available", "retired"]),
     features: z.string().max(5000).transform((s) => s.split("\n").map((l) => l.trim()).filter(Boolean)),
     terms: optText(4000),
+    includes_pe: z.preprocess((v) => v === "on", z.boolean()),
+    includes_me: z.preprocess((v) => v === "on", z.boolean()),
+    renewable: z.preprocess((v) => v === "on", z.boolean()),
+    promo_allowed: z.preprocess((v) => v === "on", z.boolean()),
+    programme: z.string().trim().regex(/^[a-z0-9_-]{2,40}$/, "Programme: lower-case letters, numbers or dashes.").default("bcse"),
+    category_id: z.preprocess(emptyNullEarly, z.uuid().nullable()),
+    ai_evaluations: optInt(0, 10000),
+    feature_keys: z.array(z.string().regex(/^[a-z_]{2,40}$/)).max(20).default([]),
   })
   .refine((p) => p.promo_price === null || p.promo_price < p.price, { path: ["promo_price"], message: "Promotional price must be lower than the regular price." })
   .refine((p) => p.status !== "available" || p.access_days !== null || p.access_ends_at !== null, {
@@ -118,3 +128,9 @@ export const examSettingsSchema = z.object({
 export const examStatusSchema = z.object({ id: z.uuid(), status: z.enum(["draft", "published", "archived"]) });
 export const examQuestionAddSchema = z.object({ exam_id: z.uuid(), question_id: z.uuid(), section: z.string().trim().max(120).optional() });
 export const examQuestionRefSchema = z.object({ id: z.uuid(), direction: z.enum(["up", "down"]).optional() });
+
+export const packageCreateSchema = z.object({
+  name: z.string().trim().min(2).max(120),
+  slug: z.string().trim().regex(/^[a-z0-9-]{3,60}$/, "Use lower-case letters, numbers and dashes."),
+  price: z.coerce.number().min(0).max(1000000),
+});

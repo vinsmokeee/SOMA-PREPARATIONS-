@@ -25,8 +25,10 @@ export default async function DashboardLayout({ children }: LayoutProps<"/dashbo
     {
       title: "Account",
       items: [
+        { href: "/dashboard/subscription", label: "My subscription" },
+        { href: "/dashboard/notifications", label: "Notifications" },
         { href: "/dashboard/profile", label: "Profile" },
-        { href: "/dashboard/billing", label: "Packages & access", milestone: "M8" },
+        { href: "/dashboard/security", label: "Security" },
         ...(user.isStaff ? [{ href: "/admin", label: "Administration" }] : []),
       ],
     },

@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { requirePermission } from "@/lib/auth/dal";
 import { createClient } from "@/lib/supabase/server";
 import { formatNu } from "@/lib/utils";
-import { updatePackage } from "../actions";
+import { createPackage, updatePackage } from "../actions";
+import { PACKAGE_FEATURES } from "@/lib/commerce/features";
 
 export const metadata: Metadata = { title: "Packages & pricing" };
 
@@ -23,15 +24,28 @@ const day = (v: string | null) => (v ? v.slice(0, 10) : "");
 export default async function AdminPackagesPage() {
   await requirePermission("packages.manage", "/admin/packages");
   const db = await createClient();
-  const { data: packages } = await db.from("packages").select("*, exam_cycles(name)").order("sort_order");
+  const [{ data: packages }, { data: cats }] = await Promise.all([
+    db.from("packages").select("*, exam_cycles(name)").order("sort_order"),
+    db.from("exam_categories").select("id, name").order("sort_order"),
+  ]);
 
   return (
     <>
       <PageTitle title="Packages & pricing" description="Prices, features and access terms shown on the packages page. Changes appear on the public site immediately." />
-      <Alert tone="warning" className="mb-6" title="Sales are not open yet">
-        Checkout and payment verification arrive in Milestone 8. A package can only be set to “Available” once an access
-        period is defined. Offer the combined PE + ME package only when ME materials are ready.
+      <Alert tone="info" className="mb-6" title="Prices, durations and features are all editable here">
+        Set a package to “Available” to let students buy it. A package needs an access period (days or an end date) first.
+        Existing subscriptions keep the terms they were bought with.
       </Alert>
+      <details className="mb-6 rounded-lg border border-border p-4">
+        <summary className="cursor-pointer font-medium text-ink">Create a new package</summary>
+        <ActionForm action={createPackage} submitLabel="Create package" className="mt-3">
+          <div className="grid gap-4 sm:grid-cols-3">
+            <TextField name="name" label="Name" required />
+            <TextField name="slug" label="Short web name (e.g. me-premium)" required />
+            <TextField type="number" step="0.01" name="price" label="Price (Nu.)" required />
+          </div>
+        </ActionForm>
+      </details>
       <div className="space-y-4">
         {(packages ?? []).map((p) => (
           <details key={p.id} className="group rounded-lg border border-border">
@@ -58,7 +72,25 @@ export default async function AdminPackagesPage() {
                   <TextField type="date" name="access_ends_at" label="Access ends on" defaultValue={day(p.access_ends_at)} />
                   <SelectField name="status" label="Status" defaultValue={p.status} options={STATUS_OPTIONS} />
                 </div>
-                <AreaField name="features" label="Features (one per line)" rows={6} defaultValue={(Array.isArray(p.features) ? p.features : []).join("\n")} />
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  <TextField name="programme" label="Programme" defaultValue={p.programme ?? "bcse"} hint="bcse now; e.g. class10 later" />
+                  <SelectField name="category_id" label="ME entry group (optional)" defaultValue={p.category_id ?? ""} options={[{ value: "", label: "Any / not specific" }, ...(cats ?? []).map((c) => ({ value: c.id, label: c.name }))]} />
+                  <TextField type="number" name="ai_evaluations" label="AI evaluations included" defaultValue={p.ai_evaluations} hint="Blank = default setting" />
+                </div>
+                <fieldset className="grid gap-2 text-sm sm:grid-cols-2">
+                  <legend className="mb-1 text-sm font-medium text-ink">Access and rules</legend>
+                  <label className="flex items-center gap-2"><input type="checkbox" name="includes_pe" defaultChecked={p.includes_pe} /> Includes PE (Preliminary)</label>
+                  <label className="flex items-center gap-2"><input type="checkbox" name="includes_me" defaultChecked={p.includes_me} /> Includes ME (Main)</label>
+                  <label className="flex items-center gap-2"><input type="checkbox" name="renewable" defaultChecked={p.renewable ?? true} /> Can be renewed (adds time to the current expiry)</label>
+                  <label className="flex items-center gap-2"><input type="checkbox" name="promo_allowed" defaultChecked={p.promo_allowed ?? true} /> Coupon codes allowed</label>
+                </fieldset>
+                <fieldset className="grid gap-2 text-sm sm:grid-cols-2">
+                  <legend className="mb-1 text-sm font-medium text-ink">Included features</legend>
+                  {Object.entries(PACKAGE_FEATURES).map(([k, label]) => (
+                    <label key={k} className="flex items-center gap-2"><input type="checkbox" name="feature_keys" value={k} defaultChecked={(p.feature_keys ?? []).includes(k)} /> {label}</label>
+                  ))}
+                </fieldset>
+                <AreaField name="features" label="Features shown to students (one per line)" rows={6} defaultValue={(Array.isArray(p.features) ? p.features : []).join("\n")} />
                 <AreaField name="terms" label="Access terms shown to students" rows={3} defaultValue={p.terms} />
               </ActionForm>
             </div>

@@ -36,14 +36,16 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
   const welcome = params.welcome === "1";
 
   const supabase = await createClient();
-  const [attempts, entitlements, learning] = await Promise.all([
+  const [attempts, entitlements, learning, profile, unread] = await Promise.all([
     supabase
       .from("exam_attempts")
       .select("id, status, started_at, score, max_score, exams(title, stage)")
       .order("started_at", { ascending: false })
       .limit(5),
-    supabase.from("entitlements").select("id, ends_at, revoked_at, packages(name)").is("revoked_at", null),
+    supabase.from("entitlements").select("id, ends_at, revoked_at, status, packages(name)").is("revoked_at", null).eq("status", "active").or(`ends_at.is.null,ends_at.gt.${new Date().toISOString()}`),
     loadLearningData(),
+    supabase.from("profiles").select("onboarded_at").eq("id", user.id).maybeSingle(),
+    supabase.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null),
   ]);
   const perf = learning.performance;
   const next = perf ? recommendations(perf, learning.options, 2) : [];
@@ -59,6 +61,10 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
       />
       <div className="space-y-6">
         {notice ? <Alert tone={notice.tone}>{notice.text}</Alert> : null}
+        {profile.data && !profile.data.onboarded_at ? (
+          <Alert tone="info" title="Tell us what you are preparing for">It takes ten seconds and helps Soma show the right practice. <Link href="/dashboard/welcome" className="font-medium text-primary underline">Continue</Link></Alert>
+        ) : null}
+        {unread.count ? <Alert tone="info">You have {unread.count} new notification{unread.count === 1 ? "" : "s"}. <Link href="/dashboard/notifications" className="font-medium text-primary underline">View</Link></Alert> : null}
         {welcome ? <Alert tone="success" title="Your account is ready">Start with a free sample examination from <Link href="/dashboard/exams" className="font-medium text-primary underline">Examinations</Link>.</Alert> : null}
 
         <div className="grid gap-4 md:grid-cols-3">
@@ -69,7 +75,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
               <ClipboardList className="size-5 text-primary" aria-hidden />
               <CardTitle className="mt-2">Your access</CardTitle>
               {access.length === 0 ? (
-                <CardDescription>Free account. Premium packages will be available to purchase soon.</CardDescription>
+                <CardDescription>Free account. Your progress is always kept when you upgrade.</CardDescription>
               ) : (
                 <ul className="mt-1 space-y-1 text-sm">
                   {access.map((e) => (
@@ -82,7 +88,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
               )}
             </CardHeader>
             <CardContent>
-              <Button asChild variant="secondary" size="sm"><Link href="/packages">View packages</Link></Button>
+              <Button asChild variant="secondary" size="sm"><Link href="/dashboard/subscription">{access.length ? "Manage subscription" : "View packages"}</Link></Button>
             </CardContent>
           </Card>
         </div>
