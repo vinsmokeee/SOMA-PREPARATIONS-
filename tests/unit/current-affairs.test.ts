@@ -98,3 +98,13 @@ describe("current-affairs AI checks", () => {
     expect(buildQuestionsPrompt(note, 4, true)).toMatch(/short-answer and one analytical/);
   });
 });
+
+describe("feed ordering and links", () => {
+  it("keeps the newest entries when a feed lists oldest first, and reads guid links", () => {
+    const items = Array.from({ length: 60 }, (_, i) => `<item><title>TEST item ${i}</title><guid isPermaLink="true">https://example.test/${i}</guid><pubDate>${new Date(Date.UTC(2026, 9, 1 + i)).toUTCString()}</pubDate></item>`).join("");
+    const e = parseFeed(`<rss><channel>${items}</channel></rss>`, { max: 40 });
+    expect(e).toHaveLength(40);
+    expect(e[0].title).toBe("TEST item 59");
+    expect(e[0].url).toBe("https://example.test/59");
+  });
+});
