@@ -33,19 +33,41 @@ export default async function CurrentAffairsTodayPage() {
     <>
       <PageTitle title="Current affairs" description={`Today${t.day ? `, ${formatDate(t.day)}` : ""} (Bhutan time). Short, verified updates with sources — Bhutan, South Asia and the world.`} />
       <div className="space-y-8">
-        <section className="rounded-xl border border-primary/30 bg-primary-soft/40 p-5" aria-labelledby="qotd">
-          <h2 id="qotd" className="text-sm font-semibold uppercase tracking-wide text-primary">Question of the Day</h2>
-          {t.question ? (
-            <>
-              <p className="mt-2 text-lg leading-relaxed text-ink">{t.question.stem}</p>
-              <div className="mt-3"><QotdButton /></div>
-            </>
-          ) : <p className="mt-2 text-sm text-muted-foreground">Today’s question appears once today’s stories are verified.</p>}
+        {/* Practice first: one coloured box, news below */}
+        <section aria-labelledby="ca-practice" className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700 p-5 text-white shadow-xl sm:p-7">
+          <span className="absolute -right-10 -top-10 size-40 rounded-full bg-white/10" aria-hidden />
+          <p className="relative text-sm font-semibold uppercase tracking-wider text-white/80">Practice</p>
+          <h2 id="ca-practice" className="relative mt-1 text-2xl font-extrabold">Practise with the news</h2>
+          <p className="relative mt-1 text-sm text-white/90">Read the news below, then test yourself here. Current affairs come up in the exam, so a few minutes every day really helps.</p>
+
+          <div className="relative mt-4 rounded-2xl bg-white p-4 text-ink">
+            <p className="text-sm font-bold uppercase tracking-wide text-blue-700">Question of the Day</p>
+            {t.question ? (
+              <>
+                <p className="mt-1 leading-relaxed">{t.question.stem}</p>
+                <div className="mt-3"><QotdButton /></div>
+              </>
+            ) : <p className="mt-1 text-sm text-muted-foreground">Today’s question appears once today’s stories are verified.</p>}
+          </div>
+
+          <div className="relative mt-3 rounded-2xl bg-white p-4 text-ink">
+            <p className="text-sm font-bold uppercase tracking-wide text-blue-700">Practise current affairs</p>
+            <p className="mt-1 text-sm text-muted-foreground">Questions chosen for you: this week’s important stories first, then your weaker areas.</p>
+            <div className="mt-3"><CaPracticeForm locked={!paid} /></div>
+          </div>
+
+          <div className="relative mt-3 rounded-2xl bg-white/15 p-4">
+            <p className="text-sm font-bold">Weekly Challenge and Monthly Assessment</p>
+            {assessments.length ? (
+              <ul className="mt-2 space-y-2 text-sm">{assessments.map((e) => <li key={e.id}><Link href={`/dashboard/exams/${e.slug}`} className="font-semibold underline underline-offset-2">{e.title}</Link> <span className="text-white/80">· {e.question_count} questions</span></li>)}</ul>
+            ) : <p className="mt-1 text-sm text-white/85">The first Weekly Challenge appears after a full week of verified stories.</p>}
+          </div>
         </section>
 
+        <h2 className="text-xl font-extrabold text-ink">Today’s news</h2>
         {(["bhutan", "regional", "world"] as const).map((area) => (
           <section key={area} aria-labelledby={`h-${area}`}>
-            <h2 id={`h-${area}`} className="text-lg font-semibold">{AREA_LABELS[area]} today</h2>
+            <h3 id={`h-${area}`} className="text-lg font-semibold">{AREA_LABELS[area]}</h3>
             {byArea(area).length ? <ul className="mt-3 space-y-3">{byArea(area).map((i) => <StoryCard key={i.id} i={i} />)}</ul>
               : <p className="mt-2 text-sm text-muted-foreground">No verified {AREA_LABELS[area].toLowerCase()} item yet today.</p>}
           </section>
@@ -53,24 +75,10 @@ export default async function CurrentAffairsTodayPage() {
 
         {latest.length ? (
           <section aria-labelledby="h-recent">
-            <h2 id="h-recent" className="text-lg font-semibold">Earlier this week</h2>
+            <h3 id="h-recent" className="text-lg font-semibold">Earlier this week</h3>
             <ul className="mt-3 space-y-3">{latest.map((i) => <StoryCard key={i.id} i={i} date={i.feature_date} />)}</ul>
           </section>
         ) : null}
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <section className="rounded-xl border border-border p-5">
-            <h2 className="font-semibold text-ink">Practise current affairs</h2>
-            <p className="mt-1 text-sm text-muted-foreground">Questions chosen for you: this week’s important stories first, then your weaker areas.</p>
-            <div className="mt-3"><CaPracticeForm locked={!paid} /></div>
-          </section>
-          <section className="rounded-xl border border-border p-5">
-            <h2 className="font-semibold text-ink">Weekly Challenge and Monthly Assessment</h2>
-            {assessments.length ? (
-              <ul className="mt-2 space-y-2 text-sm">{assessments.map((e) => <li key={e.id}><Link href={`/dashboard/exams/${e.slug}`} className="font-medium text-primary hover:underline">{e.title}</Link> <span className="text-muted-foreground">· {e.question_count} questions</span></li>)}</ul>
-            ) : <p className="mt-2 text-sm text-muted-foreground">The first Weekly Challenge appears after a full week of verified stories.</p>}
-          </section>
-        </div>
 
         <p className="text-sm"><Link href="/dashboard/current-affairs/archive" className="font-medium text-primary hover:underline">Browse the archive by month, area and topic</Link></p>
         <p className="text-xs text-muted-foreground">Notes are written by Soma with AI assistance from the linked sources and published after automatic verification checks. Practice questions are Soma questions (AI-generated), not RCSC questions.</p>

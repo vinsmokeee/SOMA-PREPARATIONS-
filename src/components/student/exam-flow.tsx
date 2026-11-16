@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeftRight, ArrowRight, BarChart3, BookOpenCheck, Check, ClipboardCheck, Crown, Flame, Newspaper, PenLine, PlayCircle } from "lucide-react";
+import { ArrowRight, BarChart3, BookOpenCheck, Check, ClipboardCheck, Crown, Flame, Newspaper, PenLine, PlayCircle } from "lucide-react";
 import { startFreeAction, setMeEntryAction } from "@/app/dashboard/exam-actions";
 import { StartButton } from "@/components/training/start-button";
 import { TodayPlan } from "@/components/training/today-plan";
@@ -57,7 +57,7 @@ export function PackageChoice({ stage, entryLabel, pkg, free, onFree = false }: 
 }) {
   return (
     <div data-exam={stage} className="mx-auto flex max-w-lg flex-col gap-5">
-      <Header stage={stage} subtitle={entryLabel ?? STAGE_INFO[stage].full} />
+      <Header stage={stage} subtitle={entryLabel ?? STAGE_INFO[stage].full} changeEntry={stage === "ME" && !!entryLabel} />
       <h2 className="text-xl font-extrabold text-ink">{onFree ? "Upgrade to Premium" : "Choose how to start"}</h2>
 
       <div className={cn("rounded-3xl bg-white p-5 shadow-sm ring-1 ring-border", onFree && "order-last")}>
@@ -209,7 +209,7 @@ export function ExamArea({ d }: { d: AreaData }) {
 
   return (
     <div data-exam={d.stage} className="mx-auto max-w-2xl space-y-6">
-      <Header stage={d.stage} subtitle={d.entryLabel ?? STAGE_INFO[d.stage].full} badge={d.premium ?? "Free"} />
+      <Header stage={d.stage} subtitle={d.entryLabel ?? STAGE_INFO[d.stage].full} badge={d.premium ?? "Free"} changeEntry={d.stage === "ME" && !!d.entryLabel} />
 
       {/* Continue where you left off */}
       <section className={cn("relative overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-xl sm:p-7", STAGE_INFO[d.stage].gradient)}>
@@ -318,24 +318,27 @@ export function ExamArea({ d }: { d: AreaData }) {
   );
 }
 
-function Header({ stage, subtitle, badge }: { stage: Stage; subtitle: string; badge?: string }) {
+function Header({ stage, subtitle, badge, changeEntry }: { stage: Stage; subtitle: string; badge?: string; changeEntry?: boolean }) {
   return (
     <div className="flex items-start justify-between gap-3">
       <div>
         <p className="flex items-center gap-2 text-2xl font-black tracking-tight text-ink">
           {stage}
-          {badge ? (
-            <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-bold", badge === "Free" ? "bg-muted text-muted-foreground" : "bg-yellow-100 text-yellow-800")}>
-              {badge === "Free" ? "Free" : <span className="inline-flex items-center gap-1"><Crown className="size-3" aria-hidden />{badge}</span>}
+          {badge === "Free" ? (
+            <Link href={`/dashboard/${stage.toLowerCase()}?plans=1`} className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-bold text-muted-foreground">
+              Free · <span className="text-primary">see Premium</span>
+            </Link>
+          ) : badge ? (
+            <span className="rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-bold text-yellow-800">
+              <span className="inline-flex items-center gap-1"><Crown className="size-3" aria-hidden />{badge}</span>
             </span>
           ) : null}
         </p>
-        <p className="text-sm text-muted-foreground">{subtitle}</p>
+        <p className="text-sm text-muted-foreground">
+          {subtitle}
+          {changeEntry ? <> · <Link href="/dashboard/me?change=1" className="font-semibold text-primary underline underline-offset-2">Change entry</Link></> : null}
+        </p>
       </div>
-      <Link href="/dashboard?choose=1" aria-label="Switch between PE and ME"
-        className="flex shrink-0 items-center gap-1.5 rounded-2xl bg-primary px-3.5 py-2.5 text-sm font-bold text-white shadow-md active:scale-[0.97]">
-        <ArrowLeftRight className="size-4" aria-hidden /> PE / ME
-      </Link>
 
     </div>
   );

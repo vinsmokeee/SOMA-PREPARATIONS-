@@ -2,32 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpenCheck, ClipboardCheck, Home, Newspaper, PenLine } from "lucide-react";
+import { Home, Newspaper } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const TABS = {
-  PE: [
-    { href: "/dashboard", label: "Home", icon: Home, exact: true },
-    { href: "/dashboard/practice", label: "Practice", icon: BookOpenCheck },
-    { href: "/dashboard/exams", label: "Mock tests", icon: ClipboardCheck },
-    { href: "/dashboard/current-affairs", label: "News", icon: Newspaper },
-  ],
-  ME: [
-    { href: "/dashboard", label: "Home", icon: Home, exact: true },
-    { href: "/dashboard/written", label: "Write", icon: PenLine },
-    { href: "/dashboard/exams", label: "Papers", icon: ClipboardCheck },
-    { href: "/dashboard/current-affairs", label: "News", icon: Newspaper },
-  ],
-};
+const TABS = [
+  { href: "/dashboard", label: "Home", icon: Home, exact: true },
+  { href: "/dashboard/current-affairs", label: "News", icon: Newspaper },
+];
 
-/** Phone navigation for students: four big tabs that follow their exam (PE or ME). */
-export function BottomNav({ stage }: { stage: "PE" | "ME" }) {
+/** Phone navigation for students: Home and News. */
+export function BottomNav() {
   const path = usePathname();
   const home = (h: string) => h === "/dashboard" && (path === "/dashboard" || path === "/dashboard/pe" || path === "/dashboard/me");
   return (
     <nav aria-label="Main" className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden">
-      <ul className="mx-auto grid max-w-lg grid-cols-4">
-        {TABS[stage].map((t) => {
+      <ul className="mx-auto grid max-w-xs grid-cols-2">
+        {TABS.map((t) => {
           const active = t.exact ? home(t.href) : path.startsWith(t.href);
           return (
             <li key={t.href}>

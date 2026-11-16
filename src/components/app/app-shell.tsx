@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import Link from "next/link";
 import { Bell } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
@@ -56,10 +56,10 @@ export function AppShell({
           </div>
         ) : null}
         <main id="main" className={area === "student" ? "flex-1 px-4 pb-28 pt-5 sm:px-6 lg:px-10 lg:py-10" : "flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-10"}>
-          <div className="mx-auto w-full max-w-6xl">{area === "student" ? <BackButton /> : null}{children}</div>
+          <div className="mx-auto w-full max-w-6xl">{area === "student" ? <Suspense fallback={null}><BackButton /></Suspense> : null}{children}</div>
         </main>
       </div>
-      {area === "student" ? <BottomNav stage={stage} /> : null}
+      {area === "student" ? <BottomNav /> : null}
     </div>
   );
 }
