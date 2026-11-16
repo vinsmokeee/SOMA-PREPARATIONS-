@@ -26,7 +26,10 @@ export function RegisterForm() {
       </Field>
       <Field>
         <Label htmlFor="email">Email</Label>
-        <Input id="email" name="email" type="email" autoComplete="email" required aria-invalid={Boolean(fe.email)} aria-describedby="email-error" />
+        <p id="email-note" className="text-[13px] leading-snug text-muted-foreground">
+          Use an email you can open. We send you a link when you sign in on a new phone, and when you reset your password.
+        </p>
+        <Input id="email" name="email" type="email" autoComplete="email" required aria-invalid={Boolean(fe.email)} aria-describedby="email-note email-error" />
         <FieldError id="email-error">{fe.email}</FieldError>
       </Field>
       <Field>

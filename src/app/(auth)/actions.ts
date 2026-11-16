@@ -69,6 +69,9 @@ export async function signUp(_prev: AuthState, formData: FormData): Promise<Auth
   });
   if (error) {
     if (error.code === "weak_password") return { status: "error", fieldErrors: { password: error.message } };
+    if (error.code === "user_already_exists" || error.code === "email_exists") {
+      return { status: "error", message: "This email already has an account. Please sign in instead." };
+    }
     if (error.code === "over_email_send_rate_limit") {
       return { status: "error", message: "Too many attempts. Please wait a few minutes and try again." };
     }
