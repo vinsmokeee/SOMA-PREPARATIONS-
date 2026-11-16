@@ -46,3 +46,10 @@ create table if not exists storage.objects (
 alter table storage.objects enable row level security;
 grant all on storage.objects to anon, authenticated, service_role;
 grant all on storage.buckets to service_role;
+
+-- Minimal stand-in for Supabase Auth sessions (deleted to revoke a session).
+create table if not exists auth.sessions (
+  id uuid primary key,
+  user_id uuid references auth.users (id) on delete cascade,
+  created_at timestamptz default now()
+);

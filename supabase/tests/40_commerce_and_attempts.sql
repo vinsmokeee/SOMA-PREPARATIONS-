@@ -28,8 +28,8 @@ select tests.assert((select count(*) from public.payments) = 0, 'other student c
 -- Admin verifies and grants
 select tests.login(:'f');
 update public.payments set status = 'verified', verified_by = :'f', verified_at = now() where id = '20000000-0000-4000-8000-000000000002';
-insert into public.entitlements (user_id, package_id, order_id, ends_at, granted_by)
-values (:'s', (select id from public.packages where slug = 'pe-premium'), '20000000-0000-4000-8000-000000000001', now() + interval '180 days', :'f');
+select public.admin_grant_subscription(:'s', (select id from public.packages where slug = 'pe-premium'), 180, 'manual', 'Verified bank transfer');
+select tests.assert_fails(format($$insert into public.entitlements (user_id, package_id) values (%L, (select id from public.packages where slug = 'pe-premium'))$$, :'s'), 'even staff grant access only through functions');
 select tests.login(:'s');
 select tests.assert(public.has_stage_access('PE'), 'PE access after verification');
 select tests.assert(not public.has_stage_access('ME'), 'no ME access from PE package');
