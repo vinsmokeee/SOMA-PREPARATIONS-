@@ -108,3 +108,12 @@ describe("feed ordering and links", () => {
     expect(e[0].url).toBe("https://example.test/59");
   });
 });
+
+import { outletOf } from "@/lib/ca/rules";
+describe("aggregator outlets", () => {
+  it("credits Google News items to the original outlet", () => {
+    expect(outletOf("Google News — Bhutan", "TEST cabinet approves plan - Kuensel Online")).toBe("Kuensel Online");
+    expect(outletOf("Google News — Bhutan", "TEST no suffix")).toBe("Google News — Bhutan");
+    expect(outletOf("Kuensel", "TEST a - b")).toBe("Kuensel");
+  });
+});

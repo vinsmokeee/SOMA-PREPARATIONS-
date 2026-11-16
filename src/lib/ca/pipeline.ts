@@ -8,7 +8,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { parseFeed } from "./feed";
 import { fetchFeed } from "./fetch";
 import { fingerprint, groupArticles } from "./group";
-import { bhutanDate, publishDecision, type CaConfig, type StoryEvidence, type Tier } from "./rules";
+import { bhutanDate, outletOf, publishDecision, type CaConfig, type StoryEvidence, type Tier } from "./rules";
 
 /**
  * The automated current-affairs pipeline (Milestone 7):
@@ -209,7 +209,7 @@ async function evidence(db: Db, storyId: string) {
 
 function toEvidence(arts: Awaited<ReturnType<typeof evidence>>, note: { confidence: CaNote["confidence"] | null; conflicts: boolean; text: string }): StoryEvidence {
   return {
-    articles: arts.map((a) => ({ source: a.ca_sources.name, tier: a.ca_sources.tier, kind: a.triage?.kind ?? "fact", developing: Boolean(a.triage?.developing), sensitive: Boolean(a.triage?.sensitive) })),
+    articles: arts.map((a) => ({ source: outletOf(a.ca_sources.name, a.title), tier: a.ca_sources.tier, kind: a.triage?.kind ?? "fact", developing: Boolean(a.triage?.developing), sensitive: Boolean(a.triage?.sensitive) })),
     noteConfidence: note.confidence, conflicts: note.conflicts, text: note.text,
   };
 }
@@ -262,7 +262,7 @@ async function writeStories(db: Db, cfg: CaConfig, ai: Provider, budget: Budget,
       await db.from("ca_items").update({ pipeline_status: "held", verification: "opinion", hold_reason: "Opinion or analysis, not a factual report." }).eq("id", c.id);
       continue;
     }
-    const sources: NoteSource[] = arts.map((a, i) => ({ n: i + 1, outlet: a.ca_sources.name, tier: a.ca_sources.tier, title: a.title, date: a.published_at, url: a.url, text: [a.snippet, a.body].filter(Boolean).join("\n\n") || a.title }));
+    const sources: NoteSource[] = arts.map((a, i) => ({ n: i + 1, outlet: outletOf(a.ca_sources.name, a.title), tier: a.ca_sources.tier, title: a.title, date: a.published_at, url: a.url, text: [a.snippet, a.body].filter(Boolean).join("\n\n") || a.title }));
     const r = await ai.generateStructured({ system: NOTE_SYSTEM, prompt: buildNotePrompt(sources), schema: noteSchema, maxTokens: 6000, effort: "medium" });
     const jobId = await logJob(db, "current_affairs_notes", ai.model, { step: "note", story: c.id }, r.ok ? { ok: true, inputTokens: r.inputTokens, outputTokens: r.outputTokens, model: r.model } : r, budget);
     if (!r.ok) { await db.from("ca_items").update({ pipeline_status: "failed", verification_notes: r.message }).eq("id", c.id); add("notes_failed"); continue; }
