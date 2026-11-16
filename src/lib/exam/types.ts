@@ -62,6 +62,8 @@ export type ResultQuestion = {
   subject: string | null;
   topic: string | null;
   difficulty: string;
+  origin?: string | null;
+  source_year?: number | null;
   options: ResultOption[];
   rubric: { label: string; description: string; max_marks: number }[];
   references: { citation: string; url: string | null }[];

@@ -20,12 +20,27 @@ approval before the next one starts.
 | --- | --- | --- |
 | 1 | Examination architecture: pathways, 31 specialisations, Paper II groups, paper settings with their source, PE sections, cut-off history, entry-based question delivery | Complete (deployed) |
 | 2 | PDF reading (scanned + Dzongkha) and the historical bank (extends M3) | Planned — needs 4 sample PDFs |
-| 3 | Daily personalised training | **Built — awaiting approval** |
-| 4 | AI question variations (extends M6) | Planned |
+| 3 | Daily personalised training | Complete (deployed) |
+| 4 | AI question variations (extends M6) | **Built — awaiting approval** |
 | 5 | Batch processing and pattern reports (4A + 8) | Planned |
 | 6 | Dzongkha reference, integration, launch checks | Planned |
 
 The audit and roadmap are in the founder's doc "Soma Master Plan — Audit and Roadmap".
+
+## Phase 4 — what was built
+
+| Feature | Status |
+| --- | --- |
+| Variations of a verified question: new scenario, new numbers, another angle, easier, harder, application, new question on the same objective | Built (live AI run pending) |
+| Batch: up to 3 questions per run in a subject, least-varied and past-paper questions first | Built |
+| Drafts inherit the source's classification (stage, subject, topic, paper, entry, specialisation, Paper II group) and link to it | Built |
+| Automatic pre-review check: rule checks, near-copy guard, duplicate check, and an independent AI (different model) that answers each draft without the key | Built — unit-tested |
+| Review queue with flagged/passed filters, source shown alongside, batch approve (verify, optionally publish) and reject | Built |
+| Origin labels for students in results: past RCSC paper (year), AI variation, AI original, Soma question | Built — SQL-tested |
+| Cost per run shown; every call recorded in AI jobs | Built |
+
+Variations reach students only after a reviewer approves them; then they flow into
+practice and daily plans automatically.
 
 ## Phase 3 — what was built
 

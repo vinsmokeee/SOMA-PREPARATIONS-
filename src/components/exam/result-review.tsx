@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Bot, Calculator, Check, ExternalLink, Flag, UserCheck, X } from "lucide-react";
 import { formatDuration } from "@/lib/exam/logic";
+import { originLabel } from "@/lib/exam/origin";
 import { TYPE_LABELS, type ResultQuestion } from "@/lib/exam/types";
 import { cn } from "@/lib/utils";
 
@@ -98,6 +99,7 @@ function QuestionCard({ q }: { q: ResultQuestion }) {
         ) : null}
       </div>
       <p className="mt-3 whitespace-pre-wrap leading-relaxed text-ink">{q.stem}</p>
+      {originLabel(q.origin, q.source_year) ? <p className="mt-1 text-xs text-muted-foreground">{originLabel(q.origin, q.source_year)}</p> : null}
 
       {q.type === "mcq" ? (
         <ul className="mt-4 space-y-2">

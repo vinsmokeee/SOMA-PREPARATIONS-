@@ -101,6 +101,16 @@ export default async function EditQuestionPage({ params, searchParams }: PagePro
         />
       </div>
       {sp.saved === "1" ? <Alert tone="success" className="mb-6">Question created as a draft.</Alert> : null}
+      {["verified", "published"].includes(q.status) && can(user, "ai.run") ? (
+        <p className="mb-6 text-sm">
+          <Link href={`/admin/ai/variations?source=${q.id}`} className="font-medium text-primary hover:underline">Create AI variations of this question</Link>
+        </p>
+      ) : null}
+      {q.parent_question_id ? (
+        <p className="mb-6 text-sm text-muted-foreground">
+          {q.variation_type ? "AI variation" : "Based on"} of <Link href={`/admin/questions/${q.parent_question_id}`} className="font-medium text-primary hover:underline">its source question</Link>.
+        </p>
+      ) : null}
 
       <div className="grid gap-8 xl:grid-cols-[1fr_320px]">
         <QuestionEditor
