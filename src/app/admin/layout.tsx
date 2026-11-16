@@ -13,7 +13,7 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
   const later = (href: string, label: string, milestone: string): NavItem => ({ href, label, milestone });
 
   const sections: NavSection[] = [
-    { items: [{ href: "/admin", label: "Overview", exact: true }] },
+    { items: [{ href: "/admin", label: "Overview", exact: true }, { href: "/admin/status", label: "Setup status" }] },
     {
       title: "Examinations",
       items: [
