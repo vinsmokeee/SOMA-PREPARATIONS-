@@ -78,6 +78,8 @@ export const BADGES: { code: string; title: string; hint: string }[] = [
   { code: "mastered_25", title: "Mistakes mastered", hint: "Clear 25 questions from revision" },
 ];
 
+export const streakLabel = (n: number) => (n > 0 ? `${n}-day streak` : "No streak yet");
+
 /** Encouraging, never discouraging. */
 export function streakMessage(s: TrainingData["stats"]): string {
   if (s.active_today) return s.current_streak > 1 ? `Day ${s.current_streak} done. See you tomorrow.` : "Today counts. Come back tomorrow to start a streak.";

@@ -7,7 +7,7 @@ import { Alert } from "@/components/ui/alert";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { requireUser } from "@/lib/auth/dal";
 import { createClient } from "@/lib/supabase/server";
-import { BADGES, PHASES, streakMessage, upcomingAssessments, type TrainingData } from "@/lib/training/model";
+import { BADGES, PHASES, streakLabel, streakMessage, upcomingAssessments, type TrainingData } from "@/lib/training/model";
 import { cn, formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Today's training" };
@@ -110,7 +110,7 @@ export default async function TrainingPage() {
         <aside className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Flame className="size-5 text-warning" aria-hidden /> {t.stats.current_streak}-day streak</CardTitle>
+              <CardTitle className="flex items-center gap-2"><Flame className="size-5 text-warning" aria-hidden /> {streakLabel(t.stats.current_streak)}</CardTitle>
               <CardDescription>{streakMessage(t.stats)}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-1 text-sm text-muted-foreground">
