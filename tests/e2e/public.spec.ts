@@ -25,12 +25,15 @@ test("home page communicates PE and ME preparation with clear calls to action", 
   await expect(page.locator("body")).not.toContainText(/guaranteed (selection|success|pass)/i);
 });
 
-test("PE page shows the official subject areas and does not invent parameters", async ({ page }) => {
+test("PE page shows the four sections, labels unconfirmed values and shows cut-offs only as reference", async ({ page }) => {
   await page.goto("/pe");
-  for (const s of ["English communication skills", "Dzongkha communication skills", "Logic, analytical ability and problem-solving", "Data interpretation ability", "General awareness and current affairs"]) {
-    await expect(page.getByText(s, { exact: true })).toBeVisible();
+  const sections = page.getByRole("list").filter({ hasText: "Data Interpretation" });
+  for (const s of ["English", "Dzongkha", "Aptitude", "Data Interpretation"]) {
+    await expect(sections.getByText(s, { exact: true })).toBeVisible();
   }
-  await expect(page.getByText("Not stated in the recorded RCSC source")).toHaveCount(3);
+  await expect(sections.getByText(/General awareness/i)).toHaveCount(0);
+  await expect(page.getByText("Soma's practice format; not stated in the recorded RCSC announcement.")).toHaveCount(3);
+  await expect(page.getByText(/For reference only, past cut-offs: 2026: 55%/)).toBeVisible();
   await expect(page.getByRole("link", { name: /Announcement for Bhutan Civil Service Examination \(BCSE\) 2026/ })).toHaveAttribute("href", /rcsc\.gov\.bt/);
 });
 
@@ -47,11 +50,14 @@ test("ME page shows each category group with official weightages", async ({ page
   await expect(bed).toContainText("30%");
   await expect(bed).toContainText("Academic Achievement 20%");
   await expect(page.getByText("None of it is an official RCSC mark.")).toBeVisible();
+  await expect(page.getByText(/academic marks and the viva\/interview may also count/).first()).toBeVisible();
+  await expect(groups.filter({ hasText: "Technical Graduates" })).toContainText("Technical specialisations Soma covers (31)");
+  await expect(bed).toContainText("Soma does not offer preparation for this category yet.");
 });
 
 test("packages page shows database prices and does not allow buying coming-soon packages", async ({ page }) => {
   await page.goto("/packages");
-  await expect(page.getByText("Nu. 499")).toBeVisible();
+  await expect(page.getByText("Nu. 699")).toBeVisible();
   await expect(page.getByText("Nu. 799")).toBeVisible();
   const buttons = page.getByRole("button", { name: "Purchasing opens soon" });
   await expect(buttons).toHaveCount(2);

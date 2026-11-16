@@ -66,6 +66,10 @@ export default async function EditQuestionPage({ params, searchParams }: PagePro
     topic_id: q.topic_id ?? "",
     paper_id: q.paper_id ?? "",
     category_id: q.category_id ?? "",
+    specialisation_id: q.specialisation_id ?? "",
+    subject_group_id: q.subject_group_id ?? "",
+    source_year: q.source_year?.toString() ?? "",
+    source_page: q.source_page?.toString() ?? "",
     difficulty: q.difficulty,
     marks: String(Number(q.marks)),
     estimated_seconds: q.estimated_seconds?.toString() ?? "",
@@ -91,7 +95,7 @@ export default async function EditQuestionPage({ params, searchParams }: PagePro
           description={
             <span className="inline-flex flex-wrap items-center gap-2">
               <Badge tone={STATUS_TONES[q.status]}>{STATUS_LABELS[q.status]}</Badge>
-              <span>Version {q.version} · updated {formatDate(q.updated_at)}{q.origin === "ai_generated" ? " · AI-assisted draft" : ""}</span>
+              <span>Version {q.version} · updated {formatDate(q.updated_at)}{ORIGIN_NOTES[q.origin as string] ?? ""}</span>
             </span>
           }
         />
@@ -162,3 +166,10 @@ async function loadAiNote(db: Awaited<ReturnType<typeof createClient>>, jobId: s
   const c = out.created?.find((x) => x.id === questionId);
   return { model: data.model as string, fallback: Boolean(out.used_fallback), confidence: c?.confidence, notes: c?.fact_check_notes, topic: c?.topic_suggestion };
 }
+
+const ORIGIN_NOTES: Record<string, string> = {
+  ai_generated: " · AI-generated original",
+  ai_variation: " · AI variation of another question",
+  historical_official: " · From an official RCSC paper",
+  current_affairs: " · From current affairs",
+};

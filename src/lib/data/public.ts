@@ -57,16 +57,20 @@ export async function getExamStructure(): Promise<DataResult<ExamStructure>> {
     if (fw.error) throw fw.error;
     const frameworkId = fw.data?.id ?? "00000000-0000-0000-0000-000000000000";
 
-    const [cycles, categories, papers, paperCategories, meComponents, subjects, citations] = await Promise.all([
+    const [cycles, categories, papers, paperCategories, meComponents, subjects, citations, sections, cutoffs, specialisations, subjectGroups] = await Promise.all([
       db.from("exam_cycles").select("id, code, name, year, status, registration_opens, registration_closes, pe_date, me_start_date, me_end_date, pe_cutoff_note, verification_status, source_document_id, notes").order("year", { ascending: false }),
-      db.from("exam_categories").select("id, code, name, description, eligibility_summary, pe_exempt, sort_order").eq("is_active", true).order("sort_order"),
-      db.from("exam_papers").select("id, stage, code, paper_number, title, description, answer_format, weightage_percent, max_marks, duration_minutes, question_count, verification_status, source_document_id, sort_order").eq("framework_id", frameworkId).order("sort_order"),
+      db.from("exam_categories").select("id, code, name, description, eligibility_summary, pe_exempt, sort_order, public_group, is_offered, pe_rule_note").eq("is_active", true).order("sort_order"),
+      db.from("exam_papers").select("id, stage, code, paper_number, title, description, answer_format, weightage_percent, max_marks, duration_minutes, question_count, params_source, bank_scope, verification_status, source_document_id, sort_order").eq("framework_id", frameworkId).order("sort_order"),
       db.from("exam_paper_categories").select("paper_id, category_id, weightage_percent"),
       db.from("me_components").select("category_id, component, weightage_percent").eq("framework_id", frameworkId),
       db.from("subjects").select("id, stage, slug, name, description, paper_id, is_official, sort_order").eq("is_active", true).order("sort_order"),
       db.rpc("get_official_citations"),
+      db.from("paper_sections").select("id, paper_id, title, subject_id, question_count, marks, formats, params_source, sort_order").order("sort_order"),
+      db.from("pe_cutoff_history").select("year, value, unit, verification_status, source_document_id").order("year", { ascending: false }),
+      db.from("specialisations").select("id, code, name, category_id, subject_group_id, pe_required, sort_order").eq("is_active", true).order("sort_order"),
+      db.from("subject_groups").select("id, name").eq("is_active", true).order("sort_order"),
     ]);
-    for (const r of [cycles, categories, papers, paperCategories, meComponents, subjects, citations]) {
+    for (const r of [cycles, categories, papers, paperCategories, meComponents, subjects, citations, sections, cutoffs, specialisations, subjectGroups]) {
       if (r.error) throw r.error;
     }
     const num = (v: unknown) => (v === null || v === undefined ? null : Number(v));
@@ -86,6 +90,10 @@ export async function getExamStructure(): Promise<DataResult<ExamStructure>> {
         meComponents: (meComponents.data ?? []).map((m) => ({ ...m, weightage_percent: Number(m.weightage_percent) })),
         subjects: subjects.data ?? [],
         citations: citations.data ?? [],
+        sections: (sections.data ?? []).map((s) => ({ ...s, marks: num(s.marks) })),
+        cutoffs: (cutoffs.data ?? []).map((c) => ({ ...c, value: Number(c.value) })),
+        specialisations: specialisations.data ?? [],
+        subjectGroups: subjectGroups.data ?? [],
       } as ExamStructure,
     };
   } catch (e) {

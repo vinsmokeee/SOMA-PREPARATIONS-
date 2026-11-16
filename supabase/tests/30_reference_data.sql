@@ -28,9 +28,9 @@ select tests.assert(
 select tests.assert(not exists (
   select 1 from public.exam_paper_categories pc join public.exam_papers p on p.id = pc.paper_id
   join public.exam_categories c on c.id = pc.category_id where p.code = 'pe' and c.code = 'bed'), 'B.Ed not mapped to PE');
--- Unknown official values stay NULL rather than invented
-select tests.assert((select duration_minutes is null and question_count is null and max_marks is null
-                     from public.exam_papers where code = 'pe'), 'PE numeric parameters not invented');
+-- Values not stated by a recorded official source are never presented as official
+select tests.assert((select (duration_minutes is null and question_count is null and max_marks is null) or params_source <> 'official'
+                     from public.exam_papers where code = 'pe'), 'PE numeric parameters not presented as official');
 -- Packages cannot be made available without an access period
 select tests.assert_fails($$update public.packages set status = 'available' where slug = 'pe-premium'$$, 'available requires access period');
 -- Anonymous visitors can read citations (but not rights notes) of official sources

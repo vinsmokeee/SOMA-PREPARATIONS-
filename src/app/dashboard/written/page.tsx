@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Lock } from "lucide-react";
 import { PageTitle } from "@/components/app/app-shell";
+import { EntrySummary } from "@/components/app/entry-summary";
+import { ME_RESULT_NOTE } from "@/lib/exam/entry";
 import { StartWritten } from "@/components/written/start-written";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -14,7 +16,7 @@ export const metadata: Metadata = { title: "Written answers" };
 type Q = { id: string; stem: string; question_type: string; marks: number; word_limit: number | null; subject: string | null; topic: string | null; paper_id: string | null; paper: string | null; category: string | null; exam_year: number | null; is_free_sample: boolean; has_access: boolean; attempts: number; last_score: number | null; last_max: number | null };
 
 export default async function WrittenPage({ searchParams }: PageProps<"/dashboard/written">) {
-  await requireUser("/dashboard/written");
+  const user = await requireUser("/dashboard/written");
   const sp = await searchParams;
   const db = await createClient();
   const [{ data: qs }, { data: allowance }, { data: cats }] = await Promise.all([
@@ -36,6 +38,8 @@ export default async function WrittenPage({ searchParams }: PageProps<"/dashboar
   return (
     <>
       <PageTitle title="Written answers" description="Practise Main Examination questions the way you would in the examination: write on paper and upload photos, or type your answer. Get AI-assisted feedback with indicative marks." />
+      <EntrySummary userId={user.id} compact />
+      <p className="mb-6 text-sm text-muted-foreground">{ME_RESULT_NOTE}</p>
       <div className="mb-6 flex flex-wrap items-center gap-3">
         <Link href="/dashboard/written/history" className="inline-flex h-10 items-center rounded-md border border-border-strong px-4 text-sm font-medium hover:bg-muted">My submissions and feedback</Link>
         <Link href="/dashboard/exams?stage=ME" className="inline-flex h-10 items-center rounded-md border border-border-strong px-4 text-sm font-medium hover:bg-muted">Full ME examination simulations</Link>

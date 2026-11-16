@@ -12,7 +12,39 @@ approval before the next one starts.
 | 5 | AI-assisted ME written-answer evaluation (handwritten + typed) | Complete (deployed; live AI test pending the API key) |
 | 6 | AI question intelligence | Complete (deployed; live AI test pending the API key) |
 | 7 | Current-affairs intelligence (Bhutan, regional, world) | Complete (deployed; collecting and writing live) |
-| 8 | Payments, subscriptions, account security, commercial readiness | **Built — awaiting approval** (bank gateway pending the bank) |
+| 8 | Payments, subscriptions, account security, commercial readiness | Complete (deployed; bank gateway pending the bank) |
+
+### Master plan (2026-11-16) — phases after M8
+
+| Phase | Scope | Status |
+| --- | --- | --- |
+| 1 | Examination architecture: pathways, 31 specialisations, Paper II groups, paper settings with their source, PE sections, cut-off history, entry-based question delivery | **Built — awaiting approval** |
+| 2 | PDF reading (scanned + Dzongkha) and the historical bank (extends M3) | Planned — needs 4 sample PDFs |
+| 3 | Daily personalised training | Planned |
+| 4 | AI question variations (extends M6) | Planned |
+| 5 | Batch processing and pattern reports (4A + 8) | Planned |
+| 6 | Dzongkha reference, integration, launch checks | Planned |
+
+The audit and roadmap are in the founder's doc "Soma Master Plan — Audit and Roadmap".
+
+## Phase 1 — what was built
+
+| Feature | Status |
+| --- | --- |
+| ME pathways shown as General / Technical / Dzongkha Graduates; Administrative, Finance and PGDE kept as separate internal entries | Built — SQL-tested |
+| B.Ed kept but not offered (cannot be chosen or bought) | Built — SQL-tested |
+| 31 technical specialisations as given; 4 possible duplicates flagged, not merged; admin can add, rename, deactivate | Built |
+| Paper II groups (unverified, not linked); Paper III per specialisation; unclassified Paper II/III questions never served | Built — SQL-tested |
+| Per-paper marks, duration, question count, qualifying mark, and where each value came from (official / brief / admin) | Built |
+| PE sections: English, Dzongkha, Aptitude, Data Interpretation (no fifth section) | Built |
+| PE eligibility: "PE required" per specialisation left unset until checked; rule notes per category | Built |
+| PE cut-off history shown as reference only | Built |
+| Students choose pathway, category and specialisation; entry locked while ME access is active (admin can change it) | Built — SQL-tested |
+| Practice, written practice and the exam list only show the student's entry | Built — SQL-tested |
+| New formats: translation, passage-based, case study; question source year/page; AI-variation origin | Built |
+| Separate PE (Nu 699, 45 days) and ME (Nu 799, 45 days, coming soon) packages; combined package hidden | Built |
+| "Soma trains the written ME; academic marks and viva also count" note on ME, packages and written pages | Built |
+
 
 ## Milestone 1 — what works
 

@@ -1,4 +1,4 @@
-export type QuestionType = "mcq" | "short_answer" | "long_answer" | "essay" | "analytical" | "descriptive";
+export type QuestionType = "mcq" | "short_answer" | "long_answer" | "essay" | "analytical" | "descriptive" | "translation" | "passage" | "case_study";
 export type AttemptStatus = "in_progress" | "submitted" | "auto_submitted" | "abandoned";
 
 export type PaperOption = { id: string; label: string; body: string };
@@ -136,4 +136,7 @@ export const TYPE_LABELS: Record<QuestionType, string> = {
   essay: "Essay",
   analytical: "Analytical",
   descriptive: "Descriptive",
+  translation: "Translation",
+  passage: "Passage-based",
+  case_study: "Case study",
 };

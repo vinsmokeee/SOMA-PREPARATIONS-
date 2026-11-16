@@ -4,6 +4,7 @@ import { Clock3, FileText, Lock, PenLine } from "lucide-react";
 import { PageTitle } from "@/components/app/app-shell";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
+import { EntrySummary } from "@/components/app/entry-summary";
 import { requireUser } from "@/lib/auth/dal";
 import { KIND_LABELS, type CatalogueExam } from "@/lib/exam/types";
 import { createClient } from "@/lib/supabase/server";
@@ -12,7 +13,7 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = { title: "Examinations" };
 
 export default async function ExamsPage({ searchParams }: PageProps<"/dashboard/exams">) {
-  await requireUser("/dashboard/exams");
+  const user = await requireUser("/dashboard/exams");
   const params = await searchParams;
   const stage = params.stage === "PE" || params.stage === "ME" ? params.stage : null;
   const supabase = await createClient();
@@ -36,6 +37,7 @@ export default async function ExamsPage({ searchParams }: PageProps<"/dashboard/
           </Link>
         ))}
       </nav>
+      {stage !== "PE" ? <EntrySummary userId={user.id} compact /> : null}
       {error ? <Alert tone="danger">Examinations could not be loaded. Please try again.</Alert> : null}
       {!error && exams.length === 0 ? (
         <div className="rounded-xl border border-dashed border-border-strong p-8 text-center">

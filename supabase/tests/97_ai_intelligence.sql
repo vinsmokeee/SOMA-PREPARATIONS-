@@ -15,7 +15,7 @@ select tests.assert_fails(format($$update public.questions set status = 'publish
 select tests.assert_fails(format($$select public.review_question(%L, 'publish')$$, :'q'), 'AI draft cannot skip verification');
 select tests.assert(public.review_question(:'q', 'submit') = 'awaiting_review', 'AI draft enters review');
 -- Analysis reports it
-select tests.assert(((public.question_bank_analysis('PE')) -> 'subjects') @> '[{"name":"Data interpretation ability","ai_drafted":1}]'::jsonb, 'analysis counts AI drafts');
+select tests.assert(((public.question_bank_analysis('PE')) -> 'subjects') @> '[{"name":"Data Interpretation","ai_drafted":1}]'::jsonb, 'analysis counts AI drafts');
 -- Students cannot run analysis or see AI jobs
 select tests.login(:'s');
 select tests.assert_fails($$select public.question_bank_analysis()$$, 'students cannot read bank analysis');
