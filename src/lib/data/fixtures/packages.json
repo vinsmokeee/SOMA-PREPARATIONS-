@@ -1,6 +1,6 @@
 [
   {
-    "id": "83acb11b-dc42-4591-a41a-da09962e5be7",
+    "id": "ce2f4601-644e-421a-8926-d396352435b0",
     "slug": "pe-premium",
     "name": "PE Premium",
     "tagline": "Complete Preliminary Examination preparation",
@@ -10,12 +10,12 @@
     "promo_starts_at": null,
     "promo_ends_at": null,
     "features": [
-      "Full-length timed PE mock examinations",
-      "OMR-style answer-sheet practice",
-      "Subject-wise and topic-wise practice",
-      "Detailed answers and explanations",
-      "Bhutan current-affairs practice",
-      "Performance analytics and revision suggestions"
+      "Every practice question in all four sections (English, Dzongkha, Aptitude, Data Interpretation)",
+      "All timed mock tests, like the real PE",
+      "Your daily plan with revision of your mistakes",
+      "Explanations for every answer",
+      "Scores and progress for every section",
+      "Current affairs: daily news and quizzes"
     ],
     "includes_pe": true,
     "includes_me": false,
@@ -27,7 +27,7 @@
     "cycle_name": "BCSE 2027"
   },
   {
-    "id": "84d8cff8-eb17-4947-b5be-ce86fc4069d0",
+    "id": "2a76115d-3dd2-4465-887f-508e89b2ee19",
     "slug": "me-premium",
     "name": "ME Premium",
     "tagline": "Main Examination written-paper preparation for your entry",
@@ -37,11 +37,12 @@
     "promo_starts_at": null,
     "promo_ends_at": null,
     "features": [
-      "Written-paper practice for your ME pathway and specialisation",
-      "Model answers and marking rubrics",
-      "AI feedback on typed and handwritten answers",
-      "Current-affairs practice",
-      "Performance tracking"
+      "Written questions and papers for your entry",
+      "100 AI-marked answers: type your answer or upload photos of your handwritten pages",
+      "AI feedback: strengths, missing points and an improved answer",
+      "Model answers and marking guides",
+      "Current affairs: daily news and quizzes",
+      "Scores and progress"
     ],
     "includes_pe": false,
     "includes_me": true,

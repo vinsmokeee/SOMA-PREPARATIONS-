@@ -101,7 +101,11 @@ select tests.assert(position('Because A.' in :'res') > 0, 'result includes expla
 select tests.assert(position('A model answer.' in :'res') > 0, 'result includes model answer');
 select tests.assert(((:'res'::jsonb) -> 'questions' -> 0 -> 'answer' ->> 'is_correct')::boolean, 'Q1 marked correct');
 
--- A new attempt can be started after submission
+-- A new attempt can be started after submission (practice tests have no free daily limit)
+reset role;
+update public.exams set kind = 'practice' where id = '42000000-0000-4000-8000-000000000001';
+set local role authenticated;
+select tests.login(:'s');
 select public.start_attempt('42000000-0000-4000-8000-000000000001') as att2 \gset
 select tests.assert(:'att2'::uuid <> :'att'::uuid, 'new attempt after submission');
 

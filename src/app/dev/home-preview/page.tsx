@@ -2,39 +2,86 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { AppShell } from "@/components/app/app-shell";
-import { HomeView, type HomeData } from "@/components/student/home-view";
+import { CoachCard } from "@/components/exam/coach-card";
+import { MockCta } from "@/components/exam/mock-cta";
+import { coach } from "@/lib/exam/coach";
+import { ResultHero, SectionBars } from "@/components/exam/result-hero";
+import { studentNav } from "@/components/app/student-nav";
+import { EntryPicker, ExamArea, ExamChooser, FREE_POINTS, PackageChoice, type AreaData } from "@/components/student/exam-flow";
 import type { TrainingData } from "@/lib/training/model";
 
-export const metadata: Metadata = { title: "Home preview", robots: { index: false } };
+export const metadata: Metadata = { title: "Student flow preview", robots: { index: false } };
 export const instant = false;
 
-/** Development-only preview of the student home screen (SOMA_PUBLIC_DATA=fixture only). */
-export default async function HomePreviewPage({ searchParams }: PageProps<"/dev/home-preview">) {
+/** Development-only preview of the student flow (SOMA_PUBLIC_DATA=fixture only). ?screen=choose|pe-packages|me-entry|me-technical|pe|pe-free|me */
+export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/home-preview">) {
   await connection();
   if (process.env.SOMA_PUBLIC_DATA !== "fixture") notFound();
-  const sp = await searchParams;
-  const allDone = sp.done === "1";
+  const screen = (await searchParams).screen ?? "choose";
   const id = (n: number) => `4d000000-0000-4000-8000-00000000000${n}`;
   const training: TrainingData = {
     today: "2026-11-24",
     plan: { id: id(0), cycle_no: 1, cycle_day: 6, cycle_days: 30, phase: "foundation", stage: "PE", focus: null },
     items: [
       { id: id(1), kind: "revision", title: "Revise past mistakes", detail: null, minutes: 5, questions: 5, status: "done", attempt_id: id(9), score: 4, max_score: 5, attempt_open: false },
-      { id: id(2), kind: "practice", title: "Daily practice: mixed", detail: null, minutes: 15, questions: 15, status: allDone ? "done" : "pending", attempt_id: null, score: allDone ? 12 : null, max_score: allDone ? 15 : null, attempt_open: null },
-      { id: id(3), kind: "ca", title: "Question of the Day", detail: null, minutes: 2, questions: 0, status: allDone ? "done" : "pending", attempt_id: null, score: allDone ? 1 : null, max_score: allDone ? 1 : null, attempt_open: null },
-      { id: id(4), kind: "weak_topic", title: "Strengthen: Percentages", detail: null, minutes: 5, questions: 5, status: allDone ? "done" : "pending", attempt_id: null, score: allDone ? 3 : null, max_score: allDone ? 5 : null, attempt_open: null },
+      { id: id(2), kind: "practice", title: "Daily practice: mixed", detail: null, minutes: 15, questions: 15, status: "pending", attempt_id: null, score: null, max_score: null, attempt_open: null },
+      { id: id(3), kind: "ca", title: "Question of the Day", detail: null, minutes: 2, questions: 0, status: "pending", attempt_id: null, score: null, max_score: null, attempt_open: null },
     ],
-    stats: { current_streak: 5, best_streak: 5, rest_tokens: 0, active_days: 5, mastered: 2, active_today: true },
+    stats: { current_streak: 5, best_streak: 7, rest_tokens: 0, active_days: 5, mastered: 2, active_today: true },
     badges: [], revision_due: 3, revision_total: 12, week: { goal: 100, answered: 64, days_active: 5 },
     bests: { weekly_test: null, monthly_mock: null, most_in_a_day: 32 }, subjects: [], exam_date: null,
   };
-  const d: HomeData = {
-    firstName: "Pema", training, unread: 3, needsOnboarding: false, access: null,
-    pe: { answered: 64, accuracy: 72 }, me: { answered: 0, written: 2 },
-  };
+  const pePkg = { slug: "pe-premium", name: "PE Premium", price: 699, accessDays: 45, available: true,
+    features: ["Every practice question in all four sections (English, Dzongkha, Aptitude, Data Interpretation)", "All timed mock tests, like the real PE", "Your daily plan with revision of your mistakes", "Explanations for every answer", "Scores and progress for every section", "Current affairs: daily news and quizzes"] };
+  const mePkg = { slug: "me-premium", name: "ME Premium", price: 799, accessDays: 45, available: true,
+    features: ["Written questions and papers for your entry", "100 AI-marked answers: type your answer or upload photos of your handwritten pages", "AI feedback: strengths, missing points and an improved answer", "Model answers and marking guides", "Current affairs: daily news and quizzes", "Scores and progress"] };
+  const area = (over: Partial<AreaData>): AreaData => ({
+    stage: "PE", entryLabel: null, premium: "Premium until 30 Jan 2027", openAttempt: { id: id(7), title: "Mock test: PE paper 1" },
+    training, answered: 64, accuracy: 72, written: 0, freeUsedUp: false, aiMarks: null, premiumSlug: "pe-premium", ...over,
+  });
+  const content = {
+    choose: <ExamChooser firstName="Pema" status={{ PE: null, ME: null }} />,
+    "pe-packages": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} />,
+    "me-packages": <PackageChoice stage="ME" entryLabel="Technical Graduates · Civil Engineering" pkg={mePkg} free={FREE_POINTS.ME} />,
+    "me-entry": <EntryPicker options={{ categories: [{ id: id(1), name: "Administrative Service", public_group: "general" }, { id: id(2), name: "Technical Service", public_group: "technical" }, { id: id(3), name: "Dzongkha", public_group: "dzongkha" }], specialisations: [] }} group={null} />,
+    "me-technical": <EntryPicker options={{ categories: [{ id: id(2), name: "Technical Service", public_group: "technical" }], specialisations: ["Civil Engineering", "Computer Science and Engineering", "Electrical Engineering", "Forestry", "Medicine", "Nursing"].map((name, i) => ({ id: id(i + 1), name })) }} group="technical" />,
+    pe: <ExamArea d={area({})} />,
+    "mock-free": <div className="mx-auto max-w-2xl"><MockCta premium={false} /></div>,
+    "mock-premium": <div className="mx-auto max-w-2xl"><MockCta premium /></div>,
+    result: (
+      <div className="mx-auto max-w-2xl space-y-6">
+        <ResultHero title="Mock test: PE paper 1" score={68} max={100} correct={68} incorrect={24} unanswered={8} time="2h 05m of 150 min" stage="PE" cutoff={{ year: 2026, value: 55, unit: "percent" }} />
+        <div>
+          <h2 className="mb-3 text-lg font-bold">Score by section</h2>
+          <SectionBars rows={[{ name: "English", correct: 20, total: 25, accuracy: 80 }, { name: "Dzongkha", correct: 14, total: 25, accuracy: 56 }, { name: "Aptitude", correct: 19, total: 25, accuracy: 76 }, { name: "Data Interpretation", correct: 15, total: 25, accuracy: 60 }]} />
+        </div>
+      </div>
+    ),
+    "result-coach": (
+      <div className="mx-auto max-w-2xl space-y-6">
+        <ResultHero title="Mock test: PE paper 1" score={58} max={100} correct={58} incorrect={40} unanswered={2} time="32m of 150 min" stage="PE" cutoff={{ year: 2026, value: 55, unit: "percent" }} />
+        <CoachCard advice={coach({
+          sections: [
+            { name: "English", total: 25, correct: 17, incorrect: 8, unanswered: 0, accuracy: 68, timeSeconds: 0 },
+            { name: "Dzongkha", total: 25, correct: 11, incorrect: 13, unanswered: 1, accuracy: 46, timeSeconds: 0 },
+            { name: "Aptitude", total: 25, correct: 18, incorrect: 7, unanswered: 0, accuracy: 72, timeSeconds: 0 },
+            { name: "Data Interpretation", total: 25, correct: 12, incorrect: 12, unanswered: 1, accuracy: 50, timeSeconds: 0 },
+          ],
+          total: 100, correct: 58, wrong: 40, skipped: 2, timeUsedSeconds: 32 * 60, timeAllowedMinutes: 150, negativeMarking: 0, autoSubmitted: false,
+        })} />
+      </div>
+    ),
+    "me-result": (
+      <div className="mx-auto max-w-2xl space-y-6">
+        <ResultHero title="Practice paper: General Paper II" score={34} max={50} correct={0} incorrect={0} unanswered={0} time="1h 40m of 180 min" stage="ME" cutoff={null} />
+      </div>
+    ),
+    "pe-free": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} />,
+    me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 3 }, premiumSlug: "me-premium" })} />,
+  }[screen as string] ?? null;
   return (
-    <AppShell area="student" sections={[{ items: [{ href: "/dashboard", label: "Home", exact: true }] }]} user={{ name: "Pema", email: "pema@example.com", roleLabel: "Student" }}>
-      <div className="mx-auto max-w-2xl"><HomeView d={d} /></div>
+    <AppShell area="student" stage={String(screen).startsWith("me") ? "ME" : "PE"} unread={3} sections={studentNav(false)} user={{ name: "Pema", email: "pema@example.com", roleLabel: "Student" }}>
+      {content}
     </AppShell>
   );
 }

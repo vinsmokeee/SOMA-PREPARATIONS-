@@ -5,6 +5,7 @@ import { PageTitle } from "@/components/app/app-shell";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { EntrySummary } from "@/components/app/entry-summary";
+import { MockCta } from "@/components/exam/mock-cta";
 import { requireUser } from "@/lib/auth/dal";
 import { KIND_LABELS, type CatalogueExam } from "@/lib/exam/types";
 import { createClient } from "@/lib/supabase/server";
@@ -17,7 +18,10 @@ export default async function ExamsPage({ searchParams }: PageProps<"/dashboard/
   const params = await searchParams;
   const stage = params.stage === "PE" || params.stage === "ME" ? params.stage : null;
   const supabase = await createClient();
-  const { data, error } = await supabase.rpc("exam_catalogue", { _stage: stage });
+  const [{ data, error }, { data: peAccess }] = await Promise.all([
+    supabase.rpc("exam_catalogue", { _stage: stage }),
+    supabase.rpc("has_stage_access", { _stage: "PE" }),
+  ]);
   const exams = (data ?? []) as CatalogueExam[];
 
   return (
@@ -38,6 +42,7 @@ export default async function ExamsPage({ searchParams }: PageProps<"/dashboard/
         ))}
       </nav>
       {stage !== "PE" ? <EntrySummary userId={user.id} compact /> : null}
+      {stage !== "ME" ? <div className="mb-6"><MockCta premium={Boolean(peAccess)} /></div> : null}
       {error ? <Alert tone="danger">Examinations could not be loaded. Please try again.</Alert> : null}
       {!error && exams.length === 0 ? (
         <div className="rounded-xl border border-dashed border-border-strong p-8 text-center">

@@ -61,3 +61,16 @@ describe("admin settings", () => {
     expect(trainingConfigSchema.safeParse({ ...ok, practice_questions: "500" }).success).toBe(false);
   });
 });
+
+import { cutoffComparison } from "@/components/exam/result-hero";
+describe("PE cut-off reference on results", () => {
+  it("compares a 100-mark test with last year's cut-off", () => {
+    expect(cutoffComparison(68, 100, { year: 2026, value: 55, unit: "percent" })).toEqual({ above: true, line: "Last year's PE cut-off (2026) was 55%. You scored 68 marks in this test." });
+    expect(cutoffComparison(40, 100, { year: 2025, value: 55, unit: "marks" })?.above).toBe(false);
+  });
+  it("uses percentages for shorter tests and skips mark cut-offs it cannot compare", () => {
+    expect(cutoffComparison(15, 25, { year: 2026, value: 55, unit: "percent" })?.line).toBe("Last year's PE cut-off (2026) was 55%. You scored 60% in this test.");
+    expect(cutoffComparison(15, 25, { year: 2025, value: 55, unit: "marks" })).toBeNull();
+    expect(cutoffComparison(15, 25, null)).toBeNull();
+  });
+});

@@ -2,6 +2,8 @@
 
 # Soma Preparations — working notes
 
+- **New session? Read docs/HANDOVER.md first** (founder preferences, accounts, what is live, open items).
+
 - Read docs/ARCHITECTURE.md and docs/DATABASE.md before changing structure.
 - Official RCSC information is data with a source (`source_documents`). Never hardcode or invent exam rules; leave unknown values NULL.
 - Every server action: `assertPermission` → zod validation → write as the user (RLS) → `updateTag`/`revalidatePath`.
