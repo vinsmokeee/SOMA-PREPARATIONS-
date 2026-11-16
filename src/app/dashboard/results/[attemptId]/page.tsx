@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
+import { MockCta } from "@/components/exam/mock-cta";
 import { ResultHero, SectionBars } from "@/components/exam/result-hero";
 import { ResultReview } from "@/components/exam/result-review";
 import { requireUser } from "@/lib/auth/dal";
@@ -24,6 +25,7 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
     supabase.rpc("get_attempt_result", { _attempt_id: attemptId }),
     supabase.from("pe_cutoff_history").select("year, value, unit").order("year", { ascending: false }).limit(1).maybeSingle(),
   ]);
+  const { data: peAccess } = await supabase.rpc("has_stage_access", { _stage: "PE" });
   if (error?.message?.includes("ATTEMPT_IN_PROGRESS")) redirect(`/exam/${attemptId}`);
   if (error || !data) notFound();
   const r = data as AttemptResult;
@@ -116,8 +118,11 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
 
       <ResultReview questions={r.questions} />
 
-      <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row">
-        <Link href={`/dashboard/exams/${r.exam.slug}`} className="inline-flex h-12 items-center justify-center rounded-2xl bg-primary px-5 text-base font-bold text-primary-foreground hover:bg-primary-hover">Take this test again</Link>
+      {r.exam.stage === "PE" && (r.exam.kind === "mock" || r.exam.kind === "sample" || r.exam.kind === "historical") ? (
+        <div className="mt-10"><MockCta premium={Boolean(peAccess)} /></div>
+      ) : null}
+      <div className="mt-6 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row">
+        {r.exam.stage === "PE" && !peAccess && r.exam.kind !== "practice" ? null : <Link href={`/dashboard/exams/${r.exam.slug}`} className="inline-flex h-12 items-center justify-center rounded-2xl bg-primary px-5 text-base font-bold text-primary-foreground hover:bg-primary-hover">Take this test again</Link>}
         <Link href="/dashboard" className="inline-flex h-12 items-center justify-center rounded-2xl bg-white px-5 text-base font-semibold shadow-sm ring-1 ring-border hover:bg-muted">Back to home</Link>
       </div>
     </div>

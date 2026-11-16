@@ -5,7 +5,7 @@ import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth/dal";
 import { createClient } from "@/lib/supabase/server";
 
-const KNOWN = ["ATTEMPT_CLOSED", "ATTEMPT_NOT_FOUND", "ACCESS_REQUIRED", "EXAM_NOT_FOUND", "EXAM_EMPTY", "INVALID_OPTION", "QUESTION_NOT_IN_ATTEMPT", "ANSWER_TOO_LONG", "NOT_SIGNED_IN"] as const;
+const KNOWN = ["FREE_DAILY_LIMIT", "ATTEMPT_CLOSED", "ATTEMPT_NOT_FOUND", "ACCESS_REQUIRED", "EXAM_NOT_FOUND", "EXAM_EMPTY", "INVALID_OPTION", "QUESTION_NOT_IN_ATTEMPT", "ANSWER_TOO_LONG", "NOT_SIGNED_IN"] as const;
 export type EngineError = (typeof KNOWN)[number] | "NETWORK" | "UNKNOWN";
 
 function engineError(message: string | undefined): EngineError {
@@ -16,6 +16,7 @@ export type StartState = { error?: string };
 
 const START_MESSAGES: Partial<Record<EngineError, string>> = {
   ACCESS_REQUIRED: "This examination is part of a premium package.",
+  FREE_DAILY_LIMIT: "You have taken today's free mock test. Join PE Premium for unlimited mock tests, or come back tomorrow.",
   EXAM_NOT_FOUND: "This examination is not available.",
   EXAM_EMPTY: "This examination has no questions yet.",
   NOT_SIGNED_IN: "Your session has expired. Please sign in again.",
@@ -78,4 +79,23 @@ export async function submitAttempt(attemptId: string): Promise<SubmitResult> {
   const { error } = await supabase.rpc("submit_attempt", { _attempt_id: attemptId });
   if (error) return { ok: false, error: engineError(error.message) };
   return { ok: true };
+}
+
+/** Premium: build a fresh full-length mock test from questions the student has not seen. */
+export async function createMockAction(prev: StartState): Promise<StartState> {
+  void prev;
+  const user = await getCurrentUser();
+  if (!user) return { error: START_MESSAGES.NOT_SIGNED_IN };
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("create_mock_test", { _stage: "PE" });
+  if (error || !data) {
+    const m = error?.message ?? "";
+    return {
+      error: m.includes("ACCESS_REQUIRED") ? "New mock tests are part of PE Premium."
+        : m.includes("NO_QUESTIONS") ? "Not enough questions yet for a new mock test. More are being added."
+        : m.includes("RATE_LIMIT") ? "You have created many mock tests today. Please try again tomorrow."
+        : "The mock test could not be created. Please try again.",
+    };
+  }
+  redirect(`/exam/${data as string}`);
 }
