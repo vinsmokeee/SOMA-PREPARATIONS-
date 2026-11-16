@@ -7,6 +7,7 @@ import { requirePermission } from "@/lib/auth/dal";
 import { createClient } from "@/lib/supabase/server";
 import { formatDate } from "@/lib/utils";
 import { flagAction, securityAction } from "../commerce/actions";
+import { setStudentEntry } from "../actions";
 
 export const metadata: Metadata = { title: "Account security" };
 
@@ -24,12 +25,16 @@ export default async function AdminSecurityPage({ searchParams }: PageProps<"/ad
   const people = (users ?? []) as { id: string; email: string; full_name: string }[];
   const who = (id: string) => people.find((p) => p.id === id);
   const target = q ? people[0] : undefined;
+  const [{ data: cats }, { data: specs }] = await Promise.all([
+    db.from("exam_categories").select("id, name").order("sort_order"),
+    db.from("specialisations").select("id, name").order("sort_order"),
+  ]);
   const [{ data: sessions }, { data: devices }, { data: events }, { data: profile }] = target
     ? await Promise.all([
         db.from("user_sessions").select("id, created_at, last_seen_at, country, revoked_at, revoked_reason, verification_required, user_devices(label)").eq("user_id", target.id).order("last_seen_at", { ascending: false }).limit(20),
         db.from("user_devices").select("id, label, first_seen, last_seen, last_country, trusted").eq("user_id", target.id).order("last_seen", { ascending: false }),
         db.from("login_events").select("id, kind, country, detail, created_at").eq("user_id", target.id).order("created_at", { ascending: false }).limit(40),
-        db.from("profiles").select("account_status, restricted_reason").eq("id", target.id).maybeSingle(),
+        db.from("profiles").select("account_status, restricted_reason, entry_category_id, specialisation_id").eq("id", target.id).maybeSingle(),
       ])
     : [{ data: null }, { data: null }, { data: null }, { data: null }];
 
@@ -72,6 +77,21 @@ export default async function AdminSecurityPage({ searchParams }: PageProps<"/ad
               </Select>
               <Input name="reason" placeholder="Reason (kept in the log; shown to the student when restricting)" aria-label="Reason" className="h-10" />
             </ActionForm>
+            <div>
+              <h3 className="font-semibold text-ink">ME entry</h3>
+              <p className="text-xs text-muted-foreground">Students cannot change their entry while they have ME access. Change it here when they ask.</p>
+              <ActionForm action={setStudentEntry} submitLabel="Save entry" className="mt-2 grid max-w-2xl gap-2 sm:grid-cols-[1fr_1fr_auto]">
+                <input type="hidden" name="user_id" value={target.id} />
+                <Select name="entry_category_id" defaultValue={profile?.entry_category_id ?? ""} aria-label="Category" className="h-10">
+                  <option value="">Not chosen</option>
+                  {(cats ?? []).map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </Select>
+                <Select name="specialisation_id" defaultValue={profile?.specialisation_id ?? ""} aria-label="Specialisation" className="h-10">
+                  <option value="">No specialisation</option>
+                  {(specs ?? []).map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+                </Select>
+              </ActionForm>
+            </div>
             <div>
               <h3 className="font-semibold text-ink">Sessions</h3>
               <ul className="mt-1 space-y-1">{(sessions ?? []).map((s) => <li key={s.id}>{(s.user_devices as unknown as { label: string } | null)?.label ?? "Device"} · since {formatDate(s.created_at)} · last {formatDate(s.last_seen_at)}{s.country ? ` · ${s.country}` : ""}{s.revoked_at ? ` · ended (${s.revoked_reason})` : " · active"}{s.verification_required ? " · awaiting verification" : ""}</li>)}</ul>

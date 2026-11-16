@@ -23,6 +23,8 @@ select public.review_question(:'q2', 'submit'); select public.review_question(:'
 
 -- Students cannot read the answer guide (questions table is closed to them)
 select tests.login(:'s');
+-- The paper belongs to the General Graduates entry; the student chooses it first.
+update public.profiles set entry_category_id = (select id from public.exam_categories where code = 'administrative') where id = auth.uid();
 select tests.assert((select count(*) from public.questions) = 0, 'students cannot read questions or answer guides');
 select tests.assert((select count(*) from public.written_practice_questions()) = 2, 'both written questions listed');
 select tests.assert((select has_access from public.written_practice_questions() where id = :'q2') = false, 'premium question locked for free account');

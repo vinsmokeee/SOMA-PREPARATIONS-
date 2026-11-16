@@ -36,6 +36,9 @@ export type Category = {
   eligibility_summary: string | null;
   pe_exempt: boolean;
   sort_order: number;
+  public_group: "general" | "technical" | "dzongkha" | "bed" | null;
+  is_offered: boolean;
+  pe_rule_note: string | null;
 };
 
 export type Paper = {
@@ -50,6 +53,8 @@ export type Paper = {
   max_marks: number | null;
   duration_minutes: number | null;
   question_count: number | null;
+  params_source: "official" | "founder_brief" | "admin" | null;
+  bank_scope: "common" | "subject_group" | "specialisation";
   verification_status: VerificationStatus;
   source_document_id: string | null;
   sort_order: number;
@@ -93,7 +98,15 @@ export type ExamStructure = {
   meComponents: MeComponent[];
   subjects: Subject[];
   citations: Citation[];
+  sections: PaperSection[];
+  cutoffs: CutoffHistory[];
+  specialisations: Specialisation[];
+  subjectGroups: { id: string; name: string }[];
 };
+
+export type PaperSection = { id: string; paper_id: string; title: string; subject_id: string | null; question_count: number | null; marks: number | null; formats: string | null; params_source: string | null; sort_order: number };
+export type CutoffHistory = { year: number; value: number; unit: "percent" | "marks"; verification_status: VerificationStatus; source_document_id: string | null };
+export type Specialisation = { id: string; code: string; name: string; category_id: string; subject_group_id: string | null; pe_required: boolean | null; sort_order: number };
 
 export type PackageSummary = {
   id: string;

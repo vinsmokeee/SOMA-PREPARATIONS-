@@ -220,3 +220,20 @@ Or paste each migration, in order, into the Supabase SQL editor.
   risk rules; `security_flags` are created for admin review — never automatic suspension.
 - See `docs/PAYMENT_INTEGRATION_GUIDE.md` for adding a bank gateway.
 
+## Examination architecture (master plan Phase 1)
+
+- **Entries:** `exam_categories.public_group` (general / technical / dzongkha / bed) is what
+  students see; categories stay separate internally. `is_offered = false` hides an entry
+  from students (B.Ed). `specialisations` (technical) link optionally to a
+  `subject_groups` row, which is that specialisation's shared Paper II bank.
+- **Papers:** `bank_scope` says whose questions a paper serves (common, per group, per
+  specialisation). `params_source` records whether marks/time/count are official, from
+  the founder's brief, or set by an admin. `paper_sections` holds sections (PE: four).
+- **`pe_cutoff_history`** is reference information only; nothing applies it as a rule.
+- **`entry_fits()`** decides whether ME content matches the caller's entry. It is used by
+  `practice_pool`, `exam_catalogue`, `written_practice_questions` and
+  `create_written_practice`. PE content is common to everyone.
+- **`guard_profile_entry`** checks the specialisation belongs to the category, allows
+  students only offered entries, and locks the entry while the student has ME access
+  (administrators can change it).
+

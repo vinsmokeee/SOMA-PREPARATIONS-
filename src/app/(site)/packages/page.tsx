@@ -1,3 +1,4 @@
+import { ME_RESULT_NOTE } from "@/lib/exam/entry";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Check } from "lucide-react";
@@ -38,11 +39,12 @@ export default async function PackagesPage() {
           </div>
         )}
 
-        <div className="mt-14 grid gap-8 border-t border-border pt-10 md:grid-cols-3">
+        <div className="mt-14 grid gap-8 border-t border-border pt-10 md:grid-cols-2 lg:grid-cols-4">
           {[
             ["How payment works", "When sales open, you will be able to pay through supported Bhutanese payment methods. Access is granted only after your payment is verified."],
             ["How long access lasts", "Each package is tied to an examination cycle and lists its access period before you buy. We do not promise unlimited future updates unless the package says so."],
             ["No guarantees of selection", "Soma helps you prepare. No preparation provider can guarantee success in the BCSE, and we never claim to."],
+            ["PE and ME are separate", `Buying a PE package does not include the ME, and the reverse. ${ME_RESULT_NOTE}`],
           ].map(([title, body]) => (
             <div key={title}>
               <p className="font-semibold text-ink">{title}</p>

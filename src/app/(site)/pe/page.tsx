@@ -8,6 +8,7 @@ import { DefinitionRow, NotStated } from "@/components/site/definition-row";
 import { Citations, DataUnavailable, FixtureDataNotice, NotOfficialNotice, VerificationBadge } from "@/components/site/official";
 import { getExamStructure } from "@/lib/data/public";
 import { citationsFor } from "@/lib/data/structure";
+import { formatCutoffs } from "@/lib/exam/entry";
 import type { ExamStructure } from "@/lib/data/types";
 
 export const metadata: Metadata = {
@@ -49,7 +50,7 @@ export default async function PePage() {
               {[
                 ["Full-length timed simulations", "Sit complete practice examinations in a realistic, distraction-free environment with a visible countdown and automatic submission."],
                 ["OMR answer-sheet practice", "The PE is answered on an OMR sheet. Practise the marking procedure so it feels routine."],
-                ["Subject-wise and topic-wise practice", "Work on English, Dzongkha, logical reasoning, data interpretation or current affairs individually."],
+                ["Section-wise and topic-wise practice", "Work on English, Dzongkha, Aptitude or Data Interpretation individually, plus current-affairs practice."],
                 ["Explanations for every question", "Every Soma question is checked by a reviewer and comes with a clear explanation."],
                 ["Bhutan current affairs", "Concise, source-linked notes and practice questions on national and international developments."],
                 ["Performance analytics", "Track accuracy, timing and weak topics across attempts, with suggested revision."],
@@ -75,7 +76,9 @@ export default async function PePage() {
 
 function OfficialPe({ structure, source }: { structure: ExamStructure; source: "database" | "fixture" }) {
   const pe = structure.papers.find((p) => p.stage === "PE");
-  const subjects = structure.subjects.filter((s) => s.stage === "PE");
+  const sections = structure.sections.filter((s) => s.paper_id === pe?.id);
+  const official = pe?.params_source === "official";
+  const cutoffs = structure.cutoffs ?? [];
   const exempt = structure.categories.filter((c) => c.pe_exempt);
   const technical = structure.categories.find((c) => c.code === "technical");
   const currentCycle = structure.cycles.find((c) => c.verification_status === "official_verified");
@@ -96,17 +99,26 @@ function OfficialPe({ structure, source }: { structure: ExamStructure; source: "
         What the PE tests
       </h2>
       <p className="leading-relaxed text-muted-foreground">
-        According to the RCSC, the PE consists of objective-type questions, common to all categories of graduates, that
-        test:
+        According to the RCSC, the PE consists of objective-type questions, common to all categories of graduates. It
+        tests English and Dzongkha communication skills, logic, analytical ability and problem-solving, data
+        interpretation, and general awareness.
       </p>
-      <ul className="grid gap-3 sm:grid-cols-2">
-        {subjects.map((s) => (
-          <li key={s.id} className="flex items-start gap-3 rounded-lg border border-border px-4 py-3">
-            <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden />
-            <span className="text-[15px] font-medium text-ink">{s.name}</span>
-          </li>
-        ))}
-      </ul>
+      {sections.length ? (
+        <>
+          <p className="leading-relaxed text-muted-foreground">Soma&apos;s PE practice is organised in {sections.length} sections:</p>
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {sections.map((s) => (
+              <li key={s.id} className="flex items-start gap-3 rounded-lg border border-border px-4 py-3">
+                <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden />
+                <span className="text-[15px] font-medium text-ink">
+                  {s.title}
+                  {s.question_count ? <span className="font-normal text-muted-foreground"> · {s.question_count} questions</span> : null}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
 
       <Card>
         <CardHeader>
@@ -128,17 +140,32 @@ function OfficialPe({ structure, source }: { structure: ExamStructure; source: "
             ) : null}
             <DefinitionRow label="Qualifying for the ME">
               {currentCycle?.pe_cutoff_note ?? "Candidates must achieve the minimum cut-off decided by the Commission."}
+              {cutoffs.length ? (
+                <span className="mt-1 block text-muted-foreground">
+                  For reference only, past cut-offs: {formatCutoffs(cutoffs)}. The RCSC sets the cut-off each year.
+                </span>
+              ) : null}
             </DefinitionRow>
             <DefinitionRow label="Duration">
-              {pe?.duration_minutes ? `${pe.duration_minutes} minutes` : <NotStated />}
+              {pe?.duration_minutes ? <ParamValue official={official}>{`${pe.duration_minutes} minutes`}</ParamValue> : <NotStated />}
             </DefinitionRow>
-            <DefinitionRow label="Number of questions">{pe?.question_count ?? <NotStated />}</DefinitionRow>
-            <DefinitionRow label="Total marks">{pe?.max_marks ?? <NotStated />}</DefinitionRow>
+            <DefinitionRow label="Number of questions">{pe?.question_count ? <ParamValue official={official}>{pe.question_count}</ParamValue> : <NotStated />}</DefinitionRow>
+            <DefinitionRow label="Total marks">{pe?.max_marks ? <ParamValue official={official}>{pe.max_marks}</ParamValue> : <NotStated />}</DefinitionRow>
           </dl>
         </CardContent>
       </Card>
 
       <Citations citations={citations} />
     </section>
+  );
+}
+
+/** A number Soma uses for practice that an RCSC document has not confirmed is labelled as such. */
+function ParamValue({ official, children }: { official: boolean; children: React.ReactNode }) {
+  return (
+    <>
+      {children}
+      {official ? null : <span className="mt-1 block text-sm text-muted-foreground">Soma&apos;s practice format; not stated in the recorded RCSC announcement.</span>}
+    </>
   );
 }

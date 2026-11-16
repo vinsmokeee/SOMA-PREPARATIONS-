@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const QUESTION_TYPES = ["mcq", "short_answer", "long_answer", "essay", "analytical", "descriptive"] as const;
+export const QUESTION_TYPES = ["mcq", "short_answer", "long_answer", "essay", "analytical", "descriptive", "translation", "passage", "case_study"] as const;
 export const DIFFICULTIES = ["foundation", "standard", "advanced"] as const;
 
 const optUuid = z.preprocess((v) => (v === "" || v === undefined ? null : v), z.uuid().nullable());
@@ -20,6 +20,10 @@ export const questionPayloadSchema = z
     topic_id: optUuid,
     paper_id: optUuid,
     category_id: optUuid,
+    specialisation_id: optUuid.default(null),
+    subject_group_id: optUuid.default(null),
+    source_year: optInt(1990, 2100).default(null),
+    source_page: optInt(1, 5000).default(null),
     difficulty: z.enum(DIFFICULTIES),
     marks: z.coerce.number().positive("Marks must be more than zero.").max(1000),
     estimated_seconds: optInt(5, 36000),

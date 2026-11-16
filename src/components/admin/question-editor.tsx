@@ -26,6 +26,10 @@ export type EditorQuestion = {
   topic_id: string;
   paper_id: string;
   category_id: string;
+  specialisation_id: string;
+  subject_group_id: string;
+  source_year: string;
+  source_page: string;
   difficulty: (typeof DIFFICULTIES)[number];
   marks: string;
   estimated_seconds: string;
@@ -40,8 +44,10 @@ export type EditorQuestion = {
 export type EditorLookups = {
   subjects: { id: string; stage: string; name: string }[];
   topics: { id: string; subject_id: string; parent_id: string | null; name: string }[];
-  papers: { id: string; stage: string; title: string; code: string }[];
+  papers: { id: string; stage: string; title: string; code: string; bank_scope?: string }[];
   categories: { id: string; name: string }[];
+  specialisations: { id: string; name: string }[];
+  groups: { id: string; name: string }[];
 };
 
 export function emptyQuestion(stage: "PE" | "ME" = "PE"): EditorQuestion {
@@ -57,6 +63,10 @@ export function emptyQuestion(stage: "PE" | "ME" = "PE"): EditorQuestion {
     topic_id: "",
     paper_id: "",
     category_id: "",
+    specialisation_id: "",
+    subject_group_id: "",
+    source_year: "",
+    source_page: "",
     difficulty: "standard",
     marks: "1",
     estimated_seconds: "",
@@ -86,12 +96,15 @@ export function QuestionEditor({ initial, lookups, readOnlyReason }: { initial: 
   const subjects = lookups.subjects.filter((s) => s.stage === q.stage);
   const topics = lookups.topics.filter((t) => t.subject_id === q.subject_id);
   const papers = lookups.papers.filter((p) => p.stage === q.stage);
+  const scope = lookups.papers.find((p) => p.id === q.paper_id)?.bank_scope ?? "common";
   const rubricTotal = q.rubric.reduce((s, r) => s + (Number(r.max_marks) || 0), 0);
 
   const save = () => {
     setResult(null);
     const payload: QuestionPayload = {
       ...q,
+      source_year: q.source_year,
+      source_page: q.source_page,
       word_limit: q.word_limit,
       estimated_seconds: q.estimated_seconds,
       options: q.options,
@@ -184,6 +197,32 @@ export function QuestionEditor({ initial, lookups, readOnlyReason }: { initial: 
             <option value="">— All —</option>
             {lookups.categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
           </Select>
+        </Field>
+      </section>
+
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Field>
+          <Label htmlFor="spec">Technical specialisation</Label>
+          <Select id="spec" value={q.specialisation_id} disabled={disabled || q.stage === "PE"} onChange={(e) => set("specialisation_id", e.target.value)}>
+            <option value="">{scope === "specialisation" ? "— Required for this paper —" : "— Not specific —"}</option>
+            {lookups.specialisations.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+          </Select>
+        </Field>
+        <Field>
+          <Label htmlFor="group">Paper II group</Label>
+          <Select id="group" value={q.subject_group_id} disabled={disabled || scope !== "subject_group"} onChange={(e) => set("subject_group_id", e.target.value)}>
+            <option value="">— None —</option>
+            {lookups.groups.map((g) => <option key={g.id} value={g.id}>{g.name}</option>)}
+          </Select>
+        </Field>
+        <Field>
+          <Label htmlFor="source_year">Source year</Label>
+          <Input id="source_year" type="number" min="1990" max="2100" value={q.source_year} disabled={disabled} onChange={(e) => set("source_year", e.target.value)} className="h-10" />
+          <FieldHint>For questions from or based on a past paper.</FieldHint>
+        </Field>
+        <Field>
+          <Label htmlFor="source_page">Source page</Label>
+          <Input id="source_page" type="number" min="1" value={q.source_page} disabled={disabled} onChange={(e) => set("source_page", e.target.value)} className="h-10" />
         </Field>
       </section>
 

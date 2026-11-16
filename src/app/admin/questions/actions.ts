@@ -25,8 +25,13 @@ export async function saveQuestionAction(payload: QuestionPayload): Promise<Save
   }
   const parsed = questionPayloadSchema.safeParse(payload);
   if (!parsed.success) return { ok: false, message: "Please correct the following:", issues: [...new Set(parsed.error.issues.map((i) => i.message))] };
-  const { id, options, rubric, references, key_points, alternative_answers, ...q } = parsed.data;
+  const { id, options, rubric, references, key_points, alternative_answers, specialisation_id, subject_group_id, source_year, source_page, ...q } = parsed.data;
   const supabase = await createClient();
+  if (q.paper_id) {
+    const { data: paper } = await supabase.from("exam_papers").select("bank_scope").eq("id", q.paper_id).maybeSingle();
+    if (paper?.bank_scope === "specialisation" && !specialisation_id) return { ok: false, message: "Questions for this paper belong to one specialisation. Choose the specialisation." };
+    if (paper?.bank_scope === "subject_group" && !specialisation_id && !subject_group_id) return { ok: false, message: "Questions for this paper need a Paper II group or a specialisation." };
+  }
   const { data, error } = await supabase.rpc("save_question", {
     _id: id,
     _q: { ...q, word_limit: q.word_limit ?? "", estimated_seconds: q.estimated_seconds ?? "" },
@@ -38,6 +43,12 @@ export async function saveQuestionAction(payload: QuestionPayload): Promise<Save
     console.error("save_question failed", error.code, error.message);
     const known = DB_MESSAGES.find(([k]) => error.message.includes(k));
     return { ok: false, message: known?.[1] ?? "The question could not be saved." };
+  }
+  const { error: cErr } = await supabase.from("questions")
+    .update({ specialisation_id, subject_group_id, source_year, source_page }).eq("id", data as string);
+  if (cErr) {
+    console.error("question classification failed", cErr.code, cErr.message);
+    return { ok: false, message: "The question was saved, but its classification could not be saved." };
   }
   if (q.question_type !== "mcq") {
     const { error: gErr } = await supabase.rpc("save_question_guide", { _id: data as string, _key_points: key_points.filter((k) => k.point), _alternatives: alternative_answers });

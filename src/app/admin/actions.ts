@@ -10,11 +10,18 @@ import { CACHE_TAGS } from "@/lib/data/public";
 import { createClient } from "@/lib/supabase/server";
 import {
   categoryUpdateSchema,
+  cutoffSchema,
   cycleUpdateSchema,
+  paperSectionSchema,
+  specialisationCreateSchema,
+  specialisationUpdateSchema,
+  subjectGroupCreateSchema,
+  subjectGroupUpdateSchema,
   messageStatusSchema,
   packageUpdateSchema, packageCreateSchema,
   paperUpdateSchema,
   roleChangeSchema,
+  studentEntrySchema,
   subjectCreateSchema,
   toggleSchema,
   topicCreateSchema,
@@ -79,6 +86,41 @@ export async function updateCycle(_prev: ActionState, formData: FormData) {
 
 export async function updateCategory(_prev: ActionState, formData: FormData) {
   return run("exam_config.manage", categoryUpdateSchema, formData, ({ id, ...rest }, db) => db.from("exam_categories").update(rest).eq("id", id).select("id"), refreshStructure);
+}
+
+export async function updateSpecialisation(_prev: ActionState, formData: FormData) {
+  return run("exam_config.manage", specialisationUpdateSchema, formData, ({ id, ...rest }, db) => db.from("specialisations").update(rest).eq("id", id).select("id"), refreshStructure);
+}
+
+export async function createSpecialisation(_prev: ActionState, formData: FormData) {
+  return run("exam_config.manage", specialisationCreateSchema, formData, (d, db) => db.from("specialisations").insert({ ...d, sort_order: 1000 }), refreshStructure, "Specialisation added.");
+}
+
+export async function updateSubjectGroup(_prev: ActionState, formData: FormData) {
+  return run("exam_config.manage", subjectGroupUpdateSchema, formData, ({ id, ...rest }, db) => db.from("subject_groups").update(rest).eq("id", id).select("id"), refreshStructure);
+}
+
+export async function createSubjectGroup(_prev: ActionState, formData: FormData) {
+  return run("exam_config.manage", subjectGroupCreateSchema, formData, (d, db) => db.from("subject_groups").insert({ ...d, sort_order: 1000 }), refreshStructure, "Group added.");
+}
+
+export async function savePaperSection(_prev: ActionState, formData: FormData) {
+  return run("exam_config.manage", paperSectionSchema, formData, ({ id, ...rest }, db) =>
+    id ? db.from("paper_sections").update(rest).eq("id", id).select("id") : db.from("paper_sections").insert(rest), refreshStructure);
+}
+
+export async function deletePaperSection(_prev: ActionState, formData: FormData) {
+  return run("exam_config.manage", toggleSchema.pick({ id: true }), formData, ({ id }, db) => db.from("paper_sections").delete().eq("id", id).select("id"), refreshStructure, "Section removed.");
+}
+
+export async function saveCutoff(_prev: ActionState, formData: FormData) {
+  return run("exam_config.manage", cutoffSchema, formData, ({ id, ...rest }, db) =>
+    id ? db.from("pe_cutoff_history").update(rest).eq("id", id).select("id") : db.from("pe_cutoff_history").insert(rest), refreshStructure);
+}
+
+export async function setStudentEntry(_prev: ActionState, formData: FormData) {
+  return run("users.manage", studentEntrySchema, formData, ({ user_id, ...rest }, db) => db.from("profiles").update(rest).eq("id", user_id).select("id"),
+    () => revalidatePath("/admin/security"), "Entry updated.");
 }
 
 const refreshSyllabus = () => {

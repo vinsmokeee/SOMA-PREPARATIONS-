@@ -17,6 +17,11 @@ export const paperUpdateSchema = z.object({
   duration_minutes: optInt(1, 600),
   question_count: optInt(1, 1000),
   max_marks: optNum(1, 10000),
+  // Added later: omitted keys are left unchanged rather than cleared.
+  qualifying_marks: optNum(0, 10000).optional(),
+  bank_scope: z.enum(["common", "subject_group", "specialisation"]).optional(),
+  params_source: z.preprocess(emptyToNull, z.enum(["official", "founder_brief", "admin"]).nullable()).optional(),
+  params_note: optText(1000).optional(),
   verification_status: verificationStatus,
 });
 
@@ -46,6 +51,64 @@ export const categoryUpdateSchema = z.object({
   eligibility_summary: optText(2000),
   pe_exempt: z.preprocess((v) => v === "on", z.boolean()),
   is_active: z.preprocess((v) => v === "on", z.boolean()),
+  is_offered: z.preprocess((v) => v === "on", z.boolean()),
+  public_group: z.preprocess(emptyToNull, z.enum(["general", "technical", "dzongkha", "bed"]).nullable()),
+  pe_rule_note: optText(2000),
+});
+
+const peRequired = z.preprocess((v) => (v === "yes" ? true : v === "no" ? false : null), z.boolean().nullable());
+const code = z.string().trim().toLowerCase().regex(/^[a-z0-9-]+$/, "Use lowercase letters, numbers and hyphens only.").max(80);
+
+export const specialisationUpdateSchema = z.object({
+  id: uuid,
+  name: z.string().trim().min(2).max(160),
+  subject_group_id: z.preprocess(emptyToNull, uuid.nullable()),
+  pe_required: peRequired,
+  pe_rule_note: optText(2000),
+  review_note: optText(1000),
+  sort_order: z.coerce.number().int().min(0).max(100000),
+  is_active: z.preprocess((v) => v === "on", z.boolean()),
+  verification_status: verificationStatus,
+});
+
+export const specialisationCreateSchema = z.object({
+  category_id: uuid,
+  name: z.string().trim().min(2).max(160),
+  code,
+});
+
+export const subjectGroupUpdateSchema = z.object({
+  id: uuid,
+  name: z.string().trim().min(2).max(160),
+  notes: optText(2000),
+  is_active: z.preprocess((v) => v === "on", z.boolean()),
+  verification_status: verificationStatus,
+});
+
+export const subjectGroupCreateSchema = z.object({
+  name: z.string().trim().min(2).max(160),
+  code,
+});
+
+export const paperSectionSchema = z.object({
+  id: z.preprocess(emptyToNull, uuid.nullable()),
+  paper_id: uuid,
+  title: z.string().trim().min(1).max(160),
+  subject_id: z.preprocess(emptyToNull, uuid.nullable()),
+  question_count: optInt(1, 1000),
+  marks: optNum(0.5, 10000),
+  formats: optText(300),
+  params_source: z.preprocess(emptyToNull, z.enum(["official", "founder_brief", "admin"]).nullable()),
+  sort_order: z.coerce.number().int().min(0).max(100000),
+});
+
+export const cutoffSchema = z.object({
+  id: z.preprocess(emptyToNull, uuid.nullable()),
+  year: z.coerce.number().int().min(2000).max(2100),
+  value: z.coerce.number().min(0).max(1000),
+  unit: z.enum(["percent", "marks"]),
+  note: optText(1000),
+  verification_status: verificationStatus,
 });
 
 const slug = z.string().trim().toLowerCase().regex(/^[a-z0-9-]+$/, "Use lowercase letters, numbers and hyphens only.").max(80);
@@ -133,4 +196,10 @@ export const packageCreateSchema = z.object({
   name: z.string().trim().min(2).max(120),
   slug: z.string().trim().regex(/^[a-z0-9-]{3,60}$/, "Use lower-case letters, numbers and dashes."),
   price: z.coerce.number().min(0).max(1000000),
+});
+
+export const studentEntrySchema = z.object({
+  user_id: uuid,
+  entry_category_id: z.preprocess(emptyToNull, uuid.nullable()),
+  specialisation_id: z.preprocess(emptyToNull, uuid.nullable()),
 });
