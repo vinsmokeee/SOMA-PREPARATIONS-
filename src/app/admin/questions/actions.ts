@@ -139,7 +139,11 @@ export async function bulkReviewAction(input: z.input<typeof bulkSchema>): Promi
 
 /** Past-paper questions whose answers Claude checked with high confidence, still awaiting review. */
 async function checkedPastPaperIds(supabase: Awaited<ReturnType<typeof createClient>>): Promise<string[]> {
-  const { data: qs } = await supabase.from("questions").select("id").eq("origin", "historical_official").eq("status", "awaiting_review");
+  // Dzongkha answers always need a Dzongkha speaker, so they are never part of this one-tap publish.
+  const { data: dz } = await supabase.from("subjects").select("id").eq("slug", "dzongkha-communication").maybeSingle();
+  let query = supabase.from("questions").select("id").eq("origin", "historical_official").eq("status", "awaiting_review");
+  if (dz?.id) query = query.neq("subject_id", dz.id);
+  const { data: qs } = await query;
   const ids = (qs ?? []).map((q) => q.id as string);
   if (!ids.length) return [];
   const { data: notes } = await supabase.from("content_reviews").select("entity_id").eq("entity_type", "question").eq("action", "comment")

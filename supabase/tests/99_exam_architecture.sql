@@ -1,6 +1,6 @@
 begin;
 -- Reference data
-select tests.assert((select count(*) from public.specialisations) = 31, '31 specialisations loaded as given');
+select tests.assert((select count(*) from public.specialisations where list_source like '%CSCE 2009%') = 31, 'the 31 earlier-list specialisations are all kept');
 select tests.assert((select count(*) from public.specialisations where review_note is not null) = 4, 'possible duplicates flagged, not merged');
 select tests.assert((select count(*) from public.specialisations where subject_group_id is not null) = 0, 'no specialisation linked to a Paper II group until verified');
 select tests.assert((select string_agg(ps.title, ',' order by ps.sort_order) from public.paper_sections ps join public.exam_papers p on p.id = ps.paper_id where p.code = 'pe')
@@ -9,7 +9,7 @@ select tests.assert((select question_count = 100 and duration_minutes = 150 and 
 select tests.assert((select duration_minutes from public.exam_papers where code = 'me-technical-2') = 90, 'Technical Paper II 90 minutes');
 select tests.assert((select bank_scope from public.exam_papers where code = 'me-technical-3') = 'specialisation', 'Paper III per specialisation');
 select tests.assert((select count(*) from public.pe_cutoff_history) = 3, 'cut-off history is reference data');
-select tests.assert((select not is_offered from public.exam_categories where code = 'bed'), 'B.Ed not offered');
+select tests.assert((select is_offered from public.exam_categories where code = 'bed'), 'B.Ed. is offered (founder, 17 Nov 2026)');
 select tests.assert((select includes_me and not includes_pe from public.packages where slug = 'me-premium'), 'separate ME package');
 select tests.assert((select status from public.packages where slug = 'pe-me-premium') = 'draft', 'combined package hidden');
 
@@ -41,7 +41,8 @@ update public.questions set status = 'published' where stem like 'EA %';
 
 set local role authenticated;
 select tests.login(:'civ');
-select tests.assert((select count(*) from public.written_practice_questions() where stem like 'EA %') = 3, 'civil student: own Paper II and III plus unrestricted');
+select tests.assert((select count(*) from public.written_practice_questions() where stem like 'EA %') = 2, 'civil student: own Paper II and III only');
+select tests.assert(not exists (select 1 from public.written_practice_questions() where stem like 'EA unrestricted%'), 'unclassified ME questions are never served');
 select tests.assert(not exists (select 1 from public.written_practice_questions() where stem like 'EA electrical%'), 'never another specialisation');
 select tests.assert(not exists (select 1 from public.written_practice_questions() where stem like 'EA unclassified%'), 'unclassified Paper II not served');
 select tests.assert(not exists (select 1 from public.written_practice_questions() where stem like 'EA general%'), 'never another pathway');
@@ -49,11 +50,10 @@ select tests.assert_fails(format($$select public.create_written_practice(%L)$$, 
 select tests.assert_fails(format($$update public.profiles set specialisation_id = %L, entry_category_id = %L where id = auth.uid()$$, :'civil', :'gen'), 'specialisation must belong to the category');
 
 select tests.login(:'adm');
-select tests.assert((select count(*) from public.written_practice_questions() where stem like 'EA %') = 2, 'general student: general paper plus unrestricted');
-select tests.assert_fails(format($$update public.profiles set entry_category_id = %L where id = auth.uid()$$, :'bed'), 'B.Ed cannot be chosen while not offered');
+select tests.assert((select count(*) from public.written_practice_questions() where stem like 'EA %') = 1, 'general student: general paper only');
 
 select tests.login(:'nw');
-select tests.assert((select count(*) from public.written_practice_questions() where stem like 'EA %') = 1, 'no entry yet: only unrestricted ME questions');
+select tests.assert((select count(*) from public.written_practice_questions() where stem like 'EA %') = 0, 'no entry yet: no ME questions');
 
 -- Entry is locked once the student has ME access (administrators can still change it)
 select tests.login(:'b');

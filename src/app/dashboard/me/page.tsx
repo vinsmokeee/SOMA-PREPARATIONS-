@@ -20,17 +20,23 @@ export default async function MePage({ searchParams }: PageProps<"/dashboard/me"
   const sp = await searchParams;
   const state = await loadExamState(user.id);
   const changing = sp.change === "1";
-  if (!entryComplete(state.entry) || changing || typeof sp.group === "string") {
+  const catParam = typeof sp.cat === "string" ? sp.cat : null;
+  if (!entryComplete(state.entry) || changing || catParam) {
     const db = await createClient();
-    const [{ data: categories }, { data: specialisations }] = await Promise.all([
-      db.from("exam_categories").select("id, name, public_group").eq("is_active", true).eq("is_offered", true).order("sort_order"),
-      db.from("specialisations").select("id, name").eq("is_active", true).order("name"),
+    const [{ data: categories }, { data: specialisations }, { data: groups }] = await Promise.all([
+      db.from("exam_categories").select("id, code, name").eq("is_active", true).eq("is_offered", true).order("sort_order"),
+      db.from("specialisations").select("id, name, category_id, sort_order").eq("is_active", true).order("sort_order").order("name"),
+      db.from("subject_groups").select("id, name").eq("is_active", true).order("sort_order"),
     ]);
-    const group = typeof sp.group === "string" && ["general", "technical", "dzongkha"].includes(sp.group) ? sp.group : null;
+    // A Technical student who has a specialisation but no Paper II group yet goes straight to that step.
+    const resume = !catParam && !changing && state.entry.code === "technical" && state.entry.specialisationId;
+    const cat = catParam ?? (resume ? "technical" : null);
+    const spec = typeof sp.spec === "string" ? sp.spec : resume ? state.entry.specialisationId : null;
     return (
       <EntryPicker
-        options={{ categories: categories ?? [], specialisations: specialisations ?? [] }}
-        group={group}
+        options={{ categories: categories ?? [], specialisations: specialisations ?? [], groups: groups ?? [] }}
+        cat={cat}
+        spec={spec}
         error={typeof sp.error === "string" ? ERRORS[sp.error] ?? ERRORS.failed : null}
       />
     );

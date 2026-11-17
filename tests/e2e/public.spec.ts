@@ -45,14 +45,15 @@ test("ME page shows each category group with official weightages", async ({ page
   await expect(general).toContainText("Finance Service");
   await expect(general).toContainText("Education Service (PGDE)");
   await expect(general).toContainText("40%");
-  const bed = groups.filter({ hasText: "B.Ed. Graduates" });
+  const bed = groups.filter({ hasText: "Education Service (B.Ed.)" });
   await expect(bed).toContainText("Teacher Aptitude Test");
   await expect(bed).toContainText("30%");
   await expect(bed).toContainText("Academic Achievement 20%");
   await expect(page.getByText("None of it is an official RCSC mark.")).toBeVisible();
   await expect(page.getByText(/academic marks and the viva\/interview may also count/).first()).toBeVisible();
-  await expect(groups.filter({ hasText: "Technical Graduates" })).toContainText("Technical specialisations Soma covers (31)");
-  await expect(bed).toContainText("Soma does not offer preparation for this category yet.");
+  await expect(groups.filter({ hasText: "Technical Graduates" })).toContainText("Technical specialisations Soma covers (48)");
+  await expect(bed).toContainText("General graduates and Dzongkha graduates write different");
+  await expect(bed).not.toContainText("Soma does not offer preparation for this category yet.");
 });
 
 test("packages page shows database prices and does not allow buying coming-soon packages", async ({ page }) => {

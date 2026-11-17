@@ -25,6 +25,12 @@ describe("structure validation", () => {
     expect(specialisationUpdateSchema.parse({ ...base, pe_required: "no" }).pe_required).toBe(false);
     expect(specialisationUpdateSchema.parse({ ...base, pe_required: "yes" }).pe_required).toBe(true);
   });
+  it("reads the BCSE years a specialisation was offered", () => {
+    const base = { id: uuid, name: "Civil Engineering", subject_group_id: "", pe_rule_note: "", review_note: "", sort_order: "10", verification_status: "unverified", pe_required: "" };
+    expect(specialisationUpdateSchema.parse({ ...base, offered_years: "2024, 2025 2026" }).offered_years).toEqual([2024, 2025, 2026]);
+    expect(specialisationUpdateSchema.parse({ ...base, offered_years: "" }).offered_years).toEqual([]);
+    expect(() => specialisationUpdateSchema.parse({ ...base, offered_years: "25" })).toThrow();
+  });
   it("records where paper values come from", () => {
     const r = paperUpdateSchema.parse({ id: uuid, title: "PE", description: "", weightage_percent: "", duration_minutes: "150", question_count: "100", max_marks: "100", qualifying_marks: "", params_source: "founder_brief", params_note: "", verification_status: "unverified" });
     expect(r.params_source).toBe("founder_brief");

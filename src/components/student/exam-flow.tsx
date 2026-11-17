@@ -3,7 +3,6 @@ import { ArrowRight, BarChart3, BookOpenCheck, Check, ClipboardCheck, Crown, Fla
 import { startFreeAction, setMeEntryAction } from "@/app/dashboard/exam-actions";
 import { StartButton } from "@/components/training/start-button";
 import { TodayPlan } from "@/components/training/today-plan";
-import { PUBLIC_GROUP_LABELS } from "@/lib/exam/entry";
 import { itemAction, type TrainingData } from "@/lib/training/model";
 import { cn } from "@/lib/utils";
 import { WhyPremium } from "./exam-info";
@@ -107,49 +106,86 @@ export function PackageChoice({ stage, entryLabel, pkg, free, onFree = false }: 
 // 3. ME: choose your entry
 // ---------------------------------------------------------------------------
 export type EntryOptions = {
-  categories: { id: string; name: string; public_group: string | null }[];
-  specialisations: { id: string; name: string }[];
+  categories: { id: string; code: string; name: string }[];
+  specialisations: { id: string; name: string; category_id: string }[];
+  groups: { id: string; name: string }[];
 };
 
-const GROUP_HINT: Record<string, string> = {
-  general: "Next: choose your category",
-  technical: "Next: choose your specialisation",
-  dzongkha: "Dzongkha entry",
+/** What each ME category writes (RCSC structure). */
+const CATEGORY_PAPERS: Record<string, string> = {
+  administrative: "Dzongkha · English & General Knowledge · Bhutan",
+  finance: "Dzongkha · English & General Knowledge · Bhutan",
+  pgde: "Dzongkha · English & General Knowledge · Bhutan",
+  dzongkha: "Dzongkha & GK · English & Current Affairs · Buddhist Studies",
+  bed: "Dzongkha · English · Teacher Aptitude Test",
+  technical: "Languages & GK · Paper II group · Your specialisation",
 };
 
-export function EntryPicker({ options, group, error }: { options: EntryOptions; group: string | null; error?: string | null }) {
-  const groups = ["general", "technical", "dzongkha"].filter((g) => options.categories.some((c) => c.public_group === g));
-  const inGroup = options.categories.filter((c) => c.public_group === group);
+/** ME entry: one of the six categories; B.Ed. graduate type; Technical specialisation and Paper II group. */
+export function EntryPicker({ options, cat, spec, error }: { options: EntryOptions; cat: string | null; spec: string | null; error?: string | null }) {
+  const category = options.categories.find((c) => c.code === cat) ?? null;
+  const specs = category ? options.specialisations.filter((s) => s.category_id === category.id) : [];
+  const chosenSpec = specs.find((s) => s.id === spec) ?? null;
+  const card = cn("relative flex min-h-20 w-full items-center justify-between overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-left text-white shadow-lg active:scale-[0.99]", STAGE_INFO.ME.gradient);
   return (
     <div data-exam="ME" className="mx-auto max-w-lg space-y-5">
       <Header stage="ME" subtitle="Main Examination" />
       {error ? <p role="alert" className="rounded-2xl bg-danger-soft p-3 text-sm text-danger">{error}</p> : null}
-      {!group ? (
+      {!category ? (
         <>
-          <h2 className="text-xl font-extrabold text-ink">Which graduates are you?</h2>
+          <h2 className="text-xl font-extrabold text-ink">Which category are you applying for?</h2>
           <div className="grid gap-3">
-            {groups.map((g) => (
-              <Link key={g} href={`/dashboard/me?group=${g}`} className={cn("relative flex min-h-24 items-center justify-between overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-lg active:scale-[0.99]", STAGE_INFO.ME.gradient)}>
-                <span className="absolute -right-6 -top-6 size-24 rounded-full bg-white/10" aria-hidden />
-                <span className="relative">
-                  <span className="block text-lg font-extrabold">{PUBLIC_GROUP_LABELS[g]}</span>
-                  <span className="block text-sm text-white/85">{GROUP_HINT[g]}</span>
-                </span>
-                <ArrowRight className="relative size-6" aria-hidden />
+            {options.categories.map((c) => {
+              const body = (
+                <>
+                  <span className="absolute -right-6 -top-6 size-24 rounded-full bg-white/10" aria-hidden />
+                  <span className="relative">
+                    <span className="block text-lg font-extrabold">{c.name}</span>
+                    <span className="block text-sm text-white/85">{CATEGORY_PAPERS[c.code] ?? "Three written papers"}</span>
+                  </span>
+                  <ArrowRight className="relative size-6 shrink-0" aria-hidden />
+                </>
+              );
+              return c.code === "bed" || c.code === "technical" ? (
+                <Link key={c.id} href={`/dashboard/me?cat=${c.code}`} className={card}>{body}</Link>
+              ) : (
+                <form key={c.id} action={setMeEntryAction}>
+                  <input type="hidden" name="category" value={c.id} />
+                  <button type="submit" className={card}>{body}</button>
+                </form>
+              );
+            })}
+          </div>
+        </>
+      ) : category.code === "technical" && chosenSpec ? (
+        <>
+          <p className="text-sm font-semibold text-primary">{category.name} · {chosenSpec.name}</p>
+          <h2 className="-mt-4 text-xl font-extrabold text-ink">Your Paper II group</h2>
+          <p className="text-sm text-muted-foreground">Paper II is shared by a group of specialisations. Choose the group shown for your position in the RCSC vacancy announcement.</p>
+          <div className="grid gap-2">
+            {options.groups.map((g) => <EntryButton key={g.id} label={g.name} category={category.id} specialisation={chosenSpec.id} group={g.id} />)}
+          </div>
+        </>
+      ) : category.code === "technical" ? (
+        <>
+          <p className="text-sm font-semibold text-primary">{category.name}</p>
+          <h2 className="-mt-4 text-xl font-extrabold text-ink">Your specialisation (Paper III)</h2>
+          <p className="text-sm text-muted-foreground">Based on RCSC&apos;s BCSE 2025 papers. Choose the specialisation of the position you are applying for; check this year&apos;s vacancy announcement.</p>
+          <div className="grid gap-2">
+            {specs.map((s) => (
+              <Link key={s.id} href={`/dashboard/me?cat=technical&spec=${s.id}`} className="flex w-full items-center justify-between rounded-2xl bg-gradient-to-r from-[#be123c] to-[#7a1e3a] p-4 text-left font-bold text-white shadow-md active:scale-[0.99]">
+                {s.name} <ArrowRight className="size-5 shrink-0" aria-hidden />
               </Link>
             ))}
           </div>
         </>
       ) : (
         <>
-          <p className="text-sm font-semibold text-primary">{PUBLIC_GROUP_LABELS[group]}</p>
-          <h2 className="-mt-4 text-xl font-extrabold text-ink">{group === "technical" ? "Your specialisation" : group === "general" ? "Your category" : "Confirm your entry"}</h2>
+          <p className="text-sm font-semibold text-primary">{category.name}</p>
+          <h2 className="-mt-4 text-xl font-extrabold text-ink">Which graduates are you?</h2>
+          <p className="text-sm text-muted-foreground">General and Dzongkha graduates write different Dzongkha and English papers; the Teacher Aptitude Test is the same.</p>
           <div className="grid gap-2">
-            {group === "technical"
-              ? options.specialisations.map((s) => (
-                  <EntryButton key={s.id} label={s.name} category={inGroup[0]?.id} specialisation={s.id} />
-                ))
-              : inGroup.map((c) => <EntryButton key={c.id} label={c.name} category={c.id} />)}
+            {specs.map((s) => <EntryButton key={s.id} label={s.name} category={category.id} specialisation={s.id} />)}
           </div>
         </>
       )}
@@ -157,12 +193,13 @@ export function EntryPicker({ options, group, error }: { options: EntryOptions; 
   );
 }
 
-function EntryButton({ label, category, specialisation }: { label: string; category?: string; specialisation?: string }) {
+function EntryButton({ label, category, specialisation, group }: { label: string; category?: string; specialisation?: string; group?: string }) {
   if (!category) return null;
   return (
     <form action={setMeEntryAction}>
       <input type="hidden" name="category" value={category} />
       <input type="hidden" name="specialisation" value={specialisation ?? ""} />
+      <input type="hidden" name="subject_group" value={group ?? ""} />
       <button type="submit" className={cn("flex w-full items-center justify-between rounded-2xl bg-gradient-to-r p-4 text-left font-bold text-white shadow-md active:scale-[0.99]", "from-[#be123c] to-[#7a1e3a]")}>
         {label} <ArrowRight className="size-5 shrink-0" aria-hidden />
       </button>

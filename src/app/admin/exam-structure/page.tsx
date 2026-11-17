@@ -182,11 +182,13 @@ export default async function ExamStructurePage() {
       </section>
 
       <section className="mt-10 space-y-3" aria-labelledby="specs-h">
-        <h2 id="specs-h" className="text-lg font-semibold">Technical specialisations</h2>
+        <h2 id="specs-h" className="text-lg font-semibold">Specialisations (Technical Paper III and B.Ed. graduate types)</h2>
         <p className="text-sm text-muted-foreground">
           Paper I is common to all technical graduates. Paper II uses the specialisation&apos;s group bank, or its own bank
           when no group is linked. Paper III is always per specialisation. Link a group only after checking RCSC&apos;s
-          paper for that year. &quot;PE required&quot; is left unset until checked.
+          paper for that year. &quot;PE required&quot; is left unset until checked. Students can only choose
+          specialisations that are <b>Active</b>; switch them on or off each year from the RCSC vacancy announcement.
+          Inactive ones stay for classifying old papers.
         </p>
         {specs.map((sp) => (
           <details key={sp.id} className="group rounded-lg border border-border">
@@ -195,7 +197,8 @@ export default async function ExamStructurePage() {
               <Badge tone="outline">{groups.find((g) => g.id === sp.subject_group_id)?.name ?? "Own Paper II bank"}</Badge>
               <Badge tone={sp.pe_required === null ? "warning" : "outline"}>{sp.pe_required === null ? "PE: not set" : sp.pe_required ? "PE required" : "PE exempt"}</Badge>
               {sp.review_note ? <Badge tone="warning">Review</Badge> : null}
-              {!sp.is_active ? <Badge tone="warning">Inactive</Badge> : null}
+              {!sp.is_active ? <Badge tone="warning">Not offered</Badge> : null}
+              {sp.list_source ? <Badge tone="outline">{sp.list_source}</Badge> : null}
               <VerificationBadge status={sp.verification_status} />
               <span className="ml-auto text-sm text-primary group-open:hidden">Edit</span>
             </summary>
@@ -209,10 +212,14 @@ export default async function ExamStructurePage() {
                   <SelectField name="pe_required" label="PE required" defaultValue={sp.pe_required === null ? "" : sp.pe_required ? "yes" : "no"} options={PE_REQUIRED_OPTIONS} />
                   <TextField type="number" name="sort_order" label="Order" defaultValue={sp.sort_order} />
                 </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <TextField name="list_source" label="Listed in (RCSC source)" defaultValue={sp.list_source ?? ""} />
+                  <TextField name="offered_years" label="BCSE years offered (e.g. 2025, 2026)" defaultValue={(sp.offered_years ?? []).join(", ")} />
+                </div>
                 <AreaField name="pe_rule_note" label="PE rule note (source)" defaultValue={sp.pe_rule_note} />
                 <AreaField name="review_note" label="Review note (internal)" defaultValue={sp.review_note} hint="Clear it once resolved." />
                 <VerificationSelect id={sp.id} value={sp.verification_status} />
-                <label className="flex items-center gap-2 text-sm"><input type="checkbox" name="is_active" defaultChecked={sp.is_active} className="size-4 accent-[var(--primary)]" /> Active (students can choose it)</label>
+                <label className="flex items-center gap-2 text-sm"><input type="checkbox" name="is_active" defaultChecked={sp.is_active} className="size-4 accent-[var(--primary)]" /> Active: offered this year (students can choose it)</label>
               </ActionForm>
             </div>
           </details>
@@ -275,7 +282,7 @@ export default async function ExamStructurePage() {
 
 type PaperRow = Paper & { updated_at: string; qualifying_marks: number | null; bank_scope: string; params_source: string | null; params_note: string | null };
 type Section = { id: string; paper_id: string; title: string; subject_id: string | null; question_count: number | null; marks: number | null; formats: string | null; params_source: string | null; sort_order: number; updated_at: string };
-type Spec = { id: string; name: string; subject_group_id: string | null; pe_required: boolean | null; pe_rule_note: string | null; review_note: string | null; verification_status: VerificationStatus; is_active: boolean; sort_order: number; updated_at: string };
+type Spec = { id: string; name: string; list_source: string | null; offered_years: number[] | null; subject_group_id: string | null; pe_required: boolean | null; pe_rule_note: string | null; review_note: string | null; verification_status: VerificationStatus; is_active: boolean; sort_order: number; updated_at: string };
 type Group = { id: string; name: string; notes: string | null; verification_status: VerificationStatus; is_active: boolean; updated_at: string };
 type Cutoff = { id: string; year: number; value: number; unit: string; note: string | null; verification_status: string };
 
