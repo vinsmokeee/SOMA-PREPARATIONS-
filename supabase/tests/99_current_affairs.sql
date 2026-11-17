@@ -53,6 +53,18 @@ select tests.assert((select count(*) from public.ca_archive()) = 1, 'archive lim
 select public.start_question_of_day() as qa \gset
 select tests.assert(jsonb_array_length(public.get_attempt_paper(:'qa') -> 'questions') = 1, 'question of the day opens for free account');
 select tests.assert(public.start_question_of_day() = :'qa'::uuid, 'question of the day resumes the same attempt');
+select tests.assert((public.my_question_of_day() ->> 'answered')::boolean = false, 'not answered yet');
+-- Left without answering: the blank submission does not block a fresh try
+select public.submit_attempt(:'qa');
+select public.start_question_of_day() as qb \gset
+select tests.assert(:'qb'::uuid <> :'qa'::uuid, 'a blank Question of the Day starts again');
+select tests.assert((public.get_attempt_paper(:'qb') -> 'attempt' ->> 'status') = 'in_progress', 'the new try is open');
+-- Answered: the button opens the result and the page knows it
+select public.save_answer(:'qb', (public.get_attempt_paper(:'qb') -> 'questions' -> 0 ->> 'exam_question_id')::uuid,
+  _selected_option_id => (public.get_attempt_paper(:'qb') -> 'questions' -> 0 -> 'options' -> 0 ->> 'id')::uuid, _time_spent_delta => 5);
+select public.submit_attempt(:'qb');
+select tests.assert(public.start_question_of_day() = :'qb'::uuid, 'after answering, the result opens');
+select tests.assert((public.my_question_of_day() ->> 'answered')::boolean and (public.my_question_of_day() ->> 'attempt_id')::uuid = :'qb'::uuid, 'the page knows it is answered');
 select tests.assert(public.create_ca_item_practice('ca000000-0000-4000-8000-000000000001') is not null, 'recent story practice open to free account');
 select tests.assert_fails($$select public.create_ca_item_practice('ca000000-0000-4000-8000-000000000002')$$, 'old story practice needs a package');
 select tests.assert_fails($$select public.create_ca_practice(10)$$, 'personalised practice needs a package');

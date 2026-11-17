@@ -23,7 +23,7 @@ export default async function StoryPage({ params }: PageProps<"/dashboard/curren
       <div className="mx-auto max-w-xl rounded-xl border border-border p-8 text-center">
         <Lock className="mx-auto size-6 text-muted-foreground" aria-hidden />
         <p className="mt-3 font-semibold text-ink">This note is in the archive</p>
-        <p className="mt-1 text-sm text-muted-foreground">The last 7 days are free. The full archive is part of the PE and PE + ME packages.</p>
+        <p className="mt-1 text-sm text-muted-foreground">The last 7 days are free. The full archive is part of Premium.</p>
         <Link href="/dashboard/current-affairs" className="mt-4 inline-block text-sm font-medium text-primary hover:underline">Back to today</Link>
       </div>
     );

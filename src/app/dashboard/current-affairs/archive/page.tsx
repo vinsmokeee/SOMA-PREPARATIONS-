@@ -29,7 +29,7 @@ export default async function ArchivePage({ searchParams }: PageProps<"/dashboar
   return (
     <>
       <PageTitle title="Current-affairs archive" description="Every published note, kept for revision." />
-      {!paid ? <p className="mb-4 rounded-lg bg-muted p-3 text-sm">You are seeing the last 7 days. The full archive is part of the PE and PE + ME packages.</p> : null}
+      {!paid ? <p className="mb-4 rounded-lg bg-muted p-3 text-sm">You are seeing the last 7 days. The full archive is part of Premium.</p> : null}
       <form className="mb-6 grid gap-2 sm:grid-cols-[1fr_140px_150px_200px_auto]" role="search">
         <Input name="q" defaultValue={q} placeholder="Search (e.g. Gelephu, budget, India)" aria-label="Search" className="h-10" />
         <Input name="month" type="month" defaultValue={month} aria-label="Month" className="h-10" />

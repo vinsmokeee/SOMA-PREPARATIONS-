@@ -77,7 +77,7 @@ export default async function WrittenPage({ searchParams }: PageProps<"/dashboar
                   {q.last_score !== null && q.last_max ? ` · last indicative score ${Number(q.last_score)}/${Number(q.last_max)}` : ""}
                 </span>
                 {q.has_access ? <StartWritten questionId={q.id} wordLimit={q.word_limit} /> : (
-                  <span className="inline-flex items-center gap-1.5 text-sm text-muted-foreground"><Lock className="size-4" aria-hidden /> PE + ME package</span>
+                  <span className="inline-flex items-center gap-1.5 text-sm text-muted-foreground"><Lock className="size-4" aria-hidden /> ME Premium</span>
                 )}
               </div>
             </li>
