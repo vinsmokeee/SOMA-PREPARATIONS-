@@ -3,6 +3,7 @@ select tests.create_user('mt-free@test.bt', 'Free') as f \gset
 select tests.create_user('mt-paid@test.bt', 'Paid') as p \gset
 select tests.create_user('mt-boss@test.bt') as b \gset
 select tests.create_user('mt-free2@test.bt', 'Free two') as f2 \gset
+select tests.create_user('mt-free3@test.bt', 'Free three') as f3 \gset
 insert into public.user_roles (user_id, role) values (:'b', 'super_admin');
 set local role authenticated;
 select tests.login(:'b');
@@ -31,6 +32,20 @@ select public.submit_attempt(:'a1');
 select tests.assert_fails(format($$select public.start_attempt(%L)$$, :'ex'), 'second free test on the same day asks for Premium');
 select tests.assert_fails($$select public.create_mock_test('PE')$$, 'free accounts cannot create new mock tests');
 select tests.assert_fails($$select public.create_practice_set('PE')$$, 'free practice after today''s test asks for Premium');
+
+-- Free mock test: one full test a day from the whole bank (not only free samples), then Premium
+reset role;
+update public.questions set is_free_sample = false where stem like 'Mock question number%' and stem not like '%1';
+set local role authenticated;
+select tests.login(:'f3');
+select public.create_mock_test('PE') as fm \gset
+select tests.assert(jsonb_array_length(public.get_attempt_paper(:'fm') -> 'questions') = 12, 'a free mock test uses the whole published bank');
+select public.submit_attempt(:'fm');
+select tests.assert_fails($$select public.create_mock_test('PE')$$, 'a second free mock test on the same day asks for Premium');
+select tests.assert_fails($$select public.create_practice_set('PE', _count => 5)$$, 'and so does a practice set after it');
+reset role;
+update public.questions set is_free_sample = true where stem like 'Mock question number%';
+set local role authenticated;
 
 -- Free practice: the first practice of the day works, the next asks for Premium
 select tests.login(:'f2');

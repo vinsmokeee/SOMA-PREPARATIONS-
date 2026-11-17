@@ -91,7 +91,8 @@ export async function createMockAction(prev: StartState): Promise<StartState> {
   if (error || !data) {
     const m = error?.message ?? "";
     return {
-      error: m.includes("ACCESS_REQUIRED") ? "New mock tests are part of PE Premium."
+      error: m.includes("FREE_DAILY_LIMIT") ? "FREE_DAILY_LIMIT"
+        : m.includes("ACCESS_REQUIRED") ? "New mock tests are part of PE Premium."
         : m.includes("NO_QUESTIONS") ? "Not enough questions yet for a new mock test. More are being added."
         : m.includes("RATE_LIMIT") ? "You have created many mock tests today. Please try again tomorrow."
         : "The mock test could not be created. Please try again.",

@@ -277,8 +277,8 @@ export function ExamArea({ d }: { d: AreaData }) {
           ) : next ? (
             <StartButton itemId={next.id} label={itemAction(next)} className="bg-white text-[var(--on-white,#9a3412)]" />
           ) : (
-            <Link href={pe ? "/dashboard/practice?stage=PE" : "/dashboard/written"} className="flex h-14 items-center justify-center rounded-2xl bg-white text-lg font-bold text-[var(--on-white,#9a3412)] shadow-lg">
-              {pe ? "Start practice" : "Write an answer"}
+            <Link href={pe ? (d.premium ? "/dashboard/practice?stage=PE" : "/dashboard/exams?stage=PE") : "/dashboard/written"} className="flex h-14 items-center justify-center rounded-2xl bg-white text-lg font-bold text-[var(--on-white,#9a3412)] shadow-lg">
+              {pe ? (d.premium ? "Start practice" : "Take today’s free mock test") : "Write an answer"}
             </Link>
           )}
         </div>

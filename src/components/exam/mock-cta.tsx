@@ -18,10 +18,24 @@ export function FreeLimitNote({ title = "You have used today's free practice" }:
   );
 }
 
+const FREE_LIMIT = "FREE_DAILY_LIMIT";
+
 /** Premium: "New mock test" with fresh questions. Free: one test a day, then Premium. */
 export function MockCta({ premium }: { premium: boolean }) {
   const [state, action, pending] = useActionState(createMockAction, {} as StartState);
-  if (!premium) return <FreeLimitNote title="Want another test today?" />;
+  if (!premium) {
+    if (state.error === FREE_LIMIT) return <FreeLimitNote title="You have taken today’s free test" />;
+    return (
+      <form action={action} className="rounded-3xl bg-gradient-to-br from-amber-400 via-orange-500 to-orange-700 p-5 text-white shadow-xl">
+        <p className="flex items-center gap-2 text-lg font-extrabold"><Sparkles className="size-5 text-yellow-200" aria-hidden /> Today’s free mock test</p>
+        <p className="mt-1 text-sm text-white/90">A full PE test from real BCSE past papers, across all four sections, timed like the real exam. Free accounts get one test a day; Premium is unlimited.</p>
+        <button type="submit" disabled={pending} className="mt-4 h-12 w-full rounded-2xl bg-white text-base font-bold text-[#9a3412] shadow-lg disabled:opacity-60">
+          {pending ? "Preparing your test…" : "Start today’s free mock test"}
+        </button>
+        {state.error ? <p role="alert" className="mt-2 text-sm font-medium">{state.error}</p> : null}
+      </form>
+    );
+  }
   return (
     <form action={action} className="rounded-3xl bg-gradient-to-br from-amber-400 via-orange-500 to-orange-700 p-5 text-white shadow-xl">
       <p className="flex items-center gap-2 text-lg font-extrabold"><Sparkles className="size-5 text-yellow-200" aria-hidden /> New mock test</p>
