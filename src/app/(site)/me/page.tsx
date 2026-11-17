@@ -122,17 +122,33 @@ function OfficialMe({ structure, source }: { structure: ExamStructure; source: "
                   ))}
                 </TBody>
               </Table>
-              {g.categories.some((c) => c.code === "technical") && structure.specialisations.length ? (
-                <details className="mt-4 text-sm">
-                  <summary className="cursor-pointer font-medium text-primary">Technical specialisations Soma covers ({structure.specialisations.length})</summary>
-                  <p className="mt-2 text-muted-foreground">
-                    Paper I is common to all technical graduates. Paper II and Paper III follow your specialisation.
-                  </p>
-                  <ul className="mt-2 grid gap-1 text-muted-foreground sm:grid-cols-2">
-                    {structure.specialisations.map((s) => <li key={s.id}>{s.name}</li>)}
-                  </ul>
-                </details>
-              ) : null}
+              {(() => {
+                const techIds = g.categories.filter((c) => c.code === "technical").map((c) => c.id);
+                const bedIds = g.categories.filter((c) => c.code === "bed").map((c) => c.id);
+                const tech = structure.specialisations.filter((s) => techIds.includes(s.category_id));
+                const bed = structure.specialisations.filter((s) => bedIds.includes(s.category_id));
+                return (
+                  <>
+                    {tech.length ? (
+                      <details className="mt-4 text-sm">
+                        <summary className="cursor-pointer font-medium text-primary">Technical specialisations Soma covers ({tech.length})</summary>
+                        <p className="mt-2 text-muted-foreground">
+                          Paper I is common to all technical graduates. Paper II is shared by a group of specialisations; Paper III is
+                          your own specialisation. The list follows RCSC&apos;s BCSE 2025 papers; check this year&apos;s vacancy announcement.
+                        </p>
+                        <ul className="mt-2 grid gap-1 text-muted-foreground sm:grid-cols-2">
+                          {tech.map((s) => <li key={s.id}>{s.name}</li>)}
+                        </ul>
+                      </details>
+                    ) : null}
+                    {bed.length ? (
+                      <p className="mt-4 text-sm text-muted-foreground">
+                        B.Ed. General graduates and Dzongkha graduates write different Dzongkha and English papers; the Teacher Aptitude Test is the same.
+                      </p>
+                    ) : null}
+                  </>
+                );
+              })()}
               {g.categories.some((c) => c.eligibility_summary) ? (
                 <details className="mt-4 text-sm">
                   <summary className="cursor-pointer font-medium text-primary">Academic requirement</summary>

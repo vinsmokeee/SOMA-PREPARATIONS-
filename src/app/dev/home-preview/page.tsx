@@ -41,14 +41,24 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     stage: "PE", entryLabel: null, premium: "Premium until 30 Jan 2027", openAttempt: { id: id(7), title: "Mock test: PE paper 1" },
     training, answered: 64, accuracy: 72, written: 0, freeUsedUp: false, aiMarks: null, premiumSlug: "pe-premium", ...over,
   });
+  const cats = [["administrative", "Administrative Service"], ["finance", "Finance Service"], ["pgde", "Education Service (PGDE)"], ["dzongkha", "Dzongkha"], ["bed", "Education Service (B.Ed.)"], ["technical", "Technical Service"]];
+  const meOptions = {
+    categories: cats.map(([code, name], i) => ({ id: id(i + 1), code, name })),
+    specialisations: [
+      ...["General graduate", "Dzongkha graduate"].map((name, i) => ({ id: `5d000000-0000-4000-8000-00000000000${i}`, name, category_id: id(5) })),
+      ...["Agriculture", "Agriculture Engineering", "Animal Science", "Architecture", "Civil Engineering", "Dental Surgery", "Electrical Engineering", "ICT", "Nursing"].map((name, i) => ({ id: `7d000000-0000-4000-8000-00000000000${i}`, name, category_id: id(6) })),
+    ],
+    groups: ["Engineering", "ICT", "Bio Science", "Medical Science", "Traditional Medicine (Drungtsho)", "Statistics", "Nursing", "Conservator"].map((name, i) => ({ id: `6d000000-0000-4000-8000-00000000000${i}`, name })),
+  };
   const content = {
     choose: <><ExamChooser firstName="Pema" status={{ PE: null, ME: null }} /><ChooserInfo packages={{ PE: pePkg, ME: mePkg }} /></>,
     "pe-packages": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} />,
     "pe-upgrade": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} onFree />,
     "me-packages": <PackageChoice stage="ME" entryLabel="Technical Graduates · Civil Engineering" pkg={mePkg} free={FREE_POINTS.ME} />,
-    "me-entry": <EntryPicker options={{ categories: [{ id: id(1), name: "Administrative Service", public_group: "general" }, { id: id(2), name: "Technical Service", public_group: "technical" }, { id: id(3), name: "Dzongkha", public_group: "dzongkha" }], specialisations: [] }} group={null} />,
-    "me-general": <EntryPicker options={{ categories: [{ id: id(1), name: "Administrative Service", public_group: "general" }, { id: id(4), name: "Finance Service", public_group: "general" }], specialisations: [] }} group="general" />,
-    "me-technical": <EntryPicker options={{ categories: [{ id: id(2), name: "Technical Service", public_group: "technical" }], specialisations: ["Civil Engineering", "Computer Science and Engineering", "Electrical Engineering", "Forestry", "Medicine", "Nursing"].map((name, i) => ({ id: id(i + 1), name })) }} group="technical" />,
+    "me-entry": <EntryPicker options={meOptions} cat={null} spec={null} />,
+    "me-bed": <EntryPicker options={meOptions} cat="bed" spec={null} />,
+    "me-technical": <EntryPicker options={meOptions} cat="technical" spec={null} />,
+    "me-group": <EntryPicker options={meOptions} cat="technical" spec="7d000000-0000-4000-8000-000000000004" />,
     pe: <ExamArea d={area({})} />,
     "ca-box": <CaPracticeBox paid question={{ stem: "Which dzongkhag hosted this year's National Day celebration?" }} assessments={[{ id: id(1), slug: "ca-weekly-1", title: "Weekly Challenge · 10–16 Nov", question_count: 15 }]} />,
     "mock-free": <div className="mx-auto max-w-2xl"><MockCta premium={false} /></div>,

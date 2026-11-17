@@ -69,6 +69,12 @@ export const specialisationUpdateSchema = z.object({
   sort_order: z.coerce.number().int().min(0).max(100000),
   is_active: z.preprocess((v) => v === "on", z.boolean()),
   verification_status: verificationStatus,
+  list_source: optText(200).optional(),
+  /** "2024, 2025" → [2024, 2025] */
+  offered_years: z.preprocess(
+    (v) => String(v ?? "").split(/[\s,]+/).filter(Boolean).map(Number),
+    z.array(z.number().int().min(2000).max(2100)).max(50),
+  ),
 });
 
 export const specialisationCreateSchema = z.object({

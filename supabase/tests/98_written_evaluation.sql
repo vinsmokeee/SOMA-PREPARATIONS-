@@ -18,7 +18,7 @@ select public.review_question(:'q', 'submit'); select public.review_question(:'q
 -- Premium (not free) question
 select public.save_question(null, jsonb_build_object('stage','ME','question_type','short_answer','stem','Describe the role of the National Council briefly.',
   'model_answer','A model answer of sufficient length for the test.','marks','5',
-  'subject_id',(select id from public.subjects where slug='we-governance')), '[]'::jsonb, '[{"label":"Content","description":"d","max_marks":5}]'::jsonb) as q2 \gset
+  'subject_id',(select id from public.subjects where slug='we-governance'),'paper_id','00000000-0000-4000-8000-000000000412'), '[]'::jsonb, '[{"label":"Content","description":"d","max_marks":5}]'::jsonb) as q2 \gset
 select public.review_question(:'q2', 'submit'); select public.review_question(:'q2', 'verify'); select public.review_question(:'q2', 'publish');
 
 -- Students cannot read the answer guide (questions table is closed to them)

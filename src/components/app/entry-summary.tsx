@@ -1,26 +1,26 @@
 import Link from "next/link";
 import { Alert } from "@/components/ui/alert";
-import { PUBLIC_GROUP_LABELS } from "@/lib/exam/entry";
 import { createClient } from "@/lib/supabase/server";
 
-type Entry = { pathway: string | null; group: string | null; category: string | null; specialisation: string | null };
+type Entry = { pathway: string | null; group: string | null; category: string | null; specialisation: string | null; paper2: string | null };
 
 /** The signed-in student's examination entry (pathway, category, specialisation). */
 export async function loadMyEntry(userId: string): Promise<Entry> {
   const db = await createClient();
   const { data } = await db
     .from("profiles")
-    .select("pathway, exam_categories(name, public_group), specialisations(name)")
+    .select("pathway, exam_categories(name, public_group), specialisations(name), subject_groups(name)")
     .eq("id", userId)
     .maybeSingle();
   const cat = data?.exam_categories as unknown as { name: string; public_group: string | null } | null;
   const spec = data?.specialisations as unknown as { name: string } | null;
-  return { pathway: data?.pathway ?? null, group: cat?.public_group ?? null, category: cat?.name ?? null, specialisation: spec?.name ?? null };
+  const sg = data?.subject_groups as unknown as { name: string } | null;
+  return { pathway: data?.pathway ?? null, group: cat?.public_group ?? null, category: cat?.name ?? null, specialisation: spec?.name ?? null, paper2: sg?.name ?? null };
 }
 
 export function entryLabel(e: Entry): string {
   if (!e.group) return "ME pathway not chosen";
-  return [PUBLIC_GROUP_LABELS[e.group], e.group === "general" ? e.category : null, e.specialisation].filter(Boolean).join(" · ");
+  return [e.category, e.specialisation, e.paper2 ? `Paper II: ${e.paper2}` : null].filter(Boolean).join(" · ");
 }
 
 /** Shows the student's ME entry, or asks them to choose one so ME content can be matched. */

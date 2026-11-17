@@ -30,16 +30,16 @@ const ENTRY_ERRORS: Record<string, string> = {
   SPECIALISATION_MISMATCH: "mismatch",
 };
 
-/** The student picked their ME entry (category, and specialisation for technical graduates). */
+/** The student picked their ME entry: category; B.Ed. graduate type; Technical specialisation and Paper II group. */
 export async function setMeEntryAction(formData: FormData): Promise<void> {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
-  const parsed = z.object({ category: z.uuid(), specialisation: z.union([z.uuid(), z.literal("")]).optional() })
-    .safeParse({ category: formData.get("category"), specialisation: formData.get("specialisation") ?? "" });
+  const parsed = z.object({ category: z.uuid(), specialisation: z.union([z.uuid(), z.literal("")]).optional(), subject_group: z.union([z.uuid(), z.literal("")]).optional() })
+    .safeParse({ category: formData.get("category"), specialisation: formData.get("specialisation") ?? "", subject_group: formData.get("subject_group") ?? "" });
   if (!parsed.success) redirect("/dashboard/me");
   const db = await createClient();
   const { error } = await db.from("profiles")
-    .update({ entry_category_id: parsed.data.category, specialisation_id: parsed.data.specialisation || null })
+    .update({ entry_category_id: parsed.data.category, specialisation_id: parsed.data.specialisation || null, subject_group_id: parsed.data.subject_group || null })
     .eq("id", user.id);
   if (error) {
     const key = Object.keys(ENTRY_ERRORS).find((k) => error.message.includes(k));
