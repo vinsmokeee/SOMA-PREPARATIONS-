@@ -122,9 +122,10 @@ const CATEGORY_PAPERS: Record<string, string> = {
 };
 
 /** ME entry: one of the six categories; B.Ed. graduate type; Technical specialisation and Paper II group. */
-export function EntryPicker({ options, cat, error }: { options: EntryOptions; cat: string | null; error?: string | null }) {
+export function EntryPicker({ options, cat, spec, error }: { options: EntryOptions; cat: string | null; spec: string | null; error?: string | null }) {
   const category = options.categories.find((c) => c.code === cat) ?? null;
   const specs = category ? options.specialisations.filter((s) => s.category_id === category.id) : [];
+  const chosenSpec = specs.find((s) => s.id === spec) ?? null;
   const card = cn("relative flex min-h-20 w-full items-center justify-between overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-left text-white shadow-lg active:scale-[0.99]", STAGE_INFO.ME.gradient);
   return (
     <div data-exam="ME" className="mx-auto max-w-lg space-y-5">
@@ -156,13 +157,26 @@ export function EntryPicker({ options, cat, error }: { options: EntryOptions; ca
             })}
           </div>
         </>
+      ) : category.code === "technical" && chosenSpec ? (
+        <>
+          <p className="text-sm font-semibold text-primary">{category.name} · {chosenSpec.name}</p>
+          <h2 className="-mt-4 text-xl font-extrabold text-ink">Your Paper II group</h2>
+          <p className="text-sm text-muted-foreground">Paper II is shared by a group of specialisations. Choose the group shown for your position in the RCSC vacancy announcement.</p>
+          <div className="grid gap-2">
+            {options.groups.map((g) => <EntryButton key={g.id} label={g.name} category={category.id} specialisation={chosenSpec.id} group={g.id} />)}
+          </div>
+        </>
       ) : category.code === "technical" ? (
         <>
           <p className="text-sm font-semibold text-primary">{category.name}</p>
           <h2 className="-mt-4 text-xl font-extrabold text-ink">Your specialisation (Paper III)</h2>
           <p className="text-sm text-muted-foreground">Based on RCSC&apos;s BCSE 2025 papers. Choose the specialisation of the position you are applying for; check this year&apos;s vacancy announcement.</p>
           <div className="grid gap-2">
-            {specs.map((s) => <EntryButton key={s.id} label={s.name} category={category.id} specialisation={s.id} />)}
+            {specs.map((s) => (
+              <Link key={s.id} href={`/dashboard/me?cat=technical&spec=${s.id}`} className="flex w-full items-center justify-between rounded-2xl bg-gradient-to-r from-[#be123c] to-[#7a1e3a] p-4 text-left font-bold text-white shadow-md active:scale-[0.99]">
+                {s.name} <ArrowRight className="size-5 shrink-0" aria-hidden />
+              </Link>
+            ))}
           </div>
         </>
       ) : (
@@ -208,7 +222,6 @@ export type AreaData = {
   freeUsedUp: boolean;             // free questions/tests or AI marks used up
   aiMarks: { used: number; limit: number } | null; // ME: AI-marked answers
   premiumSlug: string | null;
-  papers?: { id: string; number: number | null; title: string; detail: string | null; questions: number }[]; // ME: the student's three papers
 };
 
 export function ExamArea({ d }: { d: AreaData }) {
@@ -226,7 +239,7 @@ export function ExamArea({ d }: { d: AreaData }) {
       ]
     : [
         { href: "/dashboard/written", label: "Written answers", sub: "Get AI feedback", icon: PenLine, tint: "from-rose-600 to-[#7a1e3a]" },
-        { href: "/dashboard/exams?stage=ME", label: "Timed tests", sub: "Full papers, timed like the ME", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
+        { href: "/dashboard/exams?stage=ME", label: "ME papers", sub: "Timed papers for your entry", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
         { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
         { href: "/dashboard/analytics", label: "My scores", sub: d.written ? `${d.written} answer${d.written === 1 ? "" : "s"} marked` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
       ];
@@ -293,28 +306,6 @@ export function ExamArea({ d }: { d: AreaData }) {
           </span>
           <ArrowRight className="ml-auto size-5 shrink-0" aria-hidden />
         </Link>
-      ) : null}
-
-      {/* ME: the student's three papers, each in its own section */}
-      {d.papers?.length ? (
-        <section aria-labelledby="papers-h" className="space-y-3">
-          <h2 id="papers-h" className="text-xl font-extrabold text-ink">Your papers</h2>
-          {d.papers.map((p) => (
-            <Link key={p.id} href={`/dashboard/written?paper=${p.id}`}
-              className="flex items-center gap-4 rounded-3xl bg-white p-4 shadow-sm ring-1 ring-border active:scale-[0.99]">
-              <span className={cn("flex size-14 shrink-0 flex-col items-center justify-center rounded-2xl bg-gradient-to-br text-white", STAGE_INFO.ME.gradient)}>
-                <span className="text-[10px] font-semibold uppercase leading-none tracking-wider text-white/80">Paper</span>
-                <span className="text-xl font-black leading-tight">{["", "I", "II", "III", "IV"][p.number ?? 0] || "–"}</span>
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="block font-bold leading-snug text-ink">{p.title}</span>
-                {p.detail ? <span className="block text-sm font-semibold text-primary">{p.detail}</span> : null}
-                <span className="block text-sm text-muted-foreground">{p.questions ? `${p.questions} question${p.questions === 1 ? "" : "s"} to practise` : "Questions coming soon"}</span>
-              </span>
-              <ArrowRight className="size-5 shrink-0 text-primary" aria-hidden />
-            </Link>
-          ))}
-        </section>
       ) : null}
 
       {/* Today's plan */}

@@ -55,7 +55,7 @@ export async function loadExamState(userId: string): Promise<ExamState> {
   };
 }
 
-/** The ME entry is complete when a category is chosen; B.Ed. and Technical also need the graduate type or
- *  specialisation (the Technical Paper II group comes from the specialisation). */
+/** The ME entry is complete when a category is chosen; B.Ed. also needs the graduate type, Technical the
+ *  Paper III specialisation and the Paper II group. */
 export const entryComplete = (e: ExamState["entry"]) =>
-  Boolean(e.categoryId && (e.code === "bed" || e.code === "technical" ? e.specialisationId : true));
+  Boolean(e.categoryId && (e.code === "bed" ? e.specialisationId : e.code === "technical" ? e.specialisationId && e.subjectGroupId : true));

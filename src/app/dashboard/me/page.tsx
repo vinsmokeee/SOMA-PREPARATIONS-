@@ -28,10 +28,15 @@ export default async function MePage({ searchParams }: PageProps<"/dashboard/me"
       db.from("specialisations").select("id, name, category_id, sort_order").eq("is_active", true).order("sort_order").order("name"),
       db.from("subject_groups").select("id, name").eq("is_active", true).order("sort_order"),
     ]);
+    // A Technical student who has a specialisation but no Paper II group yet goes straight to that step.
+    const resume = !catParam && !changing && state.entry.code === "technical" && state.entry.specialisationId;
+    const cat = catParam ?? (resume ? "technical" : null);
+    const spec = typeof sp.spec === "string" ? sp.spec : resume ? state.entry.specialisationId : null;
     return (
       <EntryPicker
         options={{ categories: categories ?? [], specialisations: specialisations ?? [], groups: groups ?? [] }}
-        cat={catParam}
+        cat={cat}
+        spec={spec}
         error={typeof sp.error === "string" ? ERRORS[sp.error] ?? ERRORS.failed : null}
       />
     );

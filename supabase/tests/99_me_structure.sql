@@ -38,8 +38,7 @@ update public.profiles set entry_category_id = :'tech', specialisation_id = :'s_
 select tests.assert_fails(format($$update public.profiles set specialisation_id = %L where id = %L$$, :'s_law', :'civil'), 'an earlier-list specialisation cannot be chosen');
 select tests.assert_fails(format($$update public.profiles set subject_group_id = %L where id = %L$$, :'g_law', :'civil'), 'a Paper II group not on offer cannot be chosen');
 select tests.login(:'nurse');
--- No Paper II group chosen: it comes from the specialisation (Nursing → Nursing)
-update public.profiles set entry_category_id = :'tech', specialisation_id = :'s_nurse' where id = :'nurse';
+update public.profiles set entry_category_id = :'tech', specialisation_id = :'s_nurse', subject_group_id = :'g_nurse' where id = :'nurse';
 select tests.login(:'adm');
 update public.profiles set entry_category_id = :'adminc' where id = :'adm';
 select tests.login(:'bed');
@@ -51,13 +50,13 @@ select tests.login(:'boss');
 reset role;
 create temp table qs (tag text, id uuid);
 grant all on qs to authenticated;
-insert into qs select v.tag, gen_random_uuid() from (values ('civil3'), ('nurse3'), ('untagged3'), ('loose'), ('eng2'), ('nurse2'), ('general2'), ('bedgen1')) v(tag);
+insert into qs select v.tag, gen_random_uuid() from (values ('civil3'), ('nurse3'), ('untagged3'), ('loose'), ('eng2'), ('general2'), ('bedgen1')) v(tag);
 insert into public.questions (id, stage, question_type, stem, explanation, model_answer, paper_id, specialisation_id, subject_group_id, status, verified_by, verified_at)
 select qs.id, 'ME', 'short_answer', 'ME structure test question ' || qs.tag, 'x', 'x',
   (select id from public.exam_papers where code = case qs.tag when 'civil3' then 'me-technical-3' when 'nurse3' then 'me-technical-3' when 'untagged3' then 'me-technical-3'
-     when 'eng2' then 'me-technical-2' when 'nurse2' then 'me-technical-2' when 'general2' then 'me-general-2' when 'bedgen1' then 'me-bed-1' end),
+     when 'eng2' then 'me-technical-2' when 'general2' then 'me-general-2' when 'bedgen1' then 'me-bed-1' end),
   case qs.tag when 'civil3' then :'s_civil'::uuid when 'nurse3' then :'s_nurse'::uuid when 'bedgen1' then :'s_bedgen'::uuid end,
-  case qs.tag when 'eng2' then :'g_eng'::uuid when 'nurse2' then :'g_nurse'::uuid end,
+  case qs.tag when 'eng2' then :'g_eng'::uuid end,
   'verified', :'boss', now()
 from qs;
 update public.questions set status = 'published' where id in (select id from qs);
@@ -67,7 +66,7 @@ select tests.login(:'civil');
 select tests.assert((select array_agg(qs.tag order by qs.tag) from public.written_practice_questions() w join qs on qs.id = w.id) = array['civil3', 'eng2'],
   'Civil Engineering sees its Paper III and its Paper II group only — never Nursing, untagged or unclassified questions');
 select tests.login(:'nurse');
-select tests.assert((select array_agg(qs.tag order by qs.tag) from public.written_practice_questions() w join qs on qs.id = w.id) = array['nurse2', 'nurse3'], 'Nursing gets its Paper II group from the specialisation and never sees Civil Engineering questions');
+select tests.assert((select array_agg(qs.tag order by qs.tag) from public.written_practice_questions() w join qs on qs.id = w.id) = array['nurse3'], 'Nursing never sees Civil Engineering questions');
 select tests.login(:'adm');
 select tests.assert((select array_agg(qs.tag order by qs.tag) from public.written_practice_questions() w join qs on qs.id = w.id) = array['general2'], 'Administrative Service sees the shared general papers only');
 select tests.login(:'bed');
