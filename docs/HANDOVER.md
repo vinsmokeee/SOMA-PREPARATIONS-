@@ -60,7 +60,13 @@ private preview mode, and master-plan phases:
   choice, "Why go Premium?" below Free/Premium. Payment wording is left out until the founder confirms it.
 - **PR #32 (merged):** bottom bar is Home + News only; no PE/ME button (Back on an exam home goes to
   the PE/ME choice; "Change exam" is in the profile menu); ME "Change entry" link; "Free · see
-  Premium" badge; News page has a blue "Practise with the news" box on top, news below.
+  Premium" badge; News page has a "Practise with the news" box on top (now purple), news below.
+- **PR #33/#34 (merged):** founder's logo (public/brand/soma-logo.png, never crop or alter; resized
+  copies for header and icons). Each news area shows today's or latest stories, empty areas hidden.
+  `ca.config.allow_single_source` = true (founder chose Yes). Device rule (migration `20261130000100`,
+  live): new-device risk counts kinds of device ("Safari on iPhone"), not browser cookies, because
+  in-app browsers (Gmail, Messenger) on one phone each get a cookie. The device e-mail link only
+  works in the browser that requested it (PKCE): tell the founder to press-hold, copy, paste.
 
 See `docs/ROADMAP.md` for detail.
 

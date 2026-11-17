@@ -111,6 +111,13 @@ export default async function EditQuestionPage({ params, searchParams }: PagePro
           {q.variation_type ? "AI variation" : "Based on"} of <Link href={`/admin/questions/${q.parent_question_id}`} className="font-medium text-primary hover:underline">its source question</Link>.
         </p>
       ) : null}
+      {q.image_url ? (
+        <figure className="mb-6">
+          {/* eslint-disable-next-line @next/next/no-img-element -- static past-paper image */}
+          <img src={q.image_url} alt="Figure shown with this question" className="w-full max-w-2xl rounded-xl bg-white ring-1 ring-border" />
+          <figcaption className="mt-1 text-xs text-muted-foreground">Students see this picture above the question (from the original paper).</figcaption>
+        </figure>
+      ) : null}
 
       <div className="grid gap-8 xl:grid-cols-[1fr_320px]">
         <QuestionEditor

@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { useAutosave } from "./use-autosave";
 import { HandwrittenPages, type PagesApi } from "@/components/written/handwritten-pages";
 import type { Result } from "@/app/dashboard/written/actions";
+import { QuestionStem } from "@/components/exam/question-stem";
 
 type Answer = { selected: string | null; text: string; flagged: boolean };
 type LocalBackup = Record<string, Answer & { t: number }>;
@@ -605,7 +606,7 @@ function QuestionView({
       <h1 id={`q-${q.exam_question_id}`} className="mt-3 text-sm font-semibold uppercase tracking-wide text-primary">
         Question {q.number}
       </h1>
-      <p className="mt-2 whitespace-pre-wrap text-[17px] leading-relaxed text-ink sm:text-lg">{q.stem}</p>
+      <QuestionStem stem={q.stem} imageUrl={q.image_url} large className="mt-2" />
 
       {q.type === "mcq" ? (
         <fieldset className="mt-6">

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/source-serif-4";
+import "@fontsource/noto-serif-tibetan/tibetan-400.css";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 

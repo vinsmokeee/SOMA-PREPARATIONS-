@@ -6,6 +6,7 @@ import { formatDuration } from "@/lib/exam/logic";
 import { originLabel } from "@/lib/exam/origin";
 import { TYPE_LABELS, type ResultQuestion } from "@/lib/exam/types";
 import { cn } from "@/lib/utils";
+import { QuestionStem } from "@/components/exam/question-stem";
 
 type Filter = "all" | "incorrect" | "unanswered" | "flagged" | "written";
 
@@ -98,7 +99,7 @@ function QuestionCard({ q }: { q: ResultQuestion }) {
           <span className="ml-auto tabular-nums">{Number(q.answer.marks_awarded)} / {q.marks}</span>
         ) : null}
       </div>
-      <p className="mt-3 whitespace-pre-wrap leading-relaxed text-ink">{q.stem}</p>
+      <QuestionStem stem={q.stem} imageUrl={q.image_url} className="mt-3" />
       {originLabel(q.origin, q.source_year) ? <p className="mt-1 text-xs text-muted-foreground">{originLabel(q.origin, q.source_year)}</p> : null}
 
       {q.type === "mcq" ? (
