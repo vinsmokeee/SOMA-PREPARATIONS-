@@ -136,3 +136,34 @@ export async function bulkReviewAction(input: z.input<typeof bulkSchema>): Promi
   revalidatePath("/admin/questions");
   return { done, failed };
 }
+
+/** Past-paper questions whose answers Claude checked with high confidence, still awaiting review. */
+async function checkedPastPaperIds(supabase: Awaited<ReturnType<typeof createClient>>): Promise<string[]> {
+  const { data: qs } = await supabase.from("questions").select("id").eq("origin", "historical_official").eq("status", "awaiting_review");
+  const ids = (qs ?? []).map((q) => q.id as string);
+  if (!ids.length) return [];
+  const { data: notes } = await supabase.from("content_reviews").select("entity_id").eq("entity_type", "question").eq("action", "comment")
+    .like("comment", "%Answer confidence: high.%").in("entity_id", ids);
+  return [...new Set((notes ?? []).map((n) => n.entity_id as string))];
+}
+
+export async function countCheckedPastPapers(): Promise<number> {
+  const supabase = await createClient();
+  return (await checkedPastPaperIds(supabase)).length;
+}
+
+/** One tap for the founder: verify and publish the past-paper questions Claude checked with high confidence. */
+export async function publishCheckedPastPapersAction(): Promise<ActionState> {
+  try { await assertPermission("questions.publish"); } catch { return { status: "error", message: "Only users who can publish questions can do this." }; }
+  const supabase = await createClient();
+  const ids = await checkedPastPaperIds(supabase);
+  let done = 0;
+  for (const id of ids) {
+    const v = await supabase.rpc("review_question", { _id: id, _action: "verify", _comment: "Answer checked by Claude (high confidence); approved by the founder." });
+    if (v.error) continue;
+    const p = await supabase.rpc("review_question", { _id: id, _action: "publish", _comment: null });
+    if (!p.error) done++;
+  }
+  revalidatePath("/admin/questions");
+  return { status: done ? "success" : "error", message: done ? `${done} past-paper questions are now published for students.` : "Nothing was published. Please try again." };
+}

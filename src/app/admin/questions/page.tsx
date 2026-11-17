@@ -9,12 +9,16 @@ import { STATUS_LABELS } from "@/lib/admin/question-labels";
 import { TYPE_LABELS } from "@/lib/exam/types";
 import { createClient } from "@/lib/supabase/server";
 import { QUESTION_TYPES } from "@/lib/validation/question";
+import { ActionForm } from "@/components/app/action-form";
+import { countCheckedPastPapers, publishCheckedPastPapersAction } from "./actions";
 
 export const metadata: Metadata = { title: "Question bank" };
 
 const STATUSES = ["awaiting_review", "draft", "revision_requested", "verified", "published", "rejected", "archived", "ai_generated"];
 const PAGE_SIZE = 50;
 const str = (v: unknown) => (typeof v === "string" ? v : "");
+
+export const maxDuration = 120;
 
 export default async function QuestionsPage({ searchParams }: PageProps<"/admin/questions">) {
   await requirePermission("admin.access", "/admin/questions");
@@ -29,6 +33,7 @@ export default async function QuestionsPage({ searchParams }: PageProps<"/admin/
   const page = Math.max(1, Number(str(p.page)) || 1);
 
   const db = await createClient();
+  const checked = await countCheckedPastPapers();
   let query = db
     .from("questions")
     .select("id, stage, question_type, stem, status, difficulty, origin, updated_at, subjects(name)", { count: "exact" })
@@ -68,6 +73,14 @@ export default async function QuestionsPage({ searchParams }: PageProps<"/admin/
           </>
         }
       />
+      {checked > 0 ? (
+        <section className="mb-6 rounded-2xl bg-primary-soft p-4 ring-1 ring-primary/20">
+          <h2 className="font-bold text-ink">{checked} past-paper questions are ready to publish</h2>
+          <p className="mt-1 text-sm text-ink">These are English, Aptitude and Data Interpretation questions from the BCSE 2010 and 2011 papers. Claude worked out each answer and explanation and is highly confident they are correct. Questions it was less sure about, and all Dzongkha questions, are not included.</p>
+          <ActionForm action={publishCheckedPastPapersAction} submitLabel={`Publish these ${checked} questions`} className="mt-3"
+            confirm={`Publish ${checked} past-paper questions for students?`} />
+        </section>
+      ) : null}
       <div className="mb-4 flex flex-wrap gap-2 text-sm">
         {["awaiting_review", "verified", "published", "draft", "revision_requested"].map((s) => (
           <Link key={s} href={`/admin/questions?status=${s}`} className="rounded-full border border-border-strong px-3 py-1 hover:bg-muted">
@@ -77,27 +90,33 @@ export default async function QuestionsPage({ searchParams }: PageProps<"/admin/
       </div>
       <form className="mb-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-4" role="search">
         <Input name="q" defaultValue={q} placeholder="Search question text" aria-label="Search question text" className="h-10 lg:col-span-2" />
-        <Select name="status" defaultValue={status} aria-label="Status" className="h-10">
+        <label className="grid gap-1 text-xs font-semibold text-muted-foreground">Status
+          <Select name="status" defaultValue={status} aria-label="Status" className="h-10">
           <option value="">All except archived</option>
           {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
-        </Select>
-        <Select name="stage" defaultValue={stage} aria-label="Stage" className="h-10">
+        </Select></label>
+        <label className="grid gap-1 text-xs font-semibold text-muted-foreground">Exam
+          <Select name="stage" defaultValue={stage} aria-label="Stage" className="h-10">
           <option value="">PE and ME</option><option value="PE">PE</option><option value="ME">ME</option>
-        </Select>
-        <Select name="subject" defaultValue={subject} aria-label="Subject" className="h-10">
+        </Select></label>
+        <label className="grid gap-1 text-xs font-semibold text-muted-foreground">Subject
+          <Select name="subject" defaultValue={subject} aria-label="Subject" className="h-10">
           <option value="">All subjects</option>
           {(subjects.data ?? []).map((s) => <option key={s.id} value={s.id}>{s.stage} · {s.name}</option>)}
-        </Select>
-        <Select name="type" defaultValue={type} aria-label="Type" className="h-10">
+        </Select></label>
+        <label className="grid gap-1 text-xs font-semibold text-muted-foreground">Question type
+          <Select name="type" defaultValue={type} aria-label="Type" className="h-10">
           <option value="">All types</option>
           {QUESTION_TYPES.map((t) => <option key={t} value={t}>{TYPE_LABELS[t]}</option>)}
-        </Select>
-        <Select name="difficulty" defaultValue={difficulty} aria-label="Difficulty" className="h-10">
+        </Select></label>
+        <label className="grid gap-1 text-xs font-semibold text-muted-foreground">Difficulty
+          <Select name="difficulty" defaultValue={difficulty} aria-label="Difficulty" className="h-10">
           <option value="">Any difficulty</option><option value="foundation">Foundation</option><option value="standard">Standard</option><option value="advanced">Advanced</option>
-        </Select>
-        <Select name="origin" defaultValue={origin} aria-label="Origin" className="h-10">
+        </Select></label>
+        <label className="grid gap-1 text-xs font-semibold text-muted-foreground">Where it came from
+          <Select name="origin" defaultValue={origin} aria-label="Origin" className="h-10">
           <option value="">Any origin</option><option value="original">Original (Soma)</option><option value="historical_official">Past paper</option><option value="ai_generated">AI-assisted</option><option value="current_affairs">Current affairs</option>
-        </Select>
+        </Select></label>
         <Button type="submit" variant="secondary" className="h-10 lg:col-span-4 lg:w-40">Filter</Button>
       </form>
       {error ? <p className="text-sm text-danger">Questions could not be loaded.</p> : null}
