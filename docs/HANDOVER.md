@@ -86,6 +86,11 @@ private preview mode, and master-plan phases:
   from the specialisation" (commit 8df8bd3, PR #39 closed unmerged; reverted on the branch). Restore by reverting
   the "Put on hold" commit once the founder confirms the specialisation → Paper II grouping. The live site keeps
   the previous flow (student chooses the Paper II group).
+- **Free PE (PR #41, live; migration `20261205000100`):** free accounts get ONE 25-question test a day (about 6 per
+  section) from the whole published PE bank, then "Join Premium"; the daily allowance is shared with practice sets
+  (`free_pe_used_today`). Premium: full 100-question mock tests, unlimited.
+- **Question of the Day (PR #40, live; migration `20261204000100`):** one question per Bhutan day; the News page shows
+  "already answered" with a link to the result; blank time-outs start again; 10 minutes allowed.
 
 See `docs/ROADMAP.md` for detail.
 
