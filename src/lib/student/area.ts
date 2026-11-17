@@ -5,6 +5,7 @@ import { loadLearningData } from "@/lib/analytics-server";
 import { createClient } from "@/lib/supabase/server";
 import type { TrainingData } from "@/lib/training/model";
 import type { ExamState, Stage } from "./exam-state";
+import { loadMyPapers } from "./papers";
 
 const PACKAGE_SLUG: Record<Stage, string> = { PE: "pe-premium", ME: "me-premium" };
 
@@ -49,5 +50,6 @@ export async function loadArea(stage: Stage, state: ExamState): Promise<AreaData
     freeUsedUp,
     aiMarks: stage === "ME" && allowance.data ? { used: (allowance.data as { used: number }).used, limit: (allowance.data as { limit: number }).limit } : null,
     premiumSlug: PACKAGE_SLUG[stage],
+    papers: stage === "ME" ? await loadMyPapers(state.entry) : undefined,
   };
 }

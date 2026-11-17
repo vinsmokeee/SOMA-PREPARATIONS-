@@ -9,6 +9,8 @@ import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { requireUser } from "@/lib/auth/dal";
 import { createClient } from "@/lib/supabase/server";
+import { loadExamState } from "@/lib/student/exam-state";
+import { loadMyPapers, ROMAN } from "@/lib/student/papers";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Written answers" };
@@ -19,21 +21,17 @@ export default async function WrittenPage({ searchParams }: PageProps<"/dashboar
   const user = await requireUser("/dashboard/written");
   const sp = await searchParams;
   const db = await createClient();
-  const [{ data: qs }, { data: allowance }, { data: cats }] = await Promise.all([
+  const state = await loadExamState(user.id);
+  const [{ data: qs }, { data: allowance }, papers] = await Promise.all([
     db.rpc("written_practice_questions"),
     db.rpc("my_evaluation_allowance"),
-    db.from("exam_categories").select("id, name, exam_paper_categories(paper_id)").eq("is_active", true).order("sort_order"),
+    loadMyPapers(state.entry),
   ]);
   const all = (qs ?? []) as Q[];
-  const groups = ((cats ?? []) as { id: string; name: string; exam_paper_categories: { paper_id: string }[] }[]);
-  const group = typeof sp.group === "string" ? groups.find((g) => g.id === sp.group) : undefined;
-  const paper = typeof sp.paper === "string" ? sp.paper : undefined;
-  const groupPapers = new Set(group?.exam_paper_categories.map((x) => x.paper_id));
-  const inGroup = group ? all.filter((q) => q.paper_id && groupPapers.has(q.paper_id)) : all;
-  const papers = [...new Map(inGroup.filter((q) => q.paper_id).map((q) => [q.paper_id!, q.paper ?? "Paper"])).entries()];
-  const list = paper ? inGroup.filter((q) => q.paper_id === paper) : inGroup;
+  const paper = typeof sp.paper === "string" ? papers.find((p) => p.id === sp.paper) : undefined;
+  const list = paper ? all.filter((q) => q.paper_id === paper.id) : all;
   const a = allowance as { limit: number; used: number; remaining: number; plan: string } | null;
-  const href = (g?: string, p?: string) => `/dashboard/written?${new URLSearchParams({ ...(g ? { group: g } : {}), ...(p ? { paper: p } : {}) })}`;
+  const href = (p?: string) => `/dashboard/written${p ? `?paper=${p}` : ""}`;
 
   return (
     <>
@@ -46,19 +44,22 @@ export default async function WrittenPage({ searchParams }: PageProps<"/dashboar
         {a ? <span className="text-sm text-muted-foreground">{a.remaining} of {a.limit} AI evaluations left{a.plan === "free" ? " (free account)" : ""}</span> : null}
       </div>
 
-      <nav aria-label="Entry group" className="mb-3 flex flex-wrap gap-2">
-        <Chip href={href()} active={!group}>All entry groups</Chip>
-        {groups.map((g) => <Chip key={g.id} href={href(g.id)} active={group?.id === g.id}>{g.name}</Chip>)}
-      </nav>
-      {papers.length > 1 ? (
-        <nav aria-label="Paper" className="mb-6 flex flex-wrap gap-2">
-          <Chip href={href(group?.id)} active={!paper} small>All papers</Chip>
-          {papers.map(([id, name]) => <Chip key={id} href={href(group?.id, id)} active={paper === id} small>{name}</Chip>)}
+      {papers.length ? (
+        <nav aria-label="Paper" className="mb-4 flex flex-wrap gap-2">
+          <Chip href={href()} active={!paper}>All papers</Chip>
+          {papers.map((p) => <Chip key={p.id} href={href(p.id)} active={paper?.id === p.id}>Paper {ROMAN[p.number ?? 0] || "–"}</Chip>)}
         </nav>
+      ) : null}
+      {paper ? (
+        <div className="mb-6 rounded-2xl bg-primary-soft p-4">
+          <p className="text-sm font-semibold uppercase tracking-wide text-primary">Paper {ROMAN[paper.number ?? 0]}</p>
+          <p className="text-lg font-bold text-ink">{paper.title}</p>
+          {paper.detail ? <p className="text-sm font-semibold text-primary">{paper.detail}</p> : null}
+        </div>
       ) : <div className="mb-6" />}
 
       {list.length === 0 ? (
-        <Alert tone="info">No written questions are published for this selection yet. They will appear here as the Soma ME question bank grows.</Alert>
+        <Alert tone="info">{paper ? `No questions for Paper ${ROMAN[paper.number ?? 0]} yet. They will appear here as past papers and new practice questions are added.` : "No written questions are published for your entry yet. They will appear here as the Soma ME question bank grows."}</Alert>
       ) : (
         <ul className="space-y-3">
           {list.map((q) => (

@@ -55,10 +55,9 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     "pe-packages": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} />,
     "pe-upgrade": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} onFree />,
     "me-packages": <PackageChoice stage="ME" entryLabel="Technical Graduates · Civil Engineering" pkg={mePkg} free={FREE_POINTS.ME} />,
-    "me-entry": <EntryPicker options={meOptions} cat={null} spec={null} />,
-    "me-bed": <EntryPicker options={meOptions} cat="bed" spec={null} />,
-    "me-technical": <EntryPicker options={meOptions} cat="technical" spec={null} />,
-    "me-group": <EntryPicker options={meOptions} cat="technical" spec="7d000000-0000-4000-8000-000000000004" />,
+    "me-entry": <EntryPicker options={meOptions} cat={null} />,
+    "me-bed": <EntryPicker options={meOptions} cat="bed" />,
+    "me-technical": <EntryPicker options={meOptions} cat="technical" />,
     pe: <ExamArea d={area({})} />,
     "ca-box": <CaPracticeBox paid question={{ stem: "Which dzongkhag hosted this year's National Day celebration?" }} assessments={[{ id: id(1), slug: "ca-weekly-1", title: "Weekly Challenge · 10–16 Nov", question_count: 15 }]} />,
     "mock-free": <div className="mx-auto max-w-2xl"><MockCta premium={false} /></div>,
@@ -92,7 +91,11 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
       </div>
     ),
     "pe-free": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} />,
-    me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 3 }, premiumSlug: "me-premium" })} />,
+    me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 3 }, premiumSlug: "me-premium", papers: [
+      { id: id(1), number: 1, title: "Languages and General Knowledge", detail: null, questions: 12 },
+      { id: id(2), number: 2, title: "General Subject Knowledge (common to subject groups)", detail: "Engineering group", questions: 5 },
+      { id: id(3), number: 3, title: "Subject Specialisation (for a specific position)", detail: "Civil Engineering", questions: 0 },
+    ] })} />,
   }[screen as string] ?? null;
   return (
     <AppShell area="student" stage={String(screen).startsWith("me") ? "ME" : "PE"} unread={3} sections={studentNav(false)} user={{ name: "Pema", email: "pema@example.com", roleLabel: "Student" }}>
