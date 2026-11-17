@@ -34,7 +34,7 @@ test("valid registration explains when the auth service is not configured", asyn
 
 test("sign in shows a generic message and an expired-link notice", async ({ page }) => {
   await page.goto("/login?error=link");
-  await expect(page.getByText(/invalid or has expired/)).toBeVisible();
+  await expect(page.getByText(/could not be used here/)).toBeVisible();
   await page.getByLabel("Email").fill("someone@example.bt");
   await page.getByLabel("Password").fill("whatever1");
   await page.getByRole("button", { name: "Sign in" }).click();
