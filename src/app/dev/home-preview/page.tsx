@@ -5,6 +5,7 @@ import { AppShell } from "@/components/app/app-shell";
 import { CoachCard } from "@/components/exam/coach-card";
 import { MockCta } from "@/components/exam/mock-cta";
 import { ChooserInfo } from "@/components/student/exam-info";
+import { CaPracticeBox } from "@/components/student/ca-practice-box";
 import { coach } from "@/lib/exam/coach";
 import { ResultHero, SectionBars } from "@/components/exam/result-hero";
 import { studentNav } from "@/components/app/student-nav";
@@ -49,6 +50,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     "me-general": <EntryPicker options={{ categories: [{ id: id(1), name: "Administrative Service", public_group: "general" }, { id: id(4), name: "Finance Service", public_group: "general" }], specialisations: [] }} group="general" />,
     "me-technical": <EntryPicker options={{ categories: [{ id: id(2), name: "Technical Service", public_group: "technical" }], specialisations: ["Civil Engineering", "Computer Science and Engineering", "Electrical Engineering", "Forestry", "Medicine", "Nursing"].map((name, i) => ({ id: id(i + 1), name })) }} group="technical" />,
     pe: <ExamArea d={area({})} />,
+    "ca-box": <CaPracticeBox paid question={{ stem: "Which dzongkhag hosted this year's National Day celebration?" }} assessments={[{ id: id(1), slug: "ca-weekly-1", title: "Weekly Challenge · 10–16 Nov", question_count: 15 }]} />,
     "mock-free": <div className="mx-auto max-w-2xl"><MockCta premium={false} /></div>,
     "mock-premium": <div className="mx-auto max-w-2xl"><MockCta premium /></div>,
     result: (

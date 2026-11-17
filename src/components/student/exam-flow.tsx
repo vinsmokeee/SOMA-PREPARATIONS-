@@ -197,13 +197,13 @@ export function ExamArea({ d }: { d: AreaData }) {
     ? [
         { href: "/dashboard/practice?stage=PE", label: "Practice", sub: "By section and topic", icon: BookOpenCheck, tint: "from-orange-500 to-amber-400" },
         { href: "/dashboard/exams?stage=PE", label: "Mock tests", sub: "Timed, like the real PE", icon: ClipboardCheck, tint: "from-rose-600 to-orange-500" },
-        { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-sky-600 to-indigo-500" },
+        { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
         { href: "/dashboard/analytics", label: "My scores", sub: d.answered ? `${d.answered} answered` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
       ]
     : [
         { href: "/dashboard/written", label: "Written answers", sub: "Get AI feedback", icon: PenLine, tint: "from-rose-600 to-[#7a1e3a]" },
         { href: "/dashboard/exams?stage=ME", label: "ME papers", sub: "Timed papers for your entry", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
-        { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-sky-600 to-indigo-500" },
+        { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
         { href: "/dashboard/analytics", label: "My scores", sub: d.written ? `${d.written} answer${d.written === 1 ? "" : "s"} marked` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
       ];
 
