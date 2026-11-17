@@ -15,7 +15,10 @@ export default async function PracticePage({ searchParams }: PageProps<"/dashboa
   const sp = await searchParams;
   const stage = sp.stage === "ME" ? "ME" : "PE";
   const supabase = await createClient();
-  const { data, error } = await supabase.rpc("practice_options", { _stage: stage });
+  const [{ data, error }, { data: access }] = await Promise.all([
+    supabase.rpc("practice_options", { _stage: stage }),
+    supabase.rpc("has_stage_access", { _stage: "PE" }),
+  ]);
   const options = data as PracticeOptions | null;
 
   return (
@@ -28,6 +31,13 @@ export default async function PracticePage({ searchParams }: PageProps<"/dashboa
           </Link>
         ))}
       </nav>
+      {stage === "PE" && !access ? (
+        <Alert tone="info" className="mb-6">
+          Free accounts get <b>one 25-question test a day</b> from real BCSE past papers.{" "}
+          <Link href="/dashboard/exams?stage=PE" className="font-semibold underline">Take today’s free test</Link>.
+          Practice by section and topic is part of PE Premium.
+        </Alert>
+      ) : null}
       {stage === "ME" ? (
         <Alert tone="info" className="mb-6">
           Practice sets use objective questions. For written ME practice with AI feedback, open <Link href="/dashboard/written" className="font-medium underline">Written answers</Link> or sit an ME paper from <Link href="/dashboard/exams?stage=ME" className="font-medium underline">Examinations</Link>.
