@@ -3,6 +3,19 @@
 Last updated: 2026-11-16. This note lets a new Claude session continue the work
 without the previous chat. Keep it up to date at the end of every working session.
 
+## Where we stopped (17 Nov 2026, evening)
+
+1. **Next task:** PE question batch 2 (another ~60 English/Aptitude/DI), same method as batch 1
+   (`scripts/past-papers/new_pe_batch1.py` → `build_new_questions.py` → load as drafts → founder publishes in
+   /admin/ai/review: "Select all that passed" → "Approve and publish", 50 per page).
+2. **Founder will send:** Dzongkha–English dictionary PDFs (for Dzongkha questions) and ME past papers
+   (RCSC pages: General, Dzongkha, Technical I/II/III, B.Ed., CSCE 2009).
+3. **On hold:** three paper sections + automatic Paper II groups (see "ON HOLD" below) until the founder confirms
+   the specialisation → Paper II grouping with RCSC.
+4. **Drafts waiting:** 48 Dzongkha past-paper questions (need a Dzongkha speaker), 26 less-certain past-paper
+   questions (status revision_requested) to recheck.
+5. Live DB changes always need the founder's explicit "yes, apply"; publishing must be done by the founder.
+
 ## The founder and how to work with them
 
 - Non-technical; works on an iPhone. Wants **step-by-step**, **one step at a time**,
@@ -86,6 +99,15 @@ private preview mode, and master-plan phases:
   from the specialisation" (commit 8df8bd3, PR #39 closed unmerged; reverted on the branch). Restore by reverting
   the "Put on hold" commit once the founder confirms the specialisation → Paper II grouping. The live site keeps
   the previous flow (student chooses the Paper II group).
+- **Free PE (PR #41, live; migration `20261205000100`):** free accounts get ONE 25-question test a day (about 6 per
+  section) from the whole published PE bank, then "Join Premium"; the daily allowance is shared with practice sets
+  (`free_pe_used_today`). Premium: full 100-question mock tests, unlimited.
+- **Question of the Day (PR #40, live; migration `20261204000100`):** one question per Bhutan day; the News page shows
+  "already answered" with a link to the result; blank time-outs start again; 10 minutes allowed.
+- **New PE questions:** batch 1 (60, Claude-written; 13 twists linked to past papers) published by the founder via
+  /admin/ai/review. Data: `scripts/past-papers/new_pe_batch1.py` → `build_new_questions.py` → `supabase/data/`.
+  PE published MCQs now: Aptitude 66, English 61, DI 55, Dzongkha 2. Next: more batches (goal ~500); Dzongkha
+  questions once the founder sends the Dzongkha–English dictionary PDFs (need a Dzongkha speaker to check).
 
 See `docs/ROADMAP.md` for detail.
 
