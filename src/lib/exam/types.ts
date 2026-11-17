@@ -10,6 +10,7 @@ export type PaperQuestion = {
   marks: number;
   type: QuestionType;
   stem: string;
+  image_url?: string | null;
   word_limit: number | null;
   options: PaperOption[];
 };
@@ -56,6 +57,7 @@ export type ResultQuestion = {
   marks: number;
   type: QuestionType;
   stem: string;
+  image_url?: string | null;
   word_limit: number | null;
   explanation: string | null;
   model_answer: string | null;
