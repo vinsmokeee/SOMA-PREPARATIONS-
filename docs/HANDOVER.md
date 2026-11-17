@@ -91,6 +91,10 @@ private preview mode, and master-plan phases:
   (`free_pe_used_today`). Premium: full 100-question mock tests, unlimited.
 - **Question of the Day (PR #40, live; migration `20261204000100`):** one question per Bhutan day; the News page shows
   "already answered" with a link to the result; blank time-outs start again; 10 minutes allowed.
+- **New PE questions:** batch 1 (60, Claude-written; 13 twists linked to past papers) published by the founder via
+  /admin/ai/review. Data: `scripts/past-papers/new_pe_batch1.py` → `build_new_questions.py` → `supabase/data/`.
+  PE published MCQs now: Aptitude 66, English 61, DI 55, Dzongkha 2. Next: more batches (goal ~500); Dzongkha
+  questions once the founder sends the Dzongkha–English dictionary PDFs (need a Dzongkha speaker to check).
 
 See `docs/ROADMAP.md` for detail.
 
