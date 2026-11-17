@@ -1,10 +1,9 @@
 /**
  * Brand and site configuration.
  *
- * LOGO: Soma's official logo has not been supplied yet. Until it is, the header
- * shows a plain text wordmark (not a logo design). To use the official logo,
- * place the exact file in /public/brand/ and set `logo.src` (plus its intrinsic
- * width/height) below. Do not modify the supplied artwork.
+ * LOGO: the founder's official logo is /public/brand/soma-logo.png (square,
+ * shown whole: never crop or alter it). soma-logo-256.png is the same image
+ * resized for the header. Do not modify the supplied artwork.
  */
 export const siteConfig = {
   name: "Soma Preparations",
@@ -14,9 +13,9 @@ export const siteConfig = {
     "Structured preparation for the Bhutan Civil Service Examination (BCSE): Preliminary Examination (PE) practice, Main Examination (ME) written-paper preparation, realistic timed simulations and clear explanations.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   logo: {
-    src: null as string | null, // e.g. "/brand/soma-logo.svg"
-    width: 160,
-    height: 40,
+    src: "/brand/soma-logo-256.png" as string | null, // the founder's logo, whole and unchanged (original: /brand/soma-logo.png)
+    width: 256,
+    height: 256,
     alt: "Soma Preparations",
   },
   contact: {

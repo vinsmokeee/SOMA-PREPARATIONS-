@@ -1,0 +1,41 @@
+import Link from "next/link";
+import { CaPracticeForm, QotdButton } from "@/components/student/ca-buttons";
+
+/** Current affairs: the coloured practice box at the top of the News page. */
+export function CaPracticeBox({ question, paid, assessments }: {
+  question: { stem: string } | null;
+  paid: boolean;
+  assessments: { id: string; slug: string; title: string; question_count: number }[];
+}) {
+  return (
+  <section aria-labelledby="ca-practice" className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet-500 via-purple-600 to-purple-900 p-5 text-white shadow-xl sm:p-7">
+    <span className="absolute -right-10 -top-10 size-40 rounded-full bg-white/10" aria-hidden />
+    <p className="relative text-sm font-semibold uppercase tracking-wider text-white/80">Practice</p>
+    <h2 id="ca-practice" className="relative mt-1 text-2xl font-extrabold text-white">Practise with the news</h2>
+    <p className="relative mt-1 text-sm text-white/90">Read the news below, then test yourself here. Current affairs come up in the exam, so a few minutes every day really helps.</p>
+
+    <div className="relative mt-4 rounded-2xl bg-white p-4 text-ink">
+      <p className="text-sm font-bold uppercase tracking-wide text-purple-700">Question of the Day</p>
+      {question ? (
+        <>
+          <p className="mt-1 leading-relaxed">{question.stem}</p>
+          <div className="mt-3"><QotdButton /></div>
+        </>
+      ) : <p className="mt-1 text-sm text-muted-foreground">Today’s question appears once today’s stories are verified.</p>}
+    </div>
+
+    <div className="relative mt-3 rounded-2xl bg-white p-4 text-ink">
+      <p className="text-sm font-bold uppercase tracking-wide text-purple-700">Practise current affairs</p>
+      <p className="mt-1 text-sm text-muted-foreground">Questions chosen for you: this week’s important stories first, then your weaker areas.</p>
+      <div className="mt-3"><CaPracticeForm locked={!paid} /></div>
+    </div>
+
+    <div className="relative mt-3 rounded-2xl bg-white/15 p-4">
+      <p className="text-sm font-bold">Weekly Challenge and Monthly Assessment</p>
+      {assessments.length ? (
+        <ul className="mt-2 space-y-2 text-sm">{assessments.map((e) => <li key={e.id}><Link href={`/dashboard/exams/${e.slug}`} className="font-semibold underline underline-offset-2">{e.title}</Link> <span className="text-white/80">· {e.question_count} questions</span></li>)}</ul>
+      ) : <p className="mt-1 text-sm text-white/85">The first Weekly Challenge appears after a full week of verified stories.</p>}
+    </div>
+  </section>
+  );
+}
