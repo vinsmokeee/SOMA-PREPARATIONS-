@@ -33,8 +33,8 @@ export default async function PracticePage({ searchParams }: PageProps<"/dashboa
       </nav>
       {stage === "PE" && !access ? (
         <Alert tone="info" className="mb-6">
-          Free accounts get <b>one full mock test a day</b> from real BCSE past papers.{" "}
-          <Link href="/dashboard/exams?stage=PE" className="font-semibold underline">Take today’s free mock test</Link>.
+          Free accounts get <b>one 25-question test a day</b> from real BCSE past papers.{" "}
+          <Link href="/dashboard/exams?stage=PE" className="font-semibold underline">Take today’s free test</Link>.
           Practice by section and topic is part of PE Premium.
         </Alert>
       ) : null}

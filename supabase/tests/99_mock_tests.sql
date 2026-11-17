@@ -40,6 +40,8 @@ set local role authenticated;
 select tests.login(:'f3');
 select public.create_mock_test('PE') as fm \gset
 select tests.assert(jsonb_array_length(public.get_attempt_paper(:'fm') -> 'questions') = 12, 'a free mock test uses the whole published bank');
+select tests.assert((select e.title like 'Free mock test%' and e.duration_minutes = 18 from public.exams e join public.exam_attempts a on a.exam_id = e.id where a.id = :'fm'),
+  'the free test is labelled and timed in proportion (150 min per 100 questions)');
 select public.submit_attempt(:'fm');
 select tests.assert_fails($$select public.create_mock_test('PE')$$, 'a second free mock test on the same day asks for Premium');
 select tests.assert_fails($$select public.create_practice_set('PE', _count => 5)$$, 'and so does a practice set after it');

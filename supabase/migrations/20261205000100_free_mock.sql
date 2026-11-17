@@ -1,4 +1,4 @@
--- Free PE accounts: one full mock test a day (founder, 16–17 Nov 2026), drawn from the whole published PE bank
+-- Free PE accounts: one 25-question mock test a day (founder, 16–17 Nov 2026), drawn from the whole published PE bank
 -- (not only free samples), then a note to join Premium. The daily allowance is shared with practice sets and
 -- sample tests. Premium: unlimited new mock tests.
 
@@ -52,7 +52,8 @@ begin
     raise exception 'RATE_LIMIT' using errcode = 'P0001';
   end if;
   select * into _paper from public.exam_papers where stage = _stage and code = lower(_stage::text);
-  _total := coalesce(_paper.question_count, 100);
+  -- Free accounts: a 25-question test (about 6 per section, founder 17 Nov 2026); Premium: the full paper.
+  _total := case when _free then 25 else coalesce(_paper.question_count, 100) end;
   select count(*) into _sections from public.paper_sections where paper_id = _paper.id and subject_id is not null;
   _per := case when _sections > 0 then ceil(_total::numeric / _sections) else _total end;
 
@@ -60,7 +61,7 @@ begin
   -- before (a second chance), the rest are questions never answered first,
   -- then those answered longest ago. The pool already holds past-paper
   -- questions and verified variations made from them.
-  for _s in select subject_id, coalesce(question_count, _per) as n from public.paper_sections
+  for _s in select subject_id, case when _free then _per else coalesce(question_count, _per) end as n from public.paper_sections
             where paper_id = _paper.id and subject_id is not null order by sort_order loop
     select coalesce(array_agg(x.id), '{}') into _more from (
       select q.id from public.questions q join public.my_latest_answers() la on la.question_id = q.id
@@ -82,15 +83,16 @@ begin
       order by la.answered_at nulls first, random() limit _total - cardinality(_ids)) x;
     _ids := _ids || _more;
   end if;
+  _ids := _ids[1:_total];
   _n := cardinality(_ids);
   if _n < 10 then raise exception 'NO_QUESTIONS' using errcode = 'P0001'; end if;
 
   insert into public.exams (slug, title, description, stage, kind, duration_minutes, total_marks, is_free, omr_mode, shuffle_questions, status, owner_id)
   values ('mock-' || replace(gen_random_uuid()::text, '-', ''),
-          'Mock test · ' || to_char(public.bhutan_today(), 'DD Mon YYYY'),
+          case when _free then 'Free mock test · ' else 'Mock test · ' end || to_char(public.bhutan_today(), 'DD Mon YYYY'),
           _n || ' questions, timed like the real ' || _stage::text || '.',
           _stage, 'mock',
-          greatest(10, ceil(coalesce(_paper.duration_minutes, 150) * _n::numeric / _total)::int),
+          greatest(10, ceil(coalesce(_paper.duration_minutes, 150) * _n::numeric / coalesce(_paper.question_count, 100))::int),
           null, true, true, false, 'draft', _uid)
   returning id into _exam;
   insert into public.exam_questions (exam_id, question_id, position)

@@ -278,7 +278,7 @@ export function ExamArea({ d }: { d: AreaData }) {
             <StartButton itemId={next.id} label={itemAction(next)} className="bg-white text-[var(--on-white,#9a3412)]" />
           ) : (
             <Link href={pe ? (d.premium ? "/dashboard/practice?stage=PE" : "/dashboard/exams?stage=PE") : "/dashboard/written"} className="flex h-14 items-center justify-center rounded-2xl bg-white text-lg font-bold text-[var(--on-white,#9a3412)] shadow-lg">
-              {pe ? (d.premium ? "Start practice" : "Take today’s free mock test") : "Write an answer"}
+              {pe ? (d.premium ? "Start practice" : "Take today’s free test") : "Write an answer"}
             </Link>
           )}
         </div>
@@ -382,6 +382,6 @@ function Header({ stage, subtitle, badge, changeEntry }: { stage: Stage; subtitl
 }
 
 export const FREE_POINTS: Record<Stage, string[]> = {
-  PE: ["Free sample questions in every section", "A sample mock test", "Today's Question of the Day"],
+  PE: ["A free 25-question test every day, from real BCSE past papers", "Questions from all four sections, with explanations", "Today's Question of the Day"],
   ME: ["3 written answers marked by AI: typed, or a photo of your handwritten answer", "AI feedback with an improved model answer", "Sample written questions for your entry", "Today's current affairs"],
 };
