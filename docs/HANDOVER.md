@@ -73,6 +73,13 @@ private preview mode, and master-plan phases:
   only 9 Dzongkha answers chosen (2010), 41 need a Dzongkha speaker. 4 low-confidence items flagged in the
   review comments. Source data and scripts: `scripts/past-papers/`. Next: founder reviews and publishes,
   then generate twisted/similar/new questions (goal ~500) and ME changes the founder will list.
+- **ME structure (PR #36/#37, merged; migration `20261202000100` live):** six categories all offered;
+  Education Service (B.Ed.) with General / Dzongkha graduate types (separate Paper I and II, shared III);
+  Technical Paper I = "Languages and General Knowledge"; BCSE 2025 Paper III list (48) selectable, CSCE 2009
+  list (31) kept inactive for old papers (`list_source`, `offered_years`); students choose their Paper II group
+  (`profiles.subject_group_id`, 8 RCSC 2025 groups; spec→group mapping not published). Unclassified ME content
+  is never served. 124 past-paper PE questions published; 48 Dzongkha + 26 less-certain remain drafts.
+  Next: founder sends ME past papers (RCSC pages: General, Dzongkha, Technical I/II/III, B.Ed., CSCE 2009).
 
 See `docs/ROADMAP.md` for detail.
 
