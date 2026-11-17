@@ -3,6 +3,19 @@
 Last updated: 2026-11-16. This note lets a new Claude session continue the work
 without the previous chat. Keep it up to date at the end of every working session.
 
+## Where we stopped (17 Nov 2026, evening)
+
+1. **Next task:** PE question batch 2 (another ~60 English/Aptitude/DI), same method as batch 1
+   (`scripts/past-papers/new_pe_batch1.py` → `build_new_questions.py` → load as drafts → founder publishes in
+   /admin/ai/review: "Select all that passed" → "Approve and publish", 50 per page).
+2. **Founder will send:** Dzongkha–English dictionary PDFs (for Dzongkha questions) and ME past papers
+   (RCSC pages: General, Dzongkha, Technical I/II/III, B.Ed., CSCE 2009).
+3. **On hold:** three paper sections + automatic Paper II groups (see "ON HOLD" below) until the founder confirms
+   the specialisation → Paper II grouping with RCSC.
+4. **Drafts waiting:** 48 Dzongkha past-paper questions (need a Dzongkha speaker), 26 less-certain past-paper
+   questions (status revision_requested) to recheck.
+5. Live DB changes always need the founder's explicit "yes, apply"; publishing must be done by the founder.
+
 ## The founder and how to work with them
 
 - Non-technical; works on an iPhone. Wants **step-by-step**, **one step at a time**,
