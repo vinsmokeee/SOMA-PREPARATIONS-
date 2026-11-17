@@ -18,12 +18,15 @@ type ArchiveRow = TodayItem & { feature_date: string | null; questions: number }
 export default async function CurrentAffairsTodayPage() {
   await requireUser("/dashboard/current-affairs");
   const db = await createClient();
-  const [{ data: today }, { data: recent }, { data: catalogue }, { data: paid }] = await Promise.all([
+  const [{ data: today }, { data: recent }, { data: catalogue }, { data: paid }, { data: qotd }] = await Promise.all([
     db.rpc("ca_today"),
     db.rpc("ca_archive", {}),
     db.rpc("exam_catalogue", { _stage: "PE" }),
     db.rpc("has_any_package"),
+    db.rpc("my_question_of_day"),
   ]);
+  const q = qotd as { answered: boolean; correct: boolean; attempt_id: string | null } | null;
+  const done = q?.answered && q.attempt_id ? { correct: q.correct, attemptId: q.attempt_id } : null;
   const t = (today ?? { day: "", items: [], question: null }) as Today;
   const archive = ((recent ?? []) as ArchiveRow[]).filter((r) => !t.items.some((i) => i.id === r.id));
   // Each area shows today's stories; if there are none yet, its latest earlier stories. Empty areas are hidden.
@@ -43,7 +46,7 @@ export default async function CurrentAffairsTodayPage() {
       <PageTitle title="Current affairs" description={`Today${t.day ? `, ${formatDate(t.day)}` : ""} (Bhutan time). Short, verified updates with sources — Bhutan, South Asia and the world.`} />
       <div className="space-y-8">
         {/* Practice first: one coloured box, news below */}
-        <CaPracticeBox question={t.question} paid={Boolean(paid)} assessments={assessments} />
+        <CaPracticeBox question={t.question} paid={Boolean(paid)} assessments={assessments} done={done} />
 
         <h2 className="text-xl font-extrabold text-ink">Today’s news</h2>
         {areas.length ? areas.map(({ area, items }) => (

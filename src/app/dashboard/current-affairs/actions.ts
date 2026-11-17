@@ -9,7 +9,7 @@ export type CaStartState = { error?: string };
 
 const MESSAGES: Record<string, string> = {
   NO_QUESTION_TODAY: "There is no Question of the Day yet. Check back later today.",
-  ACCESS_REQUIRED: "This is part of the PE and PE + ME packages.",
+  ACCESS_REQUIRED: "This is part of Premium.",
   NO_QUESTIONS: "No practice questions are available for this yet.",
   RATE_LIMIT: "Daily practice limit reached. Please try again tomorrow.",
   NOT_SIGNED_IN: "Please sign in again.",

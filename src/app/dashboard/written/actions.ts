@@ -29,7 +29,7 @@ const MESSAGES: Record<string, string> = {
   NO_EVALUATIONS_LEFT: "You have used all AI evaluations included in your plan.",
   NOTHING_TO_CONFIRM: "There is no text to confirm yet.",
   INVALID_TEXT: "The answer text is empty or too long.",
-  ACCESS_REQUIRED: "This question is part of the PE + ME package.",
+  ACCESS_REQUIRED: "This question is part of ME Premium.",
   QUESTION_NOT_FOUND: "This question is not available.",
   NOT_READY: "The evaluation is not ready yet.",
 };

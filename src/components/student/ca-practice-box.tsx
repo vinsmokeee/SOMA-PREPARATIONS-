@@ -2,8 +2,10 @@ import Link from "next/link";
 import { CaPracticeForm, QotdButton } from "@/components/student/ca-buttons";
 
 /** Current affairs: the coloured practice box at the top of the News page. */
-export function CaPracticeBox({ question, paid, assessments }: {
+export function CaPracticeBox({ question, paid, assessments, done = null }: {
   question: { stem: string } | null;
+  /** Today's Question of the Day already answered: show that, not "Answer" again. */
+  done?: { correct: boolean; attemptId: string } | null;
   paid: boolean;
   assessments: { id: string; slug: string; title: string; question_count: number }[];
 }) {
@@ -19,7 +21,13 @@ export function CaPracticeBox({ question, paid, assessments }: {
       {question ? (
         <>
           <p className="mt-1 leading-relaxed">{question.stem}</p>
-          <div className="mt-3"><QotdButton /></div>
+          {done ? (
+            <div className={done.correct ? "mt-3 rounded-xl bg-success-soft p-3" : "mt-3 rounded-xl bg-amber-100 p-3"}>
+              <p className="font-bold text-ink">{done.correct ? "✓ You answered today’s question correctly." : "You answered today’s question. Not quite right this time."}</p>
+              <Link href={`/dashboard/results/${done.attemptId}`} className="mt-1 inline-block text-sm font-semibold text-purple-700 underline underline-offset-2">See your answer and the explanation</Link>
+              <p className="mt-1 text-sm text-muted-foreground">A new question comes tomorrow.</p>
+            </div>
+          ) : <div className="mt-3"><QotdButton /></div>}
         </>
       ) : <p className="mt-1 text-sm text-muted-foreground">Today’s question appears once today’s stories are verified.</p>}
     </div>

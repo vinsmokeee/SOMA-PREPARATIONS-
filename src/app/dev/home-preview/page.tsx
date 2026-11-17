@@ -61,6 +61,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     "me-group": <EntryPicker options={meOptions} cat="technical" spec="7d000000-0000-4000-8000-000000000004" />,
     pe: <ExamArea d={area({})} />,
     "ca-box": <CaPracticeBox paid question={{ stem: "Which dzongkhag hosted this year's National Day celebration?" }} assessments={[{ id: id(1), slug: "ca-weekly-1", title: "Weekly Challenge · 10–16 Nov", question_count: 15 }]} />,
+    "ca-done": <CaPracticeBox question={{ stem: "At COP31 in Antalya, which measure did UN Secretary-General António Guterres urge governments to adopt?" }} assessments={[]} paid={false} done={{ correct: true, attemptId: id(9) }} />,
     "mock-free": <div className="mx-auto max-w-2xl"><MockCta premium={false} /></div>,
     "mock-premium": <div className="mx-auto max-w-2xl"><MockCta premium /></div>,
     result: (

@@ -28,7 +28,7 @@ export function CaPracticeForm({ locked }: { locked: boolean }) {
         {[5, 10, 20, 30].map((n) => <option key={n} value={n}>{n} questions</option>)}
       </select>
       <button type="submit" disabled={pending || locked} className={`${btn} bg-primary text-primary-foreground hover:bg-primary-hover`}>{pending ? "Starting…" : "Practise"}</button>
-      {locked ? <p className="w-full text-xs text-muted-foreground">Personalised practice is part of PE Premium.</p> : null}
+      {locked ? <p className="w-full text-xs text-muted-foreground">Personalised practice is part of Premium.</p> : null}
       {s.error ? <p role="alert" className="w-full text-sm text-danger">{s.error}</p> : null}
     </form>
   );
