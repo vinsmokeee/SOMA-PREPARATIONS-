@@ -18,7 +18,7 @@ export function LoginForm() {
   return (
     <form action={action} className="space-y-5" noValidate>
       {linkError && state.status === "idle" ? (
-        <Alert tone="warning">That link is invalid or has expired. Please sign in or request a new link.</Alert>
+        <Alert tone="warning">That link could not be used here. Open Soma’s e-mail links in the browser where you asked for them: press and hold the link, copy it and paste it into that browser. Or sign in and request a new link.</Alert>
       ) : null}
       {notice === "revoked" && state.status === "idle" ? (
         <Alert tone="warning">You were signed out because your account was used on another device or signed out from your security page. Sign in again to continue. One subscription is for one student.</Alert>
