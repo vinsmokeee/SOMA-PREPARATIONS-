@@ -132,5 +132,5 @@ export async function sendDeviceLink(_prev: AuthState, formData: FormData): Prom
   if (error) {
     return { status: "error", message: error.code === "over_email_send_rate_limit" ? "Too many e-mails were sent recently. Please wait a few minutes and try again." : "The link could not be sent. Please try again." };
   }
-  return { status: "success", message: "Check your e-mail and open the link on this device." };
+  return { status: "success", message: "Check your e-mail and open the link in this same browser." };
 }

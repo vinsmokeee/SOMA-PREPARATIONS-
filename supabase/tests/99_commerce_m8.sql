@@ -133,6 +133,13 @@ select tests.assert(public.revoke_my_sessions('5e000000-0000-4000-8000-000000000
 select tests.assert((select count(*) from public.user_sessions where revoked_at is null) = 1, 'only current session left');
 select tests.login(:'o');
 select tests.assert((select count(*) from public.user_sessions) = 0 and (select count(*) from public.user_devices) = 0, 'devices are private');
+-- One phone opened from several apps (separate cookies, same kind of device) is not "many new devices"
+do $$ declare i int; r jsonb; begin
+  for i in 1..6 loop
+    r := public.touch_session(gen_random_uuid(), encode(sha256(convert_to('app' || i, 'UTF8')), 'hex'), 'Safari on iPhone', 'BT', 'ua', false);
+    if r ->> 'status' <> 'ok' then raise exception 'same phone in app % asked for verification', i; end if;
+  end loop;
+end $$;
 select tests.assert_fails(format($$select public.admin_security_action(%L, 'restrict', 'x y z')$$, :'s'), 'students cannot restrict accounts');
 select tests.assert_fails(format($$update public.profiles set account_status = 'restricted' where id = %L$$, :'o'), 'students cannot change their account status');
 
