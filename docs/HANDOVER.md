@@ -80,6 +80,8 @@ private preview mode, and master-plan phases:
   (`profiles.subject_group_id`, 8 RCSC 2025 groups; spec→group mapping not published). Unclassified ME content
   is never served. 124 past-paper PE questions published; 48 Dzongkha + 26 less-certain remain drafts.
   Next: founder sends ME past papers (RCSC pages: General, Dzongkha, Technical I/II/III, B.Ed., CSCE 2009).
+- **Speed (PR #38):** `vercel.json` runs functions in hnd1 (Tokyo) next to the Supabase DB (ap-northeast-1);
+  pages were slow when functions ran in iad1. Founder confirmed it is fast now.
 
 See `docs/ROADMAP.md` for detail.
 
