@@ -67,6 +67,12 @@ private preview mode, and master-plan phases:
   live): new-device risk counts kinds of device ("Safari on iPhone"), not browser cookies, because
   in-app browsers (Gmail, Messenger) on one phone each get a cookie. The device e-mail link only
   works in the browser that requested it (PKCE): tell the founder to press-hold, copy, paste.
+- **Past papers (PR #35, merged; loaded live):** BCSE 2010 + 2011 PE, 198 questions as `awaiting_review`
+  drafts (origin `historical_official`, linked to `historical_papers`). Pictures under `public/papers/` via
+  `questions.image_url` (migration `20261201000100`). Dzongkha shown as pictures of the original print;
+  only 9 Dzongkha answers chosen (2010), 41 need a Dzongkha speaker. 4 low-confidence items flagged in the
+  review comments. Source data and scripts: `scripts/past-papers/`. Next: founder reviews and publishes,
+  then generate twisted/similar/new questions (goal ~500) and ME changes the founder will list.
 
 See `docs/ROADMAP.md` for detail.
 
