@@ -5,6 +5,11 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+- **Latest (18 Nov, end of day):** PE batch 2 all published. Live PE MCQs published: Aptitude 86, English 81, DI 75,
+  Dzongkha 56, CA 6 = 304 (goal ~500). Option shuffle live. **Next: "Start PE batch 3"** — proposed 60 =
+  15 English, 15 Aptitude, 10 DI, 15 Dzongkha, 5 current affairs (founder has not confirmed the mix yet).
+  Remember: make every stem unique (content_hash is on the stem only).
+
 - **PE batch 2 WRITTEN (18 Nov):** 60 questions (20 English, 20 Aptitude, 20 DI) in `scripts/past-papers/new_pe_batch2.py`
   (answers re-computed by `check_batch2()`; correct answers spread evenly over A–D) → `supabase/data/new_pe_batch2.sql`.
   **LOADED LIVE 18 Nov as 60 drafts** (2 stems reworded: content_hash is on the stem only, so generic stems like "Which sentence is correct?" clash across batches — always make stems unique).
