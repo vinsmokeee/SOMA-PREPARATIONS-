@@ -24,6 +24,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#ffffff",
+  // Light theme only: stops phone browsers (e.g. Samsung Internet dark mode) repainting the PE orange / ME maroon colours.
+  colorScheme: "only light",
   width: "device-width",
   initialScale: 1,
 };
