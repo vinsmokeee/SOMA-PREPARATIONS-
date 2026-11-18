@@ -5,6 +5,7 @@ import { AppShell } from "@/components/app/app-shell";
 import { ExamCountdown } from "@/components/app/exam-countdown";
 import { bhutanToday } from "@/lib/student/countdown";
 import { OmrPractice } from "@/components/exam/omr-practice";
+import { LastMinuteSummary } from "@/components/student/last-minute-summary";
 import { CoachCard } from "@/components/exam/coach-card";
 import { MockCta } from "@/components/exam/mock-cta";
 import { ChooserInfo } from "@/components/student/exam-info";
@@ -103,6 +104,13 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     "exam-day": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     countdown: <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "omr-practice": <OmrPractice />,
+    "last-minute": <LastMinuteSummary stage="PE" s={{ premium: true, answered: 64,
+      sections: [{ subject: "Dzongkha communication", answered: 14, correct: 7 }, { subject: "Data interpretation", answered: 16, correct: 10 }, { subject: "English communication", answered: 18, correct: 14 }, { subject: "Logic & analytical problem solving", answered: 16, correct: 14 }],
+      mistakes: [
+        { stem: "Choose the word closest in meaning to the word in capitals.\n\nThe minister’s speech was full of PLATITUDES.", image_url: null, explanation: "Platitudes are remarks used too often to be interesting: clichés.", subject: "English communication", source_year: 2011, answer: "Clichés", past_paper: true },
+        { stem: "A sum doubles in 8 years at simple interest. What is the rate per year?", image_url: null, explanation: "Interest = principal in 8 years, so rate = 100 ÷ 8 = 12.5%.", subject: "Logic & analytical problem solving", source_year: null, answer: "12.5%", past_paper: false },
+      ],
+      key_past: [{ stem: "Which word is the odd one out: apple, mango, potato, banana?", image_url: null, explanation: "Potato is a vegetable; the others are fruits.", subject: "Logic & analytical problem solving", source_year: 2010, answer: "Potato" }] }} />,
     "pe-new": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "pe-premium-new": <ExamArea d={area({ openAttempt: null })} />,
     me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 3 }, premiumSlug: "me-premium" })} />,

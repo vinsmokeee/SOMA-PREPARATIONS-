@@ -132,6 +132,11 @@ function ExamDayNote({ saved }: { saved: SavedCountdown }) {
       <PartyPopper className="relative size-8 text-yellow-100" aria-hidden />
       <p className="relative mt-2 pr-6 text-xl font-extrabold">{note.title}</p>
       <p className="relative mt-1 text-sm leading-relaxed text-white/95">{note.body}</p>
+      <div className="relative mt-4 flex justify-end">
+        <Link href={`/dashboard/last-minute?stage=${saved.stage}`} className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-bold text-[#9a3412] shadow">
+          Last-minute summary →
+        </Link>
+      </div>
     </div>
   );
 }
