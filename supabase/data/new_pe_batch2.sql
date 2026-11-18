@@ -209,7 +209,7 @@ select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'He says that 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
                                 parent_question_id, variation_type, ai_review)
-  values ('PE', 'mcq', 'Which word is spelt correctly?', 'Necessary has one c and double s: n-e-c-e-s-s-a-r-y.', (select id from public.subjects where slug = 'english-communication'),
+  values ('PE', 'mcq', 'Which of these four words is spelt correctly?', 'Necessary has one c and double s: n-e-c-e-s-s-a-r-y.', (select id from public.subjects where slug = 'english-communication'),
     (select t.id from public.topics t join public.subjects s on s.id = t.subject_id where s.slug = 'english-communication' and t.slug = 'vocabulary'),
     'standard', 1, 90, 'ai_generated', 'awaiting_review', null, null,
     '{"verdict": "pass", "issues": [], "checker_notes": "Written by Claude; every answer worked out twice and the calculations re-checked by a script. This is not the in-app independent checker: please review before publishing."}'::jsonb)
@@ -269,7 +269,7 @@ select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Agenda', true
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
                                 parent_question_id, variation_type, ai_review)
-  values ('PE', 'mcq', 'Which sentence is correct?', '“One of” is followed by a plural noun (friends), and the verb agrees with “one”: “lives”.', (select id from public.subjects where slug = 'english-communication'),
+  values ('PE', 'mcq', 'Which sentence shows correct subject–verb agreement?', '“One of” is followed by a plural noun (friends), and the verb agrees with “one”: “lives”.', (select id from public.subjects where slug = 'english-communication'),
     (select t.id from public.topics t join public.subjects s on s.id = t.subject_id where s.slug = 'english-communication' and t.slug = 'grammar'),
     'standard', 1, 90, 'ai_generated', 'awaiting_review', null, null,
     '{"verdict": "pass", "issues": [], "checker_notes": "Written by Claude; every answer worked out twice and the calculations re-checked by a script. This is not the in-app independent checker: please review before publishing."}'::jsonb)
