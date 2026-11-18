@@ -28,7 +28,7 @@ export function MockCta({ premium }: { premium: boolean }) {
     return (
       <form action={action} className="rounded-3xl bg-gradient-to-br from-amber-400 via-orange-500 to-orange-700 p-5 text-white shadow-xl">
         <p className="flex items-center gap-2 text-lg font-extrabold"><Sparkles className="size-5 text-yellow-200" aria-hidden /> Today’s free test</p>
-        <p className="mt-1 text-sm text-white/90">25 questions from real BCSE past papers, about 6 from each section, timed like the real exam (about 38 minutes). One free test a day. Premium: full 100-question mock tests, unlimited.</p>
+        <p className="mt-1 text-sm text-white/90">25 BCSE-style questions (real past-paper questions and new ones like them), about 6 from each section, timed like the real exam (about 38 minutes). One free test a day. Premium: full 100-question mock tests, unlimited.</p>
         <button type="submit" disabled={pending} className="mt-4 h-12 w-full rounded-2xl bg-white text-base font-bold text-[#9a3412] shadow-lg disabled:opacity-60">
           {pending ? "Preparing your test…" : "Start today’s free test"}
         </button>

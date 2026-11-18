@@ -15,7 +15,7 @@ import type { TrainingData } from "@/lib/training/model";
 export const metadata: Metadata = { title: "Student flow preview", robots: { index: false } };
 export const instant = false;
 
-/** Development-only preview of the student flow (SOMA_PUBLIC_DATA=fixture only). ?screen=choose|pe-packages|me-entry|me-technical|pe|pe-free|me */
+/** Development-only preview of the student flow (SOMA_PUBLIC_DATA=fixture only). ?screen=choose|pe-packages|me-entry|me-technical|pe|pe-free|pe-new|pe-premium-new|me */
 export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/home-preview">) {
   await connection();
   if (process.env.SOMA_PUBLIC_DATA !== "fixture") notFound();
@@ -93,6 +93,8 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
       </div>
     ),
     "pe-free": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} />,
+    "pe-new": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
+    "pe-premium-new": <ExamArea d={area({ openAttempt: null })} />,
     me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 3 }, premiumSlug: "me-premium" })} />,
   }[screen as string] ?? null;
   return (
