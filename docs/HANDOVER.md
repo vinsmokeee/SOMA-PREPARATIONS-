@@ -5,6 +5,10 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+- **Colours follow the page (PR #49, merged 18 Nov):** `src/components/app/exam-theme-root.tsx` sets data-exam from the
+  path (/dashboard/pe → PE orange, /dashboard/me → ME maroon, else profile). Exam chooser cards are now forms
+  (`chooseExamAction`) that save the pathway. Founder's friend tested a free PE test successfully (25 questions).
+
 - **One exam at a time (founder, 18 Nov):** PE first, ME months later for those who qualify — nobody prepares for
   both at once. "Both" removed from the welcome form; choosing PE/ME replaces the old choice; mock-test and
   past-paper pages have no All/PE/ME switch and open on the profile's exam (`src/lib/student/default-stage.ts`).
