@@ -49,7 +49,9 @@ export default async function PePage() {
             <ul className="mt-6 grid gap-4 sm:grid-cols-2">
               {[
                 ["Full-length timed simulations", "Sit complete practice examinations in a realistic, distraction-free environment with a visible countdown and automatic submission."],
-                ["OMR answer-sheet practice", "The PE is answered on an OMR sheet. Practise the marking procedure so it feels routine."],
+                ["OMR shading practice", "The PE is answered on an OMR sheet. Soma's mock tests use shading circles, OMR sketch practice shows you how to shade so a scanner reads it, and your coach explains any answer that would not be counted."],
+                ["A coach after every test", "See where you lost marks, which sections to work on, and whether your pace was right."],
+                ["Exam countdown and last-minute summary", "Enter your exam date for a daily countdown, and read a summary of your weak sections and past-paper mistakes the day before."],
                 ["Section-wise and topic-wise practice", "Work on English, Dzongkha, Aptitude or Data Interpretation individually, plus current-affairs practice."],
                 ["Explanations for every question", "Every Soma question is checked by a reviewer and comes with a clear explanation."],
                 ["Bhutan current affairs", "Concise, source-linked notes and practice questions on national and international developments."],

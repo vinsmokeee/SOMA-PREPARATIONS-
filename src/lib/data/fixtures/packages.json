@@ -1,6 +1,6 @@
 [
   {
-    "id": "97fe82f6-ed8a-4086-94b9-e6b794b4b254",
+    "id": "5a35ce2f-4aba-44dc-8036-a59fdb8d4daf",
     "slug": "pe-premium",
     "name": "PE Premium",
     "tagline": "Complete Preliminary Examination preparation",
@@ -15,7 +15,9 @@
       "Your daily plan with revision of your mistakes",
       "Explanations for every answer",
       "Scores and progress for every section",
-      "Current affairs: daily news and quizzes"
+      "Current affairs: daily news and quizzes",
+      "OMR shading in every mock test, with OMR sketch practice and coach feedback",
+      "Exam countdown and a last-minute summary of your past-paper mistakes"
     ],
     "includes_pe": true,
     "includes_me": false,
@@ -27,7 +29,7 @@
     "cycle_name": "BCSE 2027"
   },
   {
-    "id": "d0fabfb0-b4b6-4cfa-8cd5-301cbfa99e45",
+    "id": "5bd6e99a-098c-413c-8339-0f61c93669da",
     "slug": "me-premium",
     "name": "ME Premium",
     "tagline": "Main Examination written-paper preparation for your entry",
@@ -42,7 +44,8 @@
       "AI feedback: strengths, missing points and an improved answer",
       "Model answers and marking guides",
       "Current affairs: daily news and quizzes",
-      "Scores and progress"
+      "Scores and progress",
+      "Exam countdown with a last-minute summary the day before"
     ],
     "includes_pe": false,
     "includes_me": true,
