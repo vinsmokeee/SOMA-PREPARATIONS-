@@ -64,3 +64,15 @@ export function examDayNote(stage: CountdownStage, days: number): { title: strin
   }
   return null;
 }
+
+/**
+ * Which exam the countdown is about on a page. PE and ME are separate exams: PE pages use only the PE date, ME pages
+ * only the ME date; other pages use the exam the student is preparing for. `ask` = the pop-up should ask for the date.
+ */
+export function pickCountdown(path: string, interest: CountdownStage | null, dates: Record<CountdownStage, string | null>) {
+  const pageStage: CountdownStage | null = path.startsWith("/dashboard/me") ? "ME" : path.startsWith("/dashboard/pe") ? "PE" : null;
+  const stage: CountdownStage = pageStage ?? interest ?? (dates.PE ? "PE" : dates.ME ? "ME" : "PE");
+  const saved: SavedCountdown | null = dates[stage] ? { stage, date: dates[stage] as string } : null;
+  const ask = !dates[stage] && (pageStage !== null || interest !== null || (!dates.PE && !dates.ME));
+  return { stage, saved, ask };
+}

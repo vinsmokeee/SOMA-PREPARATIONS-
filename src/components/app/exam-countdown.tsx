@@ -1,10 +1,11 @@
 "use client";
 
 import { useActionState, useEffect, useState, useSyncExternalStore } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { CalendarClock, PartyPopper, X } from "lucide-react";
 import { saveExamDateAction, type ExamDateState } from "@/app/dashboard/exam-date-actions";
-import { bhutanToday, COUNTDOWN_STORAGE_KEY, countdownLabel, daysUntil, examDayNote, readSavedCountdown, type CountdownStage, type SavedCountdown } from "@/lib/student/countdown";
+import { bhutanToday, COUNTDOWN_STORAGE_KEY, countdownLabel, daysUntil, examDayNote, pickCountdown, readSavedCountdown, type CountdownStage, type SavedCountdown } from "@/lib/student/countdown";
 import { cn } from "@/lib/utils";
 
 const DISMISS_KEY = "soma-exam-countdown-later";
@@ -42,22 +43,25 @@ function Chip({ saved, onClick, href }: { saved: SavedCountdown; onClick?: () =>
 }
 
 /**
- * Student area: the exam-day countdown at the top left, and the pop-up that asks for the exam date
+ * Student area: the exam-day countdown at the top right, and the pop-up that asks for the exam date
  * (shown until the student enters it; "Later" hides it until their next visit).
+ * PE and ME are separate exams: on PE pages only the PE date is used, on ME pages only the ME date.
  */
-export function ExamCountdown({ saved: fromServer, ask, defaultStage }: { saved: SavedCountdown | null; ask: boolean; defaultStage: CountdownStage }) {
+export function ExamCountdown({ dates: fromServer, interest }: { dates: Record<CountdownStage, string | null>; interest: CountdownStage | null }) {
   const [state, action, pending] = useActionState(saveExamDateAction, {} as ExamDateState);
-  const justSaved: SavedCountdown | null = state.ok && state.stage && state.date ? { stage: state.stage, date: state.date } : null;
-  const saved = justSaved ?? fromServer;
-  const dismissed = useSyncExternalStore(subscribeStorage, () => storageGet("session", DISMISS_KEY) === "1", () => true);
+  const path = usePathname() ?? "";
+  const dates = { ...fromServer, ...(state.ok && state.stage && state.date ? { [state.stage]: state.date } : {}) };
+  const { stage, saved, ask } = pickCountdown(path, interest, dates);
+  const dismissKey = `${DISMISS_KEY}-${stage}`;
+  const dismissed = useSyncExternalStore(subscribeStorage, () => storageGet("session", dismissKey) === "1", () => true);
   const [manual, setManual] = useState<boolean | null>(null);
-  const open = justSaved ? false : manual ?? (ask && !dismissed);
+  const justSaved = state.ok && state.stage === stage;
+  const open = justSaved && manual !== true ? false : manual ?? (ask && !dismissed);
 
   // Keep a copy on this device so the countdown also shows when signed out.
-  useEffect(() => { if (saved) storageSet("local", COUNTDOWN_STORAGE_KEY, JSON.stringify(saved)); }, [saved]);
+  useEffect(() => { if (saved) storageSet("local", COUNTDOWN_STORAGE_KEY, JSON.stringify(saved)); }, [saved?.stage, saved?.date]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const later = () => { storageSet("session", DISMISS_KEY, "1"); setManual(false); };
-  const [stage, setStage] = useState<CountdownStage>(saved?.stage ?? defaultStage);
+  const later = () => { storageSet("session", dismissKey, "1"); setManual(false); };
 
   return (
     <>
@@ -67,7 +71,18 @@ export function ExamCountdown({ saved: fromServer, ask, defaultStage }: { saved:
         </button>
       )}
       {saved ? <ExamDayNote saved={saved} /> : null}
-      {open ? (
+      {open ? <DateDialog key={stage} stage={stage} saved={saved} action={action} pending={pending} error={state.error} onLater={later} /> : null}
+    </>
+  );
+}
+
+function DateDialog({ stage: initial, saved, action, pending, error, onLater: later }: {
+  stage: CountdownStage; saved: SavedCountdown | null; action: (fd: FormData) => void; pending: boolean; error?: string; onLater: () => void;
+}) {
+  const [stage, setStage] = useState<CountdownStage>(initial);
+  return (
+    <>
+      {(
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 sm:items-center" role="dialog" aria-modal="true" aria-labelledby="countdown-title">
           <form action={action} className="relative w-full max-w-md rounded-3xl bg-background p-6 shadow-2xl">
             <button type="button" onClick={later} className="absolute right-4 top-4 rounded-full p-1 text-muted-foreground hover:bg-muted" aria-label="Close">
@@ -94,7 +109,7 @@ export function ExamCountdown({ saved: fromServer, ask, defaultStage }: { saved:
             <input id="exam-date" name="date" type="date" required min={bhutanToday()} defaultValue={saved?.stage === stage ? saved.date : undefined} key={stage}
               className="mt-1 h-12 w-full rounded-xl border border-border-strong bg-white px-3 text-base" />
             <p className="mt-1 text-xs text-muted-foreground">Use the date in RCSC&apos;s official announcement for your exam.</p>
-            {state.error ? <p role="alert" className="mt-2 text-sm font-medium text-danger">{state.error}</p> : null}
+            {error ? <p role="alert" className="mt-2 text-sm font-medium text-danger">{error}</p> : null}
             <button type="submit" disabled={pending} className="mt-5 h-12 w-full rounded-2xl bg-primary text-base font-bold text-primary-foreground shadow disabled:opacity-60">
               {pending ? "Saving…" : "Start my countdown"}
             </button>
@@ -103,7 +118,7 @@ export function ExamCountdown({ saved: fromServer, ask, defaultStage }: { saved:
             </button>
           </form>
         </div>
-      ) : null}
+      )}
     </>
   );
 }
@@ -124,7 +139,7 @@ function ExamDayNote({ saved }: { saved: SavedCountdown }) {
   const note = days === null ? null : examDayNote(saved.stage, days);
   if (!note) return null;
   return (
-    <div role="status" className="relative w-full overflow-hidden rounded-3xl bg-gradient-to-br from-amber-400 via-orange-500 to-rose-600 p-5 text-white shadow-xl">
+    <div role="status" className={cn("relative w-full overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-xl", saved.stage === "ME" ? "from-rose-500 via-[#9b2c4b] to-[#5b1530]" : "from-amber-400 via-orange-500 to-rose-600")}>
       <span className="absolute -right-8 -top-8 size-32 rounded-full bg-white/15" aria-hidden />
       <button type="button" onClick={() => setHidden(true)} className="absolute right-3 top-3 rounded-full p-1 text-white/80 hover:bg-white/15" aria-label="Hide this message">
         <X className="size-5" aria-hidden />
