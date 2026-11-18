@@ -3,7 +3,27 @@
 Last updated: 2026-11-16. This note lets a new Claude session continue the work
 without the previous chat. Keep it up to date at the end of every working session.
 
-## Where we stopped (17 Nov 2026, evening)
+## Where we stopped (18 Nov 2026)
+
+1. **Founder sent two Dzongkha reference books** (18 Nov) for writing Dzongkha questions:
+   - *Dzongkha–English Dictionary*, 2nd ed., © Dzongkha Development Commission 2013 (1180 pages).
+   - *The Grammar of Dzongkha* (Karma Tshering & George van Driem, Himalayan Linguistics, 2019; 720 pages),
+     licence **CC BY-NC-ND 4.0 — no commercial use, no derivatives**.
+   - **They are NOT in the repo** (the GitHub repo is public and both are copyrighted). In the same chat
+     session they are at `/root/.claude/uploads/1e5440e4-299a-59c5-8896-aa7b23e5c884/795d0da8-PP-XII-Dzongkha-English-Dictionary.pdf`
+     and `.../4dc21deb-eScholarship_UC_item_1h4211k0.pdf`; if missing, ask the founder to send them again.
+   - Use them only as **reference**: write our own questions (word meanings, particles, spelling, sentence
+     order, grammar rules). Do not copy example sentences or pages from the grammar book into the app.
+     The founder said words may be copied from the dictionary (single words/meanings are fine).
+   - Text layer: grammar book reads fine; the dictionary text layer **drops stacked letters** (e.g.
+     བསླབ་བ comes out as བསབ་བ) — always check Dzongkha spelling against the page image (`pdftoppm -png -r 150 -f N -l N`).
+2. **Next task:** Dzongkha questions batch 1 (~40, BCSE PE Dzongkha style as in the 2010/2011 papers), as a
+   new module like `scripts/past-papers/new_pe_batch1.py` with `sec: 'dzongkha'` → `build_new_questions.py`
+   → test load locally → ask founder "Yes, load the new questions" → founder publishes. Mark them clearly:
+   **a fluent Dzongkha speaker must check before publishing.**
+3. Then PE batch 2 (~60 English/Aptitude/DI); ME past papers when sent; on-hold three-paper layout (below).
+
+## Earlier stop (17 Nov 2026, evening)
 
 1. **Next task:** PE question batch 2 (another ~60 English/Aptitude/DI), same method as batch 1
    (`scripts/past-papers/new_pe_batch1.py` → `build_new_questions.py` → load as drafts → founder publishes in
