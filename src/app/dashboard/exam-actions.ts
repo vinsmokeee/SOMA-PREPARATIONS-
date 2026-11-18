@@ -15,10 +15,8 @@ export async function startFreeAction(formData: FormData): Promise<void> {
   const s = stage.safeParse(formData.get("stage"));
   if (!s.success) redirect("/dashboard");
   const db = await createClient();
-  const { data: p } = await db.from("profiles").select("pathway").eq("id", user.id).maybeSingle();
-  const has = (x: "PE" | "ME") => p?.pathway === x || p?.pathway === "both";
-  const other = s.data === "PE" ? "ME" : "PE";
-  const pathway = has(other) ? "both" : s.data;
+  // A student prepares for one exam at a time (PE first; ME months later), so the choice replaces the old one.
+  const pathway = s.data;
   await db.from("profiles").update({ pathway, onboarded_at: new Date().toISOString() }).eq("id", user.id);
   revalidatePath("/dashboard", "layout");
   redirect(s.data === "PE" ? "/dashboard/pe" : "/dashboard/me");

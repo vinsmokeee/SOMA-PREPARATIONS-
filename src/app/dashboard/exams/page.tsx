@@ -9,15 +9,15 @@ import { MockCta } from "@/components/exam/mock-cta";
 import { requireUser } from "@/lib/auth/dal";
 import { KIND_LABELS, type CatalogueExam } from "@/lib/exam/types";
 import { createClient } from "@/lib/supabase/server";
-import { cn } from "@/lib/utils";
+import { pageStage } from "@/lib/student/default-stage";
 
 export const metadata: Metadata = { title: "Examinations" };
 
 export default async function ExamsPage({ searchParams }: PageProps<"/dashboard/exams">) {
   const user = await requireUser("/dashboard/exams");
   const params = await searchParams;
-  const stage = params.stage === "PE" || params.stage === "ME" ? params.stage : null;
   const supabase = await createClient();
+  const stage = await pageStage(supabase, user.id, params.stage);
   const [{ data, error }, { data: peAccess }] = await Promise.all([
     supabase.rpc("exam_catalogue", { _stage: stage }),
     supabase.rpc("has_stage_access", { _stage: "PE" }),
@@ -30,21 +30,11 @@ export default async function ExamsPage({ searchParams }: PageProps<"/dashboard/
         title={stage === "PE" ? "PE practice" : stage === "ME" ? "ME practice" : "Examinations"}
         description="Timed practice examinations in Soma's examination environment. These are Soma simulations, not official RCSC papers."
       />
-      <nav className="mb-6 flex gap-2" aria-label="Filter by stage">
-        {[
-          { href: "/dashboard/exams", label: "All", active: !stage },
-          { href: "/dashboard/exams?stage=PE", label: "PE", active: stage === "PE" },
-          { href: "/dashboard/exams?stage=ME", label: "ME", active: stage === "ME" },
-        ].map((t) => (
-          <Link key={t.href} href={t.href} className={cn("rounded-full border px-4 py-1.5 text-sm font-medium", t.active ? "border-primary bg-primary text-white" : "border-border-strong hover:bg-muted")}>
-            {t.label}
-          </Link>
-        ))}
-      </nav>
       {stage !== "PE" ? <EntrySummary userId={user.id} compact /> : null}
       {stage !== "ME" ? <div className="mb-6"><MockCta premium={Boolean(peAccess)} /></div> : null}
       {error ? <Alert tone="danger">Examinations could not be loaded. Please try again.</Alert> : null}
-      {!error && exams.length === 0 ? (
+      {/* PE always has today's free test or the mock test above, so the empty note only shows for ME. */}
+      {!error && exams.length === 0 && stage !== "PE" ? (
         <div className="rounded-xl border border-dashed border-border-strong p-8 text-center">
           <p className="font-semibold text-ink">No examinations are open yet</p>
           <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">

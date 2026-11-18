@@ -8,7 +8,7 @@ import { createClient } from "@/lib/supabase/server";
 
 const optUuid = z.union([z.uuid(), z.literal("")]).optional().transform((v) => v || null);
 const schema = z.object({
-  pathway: z.enum(["PE", "ME", "both"]),
+  pathway: z.enum(["PE", "ME"]),
   entry_category_id: optUuid,
   specialisation_id: optUuid,
   group: z.string().optional(),
@@ -29,7 +29,7 @@ export async function saveWelcomeAction(_prev: { error?: string }, formData: For
   const d = parsed.data;
   const db = await createClient();
   // Entry fields are absent when the student chose PE only, or when the entry is locked.
-  const wantsMe = d.pathway !== "PE" && formData.has("entry_category_id");
+  const wantsMe = d.pathway === "ME" && formData.has("entry_category_id");
   if (wantsMe && d.group && !d.entry_category_id) return { error: "Choose your category." };
   const { data: current } = await db.from("profiles").select("entry_category_id, specialisation_id").eq("id", user.id).maybeSingle();
   // A PE-only student keeps any ME entry they chose before.

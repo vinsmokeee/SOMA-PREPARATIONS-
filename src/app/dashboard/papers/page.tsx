@@ -6,26 +6,22 @@ import { Badge } from "@/components/ui/badge";
 import { requireUser } from "@/lib/auth/dal";
 import type { CatalogueExam } from "@/lib/exam/types";
 import { createClient } from "@/lib/supabase/server";
+import { pageStage } from "@/lib/student/default-stage";
 
 export const metadata: Metadata = { title: "Past papers" };
 
 export default async function PastPapersPage({ searchParams }: PageProps<"/dashboard/papers">) {
-  await requireUser("/dashboard/papers");
+  const user = await requireUser("/dashboard/papers");
   const sp = await searchParams;
-  const stage = sp.stage === "PE" || sp.stage === "ME" ? sp.stage : null;
   const supabase = await createClient();
+  const stage = await pageStage(supabase, user.id, sp.stage);
   const { data } = await supabase.rpc("exam_catalogue", { _stage: stage });
   const papers = ((data ?? []) as (CatalogueExam & { exam_year: number | null; attribution: string | null })[]).filter((e) => e.kind === "historical");
   const years = [...new Set(papers.map((p) => p.exam_year ?? 0))].sort((a, b) => b - a);
 
   return (
     <>
-      <PageTitle title="Past papers" description="Real BCSE papers from previous years, in the timed examination room, with answers and explanations after you submit." />
-      <nav className="mb-6 flex gap-2" aria-label="Filter by stage">
-        {[{ href: "/dashboard/papers", label: "All", on: !stage }, { href: "/dashboard/papers?stage=PE", label: "PE", on: stage === "PE" }, { href: "/dashboard/papers?stage=ME", label: "ME", on: stage === "ME" }].map((t) => (
-          <Link key={t.href} href={t.href} className={t.on ? "rounded-full border border-primary bg-primary px-4 py-1.5 text-sm font-medium text-white" : "rounded-full border border-border-strong px-4 py-1.5 text-sm font-medium hover:bg-muted"}>{t.label}</Link>
-        ))}
-      </nav>
+      <PageTitle title={stage ? `${stage} past papers` : "Past papers"} description="Real BCSE papers from previous years, in the timed examination room, with answers and explanations after you submit." />
       {papers.length === 0 ? (
         <div className="rounded-xl border border-dashed border-border-strong p-8 text-center">
           <p className="font-semibold text-ink">Past papers are being prepared</p>

@@ -16,21 +16,21 @@ const GROUP_HINTS: Record<string, string> = {
 
 export function WelcomeForm({ categories, specialisations, defaults, locked }: { categories: Category[]; specialisations: Spec[]; defaults: EntryDefaults; locked: boolean }) {
   const [state, action, pending] = useActionState(saveWelcomeAction, {} as { error?: string });
-  const [pathway, setPathway] = useState(defaults.pathway || "both");
+  const [pathway, setPathway] = useState(defaults.pathway === "ME" ? "ME" : "PE");
   const initialGroup = categories.find((c) => c.id === defaults.categoryId)?.public_group ?? "";
   const [group, setGroup] = useState(initialGroup);
   const groups = [...new Set(categories.map((c) => c.public_group).filter((g): g is string => Boolean(g)))];
   const inGroup = categories.filter((c) => c.public_group === group);
   const [categoryId, setCategoryId] = useState(defaults.categoryId);
   const effectiveCategory = inGroup.length === 1 ? inGroup[0].id : categoryId;
-  const wantsMe = pathway !== "PE";
+  const wantsMe = pathway === "ME";
 
   return (
     <form action={action} className="space-y-5">
       <fieldset>
         <legend className="text-sm font-medium text-ink">I am preparing for</legend>
-        <div className="mt-2 grid gap-2 sm:grid-cols-3">
-          {[["PE", "Preliminary (PE)"], ["ME", "Main (ME)"], ["both", "Both"]].map(([v, l]) => (
+        <div className="mt-2 grid gap-2 sm:grid-cols-2">
+          {[["PE", "Preliminary (PE)"], ["ME", "Main (ME)"]].map(([v, l]) => (
             <label key={v} className="flex cursor-pointer items-center gap-2 rounded-lg border border-border-strong p-3 text-sm has-[:checked]:border-primary has-[:checked]:bg-primary-soft">
               <input type="radio" name="pathway" value={v} checked={pathway === v} onChange={() => setPathway(v)} /> {l}
             </label>
