@@ -6,7 +6,7 @@ without the previous chat. Keep it up to date at the end of every working sessio
 ## Where we stopped (18 Nov 2026)
 
 - **Exam-day countdown (19 Nov, founder request):** migration `20261207000100_exam_dates.sql` adds `profiles.pe_exam_date`,
-  `me_exam_date` (student-entered; RCSC changes dates yearly — never hardcode). Pop-up + chip in
+  `me_exam_date` (student-entered; RCSC changes dates yearly — never hardcode). Pop-up + chip (top right) in
   `src/components/app/exam-countdown.tsx` (asks until the date for the student's exam is set; "Later" hides it for the
   session), action `src/app/dashboard/exam-date-actions.ts`, helpers `src/lib/student/countdown.ts` (Bhutan days).
   Copy kept in localStorage so the public site header shows it when signed out. Needs founder's DB approval to go live.

@@ -24,7 +24,7 @@ export function AppShell({
   /** Student area: exam for the bottom tabs, and unread notifications for the bell. */
   stage?: "PE" | "ME";
   unread?: number;
-  /** Student area: the exam-day countdown shown at the top left. */
+  /** Student area: the exam-day countdown shown at the top right. */
   countdown?: ReactNode;
 }) {
   return (
@@ -60,7 +60,7 @@ export function AppShell({
           </div>
         ) : null}
         <main id="main" className={area === "student" ? "flex-1 px-4 pb-28 pt-5 sm:px-6 lg:px-10 lg:py-10" : "flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-10"}>
-          <div className="mx-auto w-full max-w-6xl">{countdown ? <div className="mb-3 flex">{countdown}</div> : null}{area === "student" ? <Suspense fallback={null}><BackButton /></Suspense> : null}{children}</div>
+          <div className="mx-auto w-full max-w-6xl">{countdown ? <div className="mb-3 flex justify-end">{countdown}</div> : null}{area === "student" ? <Suspense fallback={null}><BackButton /></Suspense> : null}{children}</div>
         </main>
       </div>
       {area === "student" ? <BottomNav /> : null}
