@@ -14,12 +14,13 @@ export default async function AiReviewPage({ searchParams }: PageProps<"/admin/a
   const filter = sp.show === "flagged" || sp.show === "passed" ? sp.show : "all";
   const db = await createClient();
   let q = db.from("questions")
-    .select("id, status, stem, question_type, origin, variation_type, difficulty, explanation, model_answer, ai_review, parent_question_id, subjects(name), question_options(body, is_correct, position)")
+    .select("id, status, stem, question_type, origin, variation_type, difficulty, explanation, model_answer, ai_review, parent_question_id, subjects(name), question_options(body, is_correct, position)", { count: "exact" })
     .in("origin", ["ai_generated", "ai_variation"]).in("status", ["ai_generated", "awaiting_review", "verified"])
     .order("created_at", { ascending: false }).limit(50);
   if (filter === "flagged") q = q.eq("ai_review->>verdict", "flag");
   if (filter === "passed") q = q.eq("ai_review->>verdict", "pass");
-  const { data } = await q;
+  const { data, count } = await q;
+  const waiting = count ?? 0;
   const parents = [...new Set((data ?? []).map((d) => d.parent_question_id).filter(Boolean))] as string[];
   const { data: sources } = parents.length ? await db.from("questions").select("id, stem, origin").in("id", parents) : { data: [] };
   const drafts: ReviewDraft[] = (data ?? []).map((d) => ({
@@ -43,6 +44,11 @@ export default async function AiReviewPage({ searchParams }: PageProps<"/admin/a
         ))}
         <Link href="/admin/ai/variations" className="ml-auto font-medium text-primary hover:underline">Create variations</Link>
       </nav>
+      {waiting > drafts.length && (
+        <p role="status" className="mb-4 rounded-xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+          <strong>{waiting} drafts are waiting.</strong> Showing the newest {drafts.length}. When you have dealt with these, refresh the page to see the next ones.
+        </p>
+      )}
       {drafts.length === 0 ? (
         <p className="rounded-xl border border-dashed border-border-strong p-8 text-center text-sm text-muted-foreground">No drafts waiting. Create variations to grow the question bank.</p>
       ) : (
