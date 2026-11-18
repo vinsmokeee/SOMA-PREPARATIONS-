@@ -10,7 +10,8 @@ export type SaveStatus = "saved" | "saving" | "offline" | "closed";
 export function mergePatch(a: Patch, b: Patch): Patch {
   const out: Patch = { ...a, ...b };
   if (b.selectedOptionId) out.clearSelection = false;
-  if (b.clearSelection) out.selectedOptionId = null;
+  if (b.clearSelection) { out.selectedOptionId = null; out.markQuality = null; }
+  else if (b.selectedOptionId) out.markQuality = b.markQuality ?? null;
   out.timeSpentDelta = Math.min(600, (a.timeSpentDelta ?? 0) + (b.timeSpentDelta ?? 0));
   return out;
 }

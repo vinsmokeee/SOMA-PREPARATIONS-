@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { AppShell } from "@/components/app/app-shell";
 import { ExamCountdown } from "@/components/app/exam-countdown";
+import { OmrPractice } from "@/components/exam/omr-practice";
 import { CoachCard } from "@/components/exam/coach-card";
 import { MockCta } from "@/components/exam/mock-cta";
 import { ChooserInfo } from "@/components/student/exam-info";
@@ -96,6 +97,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     "pe-free": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} />,
     "countdown-ask": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     countdown: <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
+    "omr-practice": <OmrPractice />,
     "pe-new": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "pe-premium-new": <ExamArea d={area({ openAttempt: null })} />,
     me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 3 }, premiumSlug: "me-premium" })} />,

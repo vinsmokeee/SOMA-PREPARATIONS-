@@ -16,7 +16,7 @@ export function CaPracticeBox({ question, paid, assessments, done = null }: {
     <h2 id="ca-practice" className="relative mt-1 text-2xl font-extrabold text-white">Practise with the news</h2>
     <p className="relative mt-1 text-sm text-white/90">Read the news below, then test yourself here. Current affairs come up in the exam, so a few minutes every day really helps.</p>
 
-    <div className="relative mt-4 rounded-2xl bg-white p-4 text-ink">
+    <div id="question-of-the-day" className="relative mt-4 scroll-mt-24 rounded-2xl bg-white p-4 text-ink">
       <p className="text-sm font-bold uppercase tracking-wide text-purple-700">Question of the Day</p>
       {question ? (
         <>

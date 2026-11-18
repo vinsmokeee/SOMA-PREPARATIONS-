@@ -13,6 +13,8 @@ type Filter = "all" | "incorrect" | "unanswered" | "flagged" | "written";
 function outcome(q: ResultQuestion): "correct" | "incorrect" | "unanswered" | "written" {
   if (q.type !== "mcq") return "written";
   if (q.answer?.is_correct === true) return "correct";
+  // Badly shaded on the OMR sheet: not read, so not answered.
+  if (q.answer?.mark_quality === "too_light" || q.answer?.mark_quality === "outside") return "unanswered";
   if (q.answer?.selected_option_id) return "incorrect";
   return "unanswered";
 }
@@ -90,7 +92,7 @@ function QuestionCard({ q }: { q: ResultQuestion }) {
         <span className="font-semibold text-ink">Question {q.number}</span>
         {o === "correct" ? <span className="inline-flex items-center gap-1 text-success"><Check className="size-3.5" aria-hidden /> Correct</span> : null}
         {o === "incorrect" ? <span className="inline-flex items-center gap-1 text-danger"><X className="size-3.5" aria-hidden /> Incorrect</span> : null}
-        {o === "unanswered" ? <span>Not answered</span> : null}
+        {o === "unanswered" ? <span>{q.answer?.mark_quality === "outside" ? "Not counted: shading went outside the circle" : q.answer?.mark_quality === "too_light" ? "Not counted: too little shading" : "Not answered"}</span> : null}
         {o === "written" ? <span>{TYPE_LABELS[q.type]}</span> : null}
         {q.answer?.flagged ? <span className="inline-flex items-center gap-1 text-warning"><Flag className="size-3" aria-hidden /> Marked</span> : null}
         <span>· {q.subject ?? "Unclassified"}{q.topic ? ` › ${q.topic}` : ""}</span>
@@ -118,6 +120,7 @@ function QuestionCard({ q }: { q: ResultQuestion }) {
                 <span className="flex-1">{opt.body}</span>
                 {opt.is_correct ? <span className="text-xs font-semibold text-success">Correct answer</span> : null}
                 {chosen && !opt.is_correct ? <span className="text-xs font-semibold text-danger">Your answer</span> : null}
+                {chosen && opt.is_correct && q.answer?.mark_quality && q.answer.mark_quality !== "good" ? <span className="text-xs font-semibold text-warning">You chose this, but the shading was not read</span> : null}
                 {chosen && opt.is_correct ? <span className="sr-only">(your answer)</span> : null}
               </li>
             );

@@ -1,4 +1,4 @@
-import { Gauge, Lightbulb, MessageCircleHeart, SkipForward } from "lucide-react";
+import { Gauge, Lightbulb, MessageCircleHeart, SkipForward, PencilLine } from "lucide-react";
 import type { CoachAdvice } from "@/lib/exam/coach";
 import { cn } from "@/lib/utils";
 
@@ -27,6 +27,13 @@ export function CoachCard({ advice }: { advice: CoachAdvice }) {
         <div className={cn("mt-3 flex gap-3 rounded-2xl p-3", advice.pace.tone === "warn" ? "bg-amber-100" : "bg-success-soft")}>
           <Gauge className={cn("mt-0.5 size-5 shrink-0", advice.pace.tone === "warn" ? "text-amber-700" : "text-success")} aria-hidden />
           <p className="text-sm text-ink"><span className="font-bold">Your pace: </span>{advice.pace.text}</p>
+        </div>
+      ) : null}
+
+      {advice.shading ? (
+        <div className="mt-3 flex gap-3 rounded-2xl bg-amber-100 p-3">
+          <PencilLine className="mt-0.5 size-5 shrink-0 text-amber-700" aria-hidden />
+          <p className="text-sm text-ink"><span className="font-bold">Your shading: </span>{advice.shading}</p>
         </div>
       ) : null}
 

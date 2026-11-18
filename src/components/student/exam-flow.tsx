@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BarChart3, BookOpenCheck, Check, ClipboardCheck, Crown, Flame, Newspaper, PenLine, PlayCircle } from "lucide-react";
+import { ArrowRight, BarChart3, Check, ClipboardCheck, Crown, Flame, Lightbulb, Newspaper, PenLine, PencilLine, PlayCircle } from "lucide-react";
 import { chooseExamAction, startFreeAction, setMeEntryAction } from "@/app/dashboard/exam-actions";
 import { StartButton } from "@/components/training/start-button";
 import { TodayPlan } from "@/components/training/today-plan";
@@ -236,10 +236,10 @@ export function ExamArea({ d }: { d: AreaData }) {
   const pe = d.stage === "PE";
   const tiles = pe
     ? [
-        { href: "/dashboard/practice?stage=PE", label: "Practice", sub: "By section and topic", icon: BookOpenCheck, tint: "from-orange-500 to-amber-400" },
-        { href: "/dashboard/exams?stage=PE", label: "Mock tests", sub: "Timed, like the real PE", icon: ClipboardCheck, tint: "from-rose-600 to-orange-500" },
-        { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
         { href: "/dashboard/analytics", label: "My scores", sub: d.answered ? `${d.answered} answered` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
+        { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
+        { href: "/dashboard/current-affairs#question-of-the-day", label: "Question of the Day", sub: "One news question a day", icon: Lightbulb, tint: "from-sky-600 to-cyan-500" },
+        { href: "/dashboard/omr-practice", label: "OMR sketch practice", sub: "Shade circles like the real sheet", icon: PencilLine, tint: "from-rose-600 to-orange-500" },
       ]
     : [
         { href: "/dashboard/written", label: "Written answers", sub: "Get AI feedback", icon: PenLine, tint: "from-rose-600 to-[#7a1e3a]" },

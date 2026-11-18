@@ -18,10 +18,14 @@ export type PaperQuestion = {
 export type SavedAnswer = {
   exam_question_id: string;
   selected_option_id: string | null;
+  /** OMR mode: how the answer circle was shaded. */
+  mark_quality?: MarkQuality | null;
   text_answer: string | null;
   flagged: boolean;
   time_spent_seconds: number;
 };
+
+export type MarkQuality = "good" | "too_light" | "outside";
 
 /** What get_attempt_paper() returns for an open attempt. */
 export type AttemptPaper = {
@@ -72,6 +76,7 @@ export type ResultQuestion = {
   answer: {
     id: string;
     selected_option_id: string | null;
+    mark_quality?: MarkQuality | null;
     text_answer: string | null;
     word_count: number | null;
     flagged: boolean;

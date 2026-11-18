@@ -70,6 +70,10 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
               skipped: mcqs.filter((q) => !q.answer?.selected_option_id).length,
               timeUsedSeconds: a.time_spent_seconds ?? 0, timeAllowedMinutes: r.exam.duration_minutes,
               negativeMarking: Number(r.exam.negative_mark_per_wrong), autoSubmitted: a.status === "auto_submitted",
+              badShading: {
+                tooLight: mcqs.filter((q) => q.answer?.mark_quality === "too_light").length,
+                outside: mcqs.filter((q) => q.answer?.mark_quality === "outside").length,
+              },
             })} />
           </div>
         </div>

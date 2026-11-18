@@ -57,7 +57,7 @@ export default async function ExamPreviewPage({ searchParams }: PageProps<"/dev/
       deadline_at: new Date(now.getTime() + seconds * 1000).toISOString(),
       server_now: now.toISOString(),
     },
-    exam: { id: "x", title: stage === "PE" ? "PE preview examination" : "ME preview paper", stage, kind: "sample", instructions: null, duration_minutes: Math.ceil(seconds / 60), omr_mode: stage === "PE", negative_mark_per_wrong: 0 },
+    exam: { id: "x", title: stage === "PE" ? "PE preview examination" : "ME preview paper", stage, kind: "sample", instructions: null, duration_minutes: Math.ceil(seconds / 60), omr_mode: stage === "PE" && sp.omr !== "0", negative_mark_per_wrong: 0 },
     questions,
     answers: [],
   };
