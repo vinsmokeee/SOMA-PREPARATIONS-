@@ -5,6 +5,11 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+- **Last-minute summary (founder, 19 Nov; APPLIED LIVE):** button "Last-minute summary →" on the exam-eve / exam-day
+  card opens `/dashboard/last-minute` (`src/components/student/last-minute-summary.tsx`). Data from RPC
+  `my_last_minute_summary(stage)` (migration `20261209000100`, test `99_last_minute_summary.sql`): section accuracy,
+  the student's mistakes (past-paper first) with answers, and for Premium up to 15 unseen past-paper questions.
+
 - **OMR shading (founder, 19 Nov; APPLIED LIVE):** real PE answers are pencil-shaded circles read by a scanner. Mock tests
   (`exams.omr_mode`, set by `create_mock_test`) now use finger-shaded circles (`src/components/exam/omr-bubble.tsx`,
   judged by `src/lib/exam/omr.ts`: ≥60% filled, ≤12% outside). `attempt_answers.mark_quality` ('good'|'too_light'|'outside');
@@ -22,7 +27,7 @@ without the previous chat. Keep it up to date at the end of every working sessio
   `me_exam_date` (student-entered; RCSC changes dates yearly — never hardcode). Pop-up + chip (top right) in
   `src/components/app/exam-countdown.tsx` (asks until the date for the student's exam is set; "Later" hides it for the
   session), action `src/app/dashboard/exam-date-actions.ts`, helpers `src/lib/student/countdown.ts` (Bhutan days).
-  Copy kept in localStorage so the public site header shows it when signed out. **APPLIED LIVE 19 Nov.**
+  Copy kept in localStorage so the public site header shows it when signed out. **APPLIED LIVE 19 Nov.** Good-luck card the day before and on exam day (`examDayNote` in countdown.ts; previews `exam-eve`, `exam-day`).
 
 - **QOTD repeat fix (18 Nov):** `dailyFeatures` in `src/lib/ca/pipeline.ts` now skips questions already used in
   `ca_daily` and looks back 14 days if needed. 17 and 18 Nov both got the COP31 question (18 Nov row left as is

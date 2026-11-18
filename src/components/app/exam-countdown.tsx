@@ -2,9 +2,9 @@
 
 import { useActionState, useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
-import { CalendarClock, X } from "lucide-react";
+import { CalendarClock, PartyPopper, X } from "lucide-react";
 import { saveExamDateAction, type ExamDateState } from "@/app/dashboard/exam-date-actions";
-import { bhutanToday, COUNTDOWN_STORAGE_KEY, countdownLabel, daysUntil, readSavedCountdown, type CountdownStage, type SavedCountdown } from "@/lib/student/countdown";
+import { bhutanToday, COUNTDOWN_STORAGE_KEY, countdownLabel, daysUntil, examDayNote, readSavedCountdown, type CountdownStage, type SavedCountdown } from "@/lib/student/countdown";
 import { cn } from "@/lib/utils";
 
 const DISMISS_KEY = "soma-exam-countdown-later";
@@ -66,6 +66,7 @@ export function ExamCountdown({ saved: fromServer, ask, defaultStage }: { saved:
           <CalendarClock className="size-3.5" aria-hidden /> Set exam date
         </button>
       )}
+      {saved ? <ExamDayNote saved={saved} /> : null}
       {open ? (
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 sm:items-center" role="dialog" aria-modal="true" aria-labelledby="countdown-title">
           <form action={action} className="relative w-full max-w-md rounded-3xl bg-background p-6 shadow-2xl">
@@ -112,4 +113,30 @@ export function SavedCountdownChip() {
   const raw = useSyncExternalStore(subscribeStorage, () => storageGet("local", COUNTDOWN_STORAGE_KEY), () => null);
   const saved = readSavedCountdown(raw);
   return saved ? <Chip saved={saved} href="/dashboard" /> : null;
+}
+
+/** The day before and on the exam day: a good-luck card at the top of the student's pages. */
+function ExamDayNote({ saved }: { saved: SavedCountdown }) {
+  const minute = useMinute();
+  const [hidden, setHidden] = useState(false);
+  if (minute === null || hidden) return null;
+  const days = daysUntil(saved.date, new Date(minute * 60_000));
+  const note = days === null ? null : examDayNote(saved.stage, days);
+  if (!note) return null;
+  return (
+    <div role="status" className="relative w-full overflow-hidden rounded-3xl bg-gradient-to-br from-amber-400 via-orange-500 to-rose-600 p-5 text-white shadow-xl">
+      <span className="absolute -right-8 -top-8 size-32 rounded-full bg-white/15" aria-hidden />
+      <button type="button" onClick={() => setHidden(true)} className="absolute right-3 top-3 rounded-full p-1 text-white/80 hover:bg-white/15" aria-label="Hide this message">
+        <X className="size-5" aria-hidden />
+      </button>
+      <PartyPopper className="relative size-8 text-yellow-100" aria-hidden />
+      <p className="relative mt-2 pr-6 text-xl font-extrabold">{note.title}</p>
+      <p className="relative mt-1 text-sm leading-relaxed text-white/95">{note.body}</p>
+      <div className="relative mt-4 flex justify-end">
+        <Link href={`/dashboard/last-minute?stage=${saved.stage}`} className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-bold text-[#9a3412] shadow">
+          Last-minute summary →
+        </Link>
+      </div>
+    </div>
+  );
 }
