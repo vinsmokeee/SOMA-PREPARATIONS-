@@ -5,6 +5,7 @@ import { Logo } from "@/components/brand/logo";
 import { AppNav, type NavSection } from "./app-nav";
 import { BackButton } from "./back-button";
 import { BottomNav } from "./bottom-nav";
+import { ExamThemeRoot } from "./exam-theme-root";
 import { MobileAppNav } from "./mobile-app-nav";
 
 export function AppShell({
@@ -24,7 +25,7 @@ export function AppShell({
   unread?: number;
 }) {
   return (
-    <div data-exam={area === "student" ? stage : undefined} className="flex min-h-full flex-1 flex-col lg:flex-row">
+    <Root area={area} stage={stage}>
       <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-muted/50 lg:flex">
         <div className="flex h-16 items-center border-b border-border px-5">
           <Logo href={area === "admin" ? "/admin" : "/dashboard"} />
@@ -60,8 +61,14 @@ export function AppShell({
         </main>
       </div>
       {area === "student" ? <BottomNav /> : null}
-    </div>
+    </Root>
   );
+}
+
+const ROOT_CLASS = "flex min-h-full flex-1 flex-col lg:flex-row";
+
+function Root({ area, stage, children }: { area: "student" | "admin"; stage: "PE" | "ME"; children: ReactNode }) {
+  return area === "student" ? <ExamThemeRoot fallback={stage} className={ROOT_CLASS}>{children}</ExamThemeRoot> : <div className={ROOT_CLASS}>{children}</div>;
 }
 
 export function UserBlock({ user }: { user: { name: string; email: string | null; roleLabel: string } }) {

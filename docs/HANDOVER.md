@@ -5,6 +5,11 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+- **One exam at a time (founder, 18 Nov):** PE first, ME months later for those who qualify — nobody prepares for
+  both at once. "Both" removed from the welcome form; choosing PE/ME replaces the old choice; mock-test and
+  past-paper pages have no All/PE/ME switch and open on the profile's exam (`src/lib/student/default-stage.ts`).
+  Merged via PR #48 (no DB change). 2 old profiles still say "both" (treated as ME).
+
 - **Latest (18 Nov, end of day):** PE batch 2 all published. Live PE MCQs published: Aptitude 86, English 81, DI 75,
   Dzongkha 56, CA 6 = 304 (goal ~500). Option shuffle live. **Next: "Start PE batch 3"** — proposed 60 =
   15 English, 15 Aptitude, 10 DI, 15 Dzongkha, 5 current affairs (founder has not confirmed the mix yet).

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, BarChart3, BookOpenCheck, Check, ClipboardCheck, Crown, Flame, Newspaper, PenLine, PlayCircle } from "lucide-react";
-import { startFreeAction, setMeEntryAction } from "@/app/dashboard/exam-actions";
+import { chooseExamAction, startFreeAction, setMeEntryAction } from "@/app/dashboard/exam-actions";
 import { StartButton } from "@/components/training/start-button";
 import { TodayPlan } from "@/components/training/today-plan";
 import { itemAction, type TrainingData } from "@/lib/training/model";
@@ -25,8 +25,10 @@ export function ExamChooser({ firstName, status }: { firstName: string; status: 
       </div>
       <div className="grid gap-4">
         {(["PE", "ME"] as const).map((s) => (
-          <Link key={s} href={s === "PE" ? "/dashboard/pe" : "/dashboard/me"}
-            className={cn("relative flex min-h-40 flex-col justify-between overflow-hidden rounded-3xl bg-gradient-to-br p-6 text-white shadow-xl transition active:scale-[0.98]", STAGE_INFO[s].gradient)}>
+          <form key={s} action={chooseExamAction}>
+          <input type="hidden" name="stage" value={s} />
+          <button type="submit"
+            className={cn("relative flex min-h-40 w-full flex-col justify-between overflow-hidden rounded-3xl bg-gradient-to-br p-6 text-left text-white shadow-xl transition active:scale-[0.98]", STAGE_INFO[s].gradient)}>
             <span className="absolute -right-8 -top-8 size-36 rounded-full bg-white/10" aria-hidden />
             <span className="relative">
               <span className="block text-4xl font-black">{STAGE_INFO[s].name}</span>
@@ -37,7 +39,8 @@ export function ExamChooser({ firstName, status }: { firstName: string; status: 
               <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-bold">{status[s] ?? "Not started"}</span>
               <ArrowRight className="size-6" aria-hidden />
             </span>
-          </Link>
+          </button>
+          </form>
         ))}
       </div>
     </div>
