@@ -43,3 +43,24 @@ export function readSavedCountdown(raw: string | null): SavedCountdown | null {
     return null;
   }
 }
+
+/** The good-luck note shown the day before and on the exam day (null on other days). */
+export function examDayNote(stage: CountdownStage, days: number): { title: string; body: string } | null {
+  if (days === 1) {
+    return {
+      title: `Your ${stage} is tomorrow · All the best! 🍀`,
+      body: stage === "PE"
+        ? "You have prepared well. Tonight, revise lightly instead of learning new topics, keep your admit card and everything RCSC asks you to bring ready, and sleep early. Tomorrow, reach the centre early, read each question carefully and shade every circle fully inside the line."
+        : "You have prepared well. Tonight, revise your key points lightly, keep your admit card and everything RCSC asks you to bring ready, and sleep early. Tomorrow, reach the centre early, plan your time for each question and write clearly.",
+    };
+  }
+  if (days === 0) {
+    return {
+      title: `Today is your ${stage} · Give it your best! 🙏`,
+      body: stage === "PE"
+        ? "Stay calm and trust your preparation. Read every question and all the options, keep an eye on the time, and shade each circle completely inside the line. All the best from everyone at Soma!"
+        : "Stay calm and trust your preparation. Read each question twice, plan your answer before you write, and keep an eye on the time. All the best from everyone at Soma!",
+    };
+  }
+  return null;
+}

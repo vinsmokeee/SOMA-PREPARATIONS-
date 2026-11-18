@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { AppShell } from "@/components/app/app-shell";
 import { ExamCountdown } from "@/components/app/exam-countdown";
+import { bhutanToday } from "@/lib/student/countdown";
 import { OmrPractice } from "@/components/exam/omr-practice";
 import { CoachCard } from "@/components/exam/coach-card";
 import { MockCta } from "@/components/exam/mock-cta";
@@ -22,6 +23,8 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
   await connection();
   if (process.env.SOMA_PUBLIC_DATA !== "fixture") notFound();
   const screen = (await searchParams).screen ?? "choose";
+  const today = bhutanToday();
+  const tomorrow = new Date(Date.parse(`${today}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10);
   const id = (n: number) => `4d000000-0000-4000-8000-00000000000${n}`;
   const training: TrainingData = {
     today: "2026-11-24",
@@ -96,6 +99,8 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     ),
     "pe-free": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} />,
     "countdown-ask": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
+    "exam-eve": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
+    "exam-day": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     countdown: <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "omr-practice": <OmrPractice />,
     "pe-new": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
@@ -104,7 +109,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
   }[screen as string] ?? null;
   return (
     <AppShell area="student" stage={String(screen).startsWith("me") ? "ME" : "PE"} unread={3}
-      countdown={screen === "countdown-ask" ? <ExamCountdown saved={null} ask defaultStage="PE" /> : screen === "countdown" ? <ExamCountdown saved={{ stage: "PE", date: "2027-03-25" }} ask={false} defaultStage="PE" /> : undefined} sections={studentNav(false)} user={{ name: "Pema", email: "pema@example.com", roleLabel: "Student" }}>
+      countdown={screen === "countdown-ask" ? <ExamCountdown saved={null} ask defaultStage="PE" /> : screen === "countdown" ? <ExamCountdown saved={{ stage: "PE", date: "2027-03-25" }} ask={false} defaultStage="PE" /> : screen === "exam-eve" || screen === "exam-day" ? <ExamCountdown saved={{ stage: "PE", date: screen === "exam-eve" ? tomorrow : today }} ask={false} defaultStage="PE" /> : undefined} sections={studentNav(false)} user={{ name: "Pema", email: "pema@example.com", roleLabel: "Student" }}>
       {content}
     </AppShell>
   );

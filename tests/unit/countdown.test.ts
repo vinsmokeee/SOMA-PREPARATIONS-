@@ -32,3 +32,13 @@ describe("exam countdown", () => {
     expect(readSavedCountdown(null)).toBeNull();
   });
 });
+
+describe("exam-day note", () => {
+  it("shows only the day before and on the day", async () => {
+    const { examDayNote } = await import("@/lib/student/countdown");
+    expect(examDayNote("PE", 1)?.title).toContain("tomorrow");
+    expect(examDayNote("ME", 0)?.title).toContain("Today is your ME");
+    expect(examDayNote("PE", 2)).toBeNull();
+    expect(examDayNote("PE", -1)).toBeNull();
+  });
+});
