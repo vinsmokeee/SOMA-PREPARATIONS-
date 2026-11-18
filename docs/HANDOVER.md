@@ -9,7 +9,7 @@ without the previous chat. Keep it up to date at the end of every working sessio
   (answers re-computed by `check_batch2()`; correct answers spread evenly over A–D) → `supabase/data/new_pe_batch2.sql`.
   **LOADED LIVE 18 Nov as 60 drafts** (2 stems reworded: content_hash is on the stem only, so generic stems like "Which sentence is correct?" clash across batches — always make stems unique).
 - Dzongkha batch 1: all 54 published (review page only showed 50 — fixed with a "N drafts waiting" note).
-- **Option shuffle BUILT (18 Nov):** migration `20261206000100_shuffle_options.sql` (helper `attempt_options`, per-attempt order from md5(attempt id + option id); letters re-assigned A–D; picture-letter / "only/both/neither/all of the above" options keep order), test `99_shuffle_options.sql`. Apply live only after founder says "Yes, apply the database update".
+- **Option shuffle BUILT (18 Nov):** migration `20261206000100_shuffle_options.sql` (helper `attempt_options`, per-attempt order from md5(attempt id + option id); letters re-assigned A–D; picture-letter / "only/both/neither/all of the above" options keep order), test `99_shuffle_options.sql`. **APPLIED LIVE 18 Nov** after founder approval (version 20261206000100).
 - (Old note) answer options were NOT shuffled (`exams.shuffle_options` exists but is unused). Batch 1 PE has
   B as the correct answer 28/60 times (D only 3). Proposed fix (needs founder approval): shuffle option order per
   attempt in the paper function, or reorder batch 1 options live.
