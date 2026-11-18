@@ -63,7 +63,7 @@ function FreeTier() {
       <p className="mt-1 text-sm text-muted-foreground">Try the platform before you decide</p>
       <p className="mt-6 text-4xl font-semibold tracking-tight text-ink">Nu. 0</p>
       <ul className="mt-6 flex-1 space-y-3">
-        {["Free sample questions with explanations", "Free sample mock examinations", "Official BCSE structure, with sources"].map((f) => (
+        {["A free 25-question PE test every day, with explanations", "OMR sketch practice", "Exam countdown and the Question of the Day", "Official BCSE structure, with sources"].map((f) => (
           <li key={f} className="flex gap-2.5 text-[15px]">
             <Check className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden /> {f}
           </li>

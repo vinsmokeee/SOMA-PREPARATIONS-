@@ -61,7 +61,7 @@ export function ExamSettingsForm({ exam, lookups }: { exam: ExamSettings; lookup
       <AreaField name="instructions" label="Paper-specific instructions (shown before starting)" defaultValue={exam.instructions} rows={4} />
       <div className="flex flex-wrap gap-6 text-sm">
         <label className="flex items-center gap-2"><input type="checkbox" name="is_free" defaultChecked={exam.is_free} className="size-4 accent-[var(--primary)]" /> Free for all registered students</label>
-        <label className="flex items-center gap-2"><input type="checkbox" name="omr_mode" defaultChecked={exam.omr_mode} className="size-4 accent-[var(--primary)]" /> OMR answer-sheet practice</label>
+        <label className="flex items-center gap-2"><input type="checkbox" name="omr_mode" defaultChecked={exam.omr_mode} className="size-4 accent-[var(--primary)]" /> OMR shading (students shade answer circles; badly shaded answers are not counted)</label>
         <label className="flex items-center gap-2"><input type="checkbox" name="shuffle_questions" defaultChecked={exam.shuffle_questions} className="size-4 accent-[var(--primary)]" /> Shuffle question order per attempt</label>
       </div>
     </ActionForm>

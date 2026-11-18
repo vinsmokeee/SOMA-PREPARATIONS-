@@ -9,6 +9,7 @@ without the previous chat. Keep it up to date at the end of every working sessio
   card opens `/dashboard/last-minute` (`src/components/student/last-minute-summary.tsx`). Data from RPC
   `my_last_minute_summary(stage)` (migration `20261209000100`, test `99_last_minute_summary.sql`): section accuracy,
   the student's mistakes (past-paper first) with answers, and for Premium up to 15 unseen past-paper questions.
+- **Feature lists updated (19 Nov, live):** OMR shading, OMR sketch practice, exam countdown and last-minute summary added to package features (migration `20261210000100`), Why Premium / About cards (`exam-info.tsx`), free points, public /pe and /packages pages.
 
 - **OMR shading (founder, 19 Nov; APPLIED LIVE):** real PE answers are pencil-shaded circles read by a scanner. Mock tests
   (`exams.omr_mode`, set by `create_mock_test`) now use finger-shaded circles (`src/components/exam/omr-bubble.tsx`,

@@ -1,4 +1,4 @@
-import { BarChart3, BookOpen, Brain, CalendarCheck, Camera, ClipboardCheck, Clock, FileText, HeartHandshake, MapPin, MessageCircleHeart, Newspaper, RotateCcw, Sparkles, type LucideIcon } from "lucide-react";
+import { BarChart3, BookOpen, Brain, CalendarCheck, CalendarClock, PencilLine, Camera, ClipboardCheck, Clock, FileText, HeartHandshake, MapPin, MessageCircleHeart, Newspaper, RotateCcw, Sparkles, type LucideIcon } from "lucide-react";
 import type { PackageInfo } from "./exam-flow";
 import { cn } from "@/lib/utils";
 
@@ -9,6 +9,8 @@ type Benefit = { icon: LucideIcon; title: string; text: string };
 export const BENEFITS: Record<Stage, Benefit[]> = {
   PE: [
     { icon: ClipboardCheck, title: "Mock tests like the real PE", text: "Timed tests across English, Dzongkha, Aptitude and Data Interpretation. Premium gives a fresh test every time, built from past-paper style questions and new ones made from them." },
+    { icon: PencilLine, title: "OMR shading practice", text: "In the real PE you shade circles on an OMR sheet. Soma's mock tests use shading circles too, OMR sketch practice shows you how to shade so the scanner reads it, and your coach tells you if any answer would not have been counted." },
+    { icon: CalendarClock, title: "Exam countdown and last-minute summary", text: "Enter your exam date for a daily countdown. The day before, open your last-minute summary: your weak sections and the past-paper questions you got wrong, with answers." },
     { icon: Brain, title: "AI assistance", text: "Every answer is marked instantly with an explanation. AI also helps us make new practice questions from past papers, and each one is checked before you see it." },
     { icon: MessageCircleHeart, title: "A coach after every test", text: "See where you lost marks, which sections to work on, how to approach each kind of question, and whether you are going too fast or too slow." },
     { icon: RotateCcw, title: "Your mistakes come back", text: "Questions you get wrong return in your revision and in later mock tests, so you get them right next time." },
@@ -24,13 +26,14 @@ export const BENEFITS: Record<Stage, Benefit[]> = {
     { icon: Clock, title: "Timed papers", text: "Practise full papers under time, so you learn to finish on the day." },
     { icon: BarChart3, title: "See your progress", text: "Every marked answer is saved, so you can see how your writing improves." },
     { icon: Newspaper, title: "Current affairs", text: "Daily news notes and quizzes to use as examples in your answers." },
+    { icon: CalendarClock, title: "Exam countdown", text: "Enter your ME date for a daily countdown, with a last-minute summary and reminders the day before." },
   ],
 };
 
 const ABOUT: Benefit[] = [
   { icon: HeartHandshake, title: "Who we are", text: "Soma Preparations is an online platform that helps graduates in Bhutan prepare for the BCSE: the Preliminary Examination (PE) and the Main Examination (ME)." },
   { icon: MapPin, title: "For every graduate, wherever you are", text: "Many graduates live in remote places without coaching classes or study materials. With Soma, all you need is your phone: practice, papers, feedback and news, anytime." },
-  { icon: BookOpen, title: "What we teach", text: "English, Dzongkha, Aptitude and Data Interpretation for the PE, and written answers for your ME entry: General, Technical and Dzongkha graduates." },
+  { icon: BookOpen, title: "What we teach", text: "English, Dzongkha, Aptitude and Data Interpretation for the PE (with OMR shading practice), and written answers for your ME entry: General, Technical and Dzongkha graduates." },
   { icon: Brain, title: "AI that helps you learn", text: "Instant marking with explanations, AI marking of your written answers (typed or handwritten) with feedback, and a coach that shows you where to gain marks." },
   { icon: Newspaper, title: "Current affairs every day", text: "Short daily notes on Bhutan and world news, with quizzes, so you stay ready for the exam." },
   { icon: Sparkles, title: "Why sign up", text: "Start free, practise every day, learn from your mistakes and see your progress. Soma helps you prepare well; RCSC sets the exam and the cut-off each year." },

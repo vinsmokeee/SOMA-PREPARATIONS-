@@ -390,6 +390,6 @@ function Header({ stage, subtitle, badge, changeEntry }: { stage: Stage; subtitl
 }
 
 export const FREE_POINTS: Record<Stage, string[]> = {
-  PE: ["A free 25-question test every day, from real BCSE past papers", "Questions from all four sections, with explanations", "Today's Question of the Day"],
+  PE: ["A free 25-question test every day, in BCSE style, answered on OMR circles", "Questions from all four sections, with explanations and your coach", "OMR sketch practice", "Exam countdown and the Question of the Day"],
   ME: ["3 written answers marked by AI: typed, or a photo of your handwritten answer", "AI feedback with an improved model answer", "Sample written questions for your entry", "Today's current affairs"],
 };
