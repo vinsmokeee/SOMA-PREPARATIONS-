@@ -5,11 +5,24 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+- **OMR shading (founder, 19 Nov; APPLIED LIVE):** real PE answers are pencil-shaded circles read by a scanner. Mock tests
+  (`exams.omr_mode`, set by `create_mock_test`) now use finger-shaded circles (`src/components/exam/omr-bubble.tsx`,
+  judged by `src/lib/exam/omr.ts`: ≥60% filled, ≤12% outside). `attempt_answers.mark_quality` ('good'|'too_light'|'outside');
+  `save_answer` gained `_mark_quality`; `finalize_attempt` scores bad shading 0 and counts it unanswered
+  (migration `20261208000100_omr_shading.sql`, test `99_omr_shading.sql`). Coach + result review explain uncounted answers.
+  "Erase" button. New page `/dashboard/omr-practice`. PE home tiles: My scores, Current affairs, Question of the Day,
+  OMR sketch practice (Practice / Mock tests tiles removed — founder's choice). Practice/QOTD stay tap-to-answer.
+  Dev preview: `/dev/exam-preview?omr=0` for tap mode.
+
+- **STANDING PERMISSION (founder, 19 Nov 2026):** "From this time onwards, no need to ask permission for database
+  update. Do on your own." → apply live migrations / question loads after tests pass, then tell the founder.
+  Still tell them before anything destructive (deleting data, removing published content).
+
 - **Exam-day countdown (19 Nov, founder request):** migration `20261207000100_exam_dates.sql` adds `profiles.pe_exam_date`,
   `me_exam_date` (student-entered; RCSC changes dates yearly — never hardcode). Pop-up + chip (top right) in
   `src/components/app/exam-countdown.tsx` (asks until the date for the student's exam is set; "Later" hides it for the
   session), action `src/app/dashboard/exam-date-actions.ts`, helpers `src/lib/student/countdown.ts` (Bhutan days).
-  Copy kept in localStorage so the public site header shows it when signed out. Needs founder's DB approval to go live.
+  Copy kept in localStorage so the public site header shows it when signed out. **APPLIED LIVE 19 Nov.**
 
 - **QOTD repeat fix (18 Nov):** `dailyFeatures` in `src/lib/ca/pipeline.ts` now skips questions already used in
   `ca_daily` and looks back 14 days if needed. 17 and 18 Nov both got the COP31 question (18 Nov row left as is

@@ -5,14 +5,16 @@ import { Dialog } from "radix-ui";
 import { AlertTriangle, ChevronLeft, ChevronRight, Clock3, Flag, LayoutGrid, Loader2, Save, WifiOff, X } from "lucide-react";
 import type { SaveInput, SaveResult, SubmitResult } from "@/app/exam/actions";
 import { clockOffset, countWords, formatClock, questionState, remainingSeconds, type QuestionState } from "@/lib/exam/logic";
-import type { AttemptPaper, PaperQuestion } from "@/lib/exam/types";
+import type { AttemptPaper, MarkQuality, PaperQuestion } from "@/lib/exam/types";
+import { MARK_MESSAGES } from "@/lib/exam/omr";
+import { OmrBubble } from "./omr-bubble";
 import { cn } from "@/lib/utils";
 import { useAutosave } from "./use-autosave";
 import { HandwrittenPages, type PagesApi } from "@/components/written/handwritten-pages";
 import type { Result } from "@/app/dashboard/written/actions";
 import { QuestionStem } from "@/components/exam/question-stem";
 
-type Answer = { selected: string | null; text: string; flagged: boolean };
+type Answer = { selected: string | null; text: string; flagged: boolean; quality?: MarkQuality | null };
 type LocalBackup = Record<string, Answer & { t: number }>;
 type View = "question" | "review" | "sheet";
 
@@ -66,7 +68,7 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed }: 
   const [answers, setAnswers] = useState<Record<string, Answer>>(() => {
     const init: Record<string, Answer> = {};
     for (const a of paper.answers) {
-      init[a.exam_question_id] = { selected: a.selected_option_id, text: a.text_answer ?? "", flagged: a.flagged };
+      init[a.exam_question_id] = { selected: a.selected_option_id, text: a.text_answer ?? "", flagged: a.flagged, quality: a.mark_quality ?? null };
     }
     return init;
   });
@@ -112,14 +114,14 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed }: 
         server.selected_option_id !== local.selected ||
         server.flagged !== local.flagged;
       if (differs) {
-        restored[id] = { selected: local.selected, text: local.text, flagged: local.flagged };
+        restored[id] = { selected: local.selected, text: local.text, flagged: local.flagged, quality: local.quality ?? null };
         const q = questions.find((x) => x.exam_question_id === id)!;
         enqueue(
           id,
           isWritten(q)
             ? { textAnswer: local.text, flagged: local.flagged }
             : local.selected
-              ? { selectedOptionId: local.selected, flagged: local.flagged }
+              ? { selectedOptionId: local.selected, markQuality: local.quality ?? null, flagged: local.flagged }
               : { clearSelection: true, flagged: local.flagged },
           false,
         );
@@ -203,19 +205,23 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed }: 
   }, [flush, leaveQuestion]);
 
   // ---- answering -----------------------------------------------------------
-  const choose = (q: PaperQuestion, optionId: string) => {
+  // OMR mode passes how the circle was shaded; tapping an option leaves it empty.
+  const choose = (q: PaperQuestion, optionId: string, quality?: MarkQuality) => {
     const prev = answers[q.exam_question_id] ?? { selected: null, text: "", flagged: false };
-    const next = { ...prev, selected: prev.selected === optionId ? prev.selected : optionId };
+    const next = { ...prev, selected: optionId, quality: quality ?? null };
     setAnswers((s) => ({ ...s, [q.exam_question_id]: next }));
     writeBackup(q.exam_question_id, next);
-    enqueue(q.exam_question_id, { selectedOptionId: optionId });
+    enqueue(q.exam_question_id, { selectedOptionId: optionId, markQuality: quality ?? null });
   };
+  // Bumped on "Erase" so the shaded circles are wiped.
+  const [erased, setErased] = useState<Record<string, number>>({});
 
   const clearChoice = (q: PaperQuestion) => {
     const prev = answers[q.exam_question_id];
     if (!prev?.selected) return;
-    const next = { ...prev, selected: null };
+    const next = { ...prev, selected: null, quality: null };
     setAnswers((s) => ({ ...s, [q.exam_question_id]: next }));
+    setErased((e) => ({ ...e, [q.exam_question_id]: (e[q.exam_question_id] ?? 0) + 1 }));
     writeBackup(q.exam_question_id, next);
     enqueue(q.exam_question_id, { clearSelection: true });
   };
@@ -388,6 +394,7 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed }: 
               } : undefined}
               answer={answers[current.exam_question_id]}
               onChoose={(id) => choose(current, id)}
+              omr={paper.exam.omr_mode ? { onShade: (id, quality) => choose(current, id, quality), eraseKey: erased[current.exam_question_id] ?? 0 } : undefined}
               onClear={() => clearChoice(current)}
               onWrite={(t) => write(current, t)}
               onBlurText={() => {
@@ -409,7 +416,7 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed }: 
             />
           ) : null}
           {view === "sheet" ? (
-            <AnswerSheet questions={questions} answers={answers} onChoose={(q, id) => choose(q, id)} onGo={goTo} />
+            <AnswerSheet questions={questions} answers={answers} onGo={goTo} />
           ) : null}
         </main>
 
@@ -582,6 +589,7 @@ function QuestionView({
   written,
   answer,
   onChoose,
+  omr,
   onClear,
   onWrite,
   onBlurText,
@@ -590,6 +598,8 @@ function QuestionView({
   written?: WrittenView;
   answer: Answer | undefined;
   onChoose: (optionId: string) => void;
+  /** OMR mode: shade a circle instead of tapping a letter. */
+  omr?: { onShade: (optionId: string, quality: MarkQuality) => void; eraseKey: number };
   onClear: () => void;
   onWrite: (text: string) => void;
   onBlurText: () => void;
@@ -608,7 +618,9 @@ function QuestionView({
       </h1>
       <QuestionStem stem={q.stem} imageUrl={q.image_url} large className="mt-2" />
 
-      {q.type === "mcq" ? (
+      {q.type === "mcq" && omr ? (
+        <OmrOptions q={q} answer={answer} omr={omr} onClear={onClear} />
+      ) : q.type === "mcq" ? (
         <fieldset className="mt-6">
           <legend className="sr-only">Choose one answer</legend>
           <div className="space-y-2.5">
@@ -805,16 +817,51 @@ function JumpList({ title, items, onGo }: { title: string; items: { q: PaperQues
   );
 }
 
-/** OMR-style answer sheet: a row of bubbles per objective question. */
+/** OMR mode: shade the circle beside your answer with a finger, as with a pencil on the real answer sheet. */
+function OmrOptions({ q, answer, omr, onClear }: {
+  q: PaperQuestion;
+  answer: Answer | undefined;
+  omr: { onShade: (optionId: string, quality: MarkQuality) => void; eraseKey: number };
+  onClear: () => void;
+}) {
+  const quality = answer?.selected ? answer.quality ?? null : null;
+  const msg = quality ? MARK_MESSAGES[quality] : null;
+  return (
+    <fieldset className="mt-6">
+      <legend className="text-sm text-muted-foreground">Shade the circle beside your answer with your finger, as you would with a pencil.</legend>
+      <div className="mt-3 space-y-1.5">
+        {q.options.map((o) => {
+          const selected = answer?.selected === o.id;
+          return (
+            <div key={o.id} className={cn("flex items-center gap-3 rounded-lg border px-2 py-1", selected ? "border-ink/40 bg-muted/60" : "border-border")}>
+              <OmrBubble key={`${o.id}-${selected ? "on" : "off"}-${omr.eraseKey}`} label={o.label} quality={selected ? quality : null} onShade={(qq) => omr.onShade(o.id, qq)} />
+              <span className="text-[15px] leading-relaxed text-ink sm:text-base">{o.body}</span>
+            </div>
+          );
+        })}
+      </div>
+      {msg ? (
+        <p role="status" className={cn("mt-3 rounded-lg px-3 py-2 text-sm", quality === "good" ? "bg-success-soft text-success" : "bg-warning-soft text-warning")}>
+          <span className="font-semibold">{msg.title}.</span> {msg.tip}{quality !== "good" ? " This answer will not be counted unless you erase it and shade again." : ""}
+        </p>
+      ) : null}
+      {answer?.selected ? (
+        <button type="button" onClick={onClear} className="mt-3 inline-flex h-10 items-center rounded-md border border-border-strong px-4 text-sm font-semibold text-ink hover:bg-muted">
+          Erase
+        </button>
+      ) : null}
+    </fieldset>
+  );
+}
+
+/** OMR answer sheet overview: which circles are shaded, and how well. Tap a row to go to the question. */
 function AnswerSheet({
   questions,
   answers,
-  onChoose,
   onGo,
 }: {
   questions: PaperQuestion[];
   answers: Record<string, Answer>;
-  onChoose: (q: PaperQuestion, optionId: string) => void;
   onGo: (i: number) => void;
 }) {
   const mcqs = questions.map((q, i) => ({ q, i })).filter(({ q }) => q.type === "mcq");
@@ -822,38 +869,30 @@ function AnswerSheet({
     <section aria-labelledby="sheet-title">
       <h1 id="sheet-title" className="font-serif text-2xl font-semibold text-ink sm:text-3xl">Answer sheet</h1>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-        Practise marking answers as on an OMR sheet: fill one bubble per question. Your marks here are the same answers as in
-        the question view. Tap a question number to read it.
+        Your OMR sheet so far. A grey circle with a warning means the shading may not be read: open the question, erase and shade again.
       </p>
       <div className="mt-6 grid gap-x-8 gap-y-1 sm:grid-cols-2">
-        {mcqs.map(({ q, i }) => (
-          <div key={q.exam_question_id} className="flex items-center gap-3 border-b border-dashed border-border py-2">
-            <button type="button" onClick={() => onGo(i)} className="w-8 text-right text-sm font-semibold tabular-nums text-ink hover:text-primary" aria-label={`Read question ${i + 1}`}>
-              {i + 1}
+        {mcqs.map(({ q, i }) => {
+          const a = answers[q.exam_question_id];
+          const bad = a?.selected && a.quality && a.quality !== "good";
+          return (
+            <button key={q.exam_question_id} type="button" onClick={() => onGo(i)} className="flex items-center gap-3 border-b border-dashed border-border py-2 text-left hover:bg-muted/50" aria-label={`Question ${i + 1}${bad ? ": shading may not be read" : ""}`}>
+              <span className="w-8 text-right text-sm font-semibold tabular-nums text-ink">{i + 1}</span>
+              <span className="flex gap-2" aria-hidden>
+                {q.options.map((o) => {
+                  const on = a?.selected === o.id;
+                  return (
+                    <span key={o.id} className={cn("flex size-8 items-center justify-center rounded-full border-2 text-[11px] font-semibold",
+                      on && !bad ? "border-ink bg-ink text-white" : on ? "border-warning bg-ink/30 text-white" : "border-ink/40 text-ink/60")}>
+                      {o.label}
+                    </span>
+                  );
+                })}
+              </span>
+              {bad ? <AlertTriangle className="size-4 text-warning" aria-hidden /> : null}
             </button>
-            <div className="flex gap-2" role="radiogroup" aria-label={`Answer for question ${i + 1}`}>
-              {q.options.map((o) => {
-                const on = answers[q.exam_question_id]?.selected === o.id;
-                return (
-                  <button
-                    key={o.id}
-                    type="button"
-                    role="radio"
-                    aria-checked={on}
-                    aria-label={`Option ${o.label}`}
-                    onClick={() => onChoose(q, o.id)}
-                    className={cn(
-                      "flex size-9 items-center justify-center rounded-full border-2 text-xs font-semibold",
-                      on ? "border-ink bg-ink text-white" : "border-ink/40 text-ink/70 hover:border-ink",
-                    )}
-                  >
-                    {o.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

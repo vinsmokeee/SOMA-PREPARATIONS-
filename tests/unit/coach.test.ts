@@ -42,3 +42,16 @@ describe("coach", () => {
     expect(tipFor("Something else")).toContain("explanations");
   });
 });
+
+describe("coach: OMR shading", () => {
+  it("explains answers not counted because of shading", () => {
+    const a = coach({ sections: [], total: 10, correct: 7, wrong: 1, skipped: 0, timeUsedSeconds: 600, timeAllowedMinutes: 15, negativeMarking: 0, autoSubmitted: false, badShading: { tooLight: 1, outside: 1 } });
+    expect(a.summary).toContain("3 questions");
+    expect(a.shading).toContain("2 answers were not counted");
+    expect(a.shading).toContain("outside the circle (1)");
+    expect(a.shading).toContain("too little shading (1)");
+  });
+  it("says nothing about shading when every circle was read", () => {
+    expect(coach({ sections: [], total: 10, correct: 10, wrong: 0, skipped: 0, timeUsedSeconds: 600, timeAllowedMinutes: 15, negativeMarking: 0, autoSubmitted: false }).shading).toBeNull();
+  });
+});

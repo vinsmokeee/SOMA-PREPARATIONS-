@@ -14,6 +14,8 @@ export type CoachInput = {
   timeAllowedMinutes: number;
   negativeMarking: number;        // marks lost per wrong answer
   autoSubmitted: boolean;
+  /** OMR mode: answers not counted because the circle was shaded badly. */
+  badShading?: { tooLight: number; outside: number };
 };
 
 export type CoachAdvice = {
@@ -21,6 +23,7 @@ export type CoachAdvice = {
   gainMarks: { section: string; text: string }[];
   pace: { tone: "warn" | "good"; text: string } | null;
   skipped: string | null;
+  shading: string | null;
 };
 
 /** How to approach each PE section; matched loosely by name. */
@@ -38,9 +41,10 @@ export function coach(i: CoachInput): CoachAdvice {
   const lost = [...i.sections].filter((s) => s.incorrect + s.unanswered > 0)
     .sort((a, b) => (b.incorrect + b.unanswered) - (a.incorrect + a.unanswered));
   const parts = lost.slice(0, 3).map((s) => `${s.incorrect + s.unanswered} in ${s.name}`);
-  const summary = i.wrong + i.skipped === 0
+  const lostCount = i.wrong + i.skipped + (i.badShading?.tooLight ?? 0) + (i.badShading?.outside ?? 0);
+  const summary = lostCount === 0
     ? `Excellent: all ${i.total} correct. Keep practising to stay sharp.`
-    : `You lost marks on ${i.wrong + i.skipped} question${i.wrong + i.skipped === 1 ? "" : "s"}${parts.length ? `: ${parts.join(", ")}` : ""}.`;
+    : `You lost marks on ${lostCount} question${lostCount === 1 ? "" : "s"}${parts.length ? `: ${parts.join(", ")}` : ""}.`;
 
   // Where marks are easiest to win back: most marks lost first.
   const gainMarks = lost.slice(0, 2).map((s) => ({
@@ -67,5 +71,11 @@ export function coach(i: CoachInput): CoachAdvice {
       ? `You skipped ${i.skipped}. With negative marking, skip only when you cannot rule out any option.`
       : `You skipped ${i.skipped}. There is no negative marking in this test, so answer every question: rule out the wrong options and choose the best remaining one.`;
 
-  return { summary, gainMarks, pace, skipped };
+  // OMR shading: answers the scanner would not read.
+  const tooLight = i.badShading?.tooLight ?? 0, outside = i.badShading?.outside ?? 0;
+  const parts2 = [outside ? `shading went outside the circle (${outside})` : "", tooLight ? `too little shading (${tooLight})` : ""].filter(Boolean);
+  const shading = tooLight + outside === 0 ? null
+    : `${tooLight + outside} answer${tooLight + outside === 1 ? " was" : "s were"} not counted: ${parts2.join(", ")}. In the real PE a scanner reads your OMR sheet, so shade each circle fully and stay inside the line. Practise in "OMR sketch practice".`;
+
+  return { summary, gainMarks, pace, skipped, shading };
 }

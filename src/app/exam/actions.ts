@@ -48,6 +48,7 @@ const saveSchema = z.object({
   textAnswer: z.string().max(60000).nullable().optional(),
   flagged: z.boolean().nullable().optional(),
   timeSpentDelta: z.number().int().min(0).max(600).optional(),
+  markQuality: z.enum(["good", "too_light", "outside"]).nullable().optional(),
 });
 
 export type SaveInput = z.infer<typeof saveSchema>;
@@ -66,6 +67,7 @@ export async function saveAnswer(input: SaveInput): Promise<SaveResult> {
     _text_answer: d.textAnswer ?? null,
     _flagged: d.flagged ?? null,
     _time_spent_delta: d.timeSpentDelta ?? 0,
+    _mark_quality: d.markQuality ?? null,
   });
   if (error) return { ok: false, error: engineError(error.message) };
   return { ok: true, savedAt: (data as { saved_at: string }).saved_at };
