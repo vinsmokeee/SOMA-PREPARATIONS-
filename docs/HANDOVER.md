@@ -5,6 +5,11 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+0. **Founder direction (18 Nov):** the only official PE papers are 2010 and 2011 (already loaded). All further PE
+   questions must be written by Claude, modelled on those papers, so premium students have "endless" practice.
+   Goal ~500 published PE questions, then a regular batch. ME papers: founder will send all of them after
+   confirming the real categories with RCSC. Next: "Start PE batch 2". 54 Dzongkha drafts still awaiting the founder's publish.
+
 1. **Founder sent two Dzongkha reference books** (18 Nov) for writing Dzongkha questions:
    - *Dzongkha–English Dictionary*, 2nd ed., © Dzongkha Development Commission 2013 (1180 pages).
    - *The Grammar of Dzongkha* (Karma Tshering & George van Driem, Himalayan Linguistics, 2019; 720 pages),
