@@ -18,8 +18,9 @@ export const triageSchema = z.object({
   items: z.array(z.object({
     n: z.number().int().describe("The article number"),
     relevance: z.number().int().describe("0-100: usefulness for Bhutan Civil Service Examination general-awareness preparation"),
-    area: z.enum(["bhutan", "regional", "world"]),
-    category: z.enum(CA_CATEGORY_SLUGS),
+    // An unexpected value must not throw away the whole batch of 25 articles (seen 18 Nov 2026): fall back instead.
+    area: z.enum(["bhutan", "regional", "world"]).catch("world"),
+    category: z.enum(CA_CATEGORY_SLUGS).catch("other"),
     countries: z.array(z.string()),
     kind: z.enum(["fact", "opinion", "analysis"]).describe("fact = reports an event or decision; opinion/analysis = commentary"),
     developing: z.boolean().describe("True if the report itself says details are unconfirmed or still unfolding"),

@@ -7,6 +7,7 @@
  * contrast for reading.
  */
 :root {
+  color-scheme: only light;
   --background: #fffaf3;          /* soft cream */
   --foreground: #2a1d17;          /* warm charcoal */
   --muted: #fdf1e2;               /* light saffron wash */
