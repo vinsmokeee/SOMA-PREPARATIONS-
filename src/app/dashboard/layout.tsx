@@ -22,11 +22,8 @@ export default async function DashboardLayout({ children }: LayoutProps<"/dashbo
   // Exam-day countdown: the date for the exam the student is preparing for; ask until it is entered.
   const interest = profile?.pathway ? stage : null;
   const dates = { PE: profile?.pe_exam_date ?? null, ME: profile?.me_exam_date ?? null };
-  const pick: "PE" | "ME" | null = interest && dates[interest] ? interest : dates.PE ? "PE" : dates.ME ? "ME" : null;
-  const saved = pick ? { stage: pick, date: dates[pick] as string } : null;
-  const ask = interest ? !dates[interest] : !dates.PE && !dates.ME;
   return (
-    <AppShell area="student" stage={stage} unread={unread ?? 0} countdown={<ExamCountdown saved={saved} ask={ask} defaultStage={interest ?? "PE"} />} sections={sections} user={{ name: user.fullName, email: user.email, roleLabel: ROLE_LABELS[primaryRole] }}>
+    <AppShell area="student" stage={stage} unread={unread ?? 0} countdown={<ExamCountdown dates={dates} interest={interest} />} sections={sections} user={{ name: user.fullName, email: user.email, roleLabel: ROLE_LABELS[primaryRole] }}>
       {children}
     </AppShell>
   );

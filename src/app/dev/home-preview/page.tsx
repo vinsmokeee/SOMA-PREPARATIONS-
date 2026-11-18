@@ -102,6 +102,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     "countdown-ask": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "exam-eve": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "exam-day": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
+    "me-countdown": <ExamArea d={area({ stage: "ME", entryLabel: "Administrative Service", premium: null, openAttempt: null, training: null, written: 0, aiMarks: { used: 0, limit: 3 }, premiumSlug: "me-premium" })} />,
     countdown: <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "omr-practice": <OmrPractice />,
     "last-minute": <LastMinuteSummary stage="PE" s={{ premium: true, answered: 64,
@@ -117,7 +118,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
   }[screen as string] ?? null;
   return (
     <AppShell area="student" stage={String(screen).startsWith("me") ? "ME" : "PE"} unread={3}
-      countdown={screen === "countdown-ask" ? <ExamCountdown saved={null} ask defaultStage="PE" /> : screen === "countdown" ? <ExamCountdown saved={{ stage: "PE", date: "2027-03-25" }} ask={false} defaultStage="PE" /> : screen === "exam-eve" || screen === "exam-day" ? <ExamCountdown saved={{ stage: "PE", date: screen === "exam-eve" ? tomorrow : today }} ask={false} defaultStage="PE" /> : undefined} sections={studentNav(false)} user={{ name: "Pema", email: "pema@example.com", roleLabel: "Student" }}>
+      countdown={screen === "countdown-ask" ? <ExamCountdown dates={{ PE: null, ME: null }} interest="PE" /> : screen === "countdown" ? <ExamCountdown dates={{ PE: "2027-03-25", ME: null }} interest="PE" /> : screen === "exam-eve" || screen === "exam-day" ? <ExamCountdown dates={{ PE: screen === "exam-eve" ? tomorrow : today, ME: null }} interest="PE" /> : screen === "me-countdown" ? <ExamCountdown dates={{ PE: tomorrow, ME: null }} interest="ME" /> : undefined} sections={studentNav(false)} user={{ name: "Pema", email: "pema@example.com", roleLabel: "Student" }}>
       {content}
     </AppShell>
   );

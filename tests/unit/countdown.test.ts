@@ -42,3 +42,18 @@ describe("exam-day note", () => {
     expect(examDayNote("PE", -1)).toBeNull();
   });
 });
+
+describe("countdown follows the exam of the page", () => {
+  it("never shows the PE date on ME pages, or the ME date on PE pages", async () => {
+    const { pickCountdown } = await import("@/lib/student/countdown");
+    const onlyPe = { PE: "2027-03-25", ME: null };
+    expect(pickCountdown("/dashboard/me", "ME", onlyPe)).toEqual({ stage: "ME", saved: null, ask: true });
+    expect(pickCountdown("/dashboard/pe", "ME", onlyPe).saved).toEqual({ stage: "PE", date: "2027-03-25" });
+    expect(pickCountdown("/dashboard/pe", "PE", { PE: null, ME: "2027-08-01" })).toEqual({ stage: "PE", saved: null, ask: true });
+  });
+  it("uses the student's exam on other pages", async () => {
+    const { pickCountdown } = await import("@/lib/student/countdown");
+    expect(pickCountdown("/dashboard/analytics", "ME", { PE: "2027-03-25", ME: "2027-08-01" }).saved?.stage).toBe("ME");
+    expect(pickCountdown("/dashboard", null, { PE: null, ME: null }).ask).toBe(true);
+  });
+});
