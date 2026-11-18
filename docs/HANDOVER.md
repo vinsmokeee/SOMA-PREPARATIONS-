@@ -5,7 +5,7 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
-- **PE batch 3 WRITTEN (18 Nov):** 60 = 20 English, 20 Aptitude, 10 DI, 10 Dzongkha (no CA: current affairs come from the news pipeline) in `scripts/past-papers/new_pe_batch3.py` → `supabase/data/new_pe_batch3.sql`. **LOADED LIVE 18 Nov as 60 drafts**; founder to publish in /admin/ai/review.
+- **PE batch 3 WRITTEN (18 Nov):** 60 = 20 English, 20 Aptitude, 10 DI, 10 Dzongkha (no CA: current affairs come from the news pipeline) in `scripts/past-papers/new_pe_batch3.py` → `supabase/data/new_pe_batch3.sql`. **All 60 PUBLISHED 18 Nov.** Live PE published: Aptitude 106, English 101, DI 85, Dzongkha 66, CA 6 = 364. Next: batch 4 (more Dzongkha + DI).
 
 - **Colours follow the page (PR #49, merged 18 Nov):** `src/components/app/exam-theme-root.tsx` sets data-exam from the
   path (/dashboard/pe → PE orange, /dashboard/me → ME maroon, else profile). Exam chooser cards are now forms
