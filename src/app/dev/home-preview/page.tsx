@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { AppShell } from "@/components/app/app-shell";
+import { ExamCountdown } from "@/components/app/exam-countdown";
 import { CoachCard } from "@/components/exam/coach-card";
 import { MockCta } from "@/components/exam/mock-cta";
 import { ChooserInfo } from "@/components/student/exam-info";
@@ -93,12 +94,15 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
       </div>
     ),
     "pe-free": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} />,
+    "countdown-ask": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
+    countdown: <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "pe-new": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "pe-premium-new": <ExamArea d={area({ openAttempt: null })} />,
     me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 3 }, premiumSlug: "me-premium" })} />,
   }[screen as string] ?? null;
   return (
-    <AppShell area="student" stage={String(screen).startsWith("me") ? "ME" : "PE"} unread={3} sections={studentNav(false)} user={{ name: "Pema", email: "pema@example.com", roleLabel: "Student" }}>
+    <AppShell area="student" stage={String(screen).startsWith("me") ? "ME" : "PE"} unread={3}
+      countdown={screen === "countdown-ask" ? <ExamCountdown saved={null} ask defaultStage="PE" /> : screen === "countdown" ? <ExamCountdown saved={{ stage: "PE", date: "2027-03-25" }} ask={false} defaultStage="PE" /> : undefined} sections={studentNav(false)} user={{ name: "Pema", email: "pema@example.com", roleLabel: "Student" }}>
       {content}
     </AppShell>
   );
