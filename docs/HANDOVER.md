@@ -17,7 +17,13 @@ without the previous chat. Keep it up to date at the end of every working sessio
      The founder said words may be copied from the dictionary (single words/meanings are fine).
    - Text layer: grammar book reads fine; the dictionary text layer **drops stacked letters** (e.g.
      བསླབ་བ comes out as བསབ་བ) — always check Dzongkha spelling against the page image (`pdftoppm -png -r 150 -f N -l N`).
-2. **Next task:** Dzongkha questions batch 1 (~40, BCSE PE Dzongkha style as in the 2010/2011 papers), as a
+2. **Dzongkha batch 1 WRITTEN (18 Nov):** 54 questions in `scripts/past-papers/new_dz_batch1.py` → `supabase/data/new_dz_batch1.sql`
+   (17 honorific ཞེ་ས, 17 opposites འགལ་མིང, 8 word meanings, 12 genitive/ergative particles; each cites the dictionary
+   printed page = PDF page − 13). Test-loaded on local DB OK. **NOT loaded live yet** — waiting for founder's
+   "Yes, load the new questions"; then load via Management API (as batch 1 PE), founder publishes in /admin/ai/review
+   after a Dzongkha speaker checks. Dictionary parsing tip: in `pdftotext` (non-layout) output, \uf041 = OPP, \uf062 = HON,
+   \uf044 = synonym, \uf069 = other spelling.
+   Original plan for this step: Dzongkha questions batch 1 (~40, BCSE PE Dzongkha style as in the 2010/2011 papers), as a
    new module like `scripts/past-papers/new_pe_batch1.py` with `sec: 'dzongkha'` → `build_new_questions.py`
    → test load locally → ask founder "Yes, load the new questions" → founder publishes. Mark them clearly:
    **a fluent Dzongkha speaker must check before publishing.**
