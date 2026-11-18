@@ -6,6 +6,7 @@ import { TodayPlan } from "@/components/training/today-plan";
 import { itemAction, type TrainingData } from "@/lib/training/model";
 import { cn } from "@/lib/utils";
 import { WhyPremium } from "./exam-info";
+import { FreeLimitNote, MockCta } from "@/components/exam/mock-cta";
 
 type Stage = "PE" | "ME";
 const STAGE_INFO: Record<Stage, { name: string; full: string; gradient: string; blurb: string }> = {
@@ -251,7 +252,10 @@ export function ExamArea({ d }: { d: AreaData }) {
     <div data-exam={d.stage} className="mx-auto max-w-2xl space-y-6">
       <Header stage={d.stage} subtitle={d.entryLabel ?? STAGE_INFO[d.stage].full} badge={d.premium ?? "Free"} changeEntry={d.stage === "ME" && !!d.entryLabel} />
 
-      {/* Continue where you left off */}
+      {/* PE: the mock test comes first (founder, 19 Nov 2026); an unfinished test is offered before a new one. */}
+      {pe && !d.openAttempt ? (
+        d.freeUsedUp ? <FreeLimitNote title="You have taken today’s free test" /> : <MockCta premium={Boolean(d.premium)} />
+      ) : (
       <section className={cn("relative overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-xl sm:p-7", STAGE_INFO[d.stage].gradient)}>
         <span className="absolute -right-10 -top-10 size-40 rounded-full bg-white/10" aria-hidden />
         <div className="relative flex items-start justify-between gap-3">
@@ -286,9 +290,10 @@ export function ExamArea({ d }: { d: AreaData }) {
           )}
         </div>
       </section>
+      )}
 
       {/* Free plan note */}
-      {!d.premium ? (
+      {!d.premium && !(pe && d.freeUsedUp && !d.openAttempt) ? (
         <Link href={`/dashboard/${d.stage.toLowerCase()}?plans=1`}
           className="flex items-center gap-3 rounded-2xl bg-yellow-100 p-4 text-yellow-950 ring-1 ring-yellow-300">
           <Crown className="size-6 shrink-0 text-yellow-700" aria-hidden />
