@@ -22,6 +22,22 @@ export async function startFreeAction(formData: FormData): Promise<void> {
   redirect(s.data === "PE" ? "/dashboard/pe" : "/dashboard/me");
 }
 
+/** The student picked PE or ME on the "Which exam" screen: remember it (one exam at a time) and open it. */
+export async function chooseExamAction(formData: FormData): Promise<void> {
+  const user = await getCurrentUser();
+  if (!user) redirect("/login");
+  const s = stage.safeParse(formData.get("stage"));
+  if (!s.success) redirect("/dashboard");
+  const db = await createClient();
+  const { data: p } = await db.from("profiles").select("pathway").eq("id", user.id).maybeSingle();
+  // Only switch a student who already chose an exam; a new student still picks Free or Premium first.
+  if (p?.pathway && p.pathway !== s.data) {
+    await db.from("profiles").update({ pathway: s.data }).eq("id", user.id);
+    revalidatePath("/dashboard", "layout");
+  }
+  redirect(s.data === "PE" ? "/dashboard/pe" : "/dashboard/me");
+}
+
 const ENTRY_ERRORS: Record<string, string> = {
   ENTRY_LOCKED: "locked",
   ENTRY_NOT_OFFERED: "not-offered",
