@@ -5,6 +5,14 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+- **PE batch 2 WRITTEN (18 Nov):** 60 questions (20 English, 20 Aptitude, 20 DI) in `scripts/past-papers/new_pe_batch2.py`
+  (answers re-computed by `check_batch2()`; correct answers spread evenly over A–D) → `supabase/data/new_pe_batch2.sql`.
+  Test-loaded OK. Waiting for founder's "Yes, load the new questions" before loading live.
+- Dzongkha batch 1: 50 of 54 published by founder; the 4 ergative-particle questions are still drafts (founder's choice).
+- **Known issue:** answer options are NOT shuffled (`exams.shuffle_options` exists but is unused). Batch 1 PE has
+  B as the correct answer 28/60 times (D only 3). Proposed fix (needs founder approval): shuffle option order per
+  attempt in the paper function, or reorder batch 1 options live.
+
 0. **Founder direction (18 Nov):** the only official PE papers are 2010 and 2011 (already loaded). All further PE
    questions must be written by Claude, modelled on those papers, so premium students have "endless" practice.
    Goal ~500 published PE questions, then a regular batch. ME papers: founder will send all of them after
