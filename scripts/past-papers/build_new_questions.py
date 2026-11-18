@@ -8,6 +8,7 @@ NOTE = 'Written by Claude; every answer worked out twice and the calculations re
 spec = importlib.util.spec_from_file_location('batch', sys.argv[1])
 b = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(b)
+NOTE = getattr(b, 'NOTE', NOTE)
 
 
 def q(s):
