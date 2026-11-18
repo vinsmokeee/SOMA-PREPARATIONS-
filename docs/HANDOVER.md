@@ -12,7 +12,7 @@ without the previous chat. Keep it up to date at the end of every working sessio
   (migration `20261208000100_omr_shading.sql`, test `99_omr_shading.sql`). Coach + result review explain uncounted answers.
   No shading feedback during tests (founder, 19 Nov): only the results coach reveals it. "Erase" button. New page `/dashboard/omr-practice`. PE home tiles: My scores, Current affairs, Question of the Day,
   OMR sketch practice (Practice / Mock tests tiles removed — founder's choice). Tile colours (founder, final): My scores pink, OMR grey "Practise your shading for the RCSC PE", QOTD blue, Current affairs purple. Practice/QOTD stay tap-to-answer.
-  Dev preview: `/dev/exam-preview?omr=0` for tap mode.
+  Dev preview: `/dev/exam-preview?omr=0` for tap mode. Starting a mock first shows a "Practise OMR shading first?" pop-up (mock-cta.tsx StartButton; "Don't show this again" kept in localStorage `soma-omr-reminder-off`).
 
 - **STANDING PERMISSION (founder, 19 Nov 2026):** "From this time onwards, no need to ask permission for database
   update. Do on your own." → apply live migrations / question loads after tests pass, then tell the founder.

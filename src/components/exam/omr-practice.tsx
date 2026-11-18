@@ -58,6 +58,11 @@ export function OmrPractice() {
           <RotateCcw className="size-4" aria-hidden /> Erase all
         </button>
       </div>
+      {good >= 3 ? (
+        <a href="/dashboard/pe" className="flex h-12 items-center justify-center rounded-2xl bg-primary text-base font-bold text-primary-foreground shadow">
+          I’m ready · start my test
+        </a>
+      ) : null}
       <p className="text-xs text-muted-foreground">
         Tip: in the exam, use the pencil RCSC allows, shade firmly from edge to edge, and erase cleanly if you change your answer.
         Soma&apos;s check is a practice guide, not the RCSC scanner.
