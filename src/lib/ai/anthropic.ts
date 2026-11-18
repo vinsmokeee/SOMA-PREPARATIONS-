@@ -55,7 +55,9 @@ export class AnthropicProvider implements AiProvider {
       if (e instanceof Anthropic.AuthenticationError) return { ok: false, reason: "not_configured", message: "The AI provider rejected the API key." };
       if (e instanceof Anthropic.RateLimitError) return { ok: false, reason: "error", message: "The AI provider is busy (rate limited). Try again in a minute." };
       if (e instanceof Anthropic.APIError) return { ok: false, reason: "error", message: `AI provider error (${e.status ?? "network"}).` };
-      return { ok: false, reason: "error", message: "The AI request failed." };
+      // Keep a short reason so failures can be diagnosed from the AI jobs log.
+      const why = e instanceof Error ? `${e.name}: ${e.message}`.slice(0, 160) : "unknown";
+      return { ok: false, reason: "error", message: `The AI request failed (${why}).` };
     }
   }
 }

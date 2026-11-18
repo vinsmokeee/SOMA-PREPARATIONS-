@@ -328,11 +328,20 @@ async function dailyFeatures(db: Db, add: (k: string, n?: number) => void) {
   const today = bhutanDate();
   const { data: existing } = await db.from("ca_daily").select("day").eq("day", today).maybeSingle();
   if (existing) return;
-  const { data: items } = await db.from("ca_items").select("id").eq("status", "published").gte("feature_date", bhutanDate(new Date(Date.now() - 2 * 86400000))).order("importance", { ascending: false }).limit(10);
-  for (const it of items ?? []) {
-    const { data: q } = await db.from("questions").select("id").eq("ca_item_id", it.id).eq("status", "published").eq("question_type", "mcq").limit(1).maybeSingle();
-    if (q) { await db.from("ca_daily").insert({ day: today, question_id: q.id }); add("question_of_day"); return; }
+  // Never repeat an earlier Question of the Day (founder report, 18 Nov 2026: the same question showed two days running).
+  const { data: used } = await db.from("ca_daily").select("question_id");
+  const usedIds = new Set((used ?? []).map((u) => u.question_id as string));
+  // Newest important stories first (last 2 days), then anything from the last 2 weeks.
+  for (const days of [2, 14]) {
+    const { data: items } = await db.from("ca_items").select("id").eq("status", "published").gte("feature_date", bhutanDate(new Date(Date.now() - days * 86400000)))
+      .order("feature_date", { ascending: false }).order("importance", { ascending: false }).limit(30);
+    for (const it of items ?? []) {
+      const { data: qs } = await db.from("questions").select("id").eq("ca_item_id", it.id).eq("status", "published").eq("question_type", "mcq");
+      const q = (qs ?? []).find((x) => !usedIds.has(x.id));
+      if (q) { await db.from("ca_daily").insert({ day: today, question_id: q.id }); add("question_of_day"); return; }
+    }
   }
+  add("question_of_day_none");
 }
 
 async function assessments(db: Db, add: (k: string, n?: number) => void) {

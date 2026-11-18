@@ -5,6 +5,11 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+- **QOTD repeat fix (18 Nov):** `dailyFeatures` in `src/lib/ca/pipeline.ts` now skips questions already used in
+  `ca_daily` and looks back 14 days if needed. 17 and 18 Nov both got the COP31 question (18 Nov row left as is
+  unless founder approves replacing it). **Open issue:** CA question supply is low (6 published) — triage batches
+  fail with a generic "AI request failed"; the error message now includes the cause, check `ai_jobs.error_message`.
+
 - **PE batch 3 WRITTEN (18 Nov):** 60 = 20 English, 20 Aptitude, 10 DI, 10 Dzongkha (no CA: current affairs come from the news pipeline) in `scripts/past-papers/new_pe_batch3.py` → `supabase/data/new_pe_batch3.sql`. **All 60 PUBLISHED 18 Nov.** Live PE published: Aptitude 106, English 101, DI 85, Dzongkha 66, CA 6 = 364. Next: batch 4 (more Dzongkha + DI).
 
 - **Colours follow the page (PR #49, merged 18 Nov):** `src/components/app/exam-theme-root.tsx` sets data-exam from the
