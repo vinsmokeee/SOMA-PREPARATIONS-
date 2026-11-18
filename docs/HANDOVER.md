@@ -5,6 +5,12 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+- **Exam-day countdown (19 Nov, founder request):** migration `20261207000100_exam_dates.sql` adds `profiles.pe_exam_date`,
+  `me_exam_date` (student-entered; RCSC changes dates yearly — never hardcode). Pop-up + chip in
+  `src/components/app/exam-countdown.tsx` (asks until the date for the student's exam is set; "Later" hides it for the
+  session), action `src/app/dashboard/exam-date-actions.ts`, helpers `src/lib/student/countdown.ts` (Bhutan days).
+  Copy kept in localStorage so the public site header shows it when signed out. Needs founder's DB approval to go live.
+
 - **QOTD repeat fix (18 Nov):** `dailyFeatures` in `src/lib/ca/pipeline.ts` now skips questions already used in
   `ca_daily` and looks back 14 days if needed. 17 and 18 Nov both got the COP31 question (18 Nov row left as is
   unless founder approves replacing it). **Open issue:** CA question supply is low (6 published) — triage batches
