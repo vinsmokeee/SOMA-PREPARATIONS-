@@ -10,7 +10,7 @@ without the previous chat. Keep it up to date at the end of every working sessio
   judged by `src/lib/exam/omr.ts`: ≥60% filled, ≤12% outside). `attempt_answers.mark_quality` ('good'|'too_light'|'outside');
   `save_answer` gained `_mark_quality`; `finalize_attempt` scores bad shading 0 and counts it unanswered
   (migration `20261208000100_omr_shading.sql`, test `99_omr_shading.sql`). Coach + result review explain uncounted answers.
-  "Erase" button. New page `/dashboard/omr-practice`. PE home tiles: My scores, Current affairs, Question of the Day,
+  No shading feedback during tests (founder, 19 Nov): only the results coach reveals it. "Erase" button. New page `/dashboard/omr-practice`. PE home tiles: My scores, Current affairs, Question of the Day,
   OMR sketch practice (Practice / Mock tests tiles removed — founder's choice). Tile colours (founder, final): My scores pink, OMR grey "Practise your shading for the RCSC PE", QOTD blue, Current affairs purple. Practice/QOTD stay tap-to-answer.
   Dev preview: `/dev/exam-preview?omr=0` for tap mode.
 

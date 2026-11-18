@@ -25,7 +25,6 @@ test.describe("PE examination room", () => {
 
     // Answer Q1 by shading circle B
     await shade(page, page.getByRole("img", { name: /Circle B/ }), "good");
-    await expect(page.getByText("Good shading")).toBeVisible();
     await expect.poll(async () => (await calls(page)).saves.length).toBeGreaterThan(0);
     const firstSave = (await calls(page)).saves[0];
     expect(firstSave.selectedOptionId).toBeTruthy();
@@ -37,9 +36,10 @@ test.describe("PE examination room", () => {
     await page.getByRole("button", { name: "Next" }).click();
     await expect(page.getByText("Question 2 of 10")).toBeVisible();
     await shade(page, page.getByRole("img", { name: /Circle C/ }), "light");
-    await expect(page.getByText("Too little shading")).toBeVisible();
-    await page.getByRole("button", { name: "Erase" }).click();
+    // No feedback during the test (it comes in the results); the shading is still recorded.
     await expect(page.getByText("Too little shading")).toHaveCount(0);
+    await expect.poll(async () => (await calls(page)).saves.some((s) => s.markQuality === "too_light")).toBe(true);
+    await page.getByRole("button", { name: "Erase" }).click();
     await shade(page, page.getByRole("img", { name: /Circle C/ }), "good");
 
     // Palette (sidebar on desktop, dialog on mobile) jumps to Q5
@@ -59,7 +59,7 @@ test.describe("PE examination room", () => {
     await page.getByRole("button", { name: "Question 3", exact: true }).click();
     await expect(page.getByText("Question 3 of 10")).toBeVisible();
     await shade(page, page.getByRole("img", { name: /Circle D/ }), "outside");
-    await expect(page.getByText("Shading went outside the circle")).toBeVisible();
+    await expect.poll(async () => (await calls(page)).saves.some((s) => s.markQuality === "outside")).toBe(true);
 
     // Review screen shows counts
     if (isMobile) {

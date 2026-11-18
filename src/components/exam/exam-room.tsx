@@ -6,7 +6,6 @@ import { AlertTriangle, ChevronLeft, ChevronRight, Clock3, Flag, LayoutGrid, Loa
 import type { SaveInput, SaveResult, SubmitResult } from "@/app/exam/actions";
 import { clockOffset, countWords, formatClock, questionState, remainingSeconds, type QuestionState } from "@/lib/exam/logic";
 import type { AttemptPaper, MarkQuality, PaperQuestion } from "@/lib/exam/types";
-import { MARK_MESSAGES } from "@/lib/exam/omr";
 import { OmrBubble } from "./omr-bubble";
 import { cn } from "@/lib/utils";
 import { useAutosave } from "./use-autosave";
@@ -824,8 +823,8 @@ function OmrOptions({ q, answer, omr, onClear }: {
   omr: { onShade: (optionId: string, quality: MarkQuality) => void; eraseKey: number };
   onClear: () => void;
 }) {
+  // The shading is checked quietly; like the real exam, students learn how it went in their results (founder, 19 Nov).
   const quality = answer?.selected ? answer.quality ?? null : null;
-  const msg = quality ? MARK_MESSAGES[quality] : null;
   return (
     <fieldset className="mt-6">
       <legend className="text-sm text-muted-foreground">Shade the circle beside your answer with your finger, as you would with a pencil.</legend>
@@ -840,11 +839,6 @@ function OmrOptions({ q, answer, omr, onClear }: {
           );
         })}
       </div>
-      {msg ? (
-        <p role="status" className={cn("mt-3 rounded-lg px-3 py-2 text-sm", quality === "good" ? "bg-success-soft text-success" : "bg-warning-soft text-warning")}>
-          <span className="font-semibold">{msg.title}.</span> {msg.tip}{quality !== "good" ? " This answer will not be counted unless you erase it and shade again." : ""}
-        </p>
-      ) : null}
       {answer?.selected ? (
         <button type="button" onClick={onClear} className="mt-3 inline-flex h-10 items-center rounded-md border border-border-strong px-4 text-sm font-semibold text-ink hover:bg-muted">
           Erase
@@ -854,7 +848,7 @@ function OmrOptions({ q, answer, omr, onClear }: {
   );
 }
 
-/** OMR answer sheet overview: which circles are shaded, and how well. Tap a row to go to the question. */
+/** OMR answer sheet overview: which circles are shaded. Tap a row to go to the question. */
 function AnswerSheet({
   questions,
   answers,
@@ -869,27 +863,25 @@ function AnswerSheet({
     <section aria-labelledby="sheet-title">
       <h1 id="sheet-title" className="font-serif text-2xl font-semibold text-ink sm:text-3xl">Answer sheet</h1>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-        Your OMR sheet so far. A grey circle with a warning means the shading may not be read: open the question, erase and shade again.
+        Your OMR sheet so far. Tap a row to open that question.
       </p>
       <div className="mt-6 grid gap-x-8 gap-y-1 sm:grid-cols-2">
         {mcqs.map(({ q, i }) => {
           const a = answers[q.exam_question_id];
-          const bad = a?.selected && a.quality && a.quality !== "good";
           return (
-            <button key={q.exam_question_id} type="button" onClick={() => onGo(i)} className="flex items-center gap-3 border-b border-dashed border-border py-2 text-left hover:bg-muted/50" aria-label={`Question ${i + 1}${bad ? ": shading may not be read" : ""}`}>
+            <button key={q.exam_question_id} type="button" onClick={() => onGo(i)} className="flex items-center gap-3 border-b border-dashed border-border py-2 text-left hover:bg-muted/50" aria-label={`Question ${i + 1}`}>
               <span className="w-8 text-right text-sm font-semibold tabular-nums text-ink">{i + 1}</span>
               <span className="flex gap-2" aria-hidden>
                 {q.options.map((o) => {
                   const on = a?.selected === o.id;
                   return (
                     <span key={o.id} className={cn("flex size-8 items-center justify-center rounded-full border-2 text-[11px] font-semibold",
-                      on && !bad ? "border-ink bg-ink text-white" : on ? "border-warning bg-ink/30 text-white" : "border-ink/40 text-ink/60")}>
+                      on ? "border-ink bg-ink text-white" : "border-ink/40 text-ink/60")}>
                       {o.label}
                     </span>
                   );
                 })}
               </span>
-              {bad ? <AlertTriangle className="size-4 text-warning" aria-hidden /> : null}
             </button>
           );
         })}
