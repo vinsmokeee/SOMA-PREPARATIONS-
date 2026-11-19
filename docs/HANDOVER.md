@@ -8,6 +8,7 @@ without the previous chat. Keep it up to date at the end of every working sessio
 - **Results page fix (20 Nov):** "Take this test again" pointed personal exams (qotd-/practice-/mock- slugs, not in the
   catalogue) to a 404. Now hidden for personal tests; free PE students get a "Join Premium" note; "Back to menu" →
   `/dashboard/pe?scores=1`, which shows a "Check your score below" pop-up (`scores-hint.tsx`). 404 button → /dashboard.
+- **My scores "What to practise next" (20 Nov):** "Practise 10" silently failed for free accounts (FREE_DAILY_LIMIT). Free PE now sees the list + a Premium note (no buttons); QuickPractice shows a message on freeLimit.
 
 - **END OF DAY 19 Nov (Bhutan):** all work merged (PRs up to #61) and live. Founder will continue tomorrow in this chat.
   Next options: PE batch 4 (more Dzongkha + DI), ME papers (founder confirming categories with RCSC), founder feedback.

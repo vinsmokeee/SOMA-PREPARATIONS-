@@ -17,7 +17,8 @@ export const metadata: Metadata = { title: "Performance" };
 
 export default async function AnalyticsPage() {
   await requireUser("/dashboard/analytics");
-  const [{ performance: p, options, error }, written] = await Promise.all([loadLearningData(), loadWritten()]);
+  const db = await createClient();
+  const [{ performance: p, options, error }, written, { data: peAccess }] = await Promise.all([loadLearningData(), loadWritten(), db.rpc("has_stage_access", { _stage: "PE" })]);
   if (error || !p) return <Alert tone="danger">Your performance could not be loaded. Please try again.</Alert>;
 
   const acc = accuracy(p.totals.correct, p.totals.answered);
@@ -69,6 +70,13 @@ export default async function AnalyticsPage() {
       {recs.length ? (
         <section className="mt-8 rounded-xl border border-border p-5">
           <h2 className="font-semibold text-ink">What to practise next</h2>
+          <p className="text-sm text-muted-foreground">Your weakest areas, worst first.</p>
+          {!peAccess ? (
+            <Link href="/dashboard/pe?plans=1" className="mt-3 flex items-center gap-2 rounded-xl bg-yellow-100 p-3 text-sm text-yellow-950 ring-1 ring-yellow-300">
+              <span><span className="font-bold">Premium:</span> practise each weak area in one tap with 10 fresh questions.</span>
+              <span aria-hidden className="ml-auto">→</span>
+            </Link>
+          ) : null}
           <ul className="mt-3 divide-y divide-border">
             {recs.map((r, i) => (
               <li key={i} className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center">
@@ -76,7 +84,8 @@ export default async function AnalyticsPage() {
                   <p className="text-sm font-medium text-ink">{r.title}</p>
                   <p className="text-xs text-muted-foreground">{r.detail}</p>
                 </div>
-                <QuickPractice stage={r.stage} subjectId={r.subjectId} topicId={r.topicId} mode={r.kind === "mistakes" ? "mistakes" : "mixed"} label={r.kind === "mistakes" ? "Retry" : "Practise 10"} />
+                {/* Free PE accounts have one test a day, so the one-tap practice is a Premium feature (founder, 20 Nov 2026). */}
+                {peAccess || r.stage !== "PE" ? <QuickPractice stage={r.stage} subjectId={r.subjectId} topicId={r.topicId} mode={r.kind === "mistakes" ? "mistakes" : "mixed"} label={r.kind === "mistakes" ? "Retry" : "Practise 10"} /> : null}
               </li>
             ))}
           </ul>
