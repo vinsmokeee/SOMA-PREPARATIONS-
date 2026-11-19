@@ -99,6 +99,7 @@ export function QuickPractice({ stage, subjectId, topicId, mode = "mixed", label
         {pending ? "Preparing…" : label}
       </button>
       {state.error ? <span className="ml-2 text-xs text-danger">{state.error}</span> : null}
+      {state.freeLimit ? <span className="ml-2 text-xs text-warning">Free accounts get one test a day. <a href="/dashboard/pe?plans=1" className="font-semibold underline">Join Premium</a></span> : null}
     </form>
   );
 }
