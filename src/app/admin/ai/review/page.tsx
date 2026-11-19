@@ -2,11 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageTitle } from "@/components/app/app-shell";
 import { DraftReviewQueue, type ReviewDraft } from "@/components/admin/draft-review-queue";
+import { PublishBatch } from "@/components/admin/publish-batch";
 import { cn } from "@/lib/utils";
 import { can, requirePermission } from "@/lib/auth/dal";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "Review AI drafts" };
+
+const canPublishBatches = (user: Parameters<typeof can>[0]) => can(user, "questions.publish");
+
+/** Batches of Claude-written questions can be published with one tap. */
+export const maxDuration = 120;
 
 export default async function AiReviewPage({ searchParams }: PageProps<"/admin/ai/review">) {
   const user = await requirePermission("questions.review", "/admin/ai/review");
@@ -19,7 +25,7 @@ export default async function AiReviewPage({ searchParams }: PageProps<"/admin/a
     .order("created_at", { ascending: false }).limit(50);
   if (filter === "flagged") q = q.eq("ai_review->>verdict", "flag");
   if (filter === "passed") q = q.eq("ai_review->>verdict", "pass");
-  const { data, count } = await q;
+  const [{ data, count }, { data: batches }] = await Promise.all([q, db.rpc("question_batches_waiting")]);
   const waiting = count ?? 0;
   const parents = [...new Set((data ?? []).map((d) => d.parent_question_id).filter(Boolean))] as string[];
   const { data: sources } = parents.length ? await db.from("questions").select("id, stem, origin").in("id", parents) : { data: [] };
@@ -44,6 +50,11 @@ export default async function AiReviewPage({ searchParams }: PageProps<"/admin/a
         ))}
         <Link href="/admin/ai/variations" className="ml-auto font-medium text-primary hover:underline">Create variations</Link>
       </nav>
+      {canPublishBatches(user) && (batches ?? []).length ? (
+        <section aria-label="Batches waiting" className="mb-6 grid gap-3 sm:grid-cols-2">
+          {((batches ?? []) as { batch: string; waiting: number }[]).map((b) => <PublishBatch key={b.batch} batch={b.batch} waiting={Number(b.waiting)} />)}
+        </section>
+      ) : null}
       {waiting > drafts.length && (
         <p role="status" className="mb-4 rounded-xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
           <strong>{waiting} drafts are waiting.</strong> Showing the newest {drafts.length}. When you have dealt with these, refresh the page to see the next ones.

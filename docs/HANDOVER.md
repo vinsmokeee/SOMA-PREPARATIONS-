@@ -5,6 +5,21 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+- **PE batch 4 LOADED LIVE as drafts (20 Nov):** 120 = 30 English (passage `soma-b4-english` ×5), 30 Aptitude, 30 DI
+  (charts drawn by `scripts/past-papers/charts_batch4.py` → `public/papers/soma/b4-*.png`), 30 Dzongkha (passage
+  `soma-b4-dzongkha` ×5 — needs a Dzongkha speaker). 66 linked as twins of real 2010/2011 questions. Batch name
+  `pe-batch-4`; founder publishes with the batch card after merging (chart images ship with the merge).
+  Difficulty enum is foundation | standard | advanced (not "hard"). Next: batch 5 with the same mix and new twins.
+
+- **3,000-question plan (founder, 20 Nov):** batches of ~120 (30 English incl. ONE passage ×5 Qs, 30 Aptitude, 30 DI with
+  chart pictures, 30 Dzongkha incl. ONE passage ×5 Qs), all BCSE-style: twins of real 2010/2011 questions + new ones of
+  the same types; Bhutanese context; chart data marked illustrative. Set `BATCH = "pe-batch-N"` in the batch module.
+- **Batch publish (live):** `question_batches_waiting()`, `publish_question_batch(batch)` (migration `20261212000100`);
+  cards on /admin/ai/review "Publish this whole batch".
+- **Passages (live):** `questions.passage_group` / `passage_position` (migration `20261213000100`). Full mock tests take
+  one whole passage per language section; free 25-question tests leave passages out. Past papers grouped as
+  `bcse-2010-english`, `bcse-2011-english`, `bcse-20xx-dzongkha`.
+
 - **Results page fix (20 Nov):** "Take this test again" pointed personal exams (qotd-/practice-/mock- slugs, not in the
   catalogue) to a 404. Now hidden for personal tests; free PE students get a "Join Premium" note; "Back to menu" →
   `/dashboard/pe?scores=1`, which shows a "Check your score below" pop-up (`scores-hint.tsx`). 404 button → /dashboard.
