@@ -163,6 +163,12 @@ without the previous chat. Keep it up to date at the end of every working sessio
   change, also update everything connected to it without being told (other screens, wording, package
   feature lists, daily plan, tests, docs, previews), and list briefly what else changed. Still ask first
   when a related change is a real business decision (prices, rules, removing content) or deletes data.
+- **STANDING RULE (founder, 20 Nov 2026): changes apply immediately to everyone, including students part-way.**
+  Every change must also update existing data that would otherwise keep the old behaviour: today's daily
+  plans, saved choices, queued items, cached pages (revalidate), unfinished practice. Check "what already
+  exists for current users?" for every change and fix it in the same migration. Never delete a student's
+  answers, marks or history; for a test already in progress, change what is safe and apply the rest from
+  the next step.
 - Do not ask the founder to publish/unpublish content during development.
 - Always give direct links (GitHub PR, site pages, Supabase/Vercel settings pages).
 - Never invent RCSC exam rules; mark unconfirmed values ("from the founder's brief").
