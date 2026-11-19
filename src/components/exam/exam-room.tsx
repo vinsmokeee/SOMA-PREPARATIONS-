@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Dialog } from "radix-ui";
-import { AlertTriangle, ChevronLeft, ChevronRight, Clock3, Flag, LayoutGrid, Loader2, Save, WifiOff, X } from "lucide-react";
+import { AlertTriangle, ChevronLeft, PencilLine, ChevronRight, Clock3, Flag, LayoutGrid, Loader2, Save, WifiOff, X } from "lucide-react";
 import type { SaveInput, SaveResult, SubmitResult } from "@/app/exam/actions";
 import { clockOffset, countWords, formatClock, questionState, remainingSeconds, type QuestionState } from "@/lib/exam/logic";
 import type { AttemptPaper, MarkQuality, PaperQuestion } from "@/lib/exam/types";
@@ -827,8 +827,8 @@ function OmrOptions({ q, answer, omr, onClear }: {
   const quality = answer?.selected ? answer.quality ?? null : null;
   return (
     <fieldset className="mt-6">
-      <legend className="text-sm text-muted-foreground">Shade the circle beside your answer with your finger, as you would with a pencil.</legend>
-      <div className="mt-3 space-y-1.5">
+      <legend className="sr-only">Shade the circle beside your answer</legend>
+      <div className="space-y-1.5">
         {q.options.map((o) => {
           const selected = answer?.selected === o.id;
           return (
@@ -839,6 +839,11 @@ function OmrOptions({ q, answer, omr, onClear }: {
           );
         })}
       </div>
+      {/* A clear reminder under the options (founder, 20 Nov 2026). */}
+      <p className="mt-3 flex items-start gap-2 rounded-xl bg-slate-100 px-3 py-2.5 text-sm text-ink">
+        <PencilLine className="mt-0.5 size-4 shrink-0 text-slate-600" aria-hidden />
+        <span><span className="font-semibold">Sketch your answer:</span> shade the circle beside your answer completely with your finger, like on the real OMR sheet. To change it, tap Erase.</span>
+      </p>
       {answer?.selected ? (
         <button type="button" onClick={onClear} className="mt-3 inline-flex h-10 items-center rounded-md border border-border-strong px-4 text-sm font-semibold text-ink hover:bg-muted">
           Erase
