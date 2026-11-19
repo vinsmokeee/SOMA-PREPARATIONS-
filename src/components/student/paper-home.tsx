@@ -34,7 +34,7 @@ export function areas(p: MeProgressPaper) {
 }
 
 /**
- * One ME paper (Paper I, II or III): practise by question type, a timed mock paper and progress for this paper only.
+ * One ME paper (Paper I, II or III): a timed mock paper, practise by question type, and progress for this paper only.
  * Past papers and their years are not shown to students (founder, 20 Nov 2026).
  */
 export function PaperHome({ p }: { p: MeProgressPaper }) {
@@ -50,20 +50,7 @@ export function PaperHome({ p }: { p: MeProgressPaper }) {
         {p.weight ? <p className="relative mt-3 inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-bold">{Number(p.weight)}% of the written exam</p> : null}
       </section>
 
-      {/* 1. Practise */}
-      <section aria-labelledby="practise-h" className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-border">
-        <h2 id="practise-h" className="flex items-center gap-2 text-lg font-extrabold text-ink"><PenLine className="size-5 text-slate-700" aria-hidden /> Practise</h2>
-        <p className="mt-1 text-sm text-muted-foreground">One question at a time, a new one each time. Write on paper and upload a photo, or type. AI marks it and shows how to improve.</p>
-        {p.types.length ? (
-          <div className="mt-4 grid gap-2">
-            {p.types.map((t) => <PracticeTypeButton key={t.type} paper={p.id} type={t.type} label={typeLabel(t.type)} count={t.count} />)}
-          </div>
-        ) : (
-          <p className="mt-4 rounded-2xl bg-slate-100 p-4 text-sm text-muted-foreground">Questions for this paper are being prepared. They will appear here soon.</p>
-        )}
-      </section>
-
-      {/* 2. Mock paper */}
+      {/* 1. Mock paper first, like the PE (founder, 20 Nov 2026) */}
       <section aria-labelledby="mock-h" className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-border">
         <h2 id="mock-h" className="flex items-center gap-2 text-lg font-extrabold text-ink"><ClipboardCheck className="size-5 text-slate-700" aria-hidden /> Mock paper</h2>
         <p className="mt-1 text-sm text-muted-foreground">The whole paper in the RCSC pattern, timed like the real exam. Built just for you, with new questions every time.</p>
@@ -103,6 +90,19 @@ export function PaperHome({ p }: { p: MeProgressPaper }) {
             </ul>
           </div>
         ) : null}
+      </section>
+
+      {/* 2. Practise */}
+      <section aria-labelledby="practise-h" className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-border">
+        <h2 id="practise-h" className="flex items-center gap-2 text-lg font-extrabold text-ink"><PenLine className="size-5 text-slate-700" aria-hidden /> Practise</h2>
+        <p className="mt-1 text-sm text-muted-foreground">One question at a time, a new one each time. Write on paper and upload a photo, or type. AI marks it and shows how to improve.</p>
+        {p.types.length ? (
+          <div className="mt-4 grid gap-2">
+            {p.types.map((t) => <PracticeTypeButton key={t.type} paper={p.id} type={t.type} label={typeLabel(t.type)} count={t.count} />)}
+          </div>
+        ) : (
+          <p className="mt-4 rounded-2xl bg-slate-100 p-4 text-sm text-muted-foreground">Questions for this paper are being prepared. They will appear here soon.</p>
+        )}
       </section>
 
       {/* 3. My progress in this paper */}
