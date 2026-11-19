@@ -86,4 +86,17 @@ select tests.assert((select count(*) from public.ca_items) = 3, 'staff see every
 select tests.assert(((public.ca_overview()) ->> 'held')::int = 1, 'overview counts held stories');
 select tests.assert((select count(*) from public.ca_articles) = 2, 'staff see articles');
 select tests.assert_fails($$select token from public.ca_scheduler$$, 'scheduler token is not readable by any signed-in user');
+-- Question of the Day in the daily plan: PE students only; ME students read the news (founder, 20 Nov 2026)
+reset role;
+select tests.create_user('ca-me@test.bt', 'ME') as m \gset
+select tests.create_user('ca-pe@test.bt', 'PE') as pe \gset
+update public.profiles set pathway = 'ME' where id = :'m';
+update public.profiles set pathway = 'PE' where id = :'pe';
+set local role authenticated;
+select tests.login(:'m'); select public.ensure_today_plan();
+select tests.login(:'pe'); select public.ensure_today_plan();
+reset role;
+select tests.assert(not exists (select 1 from public.daily_plan_items i join public.daily_plans p on p.id = i.plan_id where p.user_id = :'m' and i.kind = 'ca'), 'ME daily plan has no Question of the Day');
+select tests.assert(exists (select 1 from public.daily_plan_items i join public.daily_plans p on p.id = i.plan_id where p.user_id = :'pe' and i.kind = 'ca'), 'PE daily plan keeps the Question of the Day');
+select tests.assert((select features ? 'Current affairs: daily Bhutan and world news' from public.packages where slug = 'me-premium'), 'ME Premium lists news, not quizzes');
 rollback;
