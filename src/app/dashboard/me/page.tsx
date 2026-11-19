@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { EntryPicker, ExamArea, FREE_POINTS, PackageChoice } from "@/components/student/exam-flow";
+import { EntryPicker, ExamArea, MeLocked } from "@/components/student/exam-flow";
 import { requireUser } from "@/lib/auth/dal";
 import { createClient } from "@/lib/supabase/server";
 import { loadArea, loadPackage } from "@/lib/student/area";
@@ -14,7 +14,7 @@ const ERRORS: Record<string, string> = {
   failed: "Could not save. Please try again.",
 };
 
-/** ME: choose your entry, then Free or Premium, then the ME area. */
+/** ME: choose your entry; without ME Premium the papers are locked; with it, the ME area. */
 export default async function MePage({ searchParams }: PageProps<"/dashboard/me">) {
   const user = await requireUser("/dashboard/me");
   const sp = await searchParams;
@@ -41,8 +41,15 @@ export default async function MePage({ searchParams }: PageProps<"/dashboard/me"
       />
     );
   }
-  if (!state.started.ME || sp.plans === "1") {
-    return <PackageChoice stage="ME" entryLabel={state.entry.label} pkg={await loadPackage("ME")} free={FREE_POINTS.ME} onFree={state.started.ME} />;
+  // ME is Premium only: without it the student sees their papers locked and Join ME Premium.
+  if (!state.premium.ME) {
+    const db = await createClient();
+    const [{ data: papers }, pkg] = await Promise.all([
+      db.from("exam_papers").select("title, paper_number, exam_paper_categories!inner(category_id)")
+        .eq("stage", "ME").eq("exam_paper_categories.category_id", state.entry.categoryId!).order("paper_number"),
+      loadPackage("ME"),
+    ]);
+    return <MeLocked entryLabel={state.entry.label} papers={[...new Set((papers ?? []).map((p) => p.title))]} pkg={pkg} />;
   }
   return <ExamArea d={await loadArea("ME", state)} />;
 }

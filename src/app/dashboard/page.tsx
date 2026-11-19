@@ -26,7 +26,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
   if (!notice && params.choose !== "1" && state.lastStage) {
     redirect(state.lastStage === "PE" ? "/dashboard/pe" : "/dashboard/me");
   }
-  const status = (s: "PE" | "ME") => (state.premium[s] ? state.premium[s] : state.started[s] ? "Free" : null);
+  const status = (s: "PE" | "ME") => (state.premium[s] ? state.premium[s] : s === "ME" ? "Premium only" : state.started[s] ? "Free" : null);
   return (
     <>
       {notice ? <Alert tone={notice.tone} className="mx-auto mb-4 max-w-lg">{notice.text}</Alert> : null}

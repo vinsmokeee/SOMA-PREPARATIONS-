@@ -93,7 +93,7 @@ export function WhyPremium({ stage }: { stage: Stage }) {
         <p className="text-sm text-muted-foreground">
           {stage === "PE"
             ? "Free lets you try a few questions. Premium gives you everything you need to prepare for the PE properly:"
-            : "Free lets you try 3 AI-marked answers. Premium gives you enough practice to really improve your writing:"}
+            : "ME Premium gives you everything you need to prepare for your written papers:"}
         </p>
         <Grid items={BENEFITS[stage]} stage={stage} />
       </section>

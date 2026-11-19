@@ -126,7 +126,7 @@ export function AnswerWorkflow(p: WorkflowProps) {
           <div className="space-y-2">
             {evStatus === "withdrawn" ? <p className="rounded-lg bg-muted p-3 text-sm">Your previous evaluation was withdrawn by the Soma team after review. You can request a new one; it was not counted towards your allowance.</p> : null}
             {evStatus === "failed" ? <p className="rounded-lg bg-warning-soft p-3 text-sm text-warning">{p.evaluation?.error_message ?? "The evaluation could not be completed."} This did not use up your allowance.</p> : null}
-            {p.allowance ? <p className="text-sm text-muted-foreground">{p.allowance.remaining} of {p.allowance.limit} AI evaluations left{p.allowance.plan === "free" ? " on your free account" : ""}.</p> : null}
+            {p.allowance ? <p className="text-sm text-muted-foreground">{p.allowance.remaining} of {p.allowance.limit} AI evaluations left.</p> : null}
             <button type="button"
               disabled={pending !== null || (p.mode === "handwritten" && ts !== "confirmed") || !(p.textAnswer ?? "").trim() || (p.allowance?.remaining ?? 0) <= 0}
               onClick={() => run("evaluate", () => requestEvaluationAction(p.answerId))}

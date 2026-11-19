@@ -1,4 +1,6 @@
 begin;
+-- ME is Premium only (free_total 0 live); this test checks the allowance mechanics with 3 free.
+update public.app_settings set value = jsonb_set(value, '{free_total}', '3') where key = 'evaluation.config';
 select tests.create_user('we-stu@test.bt', 'Writer') as s \gset
 select tests.create_user('we-oth@test.bt', 'Other') as o \gset
 select tests.create_user('we-boss@test.bt') as b \gset

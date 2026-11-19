@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BarChart3, Check, ClipboardCheck, Crown, Flame, Lightbulb, Newspaper, PenLine, PencilLine, PlayCircle } from "lucide-react";
+import { ArrowRight, BarChart3, Check, ClipboardCheck, Crown, Flame, Lightbulb, Lock, Newspaper, PenLine, PencilLine, PlayCircle } from "lucide-react";
 import { chooseExamAction, startFreeAction, setMeEntryAction } from "@/app/dashboard/exam-actions";
 import { StartButton } from "@/components/training/start-button";
 import { TodayPlan } from "@/components/training/today-plan";
@@ -102,6 +102,56 @@ export function PackageChoice({ stage, entryLabel, pkg, free, onFree = false }: 
         )}
       </div>
       <div className="order-last"><WhyPremium stage={stage} /></div>
+    </div>
+  );
+}
+
+/**
+ * ME is Premium only: a student without ME Premium sees their papers locked and one way in, Join ME Premium.
+ * `papers` are the paper titles for the student's entry, from the database, in order.
+ */
+export function MeLocked({ entryLabel, papers, pkg }: { entryLabel: string | null; papers: string[]; pkg: PackageInfo }) {
+  return (
+    <div data-exam="ME" className="mx-auto flex max-w-lg flex-col gap-5">
+      <Header stage="ME" subtitle={entryLabel ?? STAGE_INFO.ME.full} changeEntry={!!entryLabel} />
+      <div>
+        <h2 className="text-xl font-extrabold text-ink">Your ME papers</h2>
+        <p className="mt-1 text-sm text-muted-foreground">ME preparation comes with ME Premium. Join to open your papers.</p>
+      </div>
+      <ul className="grid gap-3">
+        {papers.map((t) => (
+          <li key={t}>
+            <a href="#join-me" className="relative flex min-h-20 items-center justify-between gap-3 overflow-hidden rounded-3xl bg-gradient-to-br from-rose-500/70 via-[#9b2c4b]/70 to-[#5b1530]/70 p-5 text-white shadow-md">
+              <span className="text-lg font-extrabold leading-snug">{t}</span>
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/20"><Lock className="size-5" aria-label="Locked" /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <div id="join-me" className={cn("relative scroll-mt-24 overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-xl", STAGE_INFO.ME.gradient)}>
+        <span className="absolute -right-6 -top-6 size-28 rounded-full bg-white/10" aria-hidden />
+        <p className="relative flex items-center gap-2 text-lg font-extrabold"><Crown className="size-5 text-yellow-200" aria-hidden /> ME Premium</p>
+        {pkg ? (
+          <>
+            <p className="relative mt-1 text-3xl font-black">Nu {Number(pkg.price).toLocaleString("en-IN")}</p>
+            <p className="relative text-sm text-white/85">{pkg.accessDays ? `${pkg.accessDays} days of full access` : "Full access"}</p>
+            <ul className="relative mt-3 space-y-1.5 text-sm">
+              {pkg.features.map((f) => <li key={f} className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-yellow-200" aria-hidden />{f}</li>)}
+            </ul>
+            {pkg.available ? (
+              <Link href={`/dashboard/subscription/checkout/${pkg.slug}`} className="relative mt-4 flex h-12 items-center justify-center rounded-2xl bg-white text-base font-bold text-[#9b2c4b] active:scale-[0.98]">
+                Join ME Premium
+              </Link>
+            ) : (
+              <p className="relative mt-4 rounded-2xl bg-white/20 p-3 text-center text-sm font-semibold">ME Premium opens soon.</p>
+            )}
+          </>
+        ) : (
+          <p className="relative mt-2 text-sm">ME Premium details are coming soon.</p>
+        )}
+      </div>
+      <WhyPremium stage="ME" />
     </div>
   );
 }
@@ -413,5 +463,5 @@ function Header({ stage, subtitle, badge, changeEntry }: { stage: Stage; subtitl
 
 export const FREE_POINTS: Record<Stage, string[]> = {
   PE: ["A free 25-question test every day, in BCSE style, answered on OMR circles", "Questions from all four sections, with explanations and your coach", "OMR sketch practice", "Exam countdown and the Question of the Day"],
-  ME: ["3 written answers marked by AI: typed, or a photo of your handwritten answer", "AI feedback with an improved model answer", "Sample written questions for your entry", "Today's current affairs"],
+  ME: [], // ME is Premium only
 };
