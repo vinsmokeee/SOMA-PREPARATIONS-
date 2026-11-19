@@ -171,11 +171,11 @@ const CATEGORY_PAPERS: Record<string, string> = {
   finance: "Dzongkha · English & General Knowledge · Bhutan",
   pgde: "Dzongkha · English & General Knowledge · Bhutan",
   dzongkha: "Dzongkha & GK · English & Current Affairs · Buddhist Studies",
-  bed: "Dzongkha · English · Teacher Aptitude Test",
+  bed: "General / Primary · Secondary · Dzongkha",
   technical: "Languages & GK · Subject group · Your specialisation",
 };
 
-/** ME entry: one of the six categories; B.Ed. graduate type; Technical specialisation and Paper II group. */
+/** ME entry: one of the six categories; B.Ed. section; Technical specialisation and Paper II group. */
 /** Administrative, Finance and PGDE sit the same common papers (RCSC examination board, 20 Nov 2026): one box first. */
 const SERVICES = ["administrative", "finance", "pgde"];
 
@@ -258,8 +258,8 @@ export function EntryPicker({ options, cat, spec, error }: { options: EntryOptio
       ) : (
         <>
           <p className="text-sm font-semibold text-primary">{category.name}</p>
-          <h2 className="-mt-4 text-xl font-extrabold text-ink">Which graduates are you?</h2>
-          <p className="text-sm text-muted-foreground">General and Dzongkha graduates write different Dzongkha and English papers; the Teacher Aptitude Test is the same.</p>
+          <h2 className="-mt-4 text-xl font-extrabold text-ink">Which B.Ed. section are you?</h2>
+          <p className="text-sm text-muted-foreground">All three sections write the same first paper and the same Teacher Aptitude Test. The subject paper depends on your section and subject.</p>
           <div className="grid gap-2">
             {specs.map((s) => <EntryButton key={s.id} label={s.name} category={category.id} specialisation={s.id} />)}
           </div>
