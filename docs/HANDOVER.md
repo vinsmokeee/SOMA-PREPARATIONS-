@@ -3,6 +3,13 @@
 Last updated: 2026-11-16. This note lets a new Claude session continue the work
 without the previous chat. Keep it up to date at the end of every working session.
 
+## Start here next session (stopped 20 Nov 2026, evening)
+
+- **Waiting on the founder:** (1) a fluent Dzongkha check of ME Paper I (General) drafts, then publish batch "ME Paper I (General, Dzongkha): BCSE 2025 + similar, batch 1"; (2) Paper I writing time: cover says 3 h 45 min, instruction says 3 h (site uses 3 h).
+- **Live and published:** ME General Paper III (42 parts) and Paper II (60) for Administrative / Finance / PGDE; mocks with reading time, choosing questions, one part per screen, MCQ section, Retry my mistakes, Exam Room badges.
+- **Next work:** load the other ME categories from https://rcsc.gov.bt/bcse-past-question-papers/ (Dzongkha Graduates, Technical, B.Ed.), then older years 2024 → 2010 per category; PE batch 6+ toward 3,000 later.
+- Follow the founder's standing rules below (automatic follow-on changes with the checklist; changes apply to current users immediately; DB updates without asking, except destructive ones).
+
 ## Where we stopped (18 Nov 2026)
 
 - **ME entry (founder + RCSC examination board, 20 Nov):** Administrative, Finance and PGDE share the same common papers → first ME screen shows one box "PGDE and Services" (`/dashboard/me?cat=services`) that opens the three. Other boxes: Dzongkha, B.Ed., Technical. (UI only; categories unchanged in the DB.)
