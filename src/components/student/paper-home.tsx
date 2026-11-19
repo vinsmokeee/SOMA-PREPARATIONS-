@@ -18,6 +18,7 @@ export const ROMAN = ["", "I", "II", "III", "IV", "V"];
 export const roman = (n: number | null) => (n ? ROMAN[n] ?? String(n) : "");
 const TYPE_LABEL: Record<string, string> = {
   short_answer: "Short answers", long_answer: "Long answers", essay: "Essays", analytical: "Analytical questions", descriptive: "Descriptive questions",
+  translation: "Translation", passage: "Comprehension", case_study: "Case studies",
 };
 export const typeLabel = (t: string) => TYPE_LABEL[t] ?? t;
 /** A question type's name on this paper: the RCSC part it belongs to when the pattern is known ("Part A: …"). */
