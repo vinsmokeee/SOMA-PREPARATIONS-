@@ -1,8 +1,8 @@
 begin;
 -- Reference data
 select tests.assert((select count(*) from public.specialisations where list_source like '%CSCE 2009%') = 31, 'the 31 earlier-list specialisations are all kept');
-select tests.assert((select count(*) from public.specialisations where review_note is not null) = 4, 'possible duplicates flagged, not merged');
-select tests.assert((select count(*) from public.specialisations where subject_group_id is not null) = 0, 'no specialisation linked to a Paper II group until verified');
+select tests.assert((select count(*) from public.specialisations where list_source = 'CSCE 2009' and review_note is not null) = 4, 'possible duplicates flagged, not merged');
+select tests.assert((select count(*) from public.specialisations where list_source like 'BCSE 2025%' and (subject_group_id is null or verification_status <> 'unverified')) = 0, 'every 2025 specialisation has a proposed Paper II group, marked unverified');
 select tests.assert((select string_agg(ps.title, ',' order by ps.sort_order) from public.paper_sections ps join public.exam_papers p on p.id = ps.paper_id where p.code = 'pe')
   = 'English,Dzongkha,Aptitude,Data Interpretation', 'PE has the four sections');
 select tests.assert((select question_count = 100 and duration_minutes = 150 and max_marks = 100 and params_source = 'founder_brief' from public.exam_papers where code = 'pe'), 'PE defaults from the brief, marked as such');
