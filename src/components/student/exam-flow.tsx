@@ -126,6 +126,9 @@ const CATEGORY_PAPERS: Record<string, string> = {
 };
 
 /** ME entry: one of the six categories; B.Ed. graduate type; Technical specialisation and Paper II group. */
+/** Administrative, Finance and PGDE sit the same common papers (RCSC examination board, 20 Nov 2026): one box first. */
+const SERVICES = ["administrative", "finance", "pgde"];
+
 export function EntryPicker({ options, cat, spec, error }: { options: EntryOptions; cat: string | null; spec: string | null; error?: string | null }) {
   const category = options.categories.find((c) => c.code === cat) ?? null;
   const specs = category ? options.specialisations.filter((s) => s.category_id === category.id) : [];
@@ -135,11 +138,30 @@ export function EntryPicker({ options, cat, spec, error }: { options: EntryOptio
     <div data-exam="ME" className="mx-auto max-w-lg space-y-5">
       <Header stage="ME" subtitle="Main Examination" />
       {error ? <p role="alert" className="rounded-2xl bg-danger-soft p-3 text-sm text-danger">{error}</p> : null}
-      {!category ? (
+      {cat === "services" ? (
+        <>
+          <p className="text-sm font-semibold text-primary">PGDE and Services</p>
+          <h2 className="-mt-4 text-xl font-extrabold text-ink">Which one are you applying for?</h2>
+          <p className="text-sm text-muted-foreground">These three categories write the same common papers: {CATEGORY_PAPERS.administrative ?? "Dzongkha, English and General Knowledge"}.</p>
+          <div className="grid gap-2">
+            {options.categories.filter((c) => SERVICES.includes(c.code)).map((c) => <EntryButton key={c.id} label={c.name} category={c.id} />)}
+          </div>
+        </>
+      ) : !category ? (
         <>
           <h2 className="text-xl font-extrabold text-ink">Which category are you applying for?</h2>
           <div className="grid gap-3">
-            {options.categories.map((c) => {
+            {options.categories.some((c) => SERVICES.includes(c.code)) ? (
+              <Link href="/dashboard/me?cat=services" className={card}>
+                <span className="absolute -right-6 -top-6 size-24 rounded-full bg-white/10" aria-hidden />
+                <span className="relative">
+                  <span className="block text-lg font-extrabold">PGDE and Services</span>
+                  <span className="block text-sm text-white/85">Administrative · Finance · Education (PGDE) — same common papers</span>
+                </span>
+                <ArrowRight className="relative size-6 shrink-0" aria-hidden />
+              </Link>
+            ) : null}
+            {options.categories.filter((c) => !SERVICES.includes(c.code)).map((c) => {
               const body = (
                 <>
                   <span className="absolute -right-6 -top-6 size-24 rounded-full bg-white/10" aria-hidden />
