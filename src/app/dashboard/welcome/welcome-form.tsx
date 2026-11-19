@@ -10,7 +10,7 @@ export type EntryDefaults = { pathway: string; categoryId: string; specialisatio
 
 const GROUP_HINTS: Record<string, string> = {
   general: "Administrative, Finance and PGDE graduates sit the same three papers.",
-  technical: "Paper I is common; Paper II and III follow your specialisation.",
+  technical: "Some papers are common; others follow your specialisation.",
   dzongkha: "Dzongkha Language & GK, English & Current Affairs, Buddhist Studies.",
 };
 
@@ -70,7 +70,7 @@ export function WelcomeForm({ categories, specialisations, defaults, locked }: {
                 <option value="">Choose…</option>
                 {specialisations.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
               </select>
-              <span className="mt-1 block text-muted-foreground">You will only get Paper II and III questions for this specialisation.</span>
+              <span className="mt-1 block text-muted-foreground">You will only get specialisation questions for this specialisation.</span>
             </label>
           ) : null}
         </fieldset>

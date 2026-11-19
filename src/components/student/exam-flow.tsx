@@ -122,7 +122,7 @@ const CATEGORY_PAPERS: Record<string, string> = {
   pgde: "Dzongkha · English & General Knowledge · Bhutan",
   dzongkha: "Dzongkha & GK · English & Current Affairs · Buddhist Studies",
   bed: "Dzongkha · English · Teacher Aptitude Test",
-  technical: "Languages & GK · Paper II group · Your specialisation",
+  technical: "Languages & GK · Subject group · Your specialisation",
 };
 
 /** ME entry: one of the six categories; B.Ed. graduate type; Technical specialisation and Paper II group. */
@@ -186,8 +186,8 @@ export function EntryPicker({ options, cat, spec, error }: { options: EntryOptio
       ) : category.code === "technical" && chosenSpec ? (
         <>
           <p className="text-sm font-semibold text-primary">{category.name} · {chosenSpec.name}</p>
-          <h2 className="-mt-4 text-xl font-extrabold text-ink">Your Paper II group</h2>
-          <p className="text-sm text-muted-foreground">Paper II is shared by a group of specialisations. Choose the group shown for your position in the RCSC vacancy announcement.</p>
+          <h2 className="-mt-4 text-xl font-extrabold text-ink">Your subject group</h2>
+          <p className="text-sm text-muted-foreground">Some papers are shared by a group of specialisations. Choose the group shown for your position in the RCSC vacancy announcement.</p>
           <div className="grid gap-2">
             {options.groups.map((g) => <EntryButton key={g.id} label={g.name} category={category.id} specialisation={chosenSpec.id} group={g.id} />)}
           </div>
@@ -195,7 +195,7 @@ export function EntryPicker({ options, cat, spec, error }: { options: EntryOptio
       ) : category.code === "technical" ? (
         <>
           <p className="text-sm font-semibold text-primary">{category.name}</p>
-          <h2 className="-mt-4 text-xl font-extrabold text-ink">Your specialisation (Paper III)</h2>
+          <h2 className="-mt-4 text-xl font-extrabold text-ink">Your specialisation</h2>
           <p className="text-sm text-muted-foreground">Based on RCSC&apos;s BCSE 2025 papers. Choose the specialisation of the position you are applying for; check this year&apos;s vacancy announcement.</p>
           <div className="grid gap-2">
             {specs.map((s) => (
