@@ -12,7 +12,7 @@ without the previous chat. Keep it up to date at the end of every working sessio
   PE (notice, letter, short news report, story, speech), longer and with detail/meaning/main-idea questions. The
   batch 4–5 passages (Karmo's family, Bumthang tshechu) stay.
 
-- **PE batch 5 LOADED LIVE as drafts (20 Nov):** 120, same structure as batch 4 (passages `soma-b5-english`,
+- **PE batch 5 PUBLISHED (20 Nov; live PE total 604: Aptitude 166, English 161, DI 145, Dzongkha 126, CA 6):** 120, same structure as batch 4 (passages `soma-b5-english`,
   `soma-b5-dzongkha`; charts `charts_batch5.py` → `public/papers/soma/b5-*.png`; 59 twins). Batch `pe-batch-5`.
   Founder must MERGE before publishing (chart images). Then live total ≈ 604.
 
