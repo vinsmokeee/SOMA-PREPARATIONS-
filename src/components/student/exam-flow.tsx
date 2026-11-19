@@ -342,10 +342,11 @@ export function ExamArea({ d }: { d: AreaData }) {
       ) : null}
       {!pe && d.progress?.length ? <MeOverall papers={d.progress} /> : null}
 
-      {/* PE: the mock test comes first (founder, 19 Nov 2026); an unfinished test is offered before a new one. */}
+      {/* PE: the mock test comes first (founder, 19 Nov 2026); an unfinished test is offered before a new one.
+          ME: the paper cards are the way in, so this box only appears to continue an unfinished paper (founder, 20 Nov 2026). */}
       {pe && !d.openAttempt ? (
         d.freeUsedUp ? <FreeLimitNote title="You have taken today’s free test" /> : <MockCta premium={Boolean(d.premium)} />
-      ) : (
+      ) : !pe && !d.openAttempt ? null : (
       <section className={cn("relative overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-xl sm:p-7", STAGE_INFO[d.stage].gradient)}>
         <span className="absolute -right-10 -top-10 size-40 rounded-full bg-white/10" aria-hidden />
         <div className="relative flex items-start justify-between gap-3">
