@@ -7,7 +7,10 @@ import { QuickPractice } from "@/components/student/practice-builder";
 import { ReadinessCard } from "@/components/student/readiness-card";
 import { Alert } from "@/components/ui/alert";
 import { requireUser } from "@/lib/auth/dal";
-import { accuracy, readiness, recommendations } from "@/lib/analytics";
+import { accuracy, forStage, readiness, recommendations } from "@/lib/analytics";
+import { MeOverall } from "@/components/student/paper-home";
+import { loadMeProgress } from "@/lib/student/area";
+import { loadExamState } from "@/lib/student/exam-state";
 import { loadLearningData } from "@/lib/analytics-server";
 import { formatDuration } from "@/lib/exam/logic";
 import { createClient } from "@/lib/supabase/server";
@@ -15,30 +18,45 @@ import { writtenAdvice, type WrittenPerformance } from "@/lib/written/insights";
 
 export const metadata: Metadata = { title: "Performance" };
 
-export default async function AnalyticsPage() {
-  await requireUser("/dashboard/analytics");
+/** My scores for one exam: the one the student is preparing for, or ?stage=PE|ME (founder, 20 Nov 2026). */
+export default async function AnalyticsPage({ searchParams }: PageProps<"/dashboard/analytics">) {
+  const user = await requireUser("/dashboard/analytics");
+  const sp = await searchParams;
   const db = await createClient();
-  const [{ performance: p, options, error }, written, { data: peAccess }] = await Promise.all([loadLearningData(), loadWritten(), db.rpc("has_stage_access", { _stage: "PE" })]);
-  if (error || !p) return <Alert tone="danger">Your performance could not be loaded. Please try again.</Alert>;
+  const stage: "PE" | "ME" = sp.stage === "PE" || sp.stage === "ME" ? sp.stage : ((await loadExamState(user.id)).lastStage ?? "PE");
+  const [{ performance: all, options, error }, written, { data: peAccess }, mePapers] = await Promise.all([
+    loadLearningData(), stage === "ME" ? loadWritten() : Promise.resolve(null), db.rpc("has_stage_access", { _stage: "PE" }),
+    stage === "ME" ? loadMeProgress() : Promise.resolve([]),
+  ]);
+  if (error || !all) return <Alert tone="danger">Your performance could not be loaded. Please try again.</Alert>;
+  const p = forStage(all, stage);
+  const title = `${stage} scores`;
+  const description = stage === "ME" ? "Your Main Examination results: papers, written answers and multiple-choice questions." : "Your Preliminary Examination results: accuracy, timing and weak areas.";
 
   const acc = accuracy(p.totals.correct, p.totals.answered);
-  const recs = recommendations(p, options, 6);
+  const recs = recommendations(p, options, 6).filter((r) => r.stage === stage);
   const trend = p.trend.map((t) => ({ id: t.id, label: t.title, date: t.submitted_at, accuracy: accuracy(t.correct, t.answered) ?? 0, answered: t.answered }));
   const weakTopics = [...p.by_topic]
     .filter((t) => t.answered >= 3)
     .sort((a, b) => (accuracy(a.correct, a.answered) ?? 0) - (accuracy(b.correct, b.answered) ?? 0))
     .slice(0, 8);
 
-  if (p.totals.answered === 0 && p.totals.written_answers === 0 && !written?.evaluated) {
+  if (p.totals.answered === 0 && p.totals.written_answers === 0 && !written?.evaluated && !mePapers.some((x) => x.marked)) {
     return (
       <>
-        <PageTitle title="Performance" description="Your accuracy, timing and weak areas across every examination and practice set." />
+        <PageTitle title={title} description={description} />
         <div className="rounded-xl border border-dashed border-border-strong p-8 text-center">
           <p className="font-semibold text-ink">No results yet</p>
           <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">Complete a practice set or an examination and your performance will appear here.</p>
           <div className="mt-4 flex justify-center gap-3">
-            <Link href="/dashboard/practice" className="inline-flex h-10 items-center rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground">Start practice</Link>
-            <Link href="/dashboard/exams" className="inline-flex h-10 items-center rounded-md border border-border-strong px-4 text-sm font-medium">Examinations</Link>
+            {stage === "ME" ? (
+              <Link href="/dashboard/me" className="inline-flex h-10 items-center rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground">Go to your papers</Link>
+            ) : (
+              <>
+                <Link href="/dashboard/practice" className="inline-flex h-10 items-center rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground">Start practice</Link>
+                <Link href="/dashboard/exams" className="inline-flex h-10 items-center rounded-md border border-border-strong px-4 text-sm font-medium">Examinations</Link>
+              </>
+            )}
           </div>
         </div>
       </>
@@ -47,7 +65,8 @@ export default async function AnalyticsPage() {
 
   return (
     <>
-      <PageTitle title="Performance" description="Your accuracy, timing and weak areas across every examination and practice set." />
+      <PageTitle title={title} description={description} />
+      {stage === "ME" && mePapers.length ? <div className="mb-8"><MeOverall papers={mePapers} /></div> : null}
       <dl className="grid grid-cols-2 gap-3 md:grid-cols-4">
         {[
           ["Questions answered", p.totals.answered.toLocaleString("en")],
@@ -63,8 +82,7 @@ export default async function AnalyticsPage() {
       </dl>
 
       <div className="mt-8 grid gap-4 md:grid-cols-2">
-        <ReadinessCard stage="PE" r={readiness("PE", p)} />
-        <ReadinessCard stage="ME" r={readiness("ME", p)} />
+        <ReadinessCard stage={stage} r={readiness(stage, p)} />
       </div>
 
       {recs.length ? (
@@ -107,7 +125,7 @@ export default async function AnalyticsPage() {
             <AccuracyBars
               data={p.by_subject.map((s) => ({
                 id: s.id,
-                label: `${s.stage} · ${s.name}`,
+                label: s.name,
                 accuracy: accuracy(s.correct, s.answered),
                 detail: `${s.correct}/${s.answered} · ${formatDuration(s.avg_seconds)} each`,
               }))}
@@ -121,7 +139,7 @@ export default async function AnalyticsPage() {
           ) : <p className="text-sm text-muted-foreground">Topic analysis appears once you have answered at least 3 questions in a topic.</p>}
         </section>
       </div>
-      <WrittenSection w={written} fallbackCount={p.totals.written_answers} />
+      {stage === "ME" ? <WrittenSection w={written} fallbackCount={p.totals.written_answers} /> : null}
     </>
   );
 }
@@ -162,7 +180,7 @@ function WrittenSection({ w, fallbackCount }: { w: WrittenPerformance | null; fa
           <AccuracyBars data={w.by_paper.map((s, i) => ({ id: s.paper_id ?? `none-${i}`, label: s.paper ?? "Other", accuracy: s.avg_pct, detail: `${s.answers} answer${s.answers === 1 ? "" : "s"}` }))} />
         </div>
       </div>
-      <p className="mt-4 text-xs text-muted-foreground">Percentages are indicative AI scores on Soma practice questions, not RCSC marks. <Link href="/dashboard/written" className="font-medium text-primary hover:underline">Practise written answers</Link></p>
+      <p className="mt-4 text-xs text-muted-foreground">Percentages are indicative AI scores on Soma practice questions, not RCSC marks. <Link href="/dashboard/me" className="font-medium text-primary hover:underline">Practise from your papers</Link></p>
     </section>
   );
 }

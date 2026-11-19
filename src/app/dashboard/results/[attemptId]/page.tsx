@@ -49,8 +49,8 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
 
   return (
     <div className="mx-auto max-w-4xl">
-      <Link href="/dashboard/history" className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-ink">
-        <ChevronLeft className="size-4" aria-hidden /> Examination history
+      <Link href={`/dashboard/history?stage=${r.exam.stage}`} className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-ink">
+        <ChevronLeft className="size-4" aria-hidden /> {r.exam.stage} test history
       </Link>
       {mcqs.length > 0 ? (
         <div className="mt-3">
