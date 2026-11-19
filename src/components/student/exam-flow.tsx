@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BarChart3, Check, ClipboardCheck, Crown, Flame, Lightbulb, Lock, Newspaper, PenLine, PencilLine, PlayCircle } from "lucide-react";
+import { ArrowRight, BarChart3, Check, ClipboardCheck, Crown, DoorOpen, Flame, Lightbulb, Lock, Newspaper, PenLine, PencilLine, PlayCircle } from "lucide-react";
 import { chooseExamAction, startFreeAction, setMeEntryAction } from "@/app/dashboard/exam-actions";
 import { StartButton } from "@/components/training/start-button";
 import { TodayPlan } from "@/components/training/today-plan";
@@ -123,7 +123,13 @@ export function PaperCards({ papers, locked = false }: { papers: MePaper[]; lock
             className={cn("relative flex min-h-24 items-center justify-between gap-3 overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-lg active:scale-[0.99]", PAPER_CARD, locked && "opacity-80")}>
             <span className="absolute -right-6 -top-6 size-24 rounded-full bg-white/10" aria-hidden />
             <span className="relative">
-              <span className="block text-2xl font-black">Paper {ROMAN[p.number ?? i + 1] ?? p.number}</span>
+              <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <span className="text-2xl font-black">Paper {ROMAN[p.number ?? i + 1] ?? p.number}</span>
+                {/* "Exam Room" next to each paper: an exam-hall feeling (founder, 20 Nov 2026) */}
+                <span className="inline-flex items-center gap-1 rounded-full border border-white/40 bg-white/10 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-white/95">
+                  <DoorOpen className="size-3.5" aria-hidden /> Exam Room
+                </span>
+              </span>
               <span className="block text-sm text-white/85">{p.title}</span>
             </span>
             <span className="relative flex size-10 shrink-0 items-center justify-center rounded-full bg-white/20">
