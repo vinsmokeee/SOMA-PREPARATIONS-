@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { ArrowRight, BarChart3, ClipboardCheck, PenLine, TrendingDown, TrendingUp } from "lucide-react";
+import { BarChart3, ClipboardCheck, PenLine, TrendingDown, TrendingUp } from "lucide-react";
+import { MockButton, PracticeTypeButton } from "./paper-start";
 
 /** One ME paper with the caller's progress, from `my_me_progress()`. */
 export type MeProgressPaper = {
@@ -10,7 +10,8 @@ export type MeProgressPaper = {
   by_type: { label: string; pct: number; n: number }[];
   by_topic: { label: string; pct: number; n: number }[];
   mocks: { at: string; pct: number | null }[];
-  mock_slug: string | null;
+  mock_ready: boolean;
+  pattern: { title: string; type: string; count: number; marks_each: number | null; answer_any: number | null }[];
 };
 
 export const ROMAN = ["", "I", "II", "III", "IV", "V"];
@@ -52,15 +53,10 @@ export function PaperHome({ p }: { p: MeProgressPaper }) {
       {/* 1. Practise */}
       <section aria-labelledby="practise-h" className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-border">
         <h2 id="practise-h" className="flex items-center gap-2 text-lg font-extrabold text-ink"><PenLine className="size-5 text-slate-700" aria-hidden /> Practise</h2>
-        <p className="mt-1 text-sm text-muted-foreground">One question at a time. Write on paper and upload a photo, or type. AI marks it and shows how to improve.</p>
+        <p className="mt-1 text-sm text-muted-foreground">One question at a time, a new one each time. Write on paper and upload a photo, or type. AI marks it and shows how to improve.</p>
         {p.types.length ? (
           <div className="mt-4 grid gap-2">
-            {p.types.map((t) => (
-              <Link key={t.type} href={`/dashboard/written?paper=${p.id}&type=${t.type}`} className="flex items-center justify-between rounded-2xl bg-slate-100 px-4 py-3 font-bold text-ink active:scale-[0.99]">
-                <span>{typeLabel(t.type)} <span className="ml-1 text-xs font-medium text-muted-foreground">{t.count} question{t.count === 1 ? "" : "s"}</span></span>
-                <ArrowRight className="size-5 text-slate-600" aria-hidden />
-              </Link>
-            ))}
+            {p.types.map((t) => <PracticeTypeButton key={t.type} paper={p.id} type={t.type} label={typeLabel(t.type)} count={t.count} />)}
           </div>
         ) : (
           <p className="mt-4 rounded-2xl bg-slate-100 p-4 text-sm text-muted-foreground">Questions for this paper are being prepared. They will appear here soon.</p>
@@ -70,18 +66,21 @@ export function PaperHome({ p }: { p: MeProgressPaper }) {
       {/* 2. Mock paper */}
       <section aria-labelledby="mock-h" className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-border">
         <h2 id="mock-h" className="flex items-center gap-2 text-lg font-extrabold text-ink"><ClipboardCheck className="size-5 text-slate-700" aria-hidden /> Mock paper</h2>
-        <p className="mt-1 text-sm text-muted-foreground">The whole paper in the RCSC pattern, timed like the real exam.</p>
+        <p className="mt-1 text-sm text-muted-foreground">The whole paper in the RCSC pattern, timed like the real exam. Built just for you, with new questions every time.</p>
         {p.duration_minutes || p.max_marks ? (
           <div className="mt-3 flex flex-wrap gap-2 text-xs font-bold">
             {p.duration_minutes ? <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700">{p.duration_minutes >= 60 && p.duration_minutes % 60 === 0 ? `${p.duration_minutes / 60} hour${p.duration_minutes === 60 ? "" : "s"}` : `${p.duration_minutes} minutes`}</span> : null}
             {p.max_marks ? <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700">{Number(p.max_marks)} marks</span> : null}
           </div>
         ) : null}
-        {p.mock_slug ? (
-          <Link href={`/dashboard/exams/${p.mock_slug}`} className="mt-4 flex h-12 items-center justify-center rounded-2xl bg-slate-800 text-base font-bold text-white active:scale-[0.98]">
-            {p.mocks.length ? "Take another mock paper" : "Start mock paper"}
-          </Link>
-        ) : (
+        {p.pattern.length ? (
+          <ul className="mt-3 space-y-1 text-sm text-muted-foreground">
+            {p.pattern.map((b) => (
+              <li key={b.title}>· {b.title}: {b.answer_any ? `answer any ${b.answer_any} of ${b.count}` : `${b.count} question${b.count === 1 ? "" : "s"}`}{b.marks_each ? `, ${Number(b.marks_each)} marks each` : ""}</li>
+            ))}
+          </ul>
+        ) : null}
+        {p.mock_ready ? <MockButton paper={p.id} again={p.mocks.length > 0} /> : (
           <p className="mt-4 rounded-2xl bg-slate-100 p-4 text-sm text-muted-foreground">Mock papers for this paper are being prepared.</p>
         )}
         {mocks.length ? (

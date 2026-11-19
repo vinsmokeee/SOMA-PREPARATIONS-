@@ -7,7 +7,8 @@ import { ME_RESULT_NOTE } from "@/lib/exam/entry";
 import { StartWritten } from "@/components/written/start-written";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { requireUser } from "@/lib/auth/dal";
+import { can, requireUser } from "@/lib/auth/dal";
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +18,9 @@ type Q = { id: string; stem: string; question_type: string; marks: number; word_
 
 export default async function WrittenPage({ searchParams }: PageProps<"/dashboard/written">) {
   const user = await requireUser("/dashboard/written");
+  // Students practise through their Paper I, II and III pages, one new question at a time, so they never browse
+  // the whole bank (founder, 20 Nov 2026). Staff keep this list for checking.
+  if (!can(user, "exams.manage")) redirect("/dashboard/me");
   const sp = await searchParams;
   const db = await createClient();
   const [{ data: qs }, { data: allowance }, { data: cats }] = await Promise.all([

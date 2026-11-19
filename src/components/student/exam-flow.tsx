@@ -196,14 +196,13 @@ const CATEGORY_PAPERS: Record<string, string> = {
   technical: "Languages & GK · Subject group · Your specialisation",
 };
 
-/** ME entry: one of the six categories; B.Ed. section; Technical specialisation and Paper II group. */
+/** ME entry: one of the six categories; B.Ed. section; Technical specialisation (its Paper II group follows from it). */
 /** Administrative, Finance and PGDE sit the same common papers (RCSC examination board, 20 Nov 2026): one box first. */
 const SERVICES = ["administrative", "finance", "pgde"];
 
-export function EntryPicker({ options, cat, spec, error }: { options: EntryOptions; cat: string | null; spec: string | null; error?: string | null }) {
+export function EntryPicker({ options, cat, error }: { options: EntryOptions; cat: string | null; spec: string | null; error?: string | null }) {
   const category = options.categories.find((c) => c.code === cat) ?? null;
   const specs = category ? options.specialisations.filter((s) => s.category_id === category.id) : [];
-  const chosenSpec = specs.find((s) => s.id === spec) ?? null;
   const card = cn("relative flex min-h-20 w-full items-center justify-between overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-left text-white shadow-lg active:scale-[0.99]", STAGE_INFO.ME.gradient);
   return (
     <div data-exam="ME" className="mx-auto max-w-lg space-y-5">
@@ -254,26 +253,13 @@ export function EntryPicker({ options, cat, spec, error }: { options: EntryOptio
             })}
           </div>
         </>
-      ) : category.code === "technical" && chosenSpec ? (
-        <>
-          <p className="text-sm font-semibold text-primary">{category.name} · {chosenSpec.name}</p>
-          <h2 className="-mt-4 text-xl font-extrabold text-ink">Your subject group</h2>
-          <p className="text-sm text-muted-foreground">Some papers are shared by a group of specialisations. Choose the group shown for your position in the RCSC vacancy announcement.</p>
-          <div className="grid gap-2">
-            {options.groups.map((g) => <EntryButton key={g.id} label={g.name} category={category.id} specialisation={chosenSpec.id} group={g.id} />)}
-          </div>
-        </>
       ) : category.code === "technical" ? (
         <>
           <p className="text-sm font-semibold text-primary">{category.name}</p>
           <h2 className="-mt-4 text-xl font-extrabold text-ink">Your specialisation</h2>
           <p className="text-sm text-muted-foreground">Based on RCSC&apos;s BCSE 2025 papers. Choose the specialisation of the position you are applying for; check this year&apos;s vacancy announcement.</p>
           <div className="grid gap-2">
-            {specs.map((s) => (
-              <Link key={s.id} href={`/dashboard/me?cat=technical&spec=${s.id}`} className="flex w-full items-center justify-between rounded-2xl bg-gradient-to-r from-[#be123c] to-[#7a1e3a] p-4 text-left font-bold text-white shadow-md active:scale-[0.99]">
-                {s.name} <ArrowRight className="size-5 shrink-0" aria-hidden />
-              </Link>
-            ))}
+            {specs.map((s) => <EntryButton key={s.id} label={s.name} category={category.id} specialisation={s.id} />)}
           </div>
         </>
       ) : (
@@ -337,8 +323,8 @@ export function ExamArea({ d }: { d: AreaData }) {
         { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
       ]
     : [
-        { href: "/dashboard/written", label: "Written answers", sub: "Get AI feedback", icon: PenLine, tint: "from-rose-600 to-[#7a1e3a]" },
-        { href: "/dashboard/exams?stage=ME", label: "ME papers", sub: "Timed papers for your entry", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
+        { href: "/dashboard/written/history", label: "My answers", sub: "Marks and AI feedback", icon: PenLine, tint: "from-rose-600 to-[#7a1e3a]" },
+        { href: "/dashboard/last-minute?stage=ME", label: "Last-minute summary", sub: "Your key points to revise", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
         { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
         { href: "/dashboard/analytics", label: "My scores", sub: d.written ? `${d.written} answer${d.written === 1 ? "" : "s"} marked` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
       ];
@@ -388,7 +374,7 @@ export function ExamArea({ d }: { d: AreaData }) {
           ) : next ? (
             <StartButton itemId={next.id} label={itemAction(next)} className="bg-white text-[var(--on-white,#9a3412)]" />
           ) : (
-            <Link href={pe ? (d.premium ? "/dashboard/practice?stage=PE" : "/dashboard/exams?stage=PE") : "/dashboard/written"} className="flex h-14 items-center justify-center rounded-2xl bg-white text-lg font-bold text-[var(--on-white,#9a3412)] shadow-lg">
+            <Link href={pe ? (d.premium ? "/dashboard/practice?stage=PE" : "/dashboard/exams?stage=PE") : d.papers?.[0] ? `/dashboard/me/paper/${d.papers[0].id}` : "/dashboard/me"} className="flex h-14 items-center justify-center rounded-2xl bg-white text-lg font-bold text-[var(--on-white,#9a3412)] shadow-lg">
               {pe ? (d.premium ? "Start practice" : "Take today’s free test") : "Write an answer"}
             </Link>
           )}
