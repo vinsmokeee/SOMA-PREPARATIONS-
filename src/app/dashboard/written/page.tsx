@@ -43,7 +43,8 @@ export default async function WrittenPage({ searchParams }: PageProps<"/dashboar
       <div className="mb-6 flex flex-wrap items-center gap-3">
         <Link href="/dashboard/written/history" className="inline-flex h-10 items-center rounded-md border border-border-strong px-4 text-sm font-medium hover:bg-muted">My submissions and feedback</Link>
         <Link href="/dashboard/exams?stage=ME" className="inline-flex h-10 items-center rounded-md border border-border-strong px-4 text-sm font-medium hover:bg-muted">Full ME examination simulations</Link>
-        {a ? <span className="text-sm text-muted-foreground">{a.remaining} of {a.limit} AI evaluations left{a.plan === "free" ? " (free account)" : ""}</span> : null}
+        {a && a.plan === "free" ? <Link href="/dashboard/me#join-me" className="text-sm font-semibold text-primary underline underline-offset-2">Written practice comes with ME Premium · Join</Link>
+          : a ? <span className="text-sm text-muted-foreground">{a.remaining} of {a.limit} AI evaluations left</span> : null}
       </div>
 
       <nav aria-label="Entry group" className="mb-3 flex flex-wrap gap-2">

@@ -6,6 +6,7 @@ without the previous chat. Keep it up to date at the end of every working sessio
 ## Where we stopped (18 Nov 2026)
 
 - **ME entry (founder + RCSC examination board, 20 Nov):** Administrative, Finance and PGDE share the same common papers → first ME screen shows one box "PGDE and Services" (`/dashboard/me?cat=services`) that opens the three. Other boxes: Dzongkha, B.Ed., Technical. (UI only; categories unchanged in the DB.)
+- **ME is Premium only (founder, 20 Nov):** no Free plan for ME. Without ME Premium, /dashboard/me shows the student's papers locked (titles from `exam_papers`) and "Join ME Premium" (`MeLocked`). Migration 20261215000100 (applied live): AI evaluations for free accounts = 0 (Admin → Evaluations can change it), no free ME samples or exams. PE keeps Free.
 - **No "Paper I/II/III" words for students (founder, 20 Nov):** until the founder sends real ME papers, student screens and the public ME page do not name Paper I/II/III ("Subject group" instead of "Paper II group"). Admin screens still use the paper names. Text only; nothing in the DB changed.
 
 - **Founder admin account has complimentary PE Premium until ~20 Dec 2026** (for testing; entitlement note "Founder testing of PE Premium").

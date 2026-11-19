@@ -120,7 +120,7 @@ values ('03775b85-f669-5309-b929-3fca5c310732', 'pe-sample-1', 'PE sample examin
 insert into public.exams (id, slug, title, description, instructions, stage, kind, cycle_id, paper_id, duration_minutes, negative_mark_per_wrong, omr_mode, is_free, status)
 values ('eceed2d4-3c3b-52ed-b23f-53ed5e73c1f2', 'me-sample-1', 'ME sample written paper', 'Two written questions in the style of the English and General Knowledge paper, with model answers and marking rubrics.',
  'Answer both questions. Plan briefly before you write, and keep close to the suggested length.',
- 'ME', 'sample', (select id from public.exam_cycles where code = 'bcse-2027'), (select id from public.exam_papers where code = 'me-general-2'), 45, 0, false, true, 'draft') on conflict (id) do nothing;
+ 'ME', 'sample', (select id from public.exam_cycles where code = 'bcse-2027'), (select id from public.exam_papers where code = 'me-general-2'), 45, 0, false, false, 'draft') on conflict (id) do nothing;
 insert into public.exam_questions (id, exam_id, question_id, position, section) values ('83915756-9300-5995-9a80-1e39a8fd3a47', '03775b85-f669-5309-b929-3fca5c310732', 'f87a249d-e97d-5f5b-9bb7-abf8b78db7bb', 1, 'English communication') on conflict (id) do nothing;
 insert into public.exam_questions (id, exam_id, question_id, position, section) values ('26281aa2-1930-5f3c-b771-7c5e031c99ed', '03775b85-f669-5309-b929-3fca5c310732', '29339976-7f36-5d68-9fb7-e8fe30e60108', 2, 'English communication') on conflict (id) do nothing;
 insert into public.exam_questions (id, exam_id, question_id, position, section) values ('17341646-6928-51bf-ae24-eb3c3c246c1a', '03775b85-f669-5309-b929-3fca5c310732', '4bcce886-b932-533a-a1c0-075bd8c44f56', 3, 'English communication') on conflict (id) do nothing;

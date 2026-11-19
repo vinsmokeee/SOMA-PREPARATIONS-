@@ -14,7 +14,7 @@ import { CaPracticeBox } from "@/components/student/ca-practice-box";
 import { coach } from "@/lib/exam/coach";
 import { ResultHero, SectionBars } from "@/components/exam/result-hero";
 import { studentNav } from "@/components/app/student-nav";
-import { EntryPicker, ExamArea, ExamChooser, FREE_POINTS, PackageChoice, type AreaData } from "@/components/student/exam-flow";
+import { EntryPicker, ExamArea, ExamChooser, FREE_POINTS, MeLocked, PackageChoice, type AreaData } from "@/components/student/exam-flow";
 import type { TrainingData } from "@/lib/training/model";
 
 export const metadata: Metadata = { title: "Student flow preview", robots: { index: false } };
@@ -61,7 +61,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     choose: <><ExamChooser firstName="Pema" status={{ PE: null, ME: null }} /><ChooserInfo packages={{ PE: pePkg, ME: mePkg }} /></>,
     "pe-packages": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} />,
     "pe-upgrade": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} onFree />,
-    "me-packages": <PackageChoice stage="ME" entryLabel="Technical Graduates · Civil Engineering" pkg={mePkg} free={FREE_POINTS.ME} />,
+    "me-packages": <MeLocked entryLabel="Technical Service · Civil Engineering · Engineering" papers={["Languages and General Knowledge", "General Subject Knowledge (common to subject groups)", "Subject Specialisation (for a specific position)"]} pkg={mePkg} />,
     "me-entry": <EntryPicker options={meOptions} cat={null} spec={null} />,
     "me-services": <EntryPicker options={meOptions} cat="services" spec={null} />,
     "me-bed": <EntryPicker options={meOptions} cat="bed" spec={null} />,

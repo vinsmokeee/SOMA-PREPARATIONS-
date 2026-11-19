@@ -14,6 +14,7 @@ export async function startFreeAction(formData: FormData): Promise<void> {
   if (!user) redirect("/login");
   const s = stage.safeParse(formData.get("stage"));
   if (!s.success) redirect("/dashboard");
+  if (s.data === "ME") redirect("/dashboard/me"); // ME has no free plan
   const db = await createClient();
   // A student prepares for one exam at a time (PE first; ME months later), so the choice replaces the old one.
   const pathway = s.data;
