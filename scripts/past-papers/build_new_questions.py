@@ -28,6 +28,8 @@ for x in b.Q:
     parent_sql = (f"(select id from public.questions where origin = 'historical_official' and source_year = {parent[0]} and stem like {q(parent[1].replace('%', '\\%').replace('_', '\\_') + '%')} limit 1)"
                   if parent else 'null')
     review = {'verdict': 'pass', 'issues': [], 'checker_notes': NOTE}
+    if getattr(b, 'BATCH', None):
+        review['batch'] = b.BATCH
     if parent:
         review['what_changed'] = {'new_numbers': 'Same skill as the past-paper question, with new numbers or words.',
                                   'new_scenario': 'Same skill as the past-paper question, in a new situation.',
