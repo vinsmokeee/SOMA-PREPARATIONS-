@@ -103,3 +103,27 @@ export function recommendations(perf: Performance, options: Partial<Record<"PE" 
   }
   return out.slice(0, limit);
 }
+
+/**
+ * One exam's results only (founder, 20 Nov 2026: ME scores must not show PE results, and the other way round).
+ * Totals are recomputed from that exam's subjects and attempts.
+ */
+export function forStage(perf: Performance, stage: "PE" | "ME"): Performance {
+  const by_subject = perf.by_subject.filter((s) => s.stage === stage);
+  const trend = perf.trend.filter((t) => t.stage === stage);
+  return {
+    ...perf,
+    by_subject,
+    by_topic: perf.by_topic.filter((t) => t.stage === stage),
+    trend,
+    coverage: perf.coverage.filter((c) => c.stage === stage),
+    totals: {
+      attempts: trend.length,
+      answered: by_subject.reduce((n, s) => n + s.answered, 0),
+      correct: by_subject.reduce((n, s) => n + s.correct, 0),
+      time_seconds: Math.round(by_subject.reduce((n, s) => n + s.answered * (s.avg_seconds ?? 0), 0)),
+      written_answers: stage === "ME" ? perf.totals.written_answers : 0,
+      distinct_questions: perf.totals.distinct_questions,
+    },
+  };
+}

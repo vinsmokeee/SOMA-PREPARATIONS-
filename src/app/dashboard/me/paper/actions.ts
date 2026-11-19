@@ -21,7 +21,7 @@ const MESSAGES: Record<string, string> = {
 const message = (e: { message: string } | null | undefined, fallback: string) =>
   Object.entries(MESSAGES).find(([k]) => e?.message.includes(k))?.[1] ?? fallback;
 
-const TYPES = ["short_answer", "long_answer", "essay", "analytical", "descriptive"] as const;
+const TYPES = ["short_answer", "long_answer", "essay", "analytical", "descriptive", "translation", "passage", "case_study"] as const;
 export type StartState = { error?: string };
 
 export async function startPaperPracticeAction(_prev: StartState, formData: FormData): Promise<StartState> {

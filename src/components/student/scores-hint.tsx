@@ -19,7 +19,7 @@ export function ScoresHint() {
         </p>
         <p className="mt-1 text-sm text-white/85">Open <b>My scores</b> to see your marks, your strongest and weakest sections, and how you are improving.</p>
         <div className="mt-4 flex gap-2">
-          <Link href="/dashboard/analytics" className="inline-flex h-11 flex-1 items-center justify-center rounded-2xl bg-gradient-to-br from-fuchsia-600 to-pink-500 text-sm font-bold">Open My scores</Link>
+          <Link href="/dashboard/analytics?stage=PE" className="inline-flex h-11 flex-1 items-center justify-center rounded-2xl bg-gradient-to-br from-fuchsia-600 to-pink-500 text-sm font-bold">Open My scores</Link>
           <button type="button" onClick={() => setOpen(false)} className="inline-flex h-11 items-center justify-center rounded-2xl px-4 text-sm font-semibold text-white/85 ring-1 ring-white/30">Later</button>
         </div>
       </div>

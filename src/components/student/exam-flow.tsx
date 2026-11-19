@@ -317,7 +317,7 @@ export function ExamArea({ d }: { d: AreaData }) {
   const pe = d.stage === "PE";
   const tiles = pe
     ? [
-        { href: "/dashboard/analytics", label: "My scores", sub: d.answered ? `${d.answered} answered` : "Your progress", icon: BarChart3, tint: "from-fuchsia-600 to-pink-500" },
+        { href: "/dashboard/analytics?stage=PE", label: "My scores", sub: d.answered ? `${d.answered} answered` : "Your progress", icon: BarChart3, tint: "from-fuchsia-600 to-pink-500" },
         { href: "/dashboard/omr-practice", label: "OMR sketch practice", sub: "Practise your shading for the RCSC PE", icon: PencilLine, tint: "from-slate-700 to-slate-500" },
         { href: "/dashboard/current-affairs#question-of-the-day", label: "Question of the Day", sub: "One news question a day", icon: Lightbulb, tint: "from-sky-600 to-cyan-500" },
         { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
@@ -326,7 +326,7 @@ export function ExamArea({ d }: { d: AreaData }) {
         { href: "/dashboard/written/history", label: "My answers", sub: "Marks and AI feedback", icon: PenLine, tint: "from-rose-600 to-[#7a1e3a]" },
         { href: "/dashboard/last-minute?stage=ME", label: "Last-minute summary", sub: "Your key points to revise", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
         { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
-        { href: "/dashboard/analytics", label: "My scores", sub: d.written ? `${d.written} answer${d.written === 1 ? "" : "s"} marked` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
+        { href: "/dashboard/analytics?stage=ME", label: "My scores", sub: d.written ? `${d.written} answer${d.written === 1 ? "" : "s"} marked` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
       ];
 
   return (

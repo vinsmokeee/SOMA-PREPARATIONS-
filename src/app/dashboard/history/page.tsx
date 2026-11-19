@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { requireUser } from "@/lib/auth/dal";
 import { formatDuration } from "@/lib/exam/logic";
 import { createClient } from "@/lib/supabase/server";
+import { loadExamState } from "@/lib/student/exam-state";
 import { formatDate, requestTimeMs } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Examination history" };
@@ -22,12 +23,16 @@ type Row = {
   exams: { title: string; stage: string; slug: string } | null;
 };
 
-export default async function HistoryPage() {
-  await requireUser("/dashboard/history");
+/** Tests of one exam only: the one the student is preparing for, or ?stage=PE|ME (founder, 20 Nov 2026). */
+export default async function HistoryPage({ searchParams }: PageProps<"/dashboard/history">) {
+  const user = await requireUser("/dashboard/history");
+  const sp = await searchParams;
+  const stage: "PE" | "ME" = sp.stage === "PE" || sp.stage === "ME" ? sp.stage : ((await loadExamState(user.id)).lastStage ?? "PE");
   const supabase = await createClient();
   const { data } = await supabase
     .from("exam_attempts")
-    .select("id, status, started_at, deadline_at, score, max_score, correct_count, incorrect_count, time_spent_seconds, exams(title, stage, slug)")
+    .select("id, status, started_at, deadline_at, score, max_score, correct_count, incorrect_count, time_spent_seconds, exams!inner(title, stage, slug)")
+    .eq("exams.stage", stage)
     .order("started_at", { ascending: false })
     .limit(100);
   const rows = (data ?? []) as unknown as Row[];
@@ -35,11 +40,11 @@ export default async function HistoryPage() {
 
   return (
     <>
-      <PageTitle title="Examination history" description="Every examination you have taken, with links to full results." />
+      <PageTitle title={`${stage} test history`} description={`Every ${stage} test and practice you have taken, with links to full results.`} />
       {rows.length === 0 ? (
         <div className="rounded-xl border border-dashed border-border-strong p-8 text-center">
-          <p className="font-semibold text-ink">No examinations yet</p>
-          <Link href="/dashboard/exams" className="mt-3 inline-block text-sm font-medium text-primary hover:underline">Browse examinations</Link>
+          <p className="font-semibold text-ink">No {stage} tests yet</p>
+          <Link href={stage === "ME" ? "/dashboard/me" : "/dashboard/pe"} className="mt-3 inline-block text-sm font-medium text-primary hover:underline">Go to {stage}</Link>
         </div>
       ) : (
         <ul className="divide-y divide-border rounded-xl border border-border">
@@ -52,7 +57,7 @@ export default async function HistoryPage() {
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-ink">{r.exams?.title ?? "Examination"}</p>
                   <p className="text-sm text-muted-foreground">
-                    {r.exams?.stage} · {formatDate(r.started_at)}
+                    {formatDate(r.started_at)}
                     {!open ? ` · ${formatDuration(r.time_spent_seconds)}` : ""}
                   </p>
                 </div>
