@@ -36,11 +36,12 @@ for x in b.Q:
                                   'same_objective': 'Tests the same point as the past-paper question with a new example.'}[x['kind']]
     out.append(f"""with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
-                                parent_question_id, variation_type, ai_review)
+                                parent_question_id, variation_type, ai_review, image_url, passage_group, passage_position)
   values ('PE', 'mcq', {q(x['stem'])}, {q(x['exp'])}, (select id from public.subjects where slug = {q(subj)}),
     (select t.id from public.topics t join public.subjects s on s.id = t.subject_id where s.slug = {q(subj)} and t.slug = {q(slug(x['topic']))}),
     {q(x['diff'])}, 1, 90, {q('ai_variation' if parent else 'ai_generated')}, 'awaiting_review', {parent_sql}, {q(x['kind']) if parent else 'null'},
-    {q(json.dumps(review, ensure_ascii=False))}::jsonb)
+    {q(json.dumps(review, ensure_ascii=False))}::jsonb, {q(x['image']) if x.get('image') else 'null'},
+    {q(x['passage']) if x.get('passage') else 'null'}, {x['pos'] if x.get('pos') else 'null'})
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
