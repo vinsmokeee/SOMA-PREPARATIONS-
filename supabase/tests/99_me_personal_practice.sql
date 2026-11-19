@@ -53,4 +53,18 @@ set local role authenticated;
 select tests.login(:'a');
 select tests.assert(not public.paper_mock_ready(:'p3'), 'not ready when the bank is too small');
 select tests.assert_fails(format($$select public.start_paper_mock(%L)$$, :'p3'), 'not enough questions for the pattern');
+-- Parts of one RCSC question (passage_group) go into a mock together and in order; practice gives one part
+reset role;
+update public.paper_blueprint_sections set question_count = 1, answer_any = null where paper_id = :'p3';
+update public.questions set passage_group = 'me-test-grp', passage_position = n - 2 from qs where qs.id = questions.id and n in (3, 4);
+update public.questions set passage_group = 'me-test-grp2', passage_position = n from qs where qs.id = questions.id and n in (1, 2);
+set local role authenticated;
+select tests.login(:'b');
+select public.start_paper_mock(:'p3') as m2 \gset
+reset role;
+select tests.assert((select count(*) = 2 and count(distinct q.passage_group) = 1
+    and string_agg(q.passage_position::text, ',' order by eq.position) = '1,2'
+  from public.exam_attempts at join public.exam_questions eq on eq.exam_id = at.exam_id join public.questions q on q.id = eq.question_id where at.id = :'m2'),
+  'a mock question brings all its parts, in order');
+set local role authenticated;
 rollback;
