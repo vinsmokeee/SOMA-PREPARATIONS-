@@ -133,8 +133,7 @@ function OfficialMe({ structure, source }: { structure: ExamStructure; source: "
                       <details className="mt-4 text-sm">
                         <summary className="cursor-pointer font-medium text-primary">Technical specialisations Soma covers ({tech.length})</summary>
                         <p className="mt-2 text-muted-foreground">
-                          Paper I is common to all technical graduates. Paper II is shared by a group of specialisations; Paper III is
-                          your own specialisation. The list follows RCSC&apos;s BCSE 2025 papers; check this year&apos;s vacancy announcement.
+                          Technical graduates write common papers, papers shared by a group of specialisations, and papers in their own specialisation. The list follows RCSC&apos;s BCSE 2025 papers; check this year&apos;s vacancy announcement.
                         </p>
                         <ul className="mt-2 grid gap-1 text-muted-foreground sm:grid-cols-2">
                           {tech.map((s) => <li key={s.id}>{s.name}</li>)}

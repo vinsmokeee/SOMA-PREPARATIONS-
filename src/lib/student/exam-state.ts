@@ -45,7 +45,7 @@ export async function loadExamState(userId: string): Promise<ExamState> {
   const spec = profile?.specialisations as unknown as { name: string } | null;
   const sg = profile?.subject_groups as unknown as { name: string } | null;
   const group = cat?.public_group ?? null;
-  const label = cat ? [cat.name, spec?.name, sg ? `Paper II: ${sg.name}` : null].filter(Boolean).join(" · ") : null;
+  const label = cat ? [cat.name, spec?.name, sg ? sg.name : null].filter(Boolean).join(" · ") : null;
   return {
     pathway, started, premium, lastStage, openAttempt,
     entry: {

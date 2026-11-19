@@ -209,7 +209,7 @@ export function QuestionEditor({ initial, lookups, readOnlyReason }: { initial: 
           </Select>
         </Field>
         <Field>
-          <Label htmlFor="group">Paper II group</Label>
+          <Label htmlFor="group">Subject group</Label>
           <Select id="group" value={q.subject_group_id} disabled={disabled || scope !== "subject_group"} onChange={(e) => set("subject_group_id", e.target.value)}>
             <option value="">— None —</option>
             {lookups.groups.map((g) => <option key={g.id} value={g.id}>{g.name}</option>)}

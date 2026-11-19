@@ -20,7 +20,7 @@ export async function loadMyEntry(userId: string): Promise<Entry> {
 
 export function entryLabel(e: Entry): string {
   if (!e.group) return "ME pathway not chosen";
-  return [e.category, e.specialisation, e.paper2 ? `Paper II: ${e.paper2}` : null].filter(Boolean).join(" · ");
+  return [e.category, e.specialisation, e.paper2 ? e.paper2 : null].filter(Boolean).join(" · ");
 }
 
 /** Shows the student's ME entry, or asks them to choose one so ME content can be matched. */
