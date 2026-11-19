@@ -81,7 +81,7 @@ According to the passage, people mainly procrastinate because', 'The passage say
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'they are lazy', false, 1), ('B', 'the task causes an unpleasant feeling they want to avoid', true, 2), ('C', 'they have too much free time', false, 3), ('D', 'they enjoy working under pressure', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'the task causes an unpleasant feeling they want to avoid', true, 1), ('B', 'they are lazy', false, 2), ('C', 'they have too much free time', false, 3), ('D', 'they enjoy working under pressure', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -100,7 +100,7 @@ Why, according to the passage, does the habit of delay grow stronger?', '“Putt
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Deadlines are usually too long', false, 1), ('B', 'The relief felt after putting a task off rewards the delay', true, 2), ('C', 'Tasks become harder over time', false, 3), ('D', 'Other people encourage it', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Other people encourage it', false, 1), ('B', 'The relief felt after putting a task off rewards the delay', true, 2), ('C', 'Tasks become harder over time', false, 3), ('D', 'Deadlines are usually too long', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -119,7 +119,7 @@ The word “remedy” in the second paragraph is closest in meaning to', 'A reme
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'reason', false, 1), ('B', 'punishment', false, 2), ('C', 'cure', true, 3), ('D', 'warning', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'warning', false, 1), ('B', 'reason', false, 2), ('C', 'cure', true, 3), ('D', 'punishment', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -138,7 +138,7 @@ What does the passage recommend?', 'The remedy is “a gentler start”: a first
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Working longer hours', false, 1), ('B', 'Stricter self-discipline', false, 2), ('C', 'Avoiding difficult tasks', false, 3), ('D', 'Starting with a very small first step', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Starting with a very small first step', true, 1), ('B', 'Working longer hours', false, 2), ('C', 'Avoiding difficult tasks', false, 3), ('D', 'Stricter self-discipline', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -157,7 +157,7 @@ Which title best suits the passage?', 'The passage explains the cause of procras
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Why We Put Things Off, and How to Start', true, 1), ('B', 'The Dangers of Hard Work', false, 2), ('C', 'How to Write a Report', false, 3), ('D', 'Laziness in the Modern Office', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'The Dangers of Hard Work', false, 1), ('B', 'How to Write a Report', false, 2), ('C', 'Laziness in the Modern Office', false, 3), ('D', 'Why We Put Things Off, and How to Start', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -170,7 +170,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Police', false, 1), ('B', 'Measles', true, 2), ('C', 'Pliers', false, 3), ('D', 'Spectacles', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Pliers', false, 1), ('B', 'Police', false, 2), ('C', 'Spectacles', false, 3), ('D', 'Measles', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -187,7 +187,7 @@ The government%' limit 1), 'same_objective',
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'to postponing', false, 1), ('B', 'postpone', false, 2), ('C', 'to postpone', true, 3), ('D', 'postponing of', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'postpone', false, 1), ('B', 'to postponing', false, 2), ('C', 'postponing of', false, 3), ('D', 'to postpone', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -204,7 +204,7 @@ The modern hospital ______ from a small dispensary that was opened in 1960.', 'A
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'has grown', false, 1), ('B', 'grew', true, 2), ('C', 'grown', false, 3), ('D', 'growing', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'grown', false, 1), ('B', 'grew', true, 2), ('C', 'growing', false, 3), ('D', 'has grown', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -221,7 +221,7 @@ The poverty rates%' limit 1), 'same_objective',
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'if we', true, 1), ('B', 'unless we', false, 2), ('C', 'we will', false, 3), ('D', 'when will we', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'when will we', false, 1), ('B', 'we will', false, 2), ('C', 'if we', true, 3), ('D', 'unless we', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -238,7 +238,7 @@ The legislation%' limit 1), 'same_objective',
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'provides by', false, 1), ('B', 'provides for', true, 2), ('C', 'provides with', false, 3), ('D', 'provides to', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'provides to', false, 1), ('B', 'provides for', true, 2), ('C', 'provides by', false, 3), ('D', 'provides with', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -253,7 +253,7 @@ No sooner had the bus left ______ it began to rain.', 'The fixed pattern is “N
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'when', false, 1), ('B', 'than', true, 2), ('C', 'then', false, 3), ('D', 'that', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'than', true, 1), ('B', 'that', false, 2), ('C', 'then', false, 3), ('D', 'when', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -266,7 +266,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'The judicious rain flooded the fields.', false, 1), ('B', 'He felt judicious after the long walk.', false, 2), ('C', 'The road was judicious and full of bends.', false, 3), ('D', 'She made a judicious choice of words in a difficult meeting.', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'She made a judicious choice of words in a difficult meeting.', true, 1), ('B', 'He felt judicious after the long walk.', false, 2), ('C', 'The road was judicious and full of bends.', false, 3), ('D', 'The judicious rain flooded the fields.', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -279,7 +279,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Continual means happening again and again with breaks; continuous means without any break.', true, 1), ('B', 'Continual means without any break; continuous means happening again and again.', false, 2), ('C', 'They mean exactly the same.', false, 3), ('D', 'Continual is used only for time; continuous only for space.', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Continual means without any break; continuous means happening again and again.', false, 1), ('B', 'Continual is used only for time; continuous only for space.', false, 2), ('C', 'They mean exactly the same.', false, 3), ('D', 'Continual means happening again and again with breaks; continuous means without any break.', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -292,7 +292,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Imply is formal and infer is informal; they mean the same.', false, 1), ('B', 'A speaker implies something; a listener infers it.', true, 2), ('C', 'A listener implies something; a speaker infers it.', false, 3), ('D', 'Both words mean “to say directly”.', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'A listener implies something; a speaker infers it.', false, 1), ('B', 'A speaker implies something; a listener infers it.', true, 2), ('C', 'Imply is formal and infer is informal; they mean the same.', false, 3), ('D', 'Both words mean “to say directly”.', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -305,7 +305,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Living under the ground', false, 1), ('B', 'Relating to the desert', false, 2), ('C', 'Living in or relating to trees', true, 3), ('D', 'Relating to the sea', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Living under the ground', false, 1), ('B', 'Relating to the sea', false, 2), ('C', 'Living in or relating to trees', true, 3), ('D', 'Relating to the desert', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -322,7 +322,7 @@ She was taking a%' limit 1), 'same_objective',
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'gregarious', false, 1), ('B', 'boisterous', false, 2), ('C', 'convivial', false, 3), ('D', 'reclusive', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'boisterous', false, 1), ('B', 'reclusive', true, 2), ('C', 'convivial', false, 3), ('D', 'gregarious', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -339,7 +339,7 @@ The professor is%' limit 1), 'same_objective',
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'an astute', true, 1), ('B', 'a naive', false, 2), ('C', 'an indifferent', false, 3), ('D', 'a reluctant', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'a naive', false, 1), ('B', 'an indifferent', false, 2), ('C', 'a reluctant', false, 3), ('D', 'an astute', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -354,7 +354,7 @@ The ______ aroma of ema datshi filled the kitchen and made everyone hungry.', 'T
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'odourless', false, 1), ('B', 'tantalising', true, 2), ('C', 'insipid', false, 3), ('D', 'bland', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'bland', false, 1), ('B', 'tantalising', true, 2), ('C', 'insipid', false, 3), ('D', 'odourless', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -369,7 +369,7 @@ The officer’s TACITURN manner made the interview difficult.', 'Taciturn means 
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'cheerful', false, 1), ('B', 'rude', false, 2), ('C', 'reserved', true, 3), ('D', 'talkative', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'cheerful', false, 1), ('B', 'reserved', true, 2), ('C', 'talkative', false, 3), ('D', 'rude', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -384,7 +384,7 @@ The report contained several SPURIOUS claims.', 'Spurious means false or fake, t
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'important', false, 1), ('B', 'original', false, 2), ('C', 'careful', false, 3), ('D', 'false', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'important', false, 1), ('B', 'careful', false, 2), ('C', 'false', true, 3), ('D', 'original', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -399,7 +399,7 @@ The flood caused UNPRECEDENTED damage to the town.', 'Unprecedented means never 
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'never seen before', true, 1), ('B', 'expected', false, 2), ('C', 'minor', false, 3), ('D', 'repeated', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'repeated', false, 1), ('B', 'never seen before', true, 2), ('C', 'minor', false, 3), ('D', 'expected', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -412,7 +412,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'costly', false, 1), ('B', 'convincing', true, 2), ('C', 'confusing', false, 3), ('D', 'careless', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'careless', false, 1), ('B', 'convincing', true, 2), ('C', 'confusing', false, 3), ('D', 'costly', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -425,7 +425,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'dishonest', false, 1), ('B', 'idle', false, 2), ('C', 'practical', true, 3), ('D', 'dreamy', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'dishonest', false, 1), ('B', 'practical', true, 2), ('C', 'dreamy', false, 3), ('D', 'idle', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -438,7 +438,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'energetic', false, 1), ('B', 'angry', false, 2), ('C', 'curious', false, 3), ('D', 'sluggish', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'angry', false, 1), ('B', 'curious', false, 2), ('C', 'energetic', false, 3), ('D', 'sluggish', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -464,7 +464,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'trivial', false, 1), ('B', 'serious', true, 2), ('C', 'silly', false, 3), ('D', 'playful', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'silly', false, 1), ('B', 'trivial', false, 2), ('C', 'playful', false, 3), ('D', 'serious', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -477,7 +477,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'gentle', false, 1), ('B', 'mild', false, 2), ('C', 'harmful', true, 3), ('D', 'kind', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'gentle', false, 1), ('B', 'harmful', true, 2), ('C', 'kind', false, 3), ('D', 'mild', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -490,7 +490,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'stubborn', false, 1), ('B', 'rigid', false, 2), ('C', 'determined', false, 3), ('D', 'flexible', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'determined', false, 1), ('B', 'stubborn', false, 2), ('C', 'rigid', false, 3), ('D', 'flexible', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -503,7 +503,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'abundance', true, 1), ('B', 'shortage', false, 2), ('C', 'lack', false, 3), ('D', 'need', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'abundance', true, 1), ('B', 'shortage', false, 2), ('C', 'need', false, 3), ('D', 'lack', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -516,7 +516,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'grand', false, 1), ('B', 'modest', true, 2), ('C', 'showy', false, 3), ('D', 'flashy', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'showy', false, 1), ('B', 'modest', true, 2), ('C', 'grand', false, 3), ('D', 'flashy', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -529,7 +529,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Tashi', false, 1), ('B', 'Karma', false, 2), ('C', 'Sonam', true, 3), ('D', 'Dema', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Karma', false, 1), ('B', 'Tashi', false, 2), ('C', 'Sonam', true, 3), ('D', 'Dema', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -542,7 +542,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Karma', false, 1), ('B', 'Pema', false, 2), ('C', 'Dawa', false, 3), ('D', 'Tshering', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Pema', false, 1), ('B', 'Tshering', true, 2), ('C', 'Karma', false, 3), ('D', 'Dawa', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -555,7 +555,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'English', true, 1), ('B', 'Science', false, 2), ('C', 'History', false, 3), ('D', 'Maths', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Maths', false, 1), ('B', 'History', false, 2), ('C', 'Science', false, 3), ('D', 'English', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -568,7 +568,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '64%', false, 1), ('B', '40%', true, 2), ('C', '60%', false, 3), ('D', '36%', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '60%', false, 1), ('B', '36%', false, 2), ('C', '64%', false, 3), ('D', '40%', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -594,7 +594,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '20%', false, 1), ('B', '9%', false, 2), ('C', '10%', false, 3), ('D', '8%', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '9%', false, 1), ('B', '8%', true, 2), ('C', '20%', false, 3), ('D', '10%', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -607,7 +607,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Nu. 30,000', true, 1), ('B', 'Nu. 27,000', false, 2), ('C', 'Nu. 22,500', false, 3), ('D', 'Nu. 36,000', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Nu. 30,000', true, 1), ('B', 'Nu. 36,000', false, 2), ('C', 'Nu. 22,500', false, 3), ('D', 'Nu. 27,000', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -620,7 +620,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Both are 10%.', false, 1), ('B', 'The percentage increase is greater than the percentage decrease.', true, 2), ('C', 'The percentage decrease is greater than the percentage increase.', false, 3), ('D', 'Both percentages are equal.', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Both percentages are equal.', false, 1), ('B', 'The percentage decrease is greater than the percentage increase.', false, 2), ('C', 'The percentage increase is greater than the percentage decrease.', true, 3), ('D', 'Both are 10%.', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -633,7 +633,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '15 kg', false, 1), ('B', '12.5 kg', false, 2), ('C', '17 kg', true, 3), ('D', '13 kg', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '12.5 kg', false, 1), ('B', '17 kg', true, 2), ('C', '15 kg', false, 3), ('D', '13 kg', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -646,7 +646,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '7', false, 1), ('B', '9', false, 2), ('C', '7.5', false, 3), ('D', '8', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '9', false, 1), ('B', '7', false, 2), ('C', '7.5', false, 3), ('D', '8', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -659,7 +659,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '20', true, 1), ('B', '40', false, 2), ('C', '60', false, 3), ('D', '30', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '20', true, 1), ('B', '30', false, 2), ('C', '60', false, 3), ('D', '40', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -672,7 +672,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Exactly half a pizza', false, 1), ('B', 'More than one pizza', true, 2), ('C', 'Exactly one pizza', false, 3), ('D', 'Less than one pizza', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Exactly one pizza', false, 1), ('B', 'More than one pizza', true, 2), ('C', 'Less than one pizza', false, 3), ('D', 'Exactly half a pizza', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -685,7 +685,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '21', false, 1), ('B', '28', false, 2), ('C', '20', true, 3), ('D', '15', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '21', false, 1), ('B', '20', true, 2), ('C', '28', false, 3), ('D', '15', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -700,7 +700,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '22', false, 1), ('B', '24', false, 2), ('C', '21', false, 3), ('D', '23', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '22', false, 1), ('B', '23', true, 2), ('C', '21', false, 3), ('D', '24', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -718,7 +718,7 @@ then 6, 3 = ?', 'Rule: first × (first + second). 3 × 7 = 21, 5 × 7 = 35, 4 ×
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '54', true, 1), ('B', '18', false, 2), ('C', '45', false, 3), ('D', '36', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '18', false, 1), ('B', '45', false, 2), ('C', '36', false, 3), ('D', '54', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -752,7 +752,7 @@ a  z  b%' limit 1), 'same_objective',
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'g', false, 1), ('B', 'u', false, 2), ('C', 'v', true, 3), ('D', 'w', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'v', true, 1), ('B', 'w', false, 2), ('C', 'g', false, 3), ('D', 'u', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -767,7 +767,7 @@ p  m  q  m  r  m  s  m  ?', 'The letters p, q, r, s alternate with m; next is t.
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'm', false, 1), ('B', 'u', false, 2), ('C', 's', false, 3), ('D', 't', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'm', false, 1), ('B', 't', true, 2), ('C', 's', false, 3), ('D', 'u', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -784,7 +784,7 @@ PEACH%' limit 1), 'same_objective',
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '61385', true, 1), ('B', '61358', false, 2), ('C', '85316', false, 3), ('D', '16385', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '85316', false, 1), ('B', '61358', false, 2), ('C', '61385', true, 3), ('D', '16385', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -801,7 +801,7 @@ Fingers%' limit 1), 'same_objective',
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Library', false, 1), ('B', 'Book', true, 2), ('C', 'Pen', false, 3), ('D', 'Word', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Pen', false, 1), ('B', 'Library', false, 2), ('C', 'Book', true, 3), ('D', 'Word', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -814,7 +814,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Animal', false, 1), ('B', 'Fruit', false, 2), ('C', 'Country', true, 3), ('D', 'River', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Animal', false, 1), ('B', 'Country', true, 2), ('C', 'Fruit', false, 3), ('D', 'River', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -827,7 +827,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'City', false, 1), ('B', 'Country', false, 2), ('C', 'Instrument', false, 3), ('D', 'Animal', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Country', false, 1), ('B', 'Instrument', false, 2), ('C', 'Animal', true, 3), ('D', 'City', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -840,7 +840,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '21', true, 1), ('B', '42', false, 2), ('C', '14', false, 3), ('D', '49', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '14', false, 1), ('B', '42', false, 2), ('C', '21', true, 3), ('D', '49', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -853,7 +853,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '4', false, 1), ('B', '24', true, 2), ('C', '16', false, 3), ('D', '12', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '16', false, 1), ('B', '4', false, 2), ('C', '24', true, 3), ('D', '12', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -866,7 +866,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '30', false, 1), ('B', '18', false, 2), ('C', '20', true, 3), ('D', '25', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '30', false, 1), ('B', '25', false, 2), ('C', '18', false, 3), ('D', '20', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -879,7 +879,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Sonam', false, 1), ('B', 'Dawa', false, 2), ('C', 'Nobody', false, 3), ('D', 'Pema', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Dawa', false, 1), ('B', 'Nobody', false, 2), ('C', 'Sonam', false, 3), ('D', 'Pema', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -892,7 +892,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'North-west', true, 1), ('B', 'North-east', false, 2), ('C', 'South-west', false, 3), ('D', 'West', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'South-west', false, 1), ('B', 'North-west', true, 2), ('C', 'North-east', false, 3), ('D', 'West', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -905,7 +905,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '7 AM', false, 1), ('B', '6 AM', true, 2), ('C', '6 PM', false, 3), ('D', '12 midnight', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '6 AM', true, 1), ('B', '12 midnight', false, 2), ('C', '7 AM', false, 3), ('D', '6 PM', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -921,7 +921,7 @@ Column B: 4⁶', '8⁴ = 2¹² and 4⁶ = 2¹²; both are 4,096.', (select id fr
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Column B is greater', false, 1), ('B', 'The relationship cannot be determined', false, 2), ('C', 'The two quantities are equal', true, 3), ('D', 'Column A is greater', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'The two quantities are equal', true, 1), ('B', 'The relationship cannot be determined', false, 2), ('C', 'Column B is greater', false, 3), ('D', 'Column A is greater', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -934,7 +934,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Rapid industrialisation', false, 1), ('B', 'Growth in GDP above all else', false, 2), ('C', 'Military strength', false, 3), ('D', 'Preservation and promotion of culture', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Preservation and promotion of culture', true, 1), ('B', 'Rapid industrialisation', false, 2), ('C', 'Military strength', false, 3), ('D', 'Growth in GDP above all else', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -949,7 +949,7 @@ Which dzongkhag had fewer visitors in 2023 than in 2022?', 'Punakha fell from 35
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Punakha', true, 1), ('B', 'Paro', false, 2), ('C', 'Bumthang', false, 3), ('D', 'Haa', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Paro', false, 1), ('B', 'Haa', false, 2), ('C', 'Punakha', true, 3), ('D', 'Bumthang', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -964,7 +964,7 @@ What was the total number of visitors to the five dzongkhags in 2023?', '55 + 72
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '210 thousand', false, 1), ('B', '203 thousand', true, 2), ('C', '172 thousand', false, 3), ('D', '198 thousand', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '210 thousand', false, 1), ('B', '172 thousand', false, 2), ('C', '198 thousand', false, 3), ('D', '203 thousand', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -979,7 +979,7 @@ Which dzongkhag had the largest percentage increase in visitors from 2022 to 202
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Bumthang', false, 1), ('B', 'Thimphu', false, 2), ('C', 'Haa', true, 3), ('D', 'Paro', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Thimphu', false, 1), ('B', 'Paro', false, 2), ('C', 'Bumthang', false, 3), ('D', 'Haa', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -994,7 +994,7 @@ In 2022, how many more visitors went to Thimphu than to Paro?', '60 − 42 = 18 
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '12 thousand', false, 1), ('B', '17 thousand', false, 2), ('C', '25 thousand', false, 3), ('D', '18 thousand', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '17 thousand', false, 1), ('B', '18 thousand', true, 2), ('C', '12 thousand', false, 3), ('D', '25 thousand', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1009,7 +1009,7 @@ What was the average number of visitors per dzongkhag in 2022?', '(42 + 60 + 35 
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '34.4 thousand', true, 1), ('B', '40.6 thousand', false, 2), ('C', '35 thousand', false, 3), ('D', '32.8 thousand', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '35 thousand', false, 1), ('B', '32.8 thousand', false, 2), ('C', '40.6 thousand', false, 3), ('D', '34.4 thousand', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1024,7 +1024,7 @@ In which month did the school use the least electricity?', 'May shows the lowest
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'March', false, 1), ('B', 'May', true, 2), ('C', 'April', false, 3), ('D', 'June', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'April', false, 1), ('B', 'May', true, 2), ('C', 'June', false, 3), ('D', 'March', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1039,7 +1039,7 @@ By about what percentage did use fall from January to May?', 'Fall = 500 units; 
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'About 30%', false, 1), ('B', 'About 58%', false, 2), ('C', 'About 42%', true, 3), ('D', 'About 50%', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'About 30%', false, 1), ('B', 'About 50%', false, 2), ('C', 'About 58%', false, 3), ('D', 'About 42%', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1054,7 +1054,7 @@ What was the average monthly use over the six months (to the nearest unit)?', 'T
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '950 units', false, 1), ('B', '900 units', false, 2), ('C', '1,000 units', false, 3), ('D', '942 units', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '942 units', true, 1), ('B', '950 units', false, 2), ('C', '900 units', false, 3), ('D', '1,000 units', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1069,7 +1069,7 @@ In how many months was use above 900 units?', 'January (1,200), February (1,100)
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '3', true, 1), ('B', '4', false, 2), ('C', '2', false, 3), ('D', '5', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '5', false, 1), ('B', '2', false, 2), ('C', '3', true, 3), ('D', '4', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1084,7 +1084,7 @@ By what percentage did use rise from May to June?', 'Rise = 200; 200 ÷ 700 × 1
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'About 33%', false, 1), ('B', 'About 29%', true, 2), ('C', 'About 22%', false, 3), ('D', 'About 20%', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'About 22%', false, 1), ('B', 'About 20%', false, 2), ('C', 'About 29%', true, 3), ('D', 'About 33%', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1099,7 +1099,7 @@ How much does Karma spend on books each month?', '20% of 6,000 = Nu. 1,200.', (s
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Nu. 1,500', false, 1), ('B', 'Nu. 2,000', false, 2), ('C', 'Nu. 1,200', true, 3), ('D', 'Nu. 900', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Nu. 1,500', false, 1), ('B', 'Nu. 1,200', true, 2), ('C', 'Nu. 900', false, 3), ('D', 'Nu. 2,000', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1114,7 +1114,7 @@ What angle at the centre does the Transport slice make?', '15% of 360° = 54°.'
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '45°', false, 1), ('B', '60°', false, 2), ('C', '36°', false, 3), ('D', '54°', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '60°', false, 1), ('B', '36°', false, 2), ('C', '45°', false, 3), ('D', '54°', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1129,7 +1129,7 @@ How much more does Karma spend on food than he saves?', 'Food 40% − savings 15
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Nu. 1,500', true, 1), ('B', 'Nu. 2,400', false, 2), ('C', 'Nu. 900', false, 3), ('D', 'Nu. 1,200', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Nu. 1,200', false, 1), ('B', 'Nu. 900', false, 2), ('C', 'Nu. 1,500', true, 3), ('D', 'Nu. 2,400', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1144,7 +1144,7 @@ If his allowance rises to Nu. 7,500 and the shares stay the same, how much will 
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Nu. 1,125', false, 1), ('B', 'Nu. 750', true, 2), ('C', 'Nu. 600', false, 3), ('D', 'Nu. 900', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Nu. 600', false, 1), ('B', 'Nu. 900', false, 2), ('C', 'Nu. 1,125', false, 3), ('D', 'Nu. 750', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1159,7 +1159,7 @@ What is the ratio of spending on food to spending on books?', '40% : 20% = 2 : 1
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '1 : 2', false, 1), ('B', '3 : 2', false, 2), ('C', '2 : 1', true, 3), ('D', '4 : 1', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '1 : 2', false, 1), ('B', '3 : 2', false, 2), ('C', '4 : 1', false, 3), ('D', '2 : 1', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1174,7 +1174,7 @@ How many new businesses were registered in the six towns altogether?', '48 + 36 
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '158', false, 1), ('B', '172', false, 2), ('C', '148', false, 3), ('D', '168', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '158', false, 1), ('B', '168', true, 2), ('C', '148', false, 3), ('D', '172', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1189,7 +1189,7 @@ About what percentage of all the new businesses were in Thimphu?', '48 ÷ 168 ×
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'About 29%', true, 1), ('B', 'About 25%', false, 2), ('C', 'About 33%', false, 3), ('D', 'About 48%', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'About 25%', false, 1), ('B', 'About 33%', false, 2), ('C', 'About 29%', true, 3), ('D', 'About 48%', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1204,7 +1204,7 @@ What is the ratio of new businesses in Phuentsholing to those in Bumthang?', '36
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '1 : 3', false, 1), ('B', '3 : 1', true, 2), ('C', '2 : 1', false, 3), ('D', '4 : 1', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '2 : 1', false, 1), ('B', '3 : 1', true, 2), ('C', '4 : 1', false, 3), ('D', '1 : 3', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1219,7 +1219,7 @@ How many towns had more new businesses than the average of the six towns?', 'Ave
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '4', false, 1), ('B', '1', false, 2), ('C', '3', true, 3), ('D', '2', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '4', false, 1), ('B', '2', false, 2), ('C', '3', true, 3), ('D', '1', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1234,7 +1234,7 @@ Gelephu registered how many percent more new businesses than Paro?', '(30 − 24
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '20%', false, 1), ('B', '6%', false, 2), ('C', '30%', false, 3), ('D', '25%', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '20%', false, 1), ('B', '30%', false, 2), ('C', '25%', true, 3), ('D', '6%', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1249,7 +1249,7 @@ What was the bus’s speed during the first two hours?', '100 km in 2 hours = 50
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '50 km/h', true, 1), ('B', '100 km/h', false, 2), ('C', '40 km/h', false, 3), ('D', '25 km/h', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '25 km/h', false, 1), ('B', '50 km/h', true, 2), ('C', '40 km/h', false, 3), ('D', '100 km/h', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1264,7 +1264,7 @@ For how long did the bus stop?', 'The graph is flat from 2 h to 2.5 h: half an h
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '2 hours', false, 1), ('B', '30 minutes', true, 2), ('C', '1 hour', false, 3), ('D', '15 minutes', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '30 minutes', true, 1), ('B', '15 minutes', false, 2), ('C', '2 hours', false, 3), ('D', '1 hour', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1279,7 +1279,7 @@ How far did the bus travel in total?', 'The graph ends at 160 km.', (select id f
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '180 km', false, 1), ('B', '60 km', false, 2), ('C', '160 km', true, 3), ('D', '100 km', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '60 km', false, 1), ('B', '180 km', false, 2), ('C', '100 km', false, 3), ('D', '160 km', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1294,7 +1294,7 @@ What was the average speed for the whole journey, including the stop?', '160 km 
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '50 km/h', false, 1), ('B', '45 km/h', false, 2), ('C', '32 km/h', false, 3), ('D', '40 km/h', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '40 km/h', true, 1), ('B', '50 km/h', false, 2), ('C', '45 km/h', false, 3), ('D', '32 km/h', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1309,7 +1309,7 @@ What was the bus’s speed after the stop?', '60 km (100→160) in 1.5 hours = 4
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '40 km/h', true, 1), ('B', '60 km/h', false, 2), ('C', '50 km/h', false, 3), ('D', '30 km/h', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '60 km/h', false, 1), ('B', '50 km/h', false, 2), ('C', '40 km/h', true, 3), ('D', '30 km/h', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1349,7 +1349,7 @@ What was the pass rate in 2019?', '54 ÷ 120 × 100 = 45%.', (select id from pub
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '40%', false, 1), ('B', '50%', false, 2), ('C', '45%', true, 3), ('D', '54%', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '54%', false, 1), ('B', '40%', false, 2), ('C', '45%', true, 3), ('D', '50%', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1369,7 +1369,7 @@ How many students passed over the five years altogether?', '54 + 72 + 80 + 77 + 
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '381', false, 1), ('B', '401', false, 2), ('C', '750', false, 3), ('D', '391', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '750', false, 1), ('B', '381', false, 2), ('C', '391', true, 3), ('D', '401', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1389,7 +1389,7 @@ By what percentage did the number of students sitting the test rise from 2019 to
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '50%', true, 1), ('B', '60%', false, 2), ('C', '40%', false, 3), ('D', '33%', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '40%', false, 1), ('B', '33%', false, 2), ('C', '60%', false, 3), ('D', '50%', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1409,7 +1409,7 @@ What was the average number of students who passed per year?', '391 ÷ 5 = 78.2.
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '77', false, 1), ('B', '78.2', true, 2), ('C', '75', false, 3), ('D', '80', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', '75', false, 1), ('B', '80', false, 2), ('C', '77', false, 3), ('D', '78.2', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1430,7 +1430,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'སྤུ་ན་ཁ', false, 1), ('B', 'བུམ་ཐང', false, 2), ('C', 'སྤ་རོ', true, 3), ('D', 'ཐིམ་ཕུ', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'སྤ་རོ', true, 1), ('B', 'སྤུ་ན་ཁ', false, 2), ('C', 'ཐིམ་ཕུ', false, 3), ('D', 'བུམ་ཐང', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1451,7 +1451,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'གསུམ', false, 1), ('B', 'བཞི', false, 2), ('C', 'དྲུག', false, 3), ('D', 'ལྔ', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'དྲུག', false, 1), ('B', 'བཞི', false, 2), ('C', 'ལྔ', true, 3), ('D', 'གསུམ', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1472,7 +1472,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཞིང་པ', true, 1), ('B', 'སློབ་དཔོན', false, 2), ('C', 'སྨན་པ', false, 3), ('D', 'ཚོང་པ', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'སློབ་དཔོན', false, 1), ('B', 'སྨན་པ', false, 2), ('C', 'ཞིང་པ', true, 3), ('D', 'ཚོང་པ', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1493,7 +1493,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'བརྒྱད་པ', false, 1), ('B', 'བཅུ་པ', true, 2), ('C', 'དགུ་པ', false, 3), ('D', 'བཅུ་གཅིག་པ', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'བརྒྱད་པ', false, 1), ('B', 'བཅུ་གཅིག་པ', false, 2), ('C', 'བཅུ་པ', true, 3), ('D', 'དགུ་པ', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1514,7 +1514,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཞིང་པ', false, 1), ('B', 'དྲུང་ཆེན', false, 2), ('C', 'སྨན་པ', true, 3), ('D', 'སློབ་དཔོན', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'སློབ་དཔོན', false, 1), ('B', 'དྲུང་ཆེན', false, 2), ('C', 'ཞིང་པ', false, 3), ('D', 'སྨན་པ', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1529,7 +1529,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཕྱག་མཐུན', false, 1), ('B', 'སྐུ་མཐུན', false, 2), ('C', 'དབུ་མཐུན', false, 3), ('D', 'ཞལ་མཐུན', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'སྐུ་མཐུན', false, 1), ('B', 'ཕྱག་མཐུན', false, 2), ('C', 'དབུ་མཐུན', false, 3), ('D', 'ཞལ་མཐུན', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1544,7 +1544,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'སྐུ་གེགས', true, 1), ('B', 'ཞལ་གེགས', false, 2), ('C', 'ཕྱག་གེགས', false, 3), ('D', 'དབུ་གེགས', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཞལ་གེགས', false, 1), ('B', 'སྐུ་གེགས', true, 2), ('C', 'དབུ་གེགས', false, 3), ('D', 'ཕྱག་གེགས', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1559,7 +1559,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'དབུ་རིང', false, 1), ('B', 'སྐུ་རིང', true, 2), ('C', 'ཞལ་རིང', false, 3), ('D', 'ཕྱག་རིང', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'དབུ་རིང', false, 1), ('B', 'ཕྱག་རིང', false, 2), ('C', 'སྐུ་རིང', true, 3), ('D', 'ཞལ་རིང', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1574,7 +1574,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཞལ་འབངས', false, 1), ('B', 'ཕྱག་འབངས', false, 2), ('C', 'ཆབ་འབངས', true, 3), ('D', 'སྐུ་འབངས', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'སྐུ་འབངས', false, 1), ('B', 'ཆབ་འབངས', true, 2), ('C', 'ཕྱག་འབངས', false, 3), ('D', 'ཞལ་འབངས', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1589,7 +1589,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཞལ་སྒེར', false, 1), ('B', 'ཕྱག་སྒེར', false, 2), ('C', 'དབུ་སྒེར', false, 3), ('D', 'སྐུ་སྒེར', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཕྱག་སྒེར', false, 1), ('B', 'སྐུ་སྒེར', true, 2), ('C', 'དབུ་སྒེར', false, 3), ('D', 'ཞལ་སྒེར', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1604,7 +1604,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'འཁྲུངས་སྐར', true, 1), ('B', 'སྐུ་སྐར', false, 2), ('C', 'ཞལ་སྐར', false, 3), ('D', 'ཕྱག་སྐར', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཕྱག་སྐར', false, 1), ('B', 'འཁྲུངས་སྐར', true, 2), ('C', 'ཞལ་སྐར', false, 3), ('D', 'སྐུ་སྐར', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1619,7 +1619,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'སྐུ་འདྲེན', false, 1), ('B', 'དབུ་འདྲེན', true, 2), ('C', 'ཞལ་འདྲེན', false, 3), ('D', 'ཕྱག་འདྲེན', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཞལ་འདྲེན', false, 1), ('B', 'སྐུ་འདྲེན', false, 2), ('C', 'ཕྱག་འདྲེན', false, 3), ('D', 'དབུ་འདྲེན', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1634,7 +1634,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཕྱག་འཛོམས་ཁང', false, 1), ('B', 'དབུ་འཛོམས་ཁང', false, 2), ('C', 'ཞལ་འཛོམས་ཁང', true, 3), ('D', 'སྐུ་འཛོམས་ཁང', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'དབུ་འཛོམས་ཁང', false, 1), ('B', 'ཕྱག་འཛོམས་ཁང', false, 2), ('C', 'ཞལ་འཛོམས་ཁང', true, 3), ('D', 'སྐུ་འཛོམས་ཁང', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1649,7 +1649,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཆ་མཉམ', false, 1), ('B', 'ཡོངས་རྫོགས', false, 2), ('C', 'ཧྲིལ་བུ', false, 3), ('D', 'ལ་ལུ', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ལ་ལུ', true, 1), ('B', 'ཆ་མཉམ', false, 2), ('C', 'ཡོངས་རྫོགས', false, 3), ('D', 'ཧྲིལ་བུ', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1664,7 +1664,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'དྲོ', true, 1), ('B', 'གྲང', false, 2), ('C', 'ཁྱགས', false, 3), ('D', 'བསིལ', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཁྱགས', false, 1), ('B', 'དྲོ', true, 2), ('C', 'བསིལ', false, 3), ('D', 'གྲང', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1679,7 +1679,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'སྐད་ཐོག', false, 1), ('B', 'ཡིག་ཐོག', true, 2), ('C', 'ཁ་ཐོག', false, 3), ('D', 'གསུང་ཐོག', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཡིག་ཐོག', true, 1), ('B', 'ཁ་ཐོག', false, 2), ('C', 'གསུང་ཐོག', false, 3), ('D', 'སྐད་ཐོག', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1694,7 +1694,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཕྱི་གྱུར', false, 1), ('B', 'ཐོན་གྱུར', false, 2), ('C', 'ལྐོག་གྱུར', true, 3), ('D', 'གསལ་གྱུར', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ལྐོག་གྱུར', true, 1), ('B', 'ཕྱི་གྱུར', false, 2), ('C', 'གསལ་གྱུར', false, 3), ('D', 'ཐོན་གྱུར', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1709,7 +1709,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཐོར', false, 1), ('B', 'བཀྲམ', false, 2), ('C', 'གཡུགས', false, 3), ('D', 'སྤུང', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'གཡུགས', false, 1), ('B', 'ཐོར', false, 2), ('C', 'བཀྲམ', false, 3), ('D', 'སྤུང', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1724,7 +1724,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'སྤང', true, 1), ('B', 'བཟུང', false, 2), ('C', 'ལེན', false, 3), ('D', 'བསྐྱེད', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ལེན', false, 1), ('B', 'སྤང', true, 2), ('C', 'བཟུང', false, 3), ('D', 'བསྐྱེད', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1739,7 +1739,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཞི་བ', false, 1), ('B', 'སྡུག་བསྔལ', true, 2), ('C', 'སྐྱིད་པ', false, 3), ('D', 'དགའ་བ', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ཞི་བ', false, 1), ('B', 'དགའ་བ', false, 2), ('C', 'སྡུག་བསྔལ', true, 3), ('D', 'སྐྱིད་པ', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1754,7 +1754,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'ལངམ་དྲགས', false, 1), ('B', 'ཡོད་དྲགས', false, 2), ('C', 'དཀོན་དྲགས', true, 3), ('D', 'མང་དྲགས', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'དཀོན་དྲགས', true, 1), ('B', 'ལངམ་དྲགས', false, 2), ('C', 'མང་དྲགས', false, 3), ('D', 'ཡོད་དྲགས', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1769,7 +1769,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'མི་ཤེས་པ', false, 1), ('B', 'བླུན་པོ', false, 2), ('C', 'གཏི་མུག', false, 3), ('D', 'རིག་པ', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'བླུན་པོ', false, 1), ('B', 'གཏི་མུག', false, 2), ('C', 'རིག་པ', true, 3), ('D', 'མི་ཤེས་པ', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1784,7 +1784,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Farmer', true, 1), ('B', 'Teacher', false, 2), ('C', 'Trader', false, 3), ('D', 'Doctor', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Teacher', false, 1), ('B', 'Trader', false, 2), ('C', 'Doctor', false, 3), ('D', 'Farmer', true, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1799,7 +1799,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Farmer', false, 1), ('B', 'Teacher', true, 2), ('C', 'Student', false, 3), ('D', 'Monk', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Teacher', true, 1), ('B', 'Student', false, 2), ('C', 'Monk', false, 3), ('D', 'Farmer', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1814,7 +1814,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Teacher', false, 1), ('B', 'Farmer', false, 2), ('C', 'Doctor', true, 3), ('D', 'Nurse', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Doctor', true, 1), ('B', 'Teacher', false, 2), ('C', 'Nurse', false, 3), ('D', 'Farmer', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1829,7 +1829,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Eye', false, 1), ('B', 'Nose', false, 2), ('C', 'Mouth', false, 3), ('D', 'Ear', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Nose', false, 1), ('B', 'Eye', false, 2), ('C', 'Ear', true, 3), ('D', 'Mouth', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1844,7 +1844,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Day', true, 1), ('B', 'Night', false, 2), ('C', 'Week', false, 3), ('D', 'Month', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Day', true, 1), ('B', 'Month', false, 2), ('C', 'Week', false, 3), ('D', 'Night', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1874,7 +1874,7 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Mountain', false, 1), ('B', 'Ocean', false, 2), ('C', 'Continent', true, 3), ('D', 'Island', false, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Continent', true, 1), ('B', 'Island', false, 2), ('C', 'Mountain', false, 3), ('D', 'Ocean', false, 4)) as v(label, body, ok, pos);
 
 with nq as (
   insert into public.questions (stage, question_type, stem, explanation, subject_id, topic_id, difficulty, marks, estimated_seconds, origin, status,
@@ -1889,6 +1889,6 @@ with nq as (
   returning id
 )
 insert into public.question_options (question_id, label, body, is_correct, position)
-select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Paddy field', false, 1), ('B', 'Forest', false, 2), ('C', 'Riverbank', false, 3), ('D', 'Dry land (dry field)', true, 4)) as v(label, body, ok, pos);
+select nq.id, v.label, v.body, v.ok, v.pos from nq, (values ('A', 'Riverbank', false, 1), ('B', 'Paddy field', false, 2), ('C', 'Forest', false, 3), ('D', 'Dry land (dry field)', true, 4)) as v(label, body, ok, pos);
 
 commit;
