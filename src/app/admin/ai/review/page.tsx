@@ -21,7 +21,8 @@ export default async function AiReviewPage({ searchParams }: PageProps<"/admin/a
   const db = await createClient();
   let q = db.from("questions")
     .select("id, status, stem, question_type, origin, variation_type, difficulty, explanation, model_answer, ai_review, parent_question_id, subjects(name), question_options(body, is_correct, position)", { count: "exact" })
-    .in("origin", ["ai_generated", "ai_variation"]).in("status", ["ai_generated", "awaiting_review", "verified"])
+    // AI drafts, plus every question loaded in a named batch (for ME this includes the real RCSC questions with Soma's model answers).
+    .or("origin.in.(ai_generated,ai_variation),ai_review->>batch.not.is.null").in("status", ["ai_generated", "awaiting_review", "verified"])
     .order("created_at", { ascending: false }).limit(50);
   if (filter === "flagged") q = q.eq("ai_review->>verdict", "flag");
   if (filter === "passed") q = q.eq("ai_review->>verdict", "pass");
