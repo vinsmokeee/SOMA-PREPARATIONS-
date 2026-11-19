@@ -109,7 +109,7 @@ export function PackageChoice({ stage, entryLabel, pkg, free, onFree = false }: 
 export type MePaper = { id: string; number: number | null; title: string };
 const ROMAN = ["", "I", "II", "III", "IV", "V"];
 /** Paper cards share one colour, different from the ME theme (founder, 20 Nov 2026). */
-const PAPER_CARD = "from-indigo-600 via-indigo-700 to-blue-800";
+const PAPER_CARD = "from-slate-600 via-slate-700 to-slate-800";
 
 /** Paper I, II and III for the student's entry: the last step before practice. Locked without ME Premium. */
 export function PaperCards({ papers, locked = false }: { papers: MePaper[]; locked?: boolean }) {
