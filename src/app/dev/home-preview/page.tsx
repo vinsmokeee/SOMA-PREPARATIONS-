@@ -52,7 +52,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
   const meOptions = {
     categories: cats.map(([code, name], i) => ({ id: id(i + 1), code, name })),
     specialisations: [
-      ...["General graduate", "Dzongkha graduate"].map((name, i) => ({ id: `5d000000-0000-4000-8000-00000000000${i}`, name, category_id: id(5) })),
+      ...["B.Ed. General / Primary", "B.Ed. Secondary", "B.Ed. Dzongkha"].map((name, i) => ({ id: `5d000000-0000-4000-8000-00000000000${i}`, name, category_id: id(5) })),
       ...["Agriculture", "Agriculture Engineering", "Animal Science", "Architecture", "Civil Engineering", "Dental Surgery", "Electrical Engineering", "ICT", "Nursing"].map((name, i) => ({ id: `7d000000-0000-4000-8000-00000000000${i}`, name, category_id: id(6) })),
     ],
     groups: ["Engineering", "ICT", "Bio Science", "Medical Science", "Traditional Medicine (Drungtsho)", "Statistics", "Nursing", "Conservator"].map((name, i) => ({ id: `6d000000-0000-4000-8000-00000000000${i}`, name })),
