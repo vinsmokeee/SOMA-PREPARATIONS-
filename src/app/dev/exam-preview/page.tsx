@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
+import { ChoosePaper } from "@/components/exam/choose-paper";
 import { DevExamHarness } from "@/components/exam/dev-exam-harness";
 import type { AttemptPaper, PaperQuestion } from "@/lib/exam/types";
 
@@ -65,5 +66,35 @@ export default async function ExamPreviewPage({ searchParams }: PageProps<"/dev/
     questions,
     answers: [],
   };
+  if (sp.sample === "choose") {
+    // "Answer any N" question paper (ME Paper III style): Part A any 2 of 4, Part B any 3 of 5 (shortened here to 2 + 2).
+    let id = 100;
+    const part = (grp: string, order: number, any: number, total: number, title: string, stem: string, marks: number): PaperQuestion => ({
+      exam_question_id: `00000000-0000-4000-8000-${String(++id).padStart(12, "0")}`, number: id, marks, type: order === 1 ? "long_answer" : "analytical",
+      section: `${title} (answer any ${any} of the ${total} questions)`, stem, word_limit: null, options: [], choice_group: grp, choose_any: any, section_order: order,
+    });
+    const A = "Part A: Bhutan and its socio-political institutions", B = "Part B: Bhutan and its socio-economic development since 1961";
+    const gst = "The National Assembly adopted the Goods and Services Tax (Amendment) Bill, reducing the GST rate to 5 percent on taxable goods and services.";
+    const choose: AttemptPaper = {
+      ...paper,
+      attempt: { ...paper.attempt, deadline_at: new Date(now.getTime() + 195 * 60_000).toISOString() },
+      exam: { ...paper.exam, title: "Paper III mock: Bhutan and its institutions and development", stage: "ME", kind: "mock", reading_minutes: 15, omr_mode: false },
+      questions: [
+        part("a1", 1, 2, 4, A, "a) How would you present the distinct and visionary features of Bhutan's Constitution at an international seminar? (10 marks)", 10),
+        part("a1", 1, 2, 4, A, "b) Analyse how the purpose and significance of dzongs differ across the pre-Zhabdrung era, the Zhabdrung era and the modern period. (10 marks)", 10),
+        part("a2", 1, 2, 4, A, "a) Express three Kidu initiatives undertaken by His Majesty The Druk Gyalpo and discuss their benefits. (10 marks)", 10),
+        part("a2", 1, 2, 4, A, "b) What roles can you play as a citizen to promote Bhutan's cultural values, language and traditions? (10 marks)", 10),
+        part("a3", 1, 2, 4, A, "a) Discuss the five ancient names attributed to Bhutan. (10 marks)", 10),
+        part("a4", 1, 2, 4, A, "a) Explain the significance of the 2007 revision of the Bhutan-India Friendship Treaty. (10 marks)", 10),
+        part("b1", 2, 3, 5, B, `${gst}\n\na) How might the reduction of GST to 5 percent affect government revenue and consumer prices? (10 marks)`, 10),
+        part("b1", 2, 3, 5, B, `${gst}\n\nb) To what extent can this reform support sustainable growth and social equity? (10 marks)`, 10),
+        part("b2", 2, 3, 5, B, "a) Why is raising the RNR sector's contribution to GDP important for Bhutan's self-reliance? (5 marks)", 5),
+        part("b3", 2, 3, 5, B, "a) What are the possible reasons behind the increasing migration of Bhutanese workers? (5 marks)", 5),
+        part("b4", 2, 3, 5, B, "a) What are the possible causes of declining fertility in Bhutan? (6 marks)", 6),
+        part("b5", 2, 3, 5, B, "a) What do you understand by the Economic Stimulus Plan? (7 marks)", 7),
+      ],
+    };
+    return <ChoosePaper paper={choose} changing={false} />;
+  }
   return <DevExamHarness paper={paper} failSaves={failSaves} untimed={sp.untimed === "1"} />;
 }

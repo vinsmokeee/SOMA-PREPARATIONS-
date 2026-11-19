@@ -46,8 +46,19 @@ select public.start_paper_mock(:'p3') as m1 \gset
 reset role;
 select tests.assert((select count(*) = 2 and bool_and(eq.is_optional) and bool_and(eq.question_id not in (select question_id from seen_a))
   from public.exam_attempts at join public.exam_questions eq on eq.exam_id = at.exam_id where at.id = :'m1'), 'the mock follows the pattern with questions the student has not seen');
-select tests.assert((select e.owner_id = :'a'::uuid and e.kind = 'mock' and e.total_marks = 100 and e.duration_minutes = 180 from public.exam_attempts at join public.exams e on e.id = at.exam_id where at.id = :'m1'),
-  'the mock is the student''s own, marks and time follow the paper');
+select tests.assert((select e.owner_id = :'a'::uuid and e.kind = 'mock' and e.total_marks = 100 and e.duration_minutes = 195 and e.reading_minutes = 15 from public.exam_attempts at join public.exams e on e.id = at.exam_id where at.id = :'m1'),
+  'the mock is the student''s own, marks and time follow the paper (3 hours + 15 minutes reading)');
+-- Choosing questions: exactly "answer any N" per section, only questions of this mock, only by the student
+set local role authenticated;
+select tests.login(:'a');
+select tests.assert_fails(format($$select public.choose_mock_questions(%L, '{}')$$, :'m1'), 'must choose the right number');
+select tests.assert_fails(format($$select public.choose_mock_questions(%L, '{not-a-group}')$$, :'m1'), 'only questions of this mock');
+select tests.assert((select count(*) = 2 and bool_and(x ->> 'choose_any' = '1') from jsonb_array_elements(public.get_attempt_paper(:'m1') -> 'questions') x), 'paper shows the choice rule');
+select public.choose_mock_questions(:'m1', array[(select x ->> 'choice_group' from jsonb_array_elements(public.get_attempt_paper(:'m1') -> 'questions') x limit 1)]);
+select tests.assert(jsonb_array_length(public.get_attempt_paper(:'m1') -> 'attempt' -> 'chosen_groups') = 1, 'the choice is saved');
+select tests.login(:'b');
+select tests.assert_fails(format($$select public.choose_mock_questions(%L, '{}')$$, :'m1'), 'only the student chooses');
+reset role;
 update public.paper_blueprint_sections set question_count = 5, answer_any = null where paper_id = :'p3';
 set local role authenticated;
 select tests.login(:'a');

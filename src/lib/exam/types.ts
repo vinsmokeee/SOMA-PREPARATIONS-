@@ -13,6 +13,10 @@ export type PaperQuestion = {
   image_url?: string | null;
   /** Questions sharing a reading passage (shown once, then folded). */
   passage_group?: string | null;
+  /** "Answer any N" papers: the RCSC question this part belongs to, the section's N, and the section's order. */
+  choice_group?: string | null;
+  choose_any?: number | null;
+  section_order?: number | null;
   word_limit: number | null;
   options: PaperOption[];
 };
@@ -31,7 +35,7 @@ export type MarkQuality = "good" | "too_light" | "outside";
 
 /** What get_attempt_paper() returns for an open attempt. */
 export type AttemptPaper = {
-  attempt: { id: string; status: AttemptStatus; started_at: string; deadline_at: string; server_now: string };
+  attempt: { id: string; status: AttemptStatus; started_at: string; deadline_at: string; server_now: string; chosen_groups?: string[] | null };
   exam: {
     id: string;
     title: string;
@@ -41,6 +45,8 @@ export type AttemptPaper = {
     duration_minutes: number;
     omr_mode: boolean;
     negative_mark_per_wrong: number;
+    /** Reading time before writing (RCSC papers), included in the deadline. */
+    reading_minutes?: number | null;
   };
   questions: PaperQuestion[];
   answers: SavedAnswer[];

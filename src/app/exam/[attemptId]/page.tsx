@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+import { ChoosePaper } from "@/components/exam/choose-paper";
 import { ExamRoomClient } from "@/components/exam/exam-room-client";
+import { chosenQuestions, hasChoice } from "@/lib/exam/choice";
 import type { WrittenMode } from "@/components/exam/exam-room";
 import { requireUser } from "@/lib/auth/dal";
 import type { AttemptPaper } from "@/lib/exam/types";
@@ -9,16 +11,25 @@ import { createClient } from "@/lib/supabase/server";
 export const metadata: Metadata = { title: "Examination", robots: { index: false } };
 export const instant = false;
 
-export default async function ExamPage({ params }: PageProps<"/exam/[attemptId]">) {
+export default async function ExamPage({ params, searchParams }: PageProps<"/exam/[attemptId]">) {
   const { attemptId } = await params;
+  const sp = await searchParams;
   const user = await requireUser(`/exam/${attemptId}`);
   if (!/^[0-9a-f-]{36}$/i.test(attemptId)) notFound();
 
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("get_attempt_paper", { _attempt_id: attemptId });
   if (error || !data) notFound();
-  const paper = data as AttemptPaper;
+  let paper = data as AttemptPaper;
   if (paper.attempt.status !== "in_progress") redirect(`/dashboard/results/${attemptId}`);
+
+  // "Answer any N" papers: read the whole paper and choose the questions first; then write only those.
+  const choice = hasChoice(paper.questions);
+  if (choice) {
+    const chosen = paper.attempt.chosen_groups ?? [];
+    if (!chosen.length || sp.choose === "1") return <ChoosePaper paper={paper} changing={chosen.length > 0} />;
+    paper = { ...paper, questions: chosenQuestions(paper.questions, chosen) };
+  }
 
   const written: Record<string, WrittenMode> = {};
   let untimed = false;
@@ -36,5 +47,5 @@ export default async function ExamPage({ params }: PageProps<"/exam/[attemptId]"
     maxPages = Number((cfg as { max_pages?: number } | null)?.max_pages ?? 10);
   }
 
-  return <ExamRoomClient paper={paper} userId={user.id} written={written} untimed={untimed} maxPages={maxPages} />;
+  return <ExamRoomClient paper={paper} userId={user.id} written={written} untimed={untimed} maxPages={maxPages} paperHref={choice ? `/exam/${attemptId}?choose=1` : undefined} />;
 }

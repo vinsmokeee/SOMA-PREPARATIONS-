@@ -4,7 +4,7 @@ import { MockButton, PracticeTypeButton } from "./paper-start";
 /** One ME paper with the caller's progress, from `my_me_progress()`. */
 export type MeProgressPaper = {
   id: string; number: number | null; title: string; weight: number | null;
-  duration_minutes: number | null; max_marks: number | null;
+  duration_minutes: number | null; max_marks: number | null; reading_minutes?: number | null;
   marked: number; recent: number | null;
   types: { type: string; count: number }[];
   by_type: { label: string; pct: number; n: number }[];
@@ -58,11 +58,12 @@ export function PaperHome({ p }: { p: MeProgressPaper }) {
       {/* 1. Mock paper first, like the PE (founder, 20 Nov 2026) */}
       <section aria-labelledby="mock-h" className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-border">
         <h2 id="mock-h" className="flex items-center gap-2 text-lg font-extrabold text-ink"><ClipboardCheck className="size-5 text-slate-700" aria-hidden /> Mock paper</h2>
-        <p className="mt-1 text-sm text-muted-foreground">The whole paper in the RCSC pattern, timed like the real exam. Built just for you, with new questions every time.</p>
+        <p className="mt-1 text-sm text-muted-foreground">The whole paper in the RCSC pattern, timed like the real exam. Built just for you, with new questions every time.{p.pattern.some((b) => b.answer_any) ? " You start by reading the question paper and choosing which questions to answer, like in the exam hall." : ""}</p>
         {p.duration_minutes || p.max_marks ? (
           <div className="mt-3 flex flex-wrap gap-2 text-xs font-bold">
             {p.duration_minutes ? <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700">{p.duration_minutes >= 60 && p.duration_minutes % 60 === 0 ? `${p.duration_minutes / 60} hour${p.duration_minutes === 60 ? "" : "s"}` : `${p.duration_minutes} minutes`}</span> : null}
             {p.max_marks ? <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700">{Number(p.max_marks)} marks</span> : null}
+            {p.reading_minutes ? <span className="rounded-full bg-amber-100 px-3 py-1 text-amber-800">+ {p.reading_minutes} min reading</span> : null}
           </div>
         ) : null}
         {p.pattern.length ? (
