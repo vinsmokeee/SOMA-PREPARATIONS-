@@ -171,6 +171,11 @@ without the previous chat. Keep it up to date at the end of every working sessio
   exists for current users?" for every change and fix it in the same migration. Never delete a student's
   answers, marks or history; for a test already in progress, change what is safe and apply the rest from
   the next step.
+- **Checklist for EVERY founder change (founder, 20 Nov 2026, after having to ask twice):** before sending the
+  PR, check and fix in the same PR: (1) everything that uses what changed (screens, buttons, links, daily
+  plan, tests); (2) current users' existing data and half-finished work; (3) whether PE and ME both need it;
+  (4) wording everywhere (package features, help text, previews, docs); (5) anything now broken or
+  pointless because of the change. Then list briefly what else changed.
 - Do not ask the founder to publish/unpublish content during development.
 - Always give direct links (GitHub PR, site pages, Supabase/Vercel settings pages).
 - Never invent RCSC exam rules; mark unconfirmed values ("from the founder's brief").
