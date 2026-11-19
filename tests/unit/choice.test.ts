@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { choiceProblems, choiceSections, chosenQuestions, hasChoice, sectionTitle } from "@/lib/exam/choice";
+import { choiceProblems, choiceSections, chosenQuestions, fixedSections, hasChoice, sectionTitle } from "@/lib/exam/choice";
 import type { PaperQuestion } from "@/lib/exam/types";
 
 const part = (id: string, grp: string, order: number, any: number, marks = 10): PaperQuestion => ({
@@ -29,5 +29,13 @@ describe("choosing questions in an 'answer any N' paper", () => {
     expect(hasChoice(paper)).toBe(true);
     expect(hasChoice([{ ...paper[0], choose_any: null }])).toBe(false);
     expect(sectionTitle("Part A: X (answer any 2 of the 4 questions)")).toBe("Part A: X");
+  });
+});
+
+describe("sections answered in full", () => {
+  it("are listed with their size, MCQ sections marked", () => {
+    const fixed = (id: string, section: string, type: "analytical" | "mcq"): PaperQuestion => ({ ...part(id, "x", 0, 1), section, type, choose_any: null, choice_group: null });
+    expect(fixedSections([fixed("c1", "Section A: Case study", "analytical"), fixed("c2", "Section A: Case study", "analytical"), ...paper, fixed("m1", "Section D: Multiple choice questions", "mcq")]))
+      .toEqual([{ title: "Section A: Case study", count: 2, mcq: false }, { title: "Section D: Multiple choice questions", count: 1, mcq: true }]);
   });
 });

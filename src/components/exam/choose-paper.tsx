@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2, Circle, Clock3, Info } from "lucide-react";
 import { chooseQuestionsAction } from "@/app/exam/[attemptId]/choose-actions";
-import { choiceProblems, choiceSections } from "@/lib/exam/choice";
+import { choiceProblems, choiceSections, fixedSections } from "@/lib/exam/choice";
 import type { AttemptPaper } from "@/lib/exam/types";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +25,7 @@ export function ChoosePaper({ paper, changing }: { paper: AttemptPaper; changing
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
   const problems = choiceProblems(sections, chosen);
+  const fixed = useMemo(() => fixedSections(paper.questions), [paper.questions]);
 
   // Reading time, then writing time, counted from the server's clock.
   const [offset] = useState(() => new Date(paper.attempt.server_now).getTime() - Date.now());
@@ -92,6 +93,13 @@ export function ChoosePaper({ paper, changing }: { paper: AttemptPaper; changing
               );
             })}
           </ul>
+          {fixed.length ? (
+            <ul className="mt-2 space-y-1 text-sm">
+              {fixed.map((f) => (
+                <li key={f.title} className="rounded-xl bg-white/50 px-3 py-2"><strong>{f.title}:</strong> answer all {f.count} {f.mcq ? "multiple-choice questions" : `question${f.count === 1 ? "" : "s"}`} (no choice needed)</li>
+              ))}
+            </ul>
+          ) : null}
           {reading ? <p className="mt-3 text-xs">Reading time: like the exam hall, use it to read and choose. Your writing time starts when it ends.</p> : null}
           {changing ? <p className="mt-3 text-xs">Answers you already wrote for a question you remove are kept, but only the chosen questions are marked.</p> : null}
         </section>

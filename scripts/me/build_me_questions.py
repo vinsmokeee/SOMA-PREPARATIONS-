@@ -1,7 +1,7 @@
 """Write SQL that loads an ME batch (real past-paper questions + similar new ones) as drafts awaiting review,
 with model answers, marking guides (key points), rubric criteria and the paper's pattern for personal mocks.
 Usage: python3 -I scripts/me/build_me_questions.py <batch module> <out.sql>"""
-import importlib.util, json, re, sys
+import hashlib, importlib.util, json, random, re, sys
 
 spec = importlib.util.spec_from_file_location('batch', sys.argv[1])
 b = importlib.util.module_from_spec(spec)
@@ -45,10 +45,14 @@ def scaled_rubric(marks):
 
 def expand(x):
     """One question per part (founder, 20 Nov 2026: one part per screen). Parts share passage_group = the RCSC question."""
+    if x['type'] == 'mcq':
+        return [dict(x, part=None, group=x.get('group'), pos=x.get('pos'), rubric=[], marks=x.get('marks', 1))]
+    if x.get('group'):  # e.g. the questions of one case study: own stems, one shared passage
+        return [dict(x, part=None, rubric=scaled_rubric(x.get('marks', 20)))]
     ctx, parts = split_parts(x['stem'])
     _, model_parts = split_parts(x['model'])
     if not parts:
-        return [dict(x, part=None, group=None, pos=None, rubric=b.RUBRIC)]
+        return [dict(x, part=None, group=None, pos=None, rubric=scaled_rubric(x.get('marks', 20)))]
     models = dict(model_parts)
     group = re.sub(r'[^a-z0-9-]+', '-', f"me-{b.PAPER.replace('me-', '')}-{getattr(b, 'GROUP_TAG', 'x')}-{x['key']}".lower())
     rows = []
@@ -67,20 +71,25 @@ def expand(x):
 keys = {x['key'] for x in b.Q}
 pattern_types = {p['type'] for p in b.PATTERN}
 for x in b.Q:
+    if x['type'] == 'mcq':
+        assert len(x['opts']) == 4 and x['ans'] in range(4) and x.get('exp'), (x['key'], 'mcq needs 4 options, an answer and an explanation')
+        assert len(set(x['opts'])) == 4, (x['key'], 'duplicate options')
+        assert x.get('real') or x.get('parent') in keys or x.get('new'), x['key']
+        continue
     marks = x.get('marks', 20)
     total = sum(m for _, m in x['key_points'])
     assert total == marks, (x['key'], total)
-    assert sum(r[2] for r in b.RUBRIC) == marks, 'rubric total'
+    assert sum(r[2] for r in scaled_rubric(marks)) == marks, 'rubric total'
     assert x['type'] in pattern_types, (x['key'], x['type'])
-    assert x.get('real') or x.get('parent') in keys, x['key']
-    assert len(x['model'].split()) >= 150, (x['key'], 'model answer too short')
+    assert x.get('real') or x.get('parent') in keys or x.get('new'), x['key']
+    assert len(x['model'].split()) >= getattr(b, 'MIN_WORDS', 150) * marks / 20, (x['key'], 'model answer too short')
 ROWS = [r for x in b.Q for r in expand(x)]
 row_keys = {r['key'] for r in ROWS}
 for r in ROWS:
     if r.get('parent') and r['parent'] not in row_keys:
         r['parent'] = next(k for k in row_keys if k.startswith(r['parent'][:-1]))  # parent has fewer parts: link to its first
 for p in b.PATTERN:
-    n = sum(1 for x in b.Q if x['type'] == p['type'])
+    n = len({x.get('group') or x['key'] for x in b.Q if x['type'] == p['type']})
     assert n >= p['count'], ('not enough questions for', p['title'], n)
 
 NOTE = ('Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is '
@@ -103,18 +112,23 @@ for x in sorted(ROWS, key=lambda x: 0 if x.get('real') else 1):
         review['source'] = b.SOURCE  # year kept here only, never shown to students
     else:
         review['what_changed'] = 'Same kind of question as the RCSC paper (same part, marks and skills), on a new topic.'
-    kp = [{'point': p, 'marks': m} for p, m in x['key_points']]
+    kp = [{'point': p, 'marks': m} for p, m in x.get('key_points', [])]
     out.append(f"""with nq as (
-  insert into public.questions (stage, question_type, stem, model_answer, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
-  values ('ME', {q(x['type'])}, {q(x['stem'].strip())}, {q(x['model'].strip())}, {q(json.dumps(kp, ensure_ascii=False))}::jsonb, {subject},
+  values ('ME', {q(x['type'])}, {q(x['stem'].strip())}, {q(x['model'].strip()) if x.get('model') else 'null'}, {q(x.get('exp'))}, {q(json.dumps(kp, ensure_ascii=False))}::jsonb, {subject},
     (select t.id from public.topics t where t.subject_id = {subject} and t.slug = {q(slug(x['topic']))}), {paper}, 'standard', {x.get('marks', 20)},
-    {int(x.get('marks', 20) * 108)}, {q('historical_official' if x.get('real') else 'ai_variation')}, {q('verified' if PUBLISH_AS else 'awaiting_review')},
+    {60 if x['type'] == 'mcq' else int(x.get('marks', 20) * 108)}, {q('historical_official' if x.get('real') else 'ai_variation')}, {q('verified' if PUBLISH_AS else 'awaiting_review')},
     {f"(select id from me_q where key = {q(x['parent'])})" if x.get('parent') else 'null'}, {q(x.get('kind')) if x.get('parent') else 'null'},
     {q(json.dumps(review, ensure_ascii=False))}::jsonb, {q(x.get('group'))}, {x.get('pos') or 'null'}, {PUBLISH_AS or 'null'})
   returning id
 )
 insert into me_q select {q(x['key'])}, id from nq;""")
+    if x['type'] == 'mcq':
+        # Stored in a random order (seeded by the question), so answers are not always in the same position.
+        order = list(range(4)); random.Random(int(hashlib.sha1(x['key'].encode()).hexdigest(), 16)).shuffle(order)
+        vals = ', '.join(f"({q('ABCD'[pos])}, {q(x['opts'][i])}, {'true' if i == x['ans'] else 'false'}, {pos + 1})" for pos, i in enumerate(order))
+        out.append(f"insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values {vals}) as v(label, body, ok, pos) where me_q.key = {q(x['key'])};")
     for i, (label, desc, mx) in enumerate(x.get('rubric', b.RUBRIC)):
         out.append(f"insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, {q(label)}, {q(desc)}, {mx}, {i + 1} from me_q where key = {q(x['key'])};")
 if PUBLISH_AS:

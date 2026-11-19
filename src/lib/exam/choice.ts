@@ -28,6 +28,19 @@ export function choiceSections(questions: PaperQuestion[]): ChoiceSection[] {
   return [...sections.values()].sort((a, b) => a.order - b.order);
 }
 
+/** Sections answered in full (no choice), in paper order, e.g. a case study or the multiple-choice section. */
+export function fixedSections(questions: PaperQuestion[]): { title: string; count: number; mcq: boolean }[] {
+  const out: { title: string; count: number; mcq: boolean }[] = [];
+  for (const q of questions) {
+    if (q.choose_any) continue;
+    const title = sectionTitle(q.section);
+    const last = out.find((s) => s.title === title);
+    if (last) last.count += 1;
+    else out.push({ title, count: 1, mcq: q.type === "mcq" });
+  }
+  return out;
+}
+
 /** What is still missing before writing can start; empty when the choice is complete. */
 export function choiceProblems(sections: ChoiceSection[], chosen: Set<string>): string[] {
   return sections.flatMap((s) => {
