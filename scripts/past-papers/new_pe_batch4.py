@@ -254,14 +254,15 @@ for w, en, wrong in [
         f"“{w}” means {en.lower()}. Source: DDC Dzongkha–English Dictionary.")
 
 
-# ---- spread the correct answers over A–D (passage and natural-order lists keep their order where it matters)
+# ---- put the correct answer at a random place in every question (founder, 20 Nov 2026: no A-B-C-D pattern).
+# Seeded, so rebuilding gives the same order. Students also see options shuffled per attempt.
 def _balance():
+    import random
     for k, x in enumerate(Q):
-        t = k % 4
-        if x["ans"] != 0:
-            continue
-        x["opts"] = x["opts"][-t:] + x["opts"][:-t] if t else x["opts"]
-        x["ans"] = t
+        rng = random.Random(f"{BATCH}-{k}-{x['stem'][:40]}")
+        right = x["opts"][x["ans"]]
+        rng.shuffle(x["opts"])
+        x["ans"] = x["opts"].index(right)
 
 
 _balance()

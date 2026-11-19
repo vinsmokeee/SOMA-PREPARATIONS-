@@ -10,6 +10,7 @@ without the previous chat. Keep it up to date at the end of every working sessio
   `soma-b4-dzongkha` ×5 — needs a Dzongkha speaker). 66 linked as twins of real 2010/2011 questions. Batch name
   `pe-batch-4`; founder publishes with the batch card after merging (chart images ship with the merge).
   Difficulty enum is foundation | standard | advanced (not "hard"). Next: batch 5 with the same mix and new twins.
+  **Answer positions:** use a SEEDED RANDOM shuffle per question (see `_balance` in new_pe_batch4.py) — never a cyclic A-B-C-D pattern (founder spotted it). Batch 4 live drafts were re-ordered to match.
 
 - **3,000-question plan (founder, 20 Nov):** batches of ~120 (30 English incl. ONE passage ×5 Qs, 30 Aptitude, 30 DI with
   chart pictures, 30 Dzongkha incl. ONE passage ×5 Qs), all BCSE-style: twins of real 2010/2011 questions + new ones of
