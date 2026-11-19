@@ -72,3 +72,61 @@ export function PaperHome({ d }: { d: PaperHomeData }) {
     </div>
   );
 }
+
+/**
+ * Overall ME progress: the three papers together, combined with RCSC's weightage (from the database).
+ * DRAFT layout for the founder's review.
+ */
+export type MeOverallData = {
+  papers: { number: string; title: string; weight: number | null; average: number | null; marked: number }[];
+};
+
+/** Weighted average of the papers that have a score and a weight; null until there is something to combine. */
+export function weightedScore(papers: MeOverallData["papers"]): number | null {
+  const scored = papers.filter((p) => p.average !== null && p.weight);
+  const w = scored.reduce((n, p) => n + (p.weight ?? 0), 0);
+  return w ? Math.round(scored.reduce((n, p) => n + (p.average ?? 0) * (p.weight ?? 0), 0) / w) : null;
+}
+
+export function MeOverall({ d }: { d: MeOverallData }) {
+  const overall = weightedScore(d.papers);
+  const marked = d.papers.reduce((n, p) => n + p.marked, 0);
+  // Focus: the paper where improving gains the most (lowest score × highest weight), or one not started yet.
+  const focus = [...d.papers].sort((a, b) => ((100 - (b.average ?? 0)) * (b.weight ?? 0)) - ((100 - (a.average ?? 0)) * (a.weight ?? 0)))[0];
+  return (
+    <section aria-labelledby="overall-h" className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-border">
+      <h2 id="overall-h" className="flex items-center gap-2 text-lg font-extrabold text-ink"><BarChart3 className="size-5 text-slate-700" aria-hidden /> My overall ME progress</h2>
+      <div className="mt-4 flex items-center gap-4">
+        <div className="flex size-24 shrink-0 flex-col items-center justify-center rounded-full bg-slate-800 text-white shadow-lg">
+          <span className="text-3xl font-black leading-none">{overall === null ? "—" : `${overall}%`}</span>
+          <span className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-white/80">overall</span>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Your three papers combined the way RCSC weighs them. <span className="font-semibold text-ink">{marked} answers marked</span> so far.
+        </p>
+      </div>
+
+      <ul className="mt-5 space-y-3">
+        {d.papers.map((p) => (
+          <li key={p.number}>
+            <div className="flex items-baseline justify-between text-sm">
+              <span className="font-bold text-ink">Paper {p.number} <span className="font-normal text-muted-foreground">{p.weight ? `· ${p.weight}%` : ""}</span></span>
+              <span className="font-bold text-ink">{p.average === null ? "Not started" : `${p.average}%`}</span>
+            </div>
+            <div className="mt-1 h-3 overflow-hidden rounded-full bg-slate-100">
+              <div className="h-full rounded-full bg-gradient-to-r from-slate-500 to-slate-800" style={{ width: `${p.average ?? 0}%` }} />
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      {focus ? (
+        <p className="mt-5 rounded-2xl bg-amber-50 p-3 text-sm text-amber-900 ring-1 ring-amber-200">
+          <span className="font-bold">Focus next: Paper {focus.number}.</span>{" "}
+          {focus.average === null ? "You have not started it yet" : `It is your biggest chance to gain marks`}{focus.weight ? ` and it carries ${focus.weight}% of the written exam.` : "."}
+        </p>
+      ) : null}
+      <p className="mt-3 text-[11px] text-subtle">Scores are Soma&apos;s indicative estimates, not RCSC marks.</p>
+    </section>
+  );
+}

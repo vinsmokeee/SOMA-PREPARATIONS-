@@ -127,6 +127,8 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     "pe-new": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "pe-premium-new": <ExamArea d={area({ openAttempt: null })} />,
     me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Service · Civil Engineering · Engineering", premium: "Premium until 30 Jan 2027", openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 100 }, premiumSlug: "me-premium", papers: mePapers })} />,
+    "me-overall": <ExamArea d={area({ stage: "ME", entryLabel: "Technical Service · Civil Engineering · Engineering", premium: "Premium until 30 Jan 2027", openAttempt: null, training: null, written: 12, aiMarks: { used: 12, limit: 100 }, premiumSlug: "me-premium", papers: mePapers,
+      overall: { papers: [{ number: "I", title: mePapers[0].title, weight: 15, average: 72, marked: 3 }, { number: "II", title: mePapers[1].title, weight: 15, average: 64, marked: 2 }, { number: "III", title: mePapers[2].title, weight: 40, average: 58, marked: 7 }] } })} />,
   }[screen as string] ?? null;
   return (
     <AppShell area="student" stage={String(screen).startsWith("me") ? "ME" : "PE"} unread={3}

@@ -7,6 +7,7 @@ import { itemAction, type TrainingData } from "@/lib/training/model";
 import { cn } from "@/lib/utils";
 import { WhyPremium } from "./exam-info";
 import { FreeLimitNote, MockCta } from "@/components/exam/mock-cta";
+import { MeOverall, type MeOverallData } from "./paper-home";
 
 type Stage = "PE" | "ME";
 const STAGE_INFO: Record<Stage, { name: string; full: string; gradient: string; blurb: string }> = {
@@ -319,6 +320,7 @@ export type AreaData = {
   aiMarks: { used: number; limit: number } | null; // ME: AI-marked answers
   premiumSlug: string | null;
   papers?: MePaper[];               // ME: Paper I, II, III for the entry
+  overall?: MeOverallData;          // ME: the three papers combined (draft; not loaded yet)
 };
 
 export function ExamArea({ d }: { d: AreaData }) {
@@ -352,6 +354,7 @@ export function ExamArea({ d }: { d: AreaData }) {
           <PaperCards papers={d.papers} />
         </section>
       ) : null}
+      {!pe && d.overall ? <MeOverall d={d.overall} /> : null}
 
       {/* PE: the mock test comes first (founder, 19 Nov 2026); an unfinished test is offered before a new one. */}
       {pe && !d.openAttempt ? (
