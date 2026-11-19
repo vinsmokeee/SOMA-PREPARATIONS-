@@ -12,7 +12,7 @@ without the previous chat. Keep it up to date at the end of every working sessio
 - **Paper I / II / III cards (founder, 20 Nov — replaces the "no Paper words" rule below for the ME home):** after choosing their entry, students see "Your papers": Paper I, II, III in one charcoal colour (`PaperCards`, `PAPER_CARD`, founder chose charcoal), different from the ME rose. Subtitle = paper title from the DB (descriptions to be improved once ME PDFs arrive). Premium: tap → `/dashboard/written?paper=<id>`; without Premium: locked → Join ME Premium.
 - **No "Paper I/II/III" words for students (founder, 20 Nov):** until the founder sends real ME papers, student screens and the public ME page do not name Paper I/II/III ("Subject group" instead of "Paper II group"). Admin screens still use the paper names. Text only; nothing in the DB changed.
 
-- **Founder admin account has complimentary PE Premium until ~20 Dec 2026** (for testing; entitlement note "Founder testing of PE Premium").
+- **Founder admin account has complimentary PE Premium until ~20 Dec 2026 and ME Premium until ~19 Dec 2026** (for testing; entitlement notes "Founder testing of PE Premium" / "… ME Premium").
 
 - **Passages shown once (20 Nov, live):** `get_attempt_paper` returns `passage_group` (migration `20261214000100`);
   `src/lib/exam/passages.ts` folds the shared passage on later questions ("Same passage as Question N · tap to read it
