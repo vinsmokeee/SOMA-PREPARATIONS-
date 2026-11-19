@@ -17,6 +17,7 @@ import { studentNav } from "@/components/app/student-nav";
 import { EntryPicker, ExamArea, ExamChooser, FREE_POINTS, MeLocked, PackageChoice, type AreaData } from "@/components/student/exam-flow";
 import type { TrainingData } from "@/lib/training/model";
 import { PaperHome, type MeProgressPaper } from "@/components/student/paper-home";
+import { MeResultPanel } from "@/components/exam/me-result-panel";
 
 export const metadata: Metadata = { title: "Student flow preview", robots: { index: false } };
 export const instant = false;
@@ -75,6 +76,9 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     "pe-packages": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} />,
     "pe-upgrade": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} onFree />,
     "me-paper": <PaperHome p={meProgress[2]} />,
+    "me-mock-result": <MeResultPanel attemptId="99999999-0000-4000-8000-000000000001" sum={{ retry: 5, skipped: 2, wrong: 1, low: 2, notMarked: 1 }} rows={[]} back="/dashboard/me" paperNumber={3} />,
+    "me-retry-result": <MeResultPanel attemptId="99999999-0000-4000-8000-000000000001" sum={null} back="/dashboard/me" paperNumber={3}
+      rows={[{ question_id: "a", pos: 1, before_score: 3, before_max: 10, now_score: 7, now_max: 10 }, { question_id: "b", pos: 2, before_score: null, before_max: 20, now_score: 12, now_max: 20 }, { question_id: "c", pos: 3, before_score: 0, before_max: 1, now_score: 1, now_max: 1 }, { question_id: "d", pos: 4, before_score: 4, before_max: 10, now_score: null, now_max: null }]} />,
     "me-packages": <MeLocked entryLabel="Technical Service · Civil Engineering · Engineering" papers={mePapers} pkg={mePkg} />,
     "me-entry": <EntryPicker options={meOptions} cat={null} spec={null} />,
     "me-services": <EntryPicker options={meOptions} cat="services" spec={null} />,

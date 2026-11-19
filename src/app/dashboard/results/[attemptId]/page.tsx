@@ -15,6 +15,8 @@ import { formatDate, requestTimeMs } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { ensureWrittenAnswerAction } from "@/app/dashboard/written/actions";
 import type { ResultQuestion } from "@/lib/exam/types";
+import { MeResultPanel } from "@/components/exam/me-result-panel";
+import { retrySummary, type Compare, type Mistake } from "@/lib/exam/retry";
 
 export const metadata: Metadata = { title: "Examination results" };
 
@@ -140,13 +142,35 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
       {r.exam.stage === "PE" && !peAccess && !(r.exam.kind === "mock" || r.exam.kind === "sample" || r.exam.kind === "historical") ? (
         <div className="mt-10"><FreeLimitNote title="Want to practise more today?" /></div>
       ) : null}
+      {r.exam.stage === "ME" ? <MeResultActions attemptId={attemptId} examId={r.exam.id} kind={r.exam.kind} /> : (
       <div className="mt-6 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row">
         {/* Personal tests (Question of the Day, practice sets, mock tests) are made for one sitting: no "take again" page. */}
         {personal || (r.exam.stage === "PE" && !peAccess) ? null : <Link href={`/dashboard/exams/${r.exam.slug}`} className="inline-flex h-12 items-center justify-center rounded-2xl bg-primary px-5 text-base font-bold text-primary-foreground hover:bg-primary-hover">Take this test again</Link>}
-        <Link href={`/dashboard/${r.exam.stage === "ME" ? "me" : "pe"}?scores=1`} className="inline-flex h-12 items-center justify-center rounded-2xl bg-white px-5 text-base font-semibold shadow-sm ring-1 ring-border hover:bg-muted">Back to menu</Link>
+        <Link href="/dashboard/pe?scores=1" className="inline-flex h-12 items-center justify-center rounded-2xl bg-white px-5 text-base font-semibold shadow-sm ring-1 ring-border hover:bg-muted">Back to menu</Link>
       </div>
+      )}
     </div>
   );
+}
+
+
+/**
+ * ME results (founder, 20 Nov 2026): after a mock, "Retry my mistakes" (skipped, wrong or below-half answers);
+ * after a retry, "Before -> Now" for each question; and a way back to the paper's page.
+ */
+async function MeResultActions({ attemptId, examId, kind }: { attemptId: string; examId: string; kind: string }) {
+  const db = await createClient();
+  const { data: exam } = await db.from("exams").select("paper_id, retry_of_attempt, exam_papers(paper_number)").eq("id", examId).maybeSingle();
+  const paperNumber = (exam?.exam_papers as unknown as { paper_number: number | null } | null)?.paper_number ?? null;
+  const isRetry = Boolean(exam?.retry_of_attempt);
+  const [{ data: mistakes }, { data: compare }] = await Promise.all([
+    kind === "mock" ? db.rpc("me_attempt_mistakes", { _attempt_id: attemptId }) : Promise.resolve({ data: null }),
+    isRetry ? db.rpc("me_retry_compare", { _attempt_id: attemptId }) : Promise.resolve({ data: null }),
+  ]);
+  const sum = mistakes ? retrySummary(mistakes as Mistake[]) : null;
+  const rows = (compare ?? []) as Compare[];
+  const back = exam?.paper_id ? `/dashboard/me/paper/${exam.paper_id}` : "/dashboard/me";
+  return <MeResultPanel attemptId={attemptId} sum={sum} rows={isRetry ? rows : []} back={back} paperNumber={paperNumber} />;
 }
 
 async function WrittenPanel({ attemptId, written, closedAt, deadline }: { attemptId: string; written: ResultQuestion[]; closedAt: string; deadline: string }) {
