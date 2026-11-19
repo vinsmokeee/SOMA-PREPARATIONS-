@@ -25,7 +25,7 @@ export const BENEFITS: Record<Stage, Benefit[]> = {
     { icon: MessageCircleHeart, title: "Guidance to improve", text: "Learn how to plan and structure your answers, what examiners look for, and where you can gain more marks." },
     { icon: Clock, title: "Timed papers", text: "Practise full papers under time, so you learn to finish on the day." },
     { icon: BarChart3, title: "See your progress", text: "Every marked answer is saved, so you can see how your writing improves." },
-    { icon: Newspaper, title: "Current affairs", text: "Daily news notes and quizzes to use as examples in your answers." },
+    { icon: Newspaper, title: "Current affairs", text: "Daily Bhutan and world news notes to use as examples in your answers." },
     { icon: CalendarClock, title: "Exam countdown", text: "Enter your ME date for a daily countdown, with a last-minute summary and reminders the day before." },
   ],
 };

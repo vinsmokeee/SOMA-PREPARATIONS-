@@ -4,6 +4,7 @@ import { PageTitle } from "@/components/app/app-shell";
 import { CaPracticeBox } from "@/components/student/ca-practice-box";
 import { Badge } from "@/components/ui/badge";
 import { requireUser } from "@/lib/auth/dal";
+import { loadExamState } from "@/lib/student/exam-state";
 import { AREA_LABELS, VERIFICATION_LABELS } from "@/lib/ca/labels";
 import type { CatalogueExam } from "@/lib/exam/types";
 import { createClient } from "@/lib/supabase/server";
@@ -16,8 +17,10 @@ type Today = { day: string; items: TodayItem[]; question: { id: string; stem: st
 type ArchiveRow = TodayItem & { feature_date: string | null; questions: number };
 
 export default async function CurrentAffairsTodayPage() {
-  await requireUser("/dashboard/current-affairs");
+  const user = await requireUser("/dashboard/current-affairs");
   const db = await createClient();
+  // ME students read the news only; the Question of the Day and quizzes are for PE (founder, 20 Nov 2026).
+  const me = (await loadExamState(user.id)).lastStage === "ME";
   const [{ data: today }, { data: recent }, { data: catalogue }, { data: paid }, { data: qotd }] = await Promise.all([
     db.rpc("ca_today"),
     db.rpc("ca_archive", {}),
@@ -45,8 +48,8 @@ export default async function CurrentAffairsTodayPage() {
     <>
       <PageTitle title="Current affairs" description={`Today${t.day ? `, ${formatDate(t.day)}` : ""} (Bhutan time). Short, verified updates with sources — Bhutan, South Asia and the world.`} />
       <div className="space-y-8">
-        {/* Practice first: one coloured box, news below */}
-        <CaPracticeBox question={t.question} paid={Boolean(paid)} assessments={assessments} done={done} />
+        {/* PE: practice first (one coloured box), news below. ME: news only. */}
+        {me ? null : <CaPracticeBox question={t.question} paid={Boolean(paid)} assessments={assessments} done={done} />}
 
         <h2 className="text-xl font-extrabold text-ink">Today’s news</h2>
         {areas.length ? areas.map(({ area, items }) => (
