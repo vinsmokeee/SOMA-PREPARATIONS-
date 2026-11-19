@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { CoachCard } from "@/components/exam/coach-card";
-import { MockCta } from "@/components/exam/mock-cta";
+import { FreeLimitNote, MockCta } from "@/components/exam/mock-cta";
 import { coach } from "@/lib/exam/coach";
 import { ResultHero, SectionBars } from "@/components/exam/result-hero";
 import { ResultReview } from "@/components/exam/result-review";
@@ -31,6 +31,7 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
   if (error?.message?.includes("ATTEMPT_IN_PROGRESS")) redirect(`/exam/${attemptId}`);
   if (error || !data) notFound();
   const r = data as AttemptResult;
+  const personal = /^(qotd|practice|mock)-/.test(r.exam.slug ?? "");
   const a = r.attempt;
   const mcqs = r.questions.filter((q) => q.type === "mcq");
   const written = r.questions.filter((q) => q.type !== "mcq");
@@ -135,9 +136,14 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
       {r.exam.stage === "PE" && (r.exam.kind === "mock" || r.exam.kind === "sample" || r.exam.kind === "historical") ? (
         <div className="mt-10"><MockCta premium={Boolean(peAccess)} /></div>
       ) : null}
+      {/* Free PE students: what Premium adds, like after a mock test (founder, 20 Nov 2026). */}
+      {r.exam.stage === "PE" && !peAccess && !(r.exam.kind === "mock" || r.exam.kind === "sample" || r.exam.kind === "historical") ? (
+        <div className="mt-10"><FreeLimitNote title="Want to practise more today?" /></div>
+      ) : null}
       <div className="mt-6 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row">
-        {r.exam.stage === "PE" && !peAccess && r.exam.kind !== "practice" ? null : <Link href={`/dashboard/exams/${r.exam.slug}`} className="inline-flex h-12 items-center justify-center rounded-2xl bg-primary px-5 text-base font-bold text-primary-foreground hover:bg-primary-hover">Take this test again</Link>}
-        <Link href="/dashboard" className="inline-flex h-12 items-center justify-center rounded-2xl bg-white px-5 text-base font-semibold shadow-sm ring-1 ring-border hover:bg-muted">Back to home</Link>
+        {/* Personal tests (Question of the Day, practice sets, mock tests) are made for one sitting: no "take again" page. */}
+        {personal || (r.exam.stage === "PE" && !peAccess) ? null : <Link href={`/dashboard/exams/${r.exam.slug}`} className="inline-flex h-12 items-center justify-center rounded-2xl bg-primary px-5 text-base font-bold text-primary-foreground hover:bg-primary-hover">Take this test again</Link>}
+        <Link href={`/dashboard/${r.exam.stage === "ME" ? "me" : "pe"}?scores=1`} className="inline-flex h-12 items-center justify-center rounded-2xl bg-white px-5 text-base font-semibold shadow-sm ring-1 ring-border hover:bg-muted">Back to menu</Link>
       </div>
     </div>
   );

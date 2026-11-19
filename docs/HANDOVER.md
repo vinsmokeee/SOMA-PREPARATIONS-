@@ -5,6 +5,13 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+- **Results page fix (20 Nov):** "Take this test again" pointed personal exams (qotd-/practice-/mock- slugs, not in the
+  catalogue) to a 404. Now hidden for personal tests; free PE students get a "Join Premium" note; "Back to menu" →
+  `/dashboard/pe?scores=1`, which shows a "Check your score below" pop-up (`scores-hint.tsx`). 404 button → /dashboard.
+
+- **END OF DAY 19 Nov (Bhutan):** all work merged (PRs up to #61) and live. Founder will continue tomorrow in this chat.
+  Next options: PE batch 4 (more Dzongkha + DI), ME papers (founder confirming categories with RCSC), founder feedback.
+
 - **Last-minute summary (founder, 19 Nov; APPLIED LIVE):** button "Last-minute summary →" on the exam-eve / exam-day
   card opens `/dashboard/last-minute` (`src/components/student/last-minute-summary.tsx`). Data from RPC
   `my_last_minute_summary(stage)` (migration `20261209000100`, test `99_last_minute_summary.sql`): section accuracy,

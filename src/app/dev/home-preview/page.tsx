@@ -5,6 +5,7 @@ import { AppShell } from "@/components/app/app-shell";
 import { ExamCountdown } from "@/components/app/exam-countdown";
 import { bhutanToday } from "@/lib/student/countdown";
 import { OmrPractice } from "@/components/exam/omr-practice";
+import { ScoresHint } from "@/components/student/scores-hint";
 import { LastMinuteSummary } from "@/components/student/last-minute-summary";
 import { CoachCard } from "@/components/exam/coach-card";
 import { MockCta } from "@/components/exam/mock-cta";
@@ -112,6 +113,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
         { stem: "A sum doubles in 8 years at simple interest. What is the rate per year?", image_url: null, explanation: "Interest = principal in 8 years, so rate = 100 ÷ 8 = 12.5%.", subject: "Logic & analytical problem solving", source_year: null, answer: "12.5%", past_paper: false },
       ],
       key_past: [{ stem: "Which word is the odd one out: apple, mango, potato, banana?", image_url: null, explanation: "Potato is a vegetable; the others are fruits.", subject: "Logic & analytical problem solving", source_year: 2010, answer: "Potato" }] }} />,
+    "pe-scores": <><ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} /><ScoresHint /></>,
     "pe-new": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "pe-premium-new": <ExamArea d={area({ openAttempt: null })} />,
     me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 3 }, premiumSlug: "me-premium" })} />,
