@@ -25,8 +25,8 @@ select tests.assert(jsonb_array_length(public.my_me_progress()) = 3, 'three pape
 select tests.assert((select array_agg((x ->> 'number')::int order by ord) from jsonb_array_elements(public.my_me_progress()) with ordinality t(x, ord)) = array[1, 2, 3], 'papers in order I, II, III');
 select tests.assert((select (x ->> 'marked')::int = 1 and (x ->> 'recent')::numeric = 60 and (x ->> 'weight')::numeric = 40
   from jsonb_array_elements(public.my_me_progress()) x where (x ->> 'number')::int = 3), 'Paper III: one marked answer, 60%, weight 40');
-select tests.assert((select (x -> 'mocks' -> 0 ->> 'pct')::numeric = 60 and x ->> 'mock_slug' = 'mp-mock'
-  from jsonb_array_elements(public.my_me_progress()) x where (x ->> 'number')::int = 3), 'mock attempt scored and the mock paper offered');
+select tests.assert((select (x -> 'mocks' -> 0 ->> 'pct')::numeric = 60 and (x ->> 'mock_ready')::boolean = false
+  from jsonb_array_elements(public.my_me_progress()) x where (x ->> 'number')::int = 3), 'mock attempt scored; no personal mock until the pattern is known');
 select tests.assert((select (x ->> 'marked')::int = 0 and x ->> 'recent' is null
   from jsonb_array_elements(public.my_me_progress()) x where (x ->> 'number')::int = 1), 'Paper I not started');
 select tests.login(:'o');

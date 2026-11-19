@@ -323,8 +323,8 @@ export function ExamArea({ d }: { d: AreaData }) {
         { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
       ]
     : [
-        { href: "/dashboard/written", label: "Written answers", sub: "Get AI feedback", icon: PenLine, tint: "from-rose-600 to-[#7a1e3a]" },
-        { href: "/dashboard/exams?stage=ME", label: "ME papers", sub: "Timed papers for your entry", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
+        { href: "/dashboard/written/history", label: "My answers", sub: "Marks and AI feedback", icon: PenLine, tint: "from-rose-600 to-[#7a1e3a]" },
+        { href: "/dashboard/last-minute?stage=ME", label: "Last-minute summary", sub: "Your key points to revise", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
         { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
         { href: "/dashboard/analytics", label: "My scores", sub: d.written ? `${d.written} answer${d.written === 1 ? "" : "s"} marked` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
       ];
@@ -374,7 +374,7 @@ export function ExamArea({ d }: { d: AreaData }) {
           ) : next ? (
             <StartButton itemId={next.id} label={itemAction(next)} className="bg-white text-[var(--on-white,#9a3412)]" />
           ) : (
-            <Link href={pe ? (d.premium ? "/dashboard/practice?stage=PE" : "/dashboard/exams?stage=PE") : "/dashboard/written"} className="flex h-14 items-center justify-center rounded-2xl bg-white text-lg font-bold text-[var(--on-white,#9a3412)] shadow-lg">
+            <Link href={pe ? (d.premium ? "/dashboard/practice?stage=PE" : "/dashboard/exams?stage=PE") : d.papers?.[0] ? `/dashboard/me/paper/${d.papers[0].id}` : "/dashboard/me"} className="flex h-14 items-center justify-center rounded-2xl bg-white text-lg font-bold text-[var(--on-white,#9a3412)] shadow-lg">
               {pe ? (d.premium ? "Start practice" : "Take today’s free test") : "Write an answer"}
             </Link>
           )}

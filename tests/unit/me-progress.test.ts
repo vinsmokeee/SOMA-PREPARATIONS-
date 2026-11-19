@@ -3,7 +3,7 @@ import { areas, focusPaper, weightedScore, type MeProgressPaper } from "@/compon
 
 const paper = (o: Partial<MeProgressPaper>): MeProgressPaper => ({
   id: "x", number: 1, title: "P", weight: 15, duration_minutes: null, max_marks: null, marked: 0, recent: null,
-  types: [], by_type: [], by_topic: [], mocks: [], mock_slug: null, ...o,
+  types: [], by_type: [], by_topic: [], mocks: [], mock_ready: false, pattern: [], ...o,
 });
 
 describe("ME overall progress", () => {

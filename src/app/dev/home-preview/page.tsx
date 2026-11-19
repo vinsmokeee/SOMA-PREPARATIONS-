@@ -54,13 +54,13 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     .map((title, i) => ({ id: `8d000000-0000-4000-8000-00000000000${i}`, number: i + 1, title }));
   const at = (d: number) => new Date(Date.UTC(2027, 0, d)).toISOString();
   const meProgress: MeProgressPaper[] = [
-    { ...mePapers[0], weight: 15, duration_minutes: null, max_marks: null, marked: 3, recent: 72, types: [{ type: "essay", count: 8 }, { type: "short_answer", count: 20 }], by_type: [], by_topic: [], mocks: [], mock_slug: null },
-    { ...mePapers[1], weight: 15, duration_minutes: null, max_marks: null, marked: 2, recent: 64, types: [{ type: "long_answer", count: 15 }], by_type: [], by_topic: [], mocks: [], mock_slug: null },
+    { ...mePapers[0], weight: 15, duration_minutes: null, max_marks: null, marked: 3, recent: 72, types: [{ type: "essay", count: 8 }, { type: "short_answer", count: 20 }], by_type: [], by_topic: [], mocks: [], mock_ready: false, pattern: [] },
+    { ...mePapers[1], weight: 15, duration_minutes: null, max_marks: null, marked: 2, recent: 64, types: [{ type: "long_answer", count: 15 }], by_type: [], by_topic: [], mocks: [], mock_ready: false, pattern: [] },
     { ...mePapers[2], weight: 40, duration_minutes: 180, max_marks: 100, marked: 7, recent: 58,
       types: [{ type: "long_answer", count: 24 }, { type: "short_answer", count: 40 }, { type: "analytical", count: 12 }],
       by_type: [{ label: "short_answer", pct: 76, n: 3 }, { label: "analytical", pct: 41, n: 2 }],
       by_topic: [{ label: "Structural design", pct: 74, n: 2 }, { label: "Quantity estimation", pct: 44, n: 2 }],
-      mocks: [{ at: at(5), pct: 52 }, { at: at(12), pct: 61 }, { at: at(19), pct: 66 }], mock_slug: "me-paper-3-mock" },
+      mocks: [{ at: at(5), pct: 52 }, { at: at(12), pct: 61 }, { at: at(19), pct: 66 }], mock_ready: true, pattern: [{ title: "Long answers", type: "long_answer", count: 4, marks_each: 20, answer_any: 3 }, { title: "Short answers", type: "short_answer", count: 8, marks_each: 5, answer_any: null }] },
   ];
   const meOptions = {
     categories: cats.map(([code, name], i) => ({ id: id(i + 1), code, name })),
