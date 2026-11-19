@@ -18,6 +18,16 @@ async function shade(page: Page, circle: Locator, how: "good" | "light" | "outsi
 const calls = (page: Page) => page.evaluate(() => window.__somaExam ?? { saves: [], submits: 0, failNext: 0 });
 
 test.describe("PE examination room", () => {
+  test("continue where you left off: reopening goes back to the same question", async ({ page }) => {
+    await page.goto("/dev/exam-preview?stage=PE&seconds=1800");
+    await expect(page.getByText("Question 1 of 10")).toBeVisible();
+    await page.getByRole("button", { name: "Next" }).click();
+    await page.getByRole("button", { name: "Next" }).click();
+    await expect(page.getByText("Question 3 of 10")).toBeVisible();
+    await page.reload();
+    await expect(page.getByText("Question 3 of 10")).toBeVisible();
+  });
+
   test("answer, flag, navigate, OMR sheet, review and submit", async ({ page, isMobile }) => {
     await page.goto("/dev/exam-preview?stage=PE&seconds=1800");
     await expect(page.getByRole("timer")).toBeVisible();

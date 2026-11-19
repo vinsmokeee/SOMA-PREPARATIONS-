@@ -7,6 +7,7 @@ import type { SaveInput, SaveResult, SubmitResult } from "@/app/exam/actions";
 import { clockOffset, countWords, formatClock, questionState, remainingSeconds, type QuestionState } from "@/lib/exam/logic";
 import type { AttemptPaper, MarkQuality, PaperQuestion } from "@/lib/exam/types";
 import { OmrBubble } from "./omr-bubble";
+import { resumeIndex } from "@/lib/exam/resume";
 import { passageFolds, type Fold } from "@/lib/exam/passages";
 import { cn } from "@/lib/utils";
 import { useAutosave } from "./use-autosave";
@@ -80,6 +81,7 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed }: 
     finishedRef.current = true;
     try {
       localStorage.removeItem(storageKey);
+      localStorage.removeItem(`${storageKey}:pos`);
     } catch {}
     onFinished();
   }, [onFinished, storageKey]);
@@ -138,6 +140,19 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed }: 
 
   // ---- navigation & time per question ------------------------------------
   const [index, setIndex] = useState(0);
+  // Continue where the student left off: the question last open on this device, else the first unanswered one.
+  useEffect(() => {
+    let saved: number | null = null;
+    try { const raw = localStorage.getItem(`${storageKey}:pos`); saved = raw === null ? null : Number(raw); } catch {}
+    const done = new Set(paper.answers.filter((a) => a.selected_option_id || (a.text_answer ?? "").trim()).map((a) => a.exam_question_id));
+    const start = resumeIndex(saved, questions.map((q) => q.exam_question_id), (id) => done.has(id));
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time restore of the position on mount
+    if (start > 0) setIndex(start);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount
+  }, []);
+  useEffect(() => {
+    try { localStorage.setItem(`${storageKey}:pos`, String(index)); } catch {}
+  }, [index, storageKey]);
   const [view, setView] = useState<View>("question");
   const [paletteOpen, setPaletteOpen] = useState(false);
   const activeSince = useRef<number>(0);
