@@ -2,11 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Dialog } from "radix-ui";
-import { AlertTriangle, ChevronLeft, PencilLine, ChevronRight, Clock3, Flag, LayoutGrid, Loader2, Save, WifiOff, X } from "lucide-react";
+import { AlertTriangle, BookOpen, ChevronLeft, PencilLine, ChevronRight, Clock3, Flag, LayoutGrid, Loader2, Save, WifiOff, X } from "lucide-react";
 import type { SaveInput, SaveResult, SubmitResult } from "@/app/exam/actions";
 import { clockOffset, countWords, formatClock, questionState, remainingSeconds, type QuestionState } from "@/lib/exam/logic";
 import type { AttemptPaper, MarkQuality, PaperQuestion } from "@/lib/exam/types";
 import { OmrBubble } from "./omr-bubble";
+import { passageFolds, type Fold } from "@/lib/exam/passages";
 import { cn } from "@/lib/utils";
 import { useAutosave } from "./use-autosave";
 import { HandwrittenPages, type PagesApi } from "@/components/written/handwritten-pages";
@@ -61,6 +62,7 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed }: 
   };
   const attemptId = paper.attempt.id;
   const questions = paper.questions;
+  const [folds] = useState(() => passageFolds(questions));
   const storageKey = `soma:attempt:${attemptId}`;
 
   // ---- answers ------------------------------------------------------------
@@ -393,6 +395,7 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed }: 
               } : undefined}
               answer={answers[current.exam_question_id]}
               onChoose={(id) => choose(current, id)}
+              fold={folds.get(current.exam_question_id)}
               omr={paper.exam.omr_mode ? { onShade: (id, quality) => choose(current, id, quality), eraseKey: erased[current.exam_question_id] ?? 0 } : undefined}
               onClear={() => clearChoice(current)}
               onWrite={(t) => write(current, t)}
@@ -588,6 +591,7 @@ function QuestionView({
   written,
   answer,
   onChoose,
+  fold,
   omr,
   onClear,
   onWrite,
@@ -597,6 +601,8 @@ function QuestionView({
   written?: WrittenView;
   answer: Answer | undefined;
   onChoose: (optionId: string) => void;
+  /** This question repeats the passage of an earlier one: show it folded. */
+  fold?: Fold;
   /** OMR mode: shade a circle instead of tapping a letter. */
   omr?: { onShade: (optionId: string, quality: MarkQuality) => void; eraseKey: number };
   onClear: () => void;
@@ -615,7 +621,7 @@ function QuestionView({
       <h1 id={`q-${q.exam_question_id}`} className="mt-3 text-sm font-semibold uppercase tracking-wide text-primary">
         Question {q.number}
       </h1>
-      <QuestionStem stem={q.stem} imageUrl={q.image_url} large className="mt-2" />
+      {fold ? <FoldedPassage key={q.exam_question_id} stem={q.stem} fold={fold} imageUrl={q.image_url} /> : <QuestionStem stem={q.stem} imageUrl={q.image_url} large className="mt-2" />}
 
       {q.type === "mcq" && omr ? (
         <OmrOptions q={q} answer={answer} omr={omr} onClear={onClear} />
@@ -812,6 +818,22 @@ function JumpList({ title, items, onGo }: { title: string; items: { q: PaperQues
           </button>
         ))}
       </div>
+    </div>
+  );
+}
+
+/** A passage already shown on an earlier question: folded, with "tap to read again" (founder, 20 Nov 2026). */
+function FoldedPassage({ stem, fold, imageUrl }: { stem: string; fold: Fold; imageUrl?: string | null }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="mt-2">
+      <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open}
+        className="flex w-full items-center gap-2 rounded-xl bg-muted px-3 py-2.5 text-left text-sm font-semibold text-ink ring-1 ring-border">
+        <BookOpen className="size-4 shrink-0 text-primary" aria-hidden />
+        {open ? "Hide the passage" : `Same passage as Question ${fold.firstNumber} · tap to read it again`}
+      </button>
+      {open ? <QuestionStem stem={stem.slice(0, fold.sharedLength)} className="mt-3" /> : null}
+      <QuestionStem stem={stem.slice(fold.sharedLength).trim()} imageUrl={imageUrl} large className="mt-3" />
     </div>
   );
 }

@@ -11,6 +11,8 @@ export type PaperQuestion = {
   type: QuestionType;
   stem: string;
   image_url?: string | null;
+  /** Questions sharing a reading passage (shown once, then folded). */
+  passage_group?: string | null;
   word_limit: number | null;
   options: PaperOption[];
 };

@@ -5,6 +5,13 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+- **Passages shown once (20 Nov, live):** `get_attempt_paper` returns `passage_group` (migration `20261214000100`);
+  `src/lib/exam/passages.ts` folds the shared passage on later questions ("Same passage as Question N · tap to read it
+  again"). Applies to all existing passage questions. Preview: `/dev/exam-preview?sample=passage`.
+- **Dzongkha passages (founder, 20 Nov):** from batch 6 make each Dzongkha passage a DIFFERENT text type, like the real
+  PE (notice, letter, short news report, story, speech), longer and with detail/meaning/main-idea questions. The
+  batch 4–5 passages (Karmo's family, Bumthang tshechu) stay.
+
 - **PE batch 5 LOADED LIVE as drafts (20 Nov):** 120, same structure as batch 4 (passages `soma-b5-english`,
   `soma-b5-dzongkha`; charts `charts_batch5.py` → `public/papers/soma/b5-*.png`; 59 twins). Batch `pe-batch-5`.
   Founder must MERGE before publishing (chart images). Then live total ≈ 604.

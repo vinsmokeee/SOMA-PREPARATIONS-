@@ -48,7 +48,11 @@ export default async function ExamPreviewPage({ searchParams }: PageProps<"/dev/
     { ...mcq(2), section: "Data Interpretation", stem: "Sonam’s scores in 4 mock tests:\n\n| Mock | English | Dzongkha | Data Interpretation |\n|---|---|---|---|\n| 1 | 23 | 12 | 19 |\n| 2 | 24 | 17 | 18 |\n| 3 | 22 | 11 | 23 |\n| 4 | 20 | 21 | 22 |\n\nIn which mock test did Sonam score the highest total?" },
     { ...mcq(3), section: "Dzongkha", image_url: "/papers/pe-2010/dz-q41.webp", stem: "Read the question in the picture (from the original paper) and choose the correct answer: ཀ, ཁ, ག or ང.", options: ["ཀ", "ཁ", "ག", "ང"].map((body, i) => ({ id: `20000000-0000-4000-8000-${String(i).padStart(12, "0")}`, label: "ABCD"[i], body })) },
   ];
-  const questions = sp.sample === "past" ? past : stage === "PE" ? Array.from({ length: 10 }, (_, i) => mcq(i + 1)) : [written(1), written(2)];
+  // ?sample=passage: three questions sharing one reading passage (shown once, then folded).
+  const passageText = "Read the passage and answer the question.\n\nMost of us know the feeling of leaving an important task for later. We tidy the desk, answer messages and make another cup of tea, yet the report stays unwritten. Researchers suggest people delay not because they dislike work, but because the task stirs an unpleasant feeling.\n\n";
+  const passage: PaperQuestion[] = ["According to the passage, why do people delay tasks?", "Which word best describes the tone of the passage?", "Which title best suits the passage?"]
+    .map((q, i) => ({ ...mcq(i + 1), section: "English", passage_group: "preview-passage", stem: passageText + q }));
+  const questions = sp.sample === "passage" ? passage : sp.sample === "past" ? past : stage === "PE" ? Array.from({ length: 10 }, (_, i) => mcq(i + 1)) : [written(1), written(2)];
   const paper: AttemptPaper = {
     attempt: {
       id: "99999999-0000-4000-8000-000000000001",
