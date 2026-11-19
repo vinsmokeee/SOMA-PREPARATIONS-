@@ -10,8 +10,8 @@ import type { AttemptPaper } from "@/lib/exam/types";
 import { ExamRoom, type WrittenMode } from "./exam-room";
 
 /** Connects the exam room to the real server actions. */
-export function ExamRoomClient({ paper, userId, written, untimed, maxPages }: {
-  paper: AttemptPaper; userId: string; written: Record<string, WrittenMode>; untimed: boolean; maxPages: number;
+export function ExamRoomClient({ paper, userId, written, untimed, maxPages, paperHref }: {
+  paper: AttemptPaper; userId: string; written: Record<string, WrittenMode>; untimed: boolean; maxPages: number; paperHref?: string;
 }) {
   const router = useRouter();
   const attemptId = paper.attempt.id;
@@ -31,5 +31,5 @@ export function ExamRoomClient({ paper, userId, written, untimed, maxPages }: {
     };
   }, [attemptId, maxPages, userId, written]);
   const hasWritten = paper.questions.some((q) => q.type !== "mcq");
-  return <ExamRoom paper={paper} save={saveAnswer} submit={submitAttempt} onFinished={onFinished} written={hasWritten ? support : undefined} untimed={untimed} />;
+  return <ExamRoom paper={paper} save={saveAnswer} submit={submitAttempt} onFinished={onFinished} written={hasWritten ? support : undefined} untimed={untimed} paperHref={paperHref} />;
 }

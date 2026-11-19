@@ -39,6 +39,8 @@ export type ExamRoomProps = {
   written?: WrittenSupport;
   /** Untimed personal practice: no countdown is shown. */
   untimed?: boolean;
+  /** "Answer any N" papers: link back to the whole question paper (to read it again or change the choice). */
+  paperHref?: string;
 };
 
 function isWritten(q: PaperQuestion) {
@@ -51,7 +53,7 @@ function isAnswered(q: PaperQuestion, a: Answer | undefined, w?: WrittenMode) {
   return isWritten(q) ? a.text.trim().length > 0 : Boolean(a.selected);
 }
 
-export function ExamRoom({ paper, save, submit, onFinished, written, untimed }: ExamRoomProps) {
+export function ExamRoom({ paper, save, submit, onFinished, written, untimed, paperHref }: ExamRoomProps) {
   const [modes, setModes] = useState<Record<string, WrittenMode>>(() => written?.initial ?? {});
   const [modeError, setModeError] = useState<string | null>(null);
   const changeMode = async (q: PaperQuestion, mode: "typed" | "handwritten") => {
@@ -375,6 +377,9 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed }: 
               <span className="hidden sm:inline"> · {answeredCount} answered</span>
             </p>
           </div>
+          {paperHref ? (
+            <a href={paperHref} className="shrink-0 rounded-md border border-border-strong px-2.5 py-1.5 text-xs font-semibold text-ink hover:bg-muted">Question paper</a>
+          ) : null}
           <SaveIndicator status={status} pending={pendingCount} lastSavedAt={lastSavedAt} />
           {untimed ? (
             <span className="rounded-md bg-muted px-2.5 py-1.5 text-sm font-medium text-ink">Untimed practice</span>

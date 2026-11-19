@@ -10,6 +10,7 @@ Years are kept out of what students see (founder, 20 Nov 2026): the source year 
 """
 
 BATCH = "ME Paper III (General): BCSE 2025 + similar, batch 1"
+GROUP_TAG = "2025b1"  # passage_group prefix for the parts of one question
 PAPER = "me-general-3"
 SUBJECT = "bhutan-institutions-development"
 SOURCE = {"title": "BCSE 2025 Main Examination, General category, Paper III", "year": 2025,
