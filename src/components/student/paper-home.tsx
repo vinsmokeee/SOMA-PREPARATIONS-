@@ -20,13 +20,18 @@ const TYPE_LABEL: Record<string, string> = {
   short_answer: "Short answers", long_answer: "Long answers", essay: "Essays", analytical: "Analytical questions", descriptive: "Descriptive questions",
 };
 export const typeLabel = (t: string) => TYPE_LABEL[t] ?? t;
+/** A question type's name on this paper: the RCSC part it belongs to when the pattern is known ("Part A: …"). */
+export const paperTypeLabel = (p: Pick<MeProgressPaper, "pattern">, t: string) => {
+  const parts = p.pattern.filter((b) => b.type === t);
+  return parts.length === 1 ? parts[0].title : typeLabel(t);
+};
 
 const STRONG = 70; // % and above: strong
 const WEAK = 50;   // below: work on
 
 /** Strong and weak areas of a paper: question types and topics with at least 2 marked answers. */
 export function areas(p: MeProgressPaper) {
-  const all = [...p.by_type.map((x) => ({ ...x, label: typeLabel(x.label) })), ...p.by_topic].filter((x) => x.n >= 2);
+  const all = [...p.by_type.map((x) => ({ ...x, label: paperTypeLabel(p, x.label) })), ...p.by_topic].filter((x) => x.n >= 2);
   return {
     strong: all.filter((x) => x.pct >= STRONG).sort((a, b) => b.pct - a.pct).slice(0, 4).map((x) => x.label),
     weak: all.filter((x) => x.pct < WEAK).sort((a, b) => a.pct - b.pct).slice(0, 4).map((x) => x.label),
@@ -98,7 +103,7 @@ export function PaperHome({ p }: { p: MeProgressPaper }) {
         <p className="mt-1 text-sm text-muted-foreground">One question at a time, a new one each time. Write on paper and upload a photo, or type. AI marks it and shows how to improve.</p>
         {p.types.length ? (
           <div className="mt-4 grid gap-2">
-            {p.types.map((t) => <PracticeTypeButton key={t.type} paper={p.id} type={t.type} label={typeLabel(t.type)} count={t.count} />)}
+            {p.types.map((t) => <PracticeTypeButton key={t.type} paper={p.id} type={t.type} label={paperTypeLabel(p, t.type)} count={t.count} />)}
           </div>
         ) : (
           <p className="mt-4 rounded-2xl bg-slate-100 p-4 text-sm text-muted-foreground">Questions for this paper are being prepared. They will appear here soon.</p>

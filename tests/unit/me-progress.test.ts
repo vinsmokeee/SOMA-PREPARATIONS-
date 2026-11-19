@@ -24,3 +24,12 @@ describe("ME overall progress", () => {
     expect(a).toEqual({ strong: ["Essays"], weak: ["Budget"] });
   });
 });
+
+describe("question type names on a paper", () => {
+  it("use the RCSC part name when the pattern is known", async () => {
+    const { paperTypeLabel } = await import("@/components/student/paper-home");
+    const p = { pattern: [{ title: "Part A: Institutions", type: "long_answer", count: 4, marks_each: 20, answer_any: 2 }] };
+    expect(paperTypeLabel(p, "long_answer")).toBe("Part A: Institutions");
+    expect(paperTypeLabel(p, "essay")).toBe("Essays");
+  });
+});
