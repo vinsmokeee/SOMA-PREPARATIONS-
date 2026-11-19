@@ -106,28 +106,48 @@ export function PackageChoice({ stage, entryLabel, pkg, free, onFree = false }: 
   );
 }
 
+export type MePaper = { id: string; number: number | null; title: string };
+const ROMAN = ["", "I", "II", "III", "IV", "V"];
+/** Paper cards share one colour, different from the ME theme (founder, 20 Nov 2026). */
+const PAPER_CARD = "from-slate-600 via-slate-700 to-slate-800";
+
+/** Paper I, II and III for the student's entry: the last step before practice. Locked without ME Premium. */
+export function PaperCards({ papers, locked = false }: { papers: MePaper[]; locked?: boolean }) {
+  if (!papers.length) return null;
+  return (
+    <ul className="grid gap-3">
+      {papers.map((p, i) => (
+        <li key={p.id}>
+          <Link href={locked ? "#join-me" : `/dashboard/written?paper=${p.id}`}
+            className={cn("relative flex min-h-24 items-center justify-between gap-3 overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-lg active:scale-[0.99]", PAPER_CARD, locked && "opacity-80")}>
+            <span className="absolute -right-6 -top-6 size-24 rounded-full bg-white/10" aria-hidden />
+            <span className="relative">
+              <span className="block text-2xl font-black">Paper {ROMAN[p.number ?? i + 1] ?? p.number}</span>
+              <span className="block text-sm text-white/85">{p.title}</span>
+            </span>
+            <span className="relative flex size-10 shrink-0 items-center justify-center rounded-full bg-white/20">
+              {locked ? <Lock className="size-5" aria-label="Locked" /> : <ArrowRight className="size-5" aria-hidden />}
+            </span>
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 /**
  * ME is Premium only: a student without ME Premium sees their papers locked and one way in, Join ME Premium.
  * `papers` are the paper titles for the student's entry, from the database, in order.
  */
-export function MeLocked({ entryLabel, papers, pkg }: { entryLabel: string | null; papers: string[]; pkg: PackageInfo }) {
+export function MeLocked({ entryLabel, papers, pkg }: { entryLabel: string | null; papers: MePaper[]; pkg: PackageInfo }) {
   return (
     <div data-exam="ME" className="mx-auto flex max-w-lg flex-col gap-5">
       <Header stage="ME" subtitle={entryLabel ?? STAGE_INFO.ME.full} changeEntry={!!entryLabel} />
       <div>
-        <h2 className="text-xl font-extrabold text-ink">Your ME papers</h2>
+        <h2 className="text-xl font-extrabold text-ink">Your papers</h2>
         <p className="mt-1 text-sm text-muted-foreground">ME preparation comes with ME Premium. Join to open your papers.</p>
       </div>
-      <ul className="grid gap-3">
-        {papers.map((t) => (
-          <li key={t}>
-            <a href="#join-me" className="relative flex min-h-20 items-center justify-between gap-3 overflow-hidden rounded-3xl bg-gradient-to-br from-rose-500/70 via-[#9b2c4b]/70 to-[#5b1530]/70 p-5 text-white shadow-md">
-              <span className="text-lg font-extrabold leading-snug">{t}</span>
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/20"><Lock className="size-5" aria-label="Locked" /></span>
-            </a>
-          </li>
-        ))}
-      </ul>
+      <PaperCards papers={papers} locked />
 
       <div id="join-me" className={cn("relative scroll-mt-24 overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-xl", STAGE_INFO.ME.gradient)}>
         <span className="absolute -right-6 -top-6 size-28 rounded-full bg-white/10" aria-hidden />
@@ -298,6 +318,7 @@ export type AreaData = {
   freeUsedUp: boolean;             // free questions/tests or AI marks used up
   aiMarks: { used: number; limit: number } | null; // ME: AI-marked answers
   premiumSlug: string | null;
+  papers?: MePaper[];               // ME: Paper I, II, III for the entry
 };
 
 export function ExamArea({ d }: { d: AreaData }) {
@@ -323,6 +344,14 @@ export function ExamArea({ d }: { d: AreaData }) {
   return (
     <div data-exam={d.stage} className="mx-auto max-w-2xl space-y-6">
       <Header stage={d.stage} subtitle={d.entryLabel ?? STAGE_INFO[d.stage].full} badge={d.premium ?? "Free"} changeEntry={d.stage === "ME" && !!d.entryLabel} />
+
+      {/* ME: Paper I, II and III come first: the last step before practice (founder, 20 Nov 2026). */}
+      {!pe && d.papers?.length ? (
+        <section aria-labelledby="papers-h" className="space-y-3">
+          <h2 id="papers-h" className="text-lg font-bold">Your papers</h2>
+          <PaperCards papers={d.papers} />
+        </section>
+      ) : null}
 
       {/* PE: the mock test comes first (founder, 19 Nov 2026); an unfinished test is offered before a new one. */}
       {pe && !d.openAttempt ? (

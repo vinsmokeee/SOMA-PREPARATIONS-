@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { EntryPicker, ExamArea, MeLocked } from "@/components/student/exam-flow";
 import { requireUser } from "@/lib/auth/dal";
 import { createClient } from "@/lib/supabase/server";
-import { loadArea, loadPackage } from "@/lib/student/area";
+import { loadArea, loadMePapers, loadPackage } from "@/lib/student/area";
 import { entryComplete, loadExamState } from "@/lib/student/exam-state";
 
 export const metadata: Metadata = { title: "ME" };
@@ -43,13 +43,8 @@ export default async function MePage({ searchParams }: PageProps<"/dashboard/me"
   }
   // ME is Premium only: without it the student sees their papers locked and Join ME Premium.
   if (!state.premium.ME) {
-    const db = await createClient();
-    const [{ data: papers }, pkg] = await Promise.all([
-      db.from("exam_papers").select("title, paper_number, exam_paper_categories!inner(category_id)")
-        .eq("stage", "ME").eq("exam_paper_categories.category_id", state.entry.categoryId!).order("paper_number"),
-      loadPackage("ME"),
-    ]);
-    return <MeLocked entryLabel={state.entry.label} papers={[...new Set((papers ?? []).map((p) => p.title))]} pkg={pkg} />;
+    const [papers, pkg] = await Promise.all([loadMePapers(state.entry.categoryId), loadPackage("ME")]);
+    return <MeLocked entryLabel={state.entry.label} papers={papers} pkg={pkg} />;
   }
   return <ExamArea d={await loadArea("ME", state)} />;
 }

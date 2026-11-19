@@ -49,6 +49,8 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     training, answered: 64, accuracy: 72, written: 0, freeUsedUp: false, aiMarks: null, premiumSlug: "pe-premium", ...over,
   });
   const cats = [["administrative", "Administrative Service"], ["finance", "Finance Service"], ["pgde", "Education Service (PGDE)"], ["dzongkha", "Dzongkha"], ["bed", "Education Service (B.Ed.)"], ["technical", "Technical Service"]];
+  const mePapers = ["Languages and General Knowledge", "General Subject Knowledge (common to subject groups)", "Subject Specialisation (for a specific position)"]
+    .map((title, i) => ({ id: `8d000000-0000-4000-8000-00000000000${i}`, number: i + 1, title }));
   const meOptions = {
     categories: cats.map(([code, name], i) => ({ id: id(i + 1), code, name })),
     specialisations: [
@@ -61,7 +63,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     choose: <><ExamChooser firstName="Pema" status={{ PE: null, ME: null }} /><ChooserInfo packages={{ PE: pePkg, ME: mePkg }} /></>,
     "pe-packages": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} />,
     "pe-upgrade": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} onFree />,
-    "me-packages": <MeLocked entryLabel="Technical Service · Civil Engineering · Engineering" papers={["Languages and General Knowledge", "General Subject Knowledge (common to subject groups)", "Subject Specialisation (for a specific position)"]} pkg={mePkg} />,
+    "me-packages": <MeLocked entryLabel="Technical Service · Civil Engineering · Engineering" papers={mePapers} pkg={mePkg} />,
     "me-entry": <EntryPicker options={meOptions} cat={null} spec={null} />,
     "me-services": <EntryPicker options={meOptions} cat="services" spec={null} />,
     "me-bed": <EntryPicker options={meOptions} cat="bed" spec={null} />,
@@ -117,7 +119,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     "pe-scores": <><ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} /><ScoresHint /></>,
     "pe-new": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "pe-premium-new": <ExamArea d={area({ openAttempt: null })} />,
-    me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Graduates · Civil Engineering", premium: null, openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 3 }, premiumSlug: "me-premium" })} />,
+    me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Service · Civil Engineering · Engineering", premium: "Premium until 30 Jan 2027", openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 100 }, premiumSlug: "me-premium", papers: mePapers })} />,
   }[screen as string] ?? null;
   return (
     <AppShell area="student" stage={String(screen).startsWith("me") ? "ME" : "PE"} unread={3}

@@ -1,5 +1,5 @@
 import "server-only";
-import type { AreaData, PackageInfo } from "@/components/student/exam-flow";
+import type { AreaData, MePaper, PackageInfo } from "@/components/student/exam-flow";
 import { accuracy } from "@/lib/analytics";
 import { loadLearningData } from "@/lib/analytics-server";
 import { createClient } from "@/lib/supabase/server";
@@ -19,13 +19,23 @@ export async function loadPackage(stage: Stage): Promise<PackageInfo> {
   };
 }
 
+/** The ME papers of a student's category, in order (Paper I, II, III). */
+export async function loadMePapers(categoryId: string | null): Promise<MePaper[]> {
+  if (!categoryId) return [];
+  const db = await createClient();
+  const { data } = await db.from("exam_papers").select("id, title, paper_number, exam_paper_categories!inner(category_id)")
+    .eq("stage", "ME").eq("exam_paper_categories.category_id", categoryId).order("paper_number");
+  return (data ?? []).map((p) => ({ id: p.id, number: p.paper_number, title: p.title }));
+}
+
 /** Everything the inside of an exam needs. */
 export async function loadArea(stage: Stage, state: ExamState): Promise<AreaData> {
   const db = await createClient();
-  const [learning, training, allowance] = await Promise.all([
+  const [learning, training, allowance, papers] = await Promise.all([
     loadLearningData(),
     db.rpc("my_training"),
     stage === "ME" ? db.rpc("my_evaluation_allowance") : Promise.resolve({ data: null }),
+    stage === "ME" ? loadMePapers(state.entry.categoryId) : Promise.resolve([]),
   ]);
   const perf = learning.performance;
   const subjects = perf?.by_subject.filter((s) => s.stage === stage) ?? [];
@@ -49,5 +59,6 @@ export async function loadArea(stage: Stage, state: ExamState): Promise<AreaData
     freeUsedUp,
     aiMarks: stage === "ME" && allowance.data ? { used: (allowance.data as { used: number }).used, limit: (allowance.data as { limit: number }).limit } : null,
     premiumSlug: PACKAGE_SLUG[stage],
+    papers,
   };
 }
