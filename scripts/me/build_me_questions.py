@@ -105,6 +105,21 @@ out.append(f"delete from public.paper_blueprint_sections where paper_id = {paper
 for i, p in enumerate(b.PATTERN):
     out.append(f"insert into public.paper_blueprint_sections (paper_id, sort_order, title, question_type, question_count, marks_each, answer_any, source) "
                f"values ({paper}, {i + 1}, {q(p['title'])}, {q(p['type'])}, {p['count']}, {p['marks_each']}, {p.get('answer_any') or 'null'}, {q(b.SOURCE['title'])});")
+def answer_positions(keys, seed):
+    """Where the correct option goes for each MCQ, in order: A, B, C and D used about equally, shuffled,
+    never the same letter more than twice in a row (founder, 20 Nov 2026: answers must look random)."""
+    n = len(keys)
+    pos = [i % 4 for i in range(n)]
+    rnd = random.Random(seed)
+    for _ in range(1000):
+        rnd.shuffle(pos)
+        if all(not (pos[i] == pos[i - 1] == pos[i - 2]) for i in range(2, n)):
+            break
+    return dict(zip(keys, pos))
+
+
+MCQ_KEYS = [x['key'] for x in ROWS if x['type'] == 'mcq']
+ANSWER_AT = answer_positions(MCQ_KEYS, b.BATCH)
 PUBLISH_AS = sys.argv[3] if len(sys.argv) > 3 else None  # SQL for a verifier id: carry over an approval already given
 for x in sorted(ROWS, key=lambda x: 0 if x.get('real') else 1):
     review = {'verdict': 'pass', 'issues': x.get('issues', []), 'checker_notes': NOTE, 'batch': b.BATCH}
@@ -126,7 +141,11 @@ for x in sorted(ROWS, key=lambda x: 0 if x.get('real') else 1):
 insert into me_q select {q(x['key'])}, id from nq;""")
     if x['type'] == 'mcq':
         # Stored in a random order (seeded by the question), so answers are not always in the same position.
-        order = list(range(4)); random.Random(int(hashlib.sha1(x['key'].encode()).hexdigest(), 16)).shuffle(order)
+        # order[pos] = index of the option shown at position pos; the correct one goes where ANSWER_AT says.
+        others = [i for i in range(4) if i != x['ans']]
+        random.Random(int(hashlib.sha1(x['key'].encode()).hexdigest(), 16)).shuffle(others)
+        order = others[:]
+        order.insert(ANSWER_AT[x['key']], x['ans'])
         vals = ', '.join(f"({q('ABCD'[pos])}, {q(x['opts'][i])}, {'true' if i == x['ans'] else 'false'}, {pos + 1})" for pos, i in enumerate(order))
         out.append(f"insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values {vals}) as v(label, body, ok, pos) where me_q.key = {q(x['key'])};")
     for i, (label, desc, mx) in enumerate(x.get('rubric', b.RUBRIC)):

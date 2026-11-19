@@ -378,7 +378,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'D1', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Feeling anxious.', false, 1), ('B', 'Feeling extremely happy.', true, 2), ('C', 'Feeling frustrated.', false, 3), ('D', 'Feeling very confused.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D1';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Feeling frustrated.', false, 1), ('B', 'Feeling anxious.', false, 2), ('C', 'Feeling very confused.', false, 3), ('D', 'Feeling extremely happy.', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D1';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -390,7 +390,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'D2', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Plagiarism', false, 1), ('B', 'Patent', false, 2), ('C', 'Copyright', true, 3), ('D', 'Trademark', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D2';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Trademark', false, 1), ('B', 'Copyright', true, 2), ('C', 'Plagiarism', false, 3), ('D', 'Patent', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D2';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -402,7 +402,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'D3', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'a behavioural aspect of humans.', true, 1), ('B', 'imprinted in the child''s brain.', false, 2), ('C', 'passed down from generations.', false, 3), ('D', 'inherited by the speaker.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D3';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'passed down from generations.', false, 1), ('B', 'inherited by the speaker.', false, 2), ('C', 'imprinted in the child''s brain.', false, 3), ('D', 'a behavioural aspect of humans.', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D3';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -414,7 +414,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'D4', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Training strategy', true, 1), ('B', 'Selection strategy', false, 2), ('C', 'Compensation strategy', false, 3), ('D', 'Recruitment strategy', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D4';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Training strategy', true, 1), ('B', 'Compensation strategy', false, 2), ('C', 'Selection strategy', false, 3), ('D', 'Recruitment strategy', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D4';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -426,7 +426,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'D5', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'She likes reading books, swimming in the lake, and to jog in the park.', false, 1), ('B', 'She likes reading books, to swim in the lake, and jogging in the park.', false, 2), ('C', 'She likes reading novels, swimming in the pool, and jogging in the park.', true, 3), ('D', 'She likes to read books, swimming in the lake, and jog in the park.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D5';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'She likes reading books, to swim in the lake, and jogging in the park.', false, 1), ('B', 'She likes reading novels, swimming in the pool, and jogging in the park.', true, 2), ('C', 'She likes reading books, swimming in the lake, and to jog in the park.', false, 3), ('D', 'She likes to read books, swimming in the lake, and jog in the park.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D5';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -442,7 +442,7 @@ IV. Colombo Plan', null, 'Bhutan joined the Colombo Plan in 1962, the Non-Aligne
   returning id
 )
 insert into me_q select 'D7', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'I, III, IV, II', false, 1), ('B', 'IV, I, II, III', true, 2), ('C', 'III, I, II, IV', false, 3), ('D', 'II, IV, I, III', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D7';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'I, III, IV, II', false, 1), ('B', 'III, I, II, IV', false, 2), ('C', 'II, IV, I, III', false, 3), ('D', 'IV, I, II, III', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D7';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -454,7 +454,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'D9', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Charles Dickens', false, 1), ('B', 'George Orwell', false, 2), ('C', 'Emily Brontë', false, 3), ('D', 'Jane Austen', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D9';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Jane Austen', true, 1), ('B', 'Charles Dickens', false, 2), ('C', 'George Orwell', false, 3), ('D', 'Emily Brontë', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D9';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -466,7 +466,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'D10', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Ode', false, 1), ('B', 'Ballad', false, 2), ('C', 'Haiku', false, 3), ('D', 'Sonnet', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D10';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Ode', false, 1), ('B', 'Ballad', false, 2), ('C', 'Sonnet', true, 3), ('D', 'Haiku', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D10';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -478,7 +478,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'D11', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Including the author''s name and publication year within parentheses.', true, 1), ('B', 'Writing a summary of the research in your own words.', false, 2), ('C', 'Quoting a sentence directly without mentioning the source.', false, 3), ('D', 'Listing the sources used at the end of the research paper.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D11';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Quoting a sentence directly without mentioning the source.', false, 1), ('B', 'Writing a summary of the research in your own words.', false, 2), ('C', 'Listing the sources used at the end of the research paper.', false, 3), ('D', 'Including the author''s name and publication year within parentheses.', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D11';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -502,7 +502,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'D14', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'To raise awareness about youth football training', false, 1), ('B', 'To conduct trials for the national football team', false, 2), ('C', 'To celebrate 25 years of Bhutan''s membership in FIFA', true, 3), ('D', 'To mark the opening of the football season', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D14';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'To conduct trials for the national football team', false, 1), ('B', 'To raise awareness about youth football training', false, 2), ('C', 'To mark the opening of the football season', false, 3), ('D', 'To celebrate 25 years of Bhutan''s membership in FIFA', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D14';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -514,7 +514,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'D16', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'a main verb', false, 1), ('B', 'a participle', false, 2), ('C', 'a gerund', true, 3), ('D', 'an infinitive', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D16';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'a gerund', true, 1), ('B', 'an infinitive', false, 2), ('C', 'a participle', false, 3), ('D', 'a main verb', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D16';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -526,7 +526,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'D17', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '1954, 1966, 1974, 1990, 1998', false, 1), ('B', '1962, 1970, 1982, 1994, 2006', false, 2), ('C', '1950, 1958, 1962, 1970, 1994', false, 3), ('D', '1958, 1962, 1970, 1994, 2002', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D17';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '1954, 1966, 1974, 1990, 1998', false, 1), ('B', '1962, 1970, 1982, 1994, 2006', false, 2), ('C', '1958, 1962, 1970, 1994, 2002', true, 3), ('D', '1950, 1958, 1962, 1970, 1994', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D17';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -538,7 +538,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'D18', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Norway – Maize', true, 1), ('B', 'India – Wheat', false, 2), ('C', 'Brazil – Coffee', false, 3), ('D', 'China – Rice', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D18';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Brazil – Coffee', false, 1), ('B', 'India – Wheat', false, 2), ('C', 'Norway – Maize', true, 3), ('D', 'China – Rice', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D18';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -550,7 +550,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'D19', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Every prime number greater than 2 is odd.', false, 1), ('B', 'The square root of 2 is a rational number.', true, 2), ('C', 'Zero is an even number.', false, 3), ('D', 'The sum of two irrational numbers can be rational.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D19';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Every prime number greater than 2 is odd.', false, 1), ('B', 'The square root of 2 is a rational number.', true, 2), ('C', 'The sum of two irrational numbers can be rational.', false, 3), ('D', 'Zero is an even number.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D19';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -562,7 +562,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'D20', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Expressing ideas effectively through public speaking.', false, 1), ('B', 'Learning new dance choreography through movement.', true, 2), ('C', 'Understanding abstract concepts in philosophical texts.', false, 3), ('D', 'Solving logical puzzles with patterns and sequences.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D20';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Expressing ideas effectively through public speaking.', false, 1), ('B', 'Understanding abstract concepts in philosophical texts.', false, 2), ('C', 'Learning new dance choreography through movement.', true, 3), ('D', 'Solving logical puzzles with patterns and sequences.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D20';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -921,7 +921,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M1', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'A reward for hard work.', false, 1), ('B', 'A misfortune that cannot be avoided.', false, 2), ('C', 'Something good that at first seemed bad.', true, 3), ('D', 'A secret gift from a friend.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M1';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'A misfortune that cannot be avoided.', false, 1), ('B', 'Something good that at first seemed bad.', true, 2), ('C', 'A reward for hard work.', false, 3), ('D', 'A secret gift from a friend.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M1';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -933,7 +933,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M2', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Generous', false, 1), ('B', 'Quick', false, 2), ('C', 'Very careful and precise', true, 3), ('D', 'Careless', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M2';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Very careful and precise', true, 1), ('B', 'Quick', false, 2), ('C', 'Careless', false, 3), ('D', 'Generous', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M2';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -945,7 +945,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M3', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'The report was submitted by the officer.', true, 1), ('B', 'The officer will submit the report.', false, 2), ('C', 'The officer submitted the report.', false, 3), ('D', 'The officer is submitting the report.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M3';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'The officer submitted the report.', false, 1), ('B', 'The officer is submitting the report.', false, 2), ('C', 'The officer will submit the report.', false, 3), ('D', 'The report was submitted by the officer.', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M3';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -957,7 +957,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M4', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '1971', true, 1), ('B', '1985', false, 2), ('C', '2008', false, 3), ('D', '1962', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M4';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '1985', false, 1), ('B', '1971', true, 2), ('C', '2008', false, 3), ('D', '1962', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M4';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -969,7 +969,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M5', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Bhutan''s admission to the United Nations', false, 1), ('B', 'The coronation of the first King, Ugyen Wangchuck, in 1907', true, 2), ('C', 'The birth of Guru Rinpoche', false, 3), ('D', 'The adoption of the Constitution', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M5';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Bhutan''s admission to the United Nations', false, 1), ('B', 'The birth of Guru Rinpoche', false, 2), ('C', 'The coronation of the first King, Ugyen Wangchuck, in 1907', true, 3), ('D', 'The adoption of the Constitution', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M5';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -981,7 +981,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M6', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '1953', false, 1), ('B', '2013', false, 2), ('C', '1999', false, 3), ('D', '2008', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M6';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '2008', true, 1), ('B', '1953', false, 2), ('C', '2013', false, 3), ('D', '1999', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M6';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -993,7 +993,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M7', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Masang Gang', false, 1), ('B', 'Jichu Drake', false, 2), ('C', 'Gangkar Puensum', true, 3), ('D', 'Jomolhari', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M7';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Jichu Drake', false, 1), ('B', 'Masang Gang', false, 2), ('C', 'Gangkar Puensum', true, 3), ('D', 'Jomolhari', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M7';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -1017,7 +1017,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M9', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'No fixed number of lines', false, 1), ('B', 'Three lines', true, 2), ('C', 'Four lines', false, 3), ('D', 'Fourteen lines', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M9';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Three lines', true, 1), ('B', 'Four lines', false, 2), ('C', 'No fixed number of lines', false, 3), ('D', 'Fourteen lines', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M9';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -1029,7 +1029,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M10', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Neither the teacher nor the students was late.', false, 1), ('B', 'Neither the teacher nor the students were late.', true, 2), ('C', 'Neither the teacher or the students were late.', false, 3), ('D', 'Neither the teacher nor the students is late.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M10';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Neither the teacher nor the students was late.', false, 1), ('B', 'Neither the teacher or the students were late.', false, 2), ('C', 'Neither the teacher nor the students were late.', true, 3), ('D', 'Neither the teacher nor the students is late.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M10';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -1041,7 +1041,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M11', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Rare', false, 1), ('B', 'Abundant', true, 2), ('C', 'Limited', false, 3), ('D', 'Expensive', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M11';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Rare', false, 1), ('B', 'Expensive', false, 2), ('C', 'Limited', false, 3), ('D', 'Abundant', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M11';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -1053,7 +1053,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M12', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Environmental conservation', false, 1), ('B', 'Rapid industrialisation', true, 2), ('C', 'Preservation and promotion of culture', false, 3), ('D', 'Good governance', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M12';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Rapid industrialisation', true, 1), ('B', 'Environmental conservation', false, 2), ('C', 'Preservation and promotion of culture', false, 3), ('D', 'Good governance', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M12';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -1065,7 +1065,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M13', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Indian Ocean', false, 1), ('B', 'Pacific Ocean', true, 2), ('C', 'Arctic Ocean', false, 3), ('D', 'Atlantic Ocean', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M13';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Pacific Ocean', true, 1), ('B', 'Indian Ocean', false, 2), ('C', 'Arctic Ocean', false, 3), ('D', 'Atlantic Ocean', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M13';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -1077,7 +1077,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M14', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Taka', false, 1), ('B', 'Rupee', false, 2), ('C', 'Ngultrum', true, 3), ('D', 'Kyat', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M14';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Rupee', false, 1), ('B', 'Ngultrum', true, 2), ('C', 'Taka', false, 3), ('D', 'Kyat', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M14';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -1089,7 +1089,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M15', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Mars', true, 1), ('B', 'Jupiter', false, 2), ('C', 'Saturn', false, 3), ('D', 'Venus', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M15';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Jupiter', false, 1), ('B', 'Saturn', false, 2), ('C', 'Venus', false, 3), ('D', 'Mars', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M15';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -1101,7 +1101,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M16', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'a preposition', false, 1), ('B', 'a noun', false, 2), ('C', 'an adverb', true, 3), ('D', 'an adjective', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M16';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'a preposition', false, 1), ('B', 'an adverb', true, 2), ('C', 'a noun', false, 3), ('D', 'an adjective', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M16';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -1113,7 +1113,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M17', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Plagiarism', true, 1), ('B', 'Copyright', false, 2), ('C', 'Paraphrasing', false, 3), ('D', 'Citation', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M17';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Paraphrasing', false, 1), ('B', 'Citation', false, 2), ('C', 'Plagiarism', true, 3), ('D', 'Copyright', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M17';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -1125,7 +1125,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M18', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Archery', true, 1), ('B', 'Cricket', false, 2), ('C', 'Khuru', false, 3), ('D', 'Football', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M18';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Cricket', false, 1), ('B', 'Khuru', false, 2), ('C', 'Archery', true, 3), ('D', 'Football', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M18';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -1137,7 +1137,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M19', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Solar energy', true, 1), ('B', 'Natural gas', false, 2), ('C', 'Petroleum', false, 3), ('D', 'Coal', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M19';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Solar energy', true, 1), ('B', 'Natural gas', false, 2), ('C', 'Coal', false, 3), ('D', 'Petroleum', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M19';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
@@ -1149,5 +1149,5 @@ with nq as (
   returning id
 )
 insert into me_q select 'M20', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Dhaka', false, 1), ('B', 'Kathmandu', true, 2), ('C', 'Thimphu', false, 3), ('D', 'New Delhi', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M20';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Dhaka', false, 1), ('B', 'Thimphu', false, 2), ('C', 'New Delhi', false, 3), ('D', 'Kathmandu', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M20';
 commit;
