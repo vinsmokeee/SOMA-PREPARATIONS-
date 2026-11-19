@@ -5,6 +5,15 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+- **3,000-question plan (founder, 20 Nov):** batches of ~120 (30 English incl. ONE passage ×5 Qs, 30 Aptitude, 30 DI with
+  chart pictures, 30 Dzongkha incl. ONE passage ×5 Qs), all BCSE-style: twins of real 2010/2011 questions + new ones of
+  the same types; Bhutanese context; chart data marked illustrative. Set `BATCH = "pe-batch-N"` in the batch module.
+- **Batch publish (live):** `question_batches_waiting()`, `publish_question_batch(batch)` (migration `20261212000100`);
+  cards on /admin/ai/review "Publish this whole batch".
+- **Passages (live):** `questions.passage_group` / `passage_position` (migration `20261213000100`). Full mock tests take
+  one whole passage per language section; free 25-question tests leave passages out. Past papers grouped as
+  `bcse-2010-english`, `bcse-2011-english`, `bcse-20xx-dzongkha`.
+
 - **Results page fix (20 Nov):** "Take this test again" pointed personal exams (qotd-/practice-/mock- slugs, not in the
   catalogue) to a 404. Now hidden for personal tests; free PE students get a "Join Premium" note; "Back to menu" →
   `/dashboard/pe?scores=1`, which shows a "Check your score below" pop-up (`scores-hint.tsx`). 404 button → /dashboard.
