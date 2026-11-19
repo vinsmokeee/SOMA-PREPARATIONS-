@@ -31,7 +31,8 @@ export default async function WrittenPage({ searchParams }: PageProps<"/dashboar
   const groupPapers = new Set(group?.exam_paper_categories.map((x) => x.paper_id));
   const inGroup = group ? all.filter((q) => q.paper_id && groupPapers.has(q.paper_id)) : all;
   const papers = [...new Map(inGroup.filter((q) => q.paper_id).map((q) => [q.paper_id!, q.paper ?? "Paper"])).entries()];
-  const list = paper ? inGroup.filter((q) => q.paper_id === paper) : inGroup;
+  const type = typeof sp.type === "string" ? sp.type : undefined;
+  const list = (paper ? inGroup.filter((q) => q.paper_id === paper) : inGroup).filter((q) => !type || q.question_type === type);
   const a = allowance as { limit: number; used: number; remaining: number; plan: string } | null;
   const href = (g?: string, p?: string) => `/dashboard/written?${new URLSearchParams({ ...(g ? { group: g } : {}), ...(p ? { paper: p } : {}) })}`;
 

@@ -7,6 +7,7 @@ import { itemAction, type TrainingData } from "@/lib/training/model";
 import { cn } from "@/lib/utils";
 import { WhyPremium } from "./exam-info";
 import { FreeLimitNote, MockCta } from "@/components/exam/mock-cta";
+import { MeOverall, type MeProgressPaper } from "./paper-home";
 
 type Stage = "PE" | "ME";
 const STAGE_INFO: Record<Stage, { name: string; full: string; gradient: string; blurb: string }> = {
@@ -118,7 +119,7 @@ export function PaperCards({ papers, locked = false }: { papers: MePaper[]; lock
     <ul className="grid gap-3">
       {papers.map((p, i) => (
         <li key={p.id}>
-          <Link href={locked ? "#join-me" : `/dashboard/written?paper=${p.id}`}
+          <Link href={locked ? "#join-me" : `/dashboard/me/paper/${p.id}`}
             className={cn("relative flex min-h-24 items-center justify-between gap-3 overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-lg active:scale-[0.99]", PAPER_CARD, locked && "opacity-80")}>
             <span className="absolute -right-6 -top-6 size-24 rounded-full bg-white/10" aria-hidden />
             <span className="relative">
@@ -319,6 +320,7 @@ export type AreaData = {
   aiMarks: { used: number; limit: number } | null; // ME: AI-marked answers
   premiumSlug: string | null;
   papers?: MePaper[];               // ME: Paper I, II, III for the entry
+  progress?: MeProgressPaper[];     // ME: progress per paper, combined on the ME home
 };
 
 export function ExamArea({ d }: { d: AreaData }) {
@@ -352,6 +354,7 @@ export function ExamArea({ d }: { d: AreaData }) {
           <PaperCards papers={d.papers} />
         </section>
       ) : null}
+      {!pe && d.progress?.length ? <MeOverall papers={d.progress} /> : null}
 
       {/* PE: the mock test comes first (founder, 19 Nov 2026); an unfinished test is offered before a new one. */}
       {pe && !d.openAttempt ? (
