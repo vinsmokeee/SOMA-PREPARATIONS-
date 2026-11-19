@@ -16,6 +16,7 @@ import { ResultHero, SectionBars } from "@/components/exam/result-hero";
 import { studentNav } from "@/components/app/student-nav";
 import { EntryPicker, ExamArea, ExamChooser, FREE_POINTS, MeLocked, PackageChoice, type AreaData } from "@/components/student/exam-flow";
 import type { TrainingData } from "@/lib/training/model";
+import { PaperHome } from "@/components/student/paper-home";
 
 export const metadata: Metadata = { title: "Student flow preview", robots: { index: false } };
 export const instant = false;
@@ -63,6 +64,12 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     choose: <><ExamChooser firstName="Pema" status={{ PE: null, ME: null }} /><ChooserInfo packages={{ PE: pePkg, ME: mePkg }} /></>,
     "pe-packages": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} />,
     "pe-upgrade": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} onFree />,
+    "me-paper": <PaperHome d={{
+      number: "III", title: "Subject Specialisation (for a specific position)", weight: "40% of the written exam",
+      types: [{ label: "Long answers", count: 24 }, { label: "Short answers", count: 40 }, { label: "Case studies", count: 12 }],
+      mock: { time: null, marks: null },
+      progress: { marked: 7, average: 58, strong: ["Short answers", "Structural design"], weak: ["Case studies", "Quantity estimation"] },
+    }} />,
     "me-packages": <MeLocked entryLabel="Technical Service · Civil Engineering · Engineering" papers={mePapers} pkg={mePkg} />,
     "me-entry": <EntryPicker options={meOptions} cat={null} spec={null} />,
     "me-services": <EntryPicker options={meOptions} cat="services" spec={null} />,
