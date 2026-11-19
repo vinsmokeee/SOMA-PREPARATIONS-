@@ -1,6 +1,6 @@
 [
   {
-    "id": "5a35ce2f-4aba-44dc-8036-a59fdb8d4daf",
+    "id": "8408aed7-b17f-4e9a-819b-804b0ed1f378",
     "slug": "pe-premium",
     "name": "PE Premium",
     "tagline": "Complete Preliminary Examination preparation",
@@ -17,7 +17,10 @@
       "Scores and progress for every section",
       "Current affairs: daily news and quizzes",
       "OMR shading in every mock test, with OMR sketch practice and coach feedback",
-      "Exam countdown and a last-minute summary of your past-paper mistakes"
+      "Exam countdown and a last-minute summary of your past-paper mistakes",
+      "Full 100-question mock tests with new questions every time",
+      "Your coach after every test: where you lost marks and how to gain them",
+      "One-tap practice of your weakest areas (10 fresh questions)"
     ],
     "includes_pe": true,
     "includes_me": false,
@@ -29,7 +32,7 @@
     "cycle_name": "BCSE 2027"
   },
   {
-    "id": "5bd6e99a-098c-413c-8339-0f61c93669da",
+    "id": "52264db2-04e2-4bbe-b802-69ff6f8cac4c",
     "slug": "me-premium",
     "name": "ME Premium",
     "tagline": "Main Examination written-paper preparation for your entry",
