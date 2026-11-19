@@ -5,6 +5,8 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+- **Founder admin account has complimentary PE Premium until ~20 Dec 2026** (for testing; entitlement note "Founder testing of PE Premium").
+
 - **Passages shown once (20 Nov, live):** `get_attempt_paper` returns `passage_group` (migration `20261214000100`);
   `src/lib/exam/passages.ts` folds the shared passage on later questions ("Same passage as Question N · tap to read it
   again"). Applies to all existing passage questions. Preview: `/dev/exam-preview?sample=passage`.
