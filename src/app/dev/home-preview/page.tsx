@@ -63,6 +63,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     "pe-upgrade": <PackageChoice stage="PE" pkg={pePkg} free={FREE_POINTS.PE} onFree />,
     "me-packages": <PackageChoice stage="ME" entryLabel="Technical Graduates · Civil Engineering" pkg={mePkg} free={FREE_POINTS.ME} />,
     "me-entry": <EntryPicker options={meOptions} cat={null} spec={null} />,
+    "me-services": <EntryPicker options={meOptions} cat="services" spec={null} />,
     "me-bed": <EntryPicker options={meOptions} cat="bed" spec={null} />,
     "me-technical": <EntryPicker options={meOptions} cat="technical" spec={null} />,
     "me-group": <EntryPicker options={meOptions} cat="technical" spec="7d000000-0000-4000-8000-000000000004" />,

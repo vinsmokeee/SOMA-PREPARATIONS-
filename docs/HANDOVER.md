@@ -5,6 +5,8 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Where we stopped (18 Nov 2026)
 
+- **ME entry (founder + RCSC examination board, 20 Nov):** Administrative, Finance and PGDE share the same common papers → first ME screen shows one box "PGDE and Services" (`/dashboard/me?cat=services`) that opens the three. Other boxes: Dzongkha, B.Ed., Technical. (UI only; categories unchanged in the DB.)
+
 - **Founder admin account has complimentary PE Premium until ~20 Dec 2026** (for testing; entitlement note "Founder testing of PE Premium").
 
 - **Passages shown once (20 Nov, live):** `get_attempt_paper` returns `passage_group` (migration `20261214000100`);
