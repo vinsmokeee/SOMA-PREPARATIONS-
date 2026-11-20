@@ -42,3 +42,19 @@ def fix(text: str) -> str:
 if __name__ == "__main__":
     import sys
     print(fix(sys.stdin.read()), end="")
+
+
+# Another RCSC font (Technical Paper I 2025) ADDS a subjoined YA before the vowel O: སོན -> སྱོན, ཐོབ -> ཐྱོབ.
+# Remove it, except in syllables where the YA is real.
+YA_KEEP = ("ཁྱོ", "མྱོ", "ཕྱོ", "བྱོ", "སྐྱོ", "འགྱོ", "དཔྱོ", "སྤྱོ", "སྦྱོ", "འབྱོ", "སྐྱོ", "ཀྱོ", "རྒྱོ", "དབྱོ", "སྒྱོ")
+
+
+def fix_extra_ya(text: str) -> str:
+    text = text.replace("ྱྱ", "ྱ")
+
+    def one(m):
+        syl = m.group(0)
+        if "ྱོ" not in syl or any(k in syl for k in YA_KEEP):
+            return syl
+        return syl.replace("ྱོ", "ོ")
+    return re.sub(r"[ཀ-ྼ]+", one, text)
