@@ -88,7 +88,8 @@ row_keys = {r['key'] for r in ROWS}
 for r in ROWS:
     if r.get('parent') and r['parent'] not in row_keys:
         r['parent'] = next(k for k in row_keys if k.startswith(r['parent'][:-1]))  # parent has fewer parts: link to its first
-for p in b.PATTERN:
+ADDS = getattr(b, 'ADDS_TO_PAPER', False)  # an older year added to a paper whose pattern another batch set
+for p in ([] if ADDS else b.PATTERN):
     n = len({x.get('group') or x['key'] for x in b.Q if x['type'] == p['type']})
     assert n >= p['count'], ('not enough questions for', p['title'], n)
 
@@ -101,8 +102,9 @@ subject = f"(select id from public.subjects where slug = {q(b.SUBJECT)})"
 for t in sorted({x['topic'] for x in b.Q}):
     out.append(f"insert into public.topics (subject_id, slug, name) select {subject}, {q(slug(t))}, {q(t)} on conflict (subject_id, slug) do nothing;")
 # Pattern for personal mocks (replaces any earlier pattern of this paper)
-out.append(f"delete from public.paper_blueprint_sections where paper_id = {paper};")
-for i, p in enumerate(b.PATTERN):
+if not ADDS:
+    out.append(f"delete from public.paper_blueprint_sections where paper_id = {paper};")
+for i, p in enumerate([] if ADDS else b.PATTERN):
     out.append(f"insert into public.paper_blueprint_sections (paper_id, sort_order, title, question_type, question_count, marks_each, answer_any, source) "
                f"values ({paper}, {i + 1}, {q(p['title'])}, {q(p['type'])}, {p['count']}, {p['marks_each']}, {p.get('answer_any') or 'null'}, {q(b.SOURCE['title'])});")
 def answer_positions(keys, seed):
