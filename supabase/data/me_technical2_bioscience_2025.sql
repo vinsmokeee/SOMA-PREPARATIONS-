@@ -21,7 +21,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
-  values ('ME', 'mcq', 'The inner, darker and harder portions of secondary xylem that cannot conduct water in an older dicot stem is called:', null, 'Heartwood (duramen) is the dark, hard, non-conducting inner secondary xylem.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The inner, darker and harder portions of secondary xylem that cannot conduct water in an older dicot stem are called:', null, 'Heartwood (duramen) is the dark, hard, non-conducting inner secondary xylem.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'bio-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -29,7 +29,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M2', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Bast', false, 1), ('B', 'Duramen', true, 2), ('C', 'Alburnam', false, 3), ('D', 'Wood', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M2';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Bast', false, 1), ('B', 'Duramen', true, 2), ('C', 'Alburnum', false, 3), ('D', 'Wood', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M2';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
@@ -141,7 +141,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
-  values ('ME', 'mcq', 'In a reversible reaction, rates of both sides of a reaction are:', null, 'At equilibrium the forward and backward rates are equal.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'In a reversible reaction at equilibrium, the rates of the forward and backward reactions are:', null, 'At equilibrium the forward and backward rates are equal.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'bio-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -165,7 +165,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
-  values ('ME', 'mcq', 'Which part of ovary in mammals acts as an endocrine gland after ovulation?', null, 'After ovulation the Graafian follicle becomes the corpus luteum, which secretes progesterone.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Which part of the ovary in mammals acts as an endocrine gland after ovulation?', null, 'After ovulation the Graafian follicle becomes the corpus luteum, which secretes progesterone.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'bio-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -281,7 +281,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M24', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Found only in the sporophyte phase of life cycle', true, 1), ('B', 'Among other compounds contain compounds built of simple sugars', false, 2), ('C', 'Often contain strengthening polymers', false, 3), ('D', 'May contain enzymes that are biologically active', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M24';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Found only in the sporophyte phase of life cycle', true, 1), ('B', 'Contain, among other compounds, polymers built of simple sugars', false, 2), ('C', 'Often contain strengthening polymers', false, 3), ('D', 'May contain enzymes that are biologically active', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M24';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
@@ -333,7 +333,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
-  values ('ME', 'mcq', 'The name of Norman Borloug is associated with:', null, 'Norman Borlaug is the father of the Green Revolution.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The name of Norman Borlaug is associated with:', null, 'Norman Borlaug is the father of the Green Revolution.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'bio-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -389,7 +389,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M33', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Raoult’s law', false, 1), ('B', 'Henry’s law', false, 2), ('C', 'Kirchoff’s law', false, 3), ('D', 'Distribution law', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M33';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Raoult’s law', false, 1), ('B', 'Henry’s law', false, 2), ('C', 'Kirchhoff’s law', false, 3), ('D', 'Distribution law', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M33';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
@@ -417,7 +417,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
-  values ('ME', 'mcq', 'Which of the following is not vestigial organ in human?', null, 'Nails are functional; the others are vestigial in humans.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Which of the following is not a vestigial organ in humans?', null, 'Nails are functional; the others are vestigial in humans.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'bio-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -449,7 +449,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M38', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Van’t Hoff', false, 1), ('B', 'Zigmondy', false, 2), ('C', 'Nernst', true, 3), ('D', 'Raoult', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M38';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Van’t Hoff', false, 1), ('B', 'Zsigmondy', false, 2), ('C', 'Nernst', true, 3), ('D', 'Raoult', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M38';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
@@ -525,7 +525,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
-  values ('ME', 'mcq', 'Which tissues gives rise to secondary growth?', null, 'Vascular cambium (with cork cambium) produces secondary growth.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Which tissue gives rise to secondary growth?', null, 'Vascular cambium (with cork cambium) produces secondary growth.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'bio-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -537,7 +537,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
-  values ('ME', 'mcq', 'Ontology recapitulates phylogeny. This theory is called:', null, 'Haeckel''s biogenetic law: ontogeny recapitulates phylogeny.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Ontogeny recapitulates phylogeny. This theory is called:', null, 'Haeckel''s biogenetic law: ontogeny recapitulates phylogeny.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'bio-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -569,7 +569,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M48', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Schiff’s', false, 1), ('B', 'Grignard', true, 2), ('C', 'Tollen’s', false, 3), ('D', 'Fehling', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M48';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Schiff’s', false, 1), ('B', 'Grignard', true, 2), ('C', 'Tollens’', false, 3), ('D', 'Fehling', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M48';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
@@ -705,7 +705,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
-  values ('ME', 'mcq', 'The pH of 1.0 x 10-4 M solution of HCl is:', null, 'pH = -log(1.0 x 10^-4) = 4.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The pH of 1.0 × 10⁻⁴ M solution of HCl is:', null, 'pH = -log(1.0 x 10^-4) = 4.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'bio-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -749,7 +749,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M65', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Auxin', false, 1), ('B', 'Cytokinin l', false, 2), ('C', 'Ethylene', false, 3), ('D', 'Gibberellic acid', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M65';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Auxin', false, 1), ('B', 'Cytokinin', false, 2), ('C', 'Ethylene', false, 3), ('D', 'Gibberellic acid', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M65';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
@@ -777,7 +777,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
-  values ('ME', 'mcq', 'Which of the following is bacterium involved in denitrification?', null, 'Pseudomonas (and Thiobacillus) carry out denitrification.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Which of the following is a bacterium involved in denitrification?', null, 'Pseudomonas (and Thiobacillus) carry out denitrification.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'bio-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -797,7 +797,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M69', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'This disease is due to an X-linked dominant mutation', false, 1), ('B', 'This disease is due to Y-lined recessive mutation', false, 2), ('C', 'This disease is due to Y-linked dominant mutation', false, 3), ('D', 'This disease is due to an X-linked recessive mutation', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M69';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'This disease is due to an X-linked dominant mutation', false, 1), ('B', 'This disease is due to Y-linked recessive mutation', false, 2), ('C', 'This disease is due to Y-linked dominant mutation', false, 3), ('D', 'This disease is due to an X-linked recessive mutation', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M69';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)

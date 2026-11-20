@@ -27,9 +27,9 @@ TOPIC = "Medical Science: general subject knowledge"
 MCQ = r"""[
 {
 "n": 1,
-"stem": "The wings of a dragonfly, eagle, bat and Pterodactyl is an example of",
+"stem": "The wings of a dragonfly, eagle, bat and pterodactyl are an example of",
 "opts": [
-"Homologous organ",
+"Homologous organsss",
 "Vestigial organs",
 "Analogous organs",
 "None of the above"
@@ -57,11 +57,11 @@ MCQ = r"""[
 },
 {
 "n": 4,
-"stem": "In an experiment, a student cuts a transverse section of a young stem of a plant which he has taken from his school garden. After observing it under the microscope how would he ascertain whether it is a monocot stem or a dicot stem?",
+"stem": "In an experiment, a student cuts a transverse section of a young stem of a plant which he has taken from his school garden. After observing it under the microscope, how would he ascertain whether it is a monocot stem or a dicot stem?",
 "opts": [
 "With the help of vascular bundles",
 "With the help of bulliform cells",
-"With the help of caesarean strips",
+"With the help of Casparian strips",
 "With the help of stomatal apparatus"
 ]
 },
@@ -167,12 +167,12 @@ MCQ = r"""[
 },
 {
 "n": 15,
-"stem": "Which of the following statement about parenchyma cell is INCORRECT?",
+"stem": "Which of the following statements about parenchyma cells is INCORRECT?",
 "opts": [
 "They are living cells",
 "They are non-living cells",
 "They have thin cell wall",
-"They from simple permanent tissues"
+"They form simple permanent tissues"
 ]
 },
 {
@@ -187,7 +187,7 @@ MCQ = r"""[
 },
 {
 "n": 17,
-"stem": "The matching pairs given below are the parts of a nephron and its functions. Which pair is INCORRECT?",
+"stem": "The pairs below match parts of a nephron with their functions. Which pair is INCORRECT?",
 "opts": [
 "Bowman’s capsule → ultrafiltration",
 "Proximal convoluted tubule → releases urea",
@@ -199,9 +199,9 @@ MCQ = r"""[
 "n": 18,
 "stem": "The enzymes involved in DNA replication are correctly matched with their functions EXCEPT",
 "opts": [
-"DNA polymerase-I proofreading",
+"DNA polymerase I - proofreading",
 "Helicase - winds DNA strands",
-"Primase synthesis RNA primer",
+"Primase - synthesises RNA primer",
 "Ligase joins DNA strands"
 ]
 },
@@ -212,12 +212,12 @@ MCQ = r"""[
 "Cancer",
 "Rheumatoid arthritis",
 "Diabetes mellitus (Type 1)",
-"Both B and C"
+"Both rheumatoid arthritis and type 1 diabetes"
 ]
 },
 {
 "n": 20,
-"stem": "The conduction of nerve impulse through myelinated neuron is faster than non-myelinated neuron because",
+"stem": "The conduction of nerve impulse through a myelinated neuron is faster than through a non-myelinated neuron because",
 "opts": [
 "Nerve impulses need not travel through the entire length of axon",
 "Non-myelinated neurons have less neurotransmitter",
@@ -259,10 +259,10 @@ MCQ = r"""[
 "n": 24,
 "stem": "The heart sound ‘dub’ is produced when",
 "opts": [
-"Tricuspid and bicuspid valve closes",
-"Tricuspid and semilunar valves closes",
-"Semilunar and bicuspid closes",
-"Semilunar valves closes sharply"
+"Tricuspid and bicuspid valves close",
+"Tricuspid and semilunar valves close",
+"Semilunar and bicuspid valves close",
+"Semilunar valves close sharply"
 ]
 },
 {
@@ -282,7 +282,7 @@ MCQ = r"""[
 "Spirochete",
 "Gram-positive cocci",
 "Acid-fast bacilli",
-"Gram- negative cocci"
+"Gram-negative cocci"
 ]
 },
 {
@@ -352,7 +352,7 @@ MCQ = r"""[
 "Closed system",
 "Open system",
 "Isolated system",
-"Non thermodynamics system"
+"Non-thermodynamic system"
 ]
 },
 {
@@ -387,7 +387,7 @@ MCQ = r"""[
 },
 {
 "n": 37,
-"stem": "A fundamental concept in physics often described as measure of disorders, randomness, or uncertainty within a system is termed as",
+"stem": "A fundamental concept in physics often described as a measure of disorder, randomness or uncertainty within a system is termed",
 "opts": [
 "Entropy",
 "Heat",
@@ -397,7 +397,7 @@ MCQ = r"""[
 },
 {
 "n": 38,
-"stem": "What are the transition elements characteristics?",
+"stem": "What is the characteristic nature of the transition elements?",
 "opts": [
 "Metallic",
 "Non-metallic",
@@ -427,7 +427,7 @@ MCQ = r"""[
 },
 {
 "n": 41,
-"stem": "Which of the following salt has highest pH?",
+"stem": "Which of the following salts has the highest pH?",
 "opts": [
 "CH3COOK",
 "Na2CO3",
@@ -447,12 +447,12 @@ MCQ = r"""[
 },
 {
 "n": 43,
-"stem": "When silver nitrate solution is stored in copper vessel, silver gets precipitated out because:",
+"stem": "When silver nitrate solution is stored in a copper vessel, silver gets precipitated out because:",
 "opts": [
-"Both silver and copper have positive reduction potential.",
+"Both silver and copper have positive reduction potentials",
 "Reduction potential of silver is higher than that of copper",
 "Reduction potential of copper is higher than that of silver",
-"Both silver and copper has negative oxidation potential"
+"Both silver and copper have negative oxidation potentials"
 ]
 },
 {
@@ -507,9 +507,9 @@ MCQ = r"""[
 },
 {
 "n": 49,
-"stem": "The reaction of vegetables oils or fats with methanol in the presence of NaOH is called:",
+"stem": "The reaction of vegetable oils or fats with methanol in the presence of NaOH is called:",
 "opts": [
-"Cannizaro reaction",
+"Cannizzaro reaction",
 "Aldol condensation",
 "Esterification",
 "Transesterification"
@@ -527,7 +527,7 @@ MCQ = r"""[
 },
 {
 "n": 51,
-"stem": "An acid reacts with an alcohol to form ester in the presence of concentrated acid;the esterification reaction is fastest in:",
+"stem": "An acid reacts with an alcohol to form ester in the presence of concentrated acid; the esterification reaction is fastest in:",
 "opts": [
 "CH3COOH",
 "HCOOH",
@@ -569,10 +569,10 @@ MCQ = r"""[
 "n": 55,
 "stem": "In an isochoric process, the increase in internal energy is:",
 "opts": [
-"equals to the heat absorbed",
-"equals to the heat evolved",
-"equals to work done",
-"equals to the sum of the heat absorbed and work done"
+"equal to the heat absorbed",
+"equal to the heat evolved",
+"equal to the work done",
+"equal to the sum of the heat absorbed and work done"
 ]
 },
 {
@@ -601,8 +601,8 @@ MCQ = r"""[
 "opts": [
 "Ohm",
 "Joule",
-"Ohm- meter",
-"Ohm-1 m-1"
+"Ohm-metre",
+"Ohm⁻¹ m⁻¹"
 ]
 },
 {
@@ -617,7 +617,7 @@ MCQ = r"""[
 },
 {
 "n": 60,
-"stem": "One end of a towel dips into a bucket full of water and the other end hangs over the bucket. After sometime the towel becomes fully wet. It happens because of",
+"stem": "One end of a towel dips into a bucket full of water and the other end hangs over the bucket. After some time the towel becomes fully wet. It happens because of",
 "opts": [
 "Viscosity of water is high",
 "Capillary action of cotton threads",
@@ -637,7 +637,7 @@ MCQ = r"""[
 },
 {
 "n": 62,
-"stem": "Which of the following waves have a maximum frequency?",
+"stem": "Which of the following waves has the maximum frequency?",
 "opts": [
 "infrared waves",
 "gamma rays",
@@ -647,12 +647,12 @@ MCQ = r"""[
 },
 {
 "n": 63,
-"stem": "Karma met with an Ophthalmologist and was asked to wear spectacles to enable him to see clearly up to 90 meters. Which of the following lenses would best suit his eyesight?",
+"stem": "Karma visited an ophthalmologist and was asked to wear spectacles to enable him to see clearly up to 90 meters. Which of the following lenses would best suit his eyesight?",
 "opts": [
 "convex",
 "concave",
 "plano-convex",
-"convexo concave"
+"convexo-concave"
 ]
 },
 {
@@ -677,7 +677,7 @@ MCQ = r"""[
 },
 {
 "n": 66,
-"stem": "Which one of the following statements accurately describes the significance of the nanotechnology in medicine and healthcare?",
+"stem": "Which one of the following statements accurately describes the significance of nanotechnology in medicine and healthcare?",
 "opts": [
 "It has completely eliminated the need for surgeries and medications",
 "It has minimal impact in the field of medicine and healthcare",
@@ -712,7 +712,7 @@ MCQ = r"""[
 "Sound wave",
 "Light wave",
 "Water wave",
-"Both b and c"
+"Both light waves and water waves"
 ]
 },
 {
@@ -825,7 +825,7 @@ SAQ = [
  dict(marks=3, stem="Explain the principle of blood pressure measurement using a sphygmomanometer. (3 marks)",
       kp=[("Cuff inflated around upper arm above systolic pressure, occluding the brachial artery (no flow, no sound)", 1), ("Pressure slowly released; first Korotkoff sound (turbulent flow) = systolic pressure", 1), ("Sounds disappear when flow becomes smooth/continuous = diastolic pressure; read on mercury/aneroid gauge in mmHg (normal about 120/80)", 1)],
       model="A sphygmomanometer measures blood pressure indirectly. An inflatable cuff around the upper arm is pumped above systolic pressure so the brachial artery is compressed and blood flow stops. A stethoscope is placed over the artery below the cuff and the pressure is slowly released. When cuff pressure falls just below systolic pressure, blood spurts through and turbulent flow produces tapping (Korotkoff) sounds: the reading at the first sound is the systolic pressure. As the pressure falls further, the sounds disappear when flow becomes smooth and continuous: this reading is the diastolic pressure. Values are read in mmHg (normal about 120/80)."),
- dict(marks=3, stem="State Newton's laws of motion and give one example of each law on how they are applied by health care professionals while providing care to patients. (3 marks)",
+ dict(marks=3, stem="State Newton's laws of motion and give one example of how each law is applied by health care professionals while providing care to patients. (3 marks)",
       kp=[("First law (inertia) with a care example, e.g. securing a patient on a moving stretcher / wheelchair brakes", 1), ("Second law F = ma with an example, e.g. more force needed to move a heavier patient; pushing a trolley", 1), ("Third law action-reaction with an example, e.g. pushing against the bed to reposition a patient; crutch walking", 1)],
       model="First law (inertia): a body stays at rest or in uniform motion unless acted on by an external force. Example: a patient on a moving stretcher keeps moving when it stops suddenly, so stretchers are moved smoothly and patients are secured with straps; wheelchair brakes are applied before transfers. Second law: force = mass x acceleration. Example: a heavier patient needs more force (or more staff, a hoist) to move or accelerate, so nurses use proper body mechanics. Third law: every action has an equal and opposite reaction. Example: when a patient pushes down on crutches or the bed rails, the reaction force lifts and supports the body; nurses push against the floor with their feet to move a patient up the bed."),
  dict(marks=3, stem="Describe the changes that occur in the uterine lining throughout the menstrual cycle. (3 marks)",

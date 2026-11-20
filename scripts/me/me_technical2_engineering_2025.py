@@ -247,7 +247,7 @@ MCQ = r"""[
 },
 {
 "n": 23,
-"stem": "In a reaction, when the concentration of reactant is increased two times, the increase in rate of reaction was four times. Order of reaction is",
+"stem": "In a reaction, when the concentration of the reactant is doubled, the rate of reaction increases four times. The order of the reaction is",
 "opts": [
 "0",
 "1",
@@ -287,12 +287,12 @@ MCQ = r"""[
 },
 {
 "n": 27,
-"stem": "Mercuric chloride is soluble in KI solution due to :",
+"stem": "Mercuric chloride is soluble in KI solution due to:",
 "opts": [
 "the formation of complex ion",
 "common iodide ion",
 "none of the above",
-"both (a) and (b)"
+"both complex ion formation and the common iodide ion"
 ]
 },
 {
@@ -307,7 +307,7 @@ MCQ = r"""[
 },
 {
 "n": 29,
-"stem": "Which one of the following functional group finally introduces the reaction of phenol with chloroform in presence of dilute sodium hydroxide?",
+"stem": "Which functional group is finally introduced when phenol reacts with chloroform in the presence of dilute sodium hydroxide?",
 "opts": [
 "–CHCl2",
 "–CHO",
@@ -320,7 +320,7 @@ MCQ = r"""[
 "stem": "Which of the following tests distinguishes aldehydes and ketones?",
 "opts": [
 "Lucas test",
-"Tollen's test",
+"Tollens' test",
 "KMnO4 solution (Baeyer's test)",
 "None of these"
 ]
@@ -337,7 +337,7 @@ MCQ = r"""[
 },
 {
 "n": 32,
-"stem": "Among the following substance, the lowest vapour pressure is exerted by",
+"stem": "Among the following substances, the lowest vapour pressure is exerted by",
 "opts": [
 "Water",
 "Alcohol",
@@ -351,7 +351,7 @@ MCQ = r"""[
 "opts": [
 "Electrorefining",
 "Electroplating",
-"Both (a) & (b)",
+"Both electroplating and electrorefining",
 "None of these"
 ]
 },
@@ -387,7 +387,7 @@ MCQ = r"""[
 },
 {
 "n": 37,
-"stem": "Which of the following statement about the reaction given below are correct? MnO2 + 4HCl → MnCl2 + 2H2O + Cl2 i. HCl is oxidized to Cl2 ii. MnO2 is reduced to MnCl2 iii. MnCl2 acts as an oxidizing agent iv. HCl acts as an oxidizing agent",
+"stem": "Which of the following statements about the reaction below are correct? MnO2 + 4HCl → MnCl2 + 2H2O + Cl2 i. HCl is oxidized to Cl2 ii. MnO2 is reduced to MnCl2 iii. MnCl2 acts as an oxidizing agent iv. HCl acts as an oxidizing agent",
 "opts": [
 "ii, iii and iv",
 "i, ii and iii",
@@ -397,7 +397,7 @@ MCQ = r"""[
 },
 {
 "n": 38,
-"stem": "A student took sodium sulphate solution in a test tube and added barium chloride solution to it. She observed that an insoluble substance has formed. The color and molecular formula of the insoluble substance is",
+"stem": "A student took sodium sulphate solution in a test tube and added barium chloride solution to it. She observed that an insoluble substance has formed. The colour and molecular formula of the insoluble substance are",
 "opts": [
 "Grey, Ba2SO4",
 "Yellow, Ba(SO4)2",
@@ -407,7 +407,7 @@ MCQ = r"""[
 },
 {
 "n": 39,
-"stem": "When lead nitrate powder is heated in boiling tube, we observe",
+"stem": "When lead nitrate powder is heated in a boiling tube, we observe",
 "opts": [
 "Brown fumes of nitrogen dioxide",
 "Brown fumes of lead oxide",
@@ -422,7 +422,7 @@ MCQ = r"""[
 "2.05 M",
 "1.02 M",
 "0.50 M",
-"1.78 M SECTION C: Physics"
+"1.78 M"
 ]
 },
 {
@@ -447,7 +447,7 @@ MCQ = r"""[
 },
 {
 "n": 43,
-"stem": "The term \"RC\" has same unit as that of",
+"stem": "The term \"RC\" has the same unit as",
 "opts": [
 "Potential",
 "Capacitance",
@@ -457,7 +457,7 @@ MCQ = r"""[
 },
 {
 "n": 44,
-"stem": "A wire of resistance R is cut into two equal parts, its resistance becomes R/2. What happens to resistivity?",
+"stem": "A wire of resistance R is cut into two equal parts, so each part has a resistance of R/2. What happens to the resistivity?",
 "opts": [
 "Double",
 "Same",
@@ -487,7 +487,7 @@ MCQ = r"""[
 },
 {
 "n": 47,
-"stem": "The direction of induced current is always so as to oppose the change which causes the current is called:",
+"stem": "The rule that the induced current always flows so as to oppose the change that causes it is called:",
 "opts": [
 "Faraday's law",
 "Lenz's law",
@@ -507,7 +507,7 @@ MCQ = r"""[
 },
 {
 "n": 49,
-"stem": "For a good transformer the hysterics loop are ______________in size.",
+"stem": "For a good transformer, the hysteresis loop should be ______________ in size.",
 "opts": [
 "Small",
 "Large",
@@ -517,7 +517,7 @@ MCQ = r"""[
 },
 {
 "n": 50,
-"stem": "The application of mutual induction is a",
+"stem": "An application of mutual induction is the",
 "opts": [
 "Television",
 "Radio",
@@ -527,7 +527,7 @@ MCQ = r"""[
 },
 {
 "n": 51,
-"stem": "A device that allows permits flow of DC through the circuit easily, is called:",
+"stem": "A device that allows DC to flow through a circuit easily is called:",
 "opts": [
 "Inductor",
 "Capacitor",
@@ -557,7 +557,7 @@ MCQ = r"""[
 },
 {
 "n": 54,
-"stem": "If the frequency of A.C. is doubled, the reactance of inductor will be",
+"stem": "If the frequency of A.C. is doubled, the reactance of an inductor will be",
 "opts": [
 "Half",
 "Same",
@@ -607,12 +607,12 @@ MCQ = r"""[
 },
 {
 "n": 59,
-"stem": "What is the gravitational force between two 60 kg people sitting 100m apart?",
+"stem": "What is the gravitational force between two 60 kg people sitting 100 m apart?",
 "opts": [
-"2.4×10−11N",
-"2.4×10−9N",
-"3.6×10−1N",
-"3.6×101N"
+"2.4 × 10⁻¹¹ N",
+"2.4 × 10⁻⁹ N",
+"3.6 × 10⁻¹ N",
+"3.6 × 10¹ N"
 ]
 },
 {
@@ -647,7 +647,7 @@ MCQ = r"""[
 },
 {
 "n": 63,
-"stem": "The ability to read and write each piece of information in a storage device in approximately the same length of time of its location is",
+"stem": "The ability to read and write each piece of information in a storage device in approximately the same length of time, regardless of its location, is",
 "opts": [
 "Sequential Access",
 "Raster scan",
@@ -687,7 +687,7 @@ MCQ = r"""[
 },
 {
 "n": 67,
-"stem": "A professor at the Stanford University coined the word 'artificial intelligence' in 1956 at a conference heId at Dartmouth college. The name of the professor is",
+"stem": "A professor at Stanford University coined the term 'artificial intelligence' in 1956 at a conference held at Dartmouth College. The name of the professor is",
 "opts": [
 "Joseph Weizenbaum",
 "David Levy",

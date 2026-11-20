@@ -22,7 +22,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
-  values ('ME', 'mcq', 'In reinforce concrete, the primary purpose of stirrups is to', null, 'Stirrups resist shear (and hold bars).', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
+  values ('ME', 'mcq', 'In reinforced concrete, the primary purpose of stirrups is to', null, 'Stirrups resist shear (and hold bars).', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'subject-specialisation') and t.slug = 'civil-engineering'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -106,7 +106,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
-  values ('ME', 'mcq', 'The shape of STOP signboard is', null, 'STOP signs are octagonal.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
+  values ('ME', 'mcq', 'The shape of a STOP signboard is', null, 'STOP signs are octagonal.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'subject-specialisation') and t.slug = 'civil-engineering'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -142,7 +142,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
-  values ('ME', 'mcq', 'For the same cross-sectional area which has the highest moment of inertia?', null, 'An I-section puts most area far from the axis.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
+  values ('ME', 'mcq', 'For the same cross-sectional area, which section has the highest moment of inertia?', null, 'An I-section puts most area far from the axis.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'subject-specialisation') and t.slug = 'civil-engineering'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -178,7 +178,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
-  values ('ME', 'mcq', 'The quantity of cement required for 1m3 of 1:2:4 concrete (by volume, wet mix) is approximately', null, 'About 6.4 bags ≈ 320 kg for 1:2:4.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
+  values ('ME', 'mcq', 'The quantity of cement required for 1 m³ of 1:2:4 concrete (by volume, wet mix) is approximately', null, 'About 6.4 bags ≈ 320 kg for 1:2:4.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'subject-specialisation') and t.slug = 'civil-engineering'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -186,7 +186,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M16', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '400 Kg', false, 1), ('B', '300 Kg', true, 2), ('C', '250 Kg', false, 3), ('D', '200 Kg', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M16';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '400 kg', false, 1), ('B', '300 kg', true, 2), ('C', '250 kg', false, 3), ('D', '200 kg', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M16';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -198,7 +198,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M17', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Introduce compressive stresses', true, 1), ('B', 'Reduce tensile strength', false, 2), ('C', 'Increase deflection', false, 3), ('D', 'To increase the weight of structures', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M17';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Introduce compressive stresses', true, 1), ('B', 'Reduce tensile strength', false, 2), ('C', 'Increase deflection', false, 3), ('D', 'Increase the weight of structures', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M17';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -222,11 +222,11 @@ with nq as (
   returning id
 )
 insert into me_q select 'M19', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Coagulation-----Filtration-----Sedimentation-----Disinfection', false, 1), ('B', 'Screening-----Coagulation----Sedimentation----Filtration', true, 2), ('C', 'Filtration----Coagulation-----Sedimentation-----Screening', false, 3), ('D', 'Sedimentation-----Screening-----Filtration------Disinfection', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M19';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Coagulation → Filtration → Sedimentation → Disinfection', false, 1), ('B', 'Screening → Coagulation → Sedimentation → Filtration', true, 2), ('C', 'Filtration → Coagulation → Sedimentation → Screening', false, 3), ('D', 'Sedimentation → Screening → Filtration → Disinfection', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M19';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
-  values ('ME', 'mcq', 'For maximum deflection in a simply supported beam carrying a UDL, the point of contraflexure occurs at', null, 'A simply supported beam under UDL has no contraflexure.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
+  values ('ME', 'mcq', 'In a simply supported beam carrying a UDL, the point of contraflexure occurs at', null, 'A simply supported beam under UDL has no contraflexure.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'subject-specialisation') and t.slug = 'civil-engineering'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -238,7 +238,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
-  values ('ME', 'mcq', 'A cantilever beam with a point load at free end deflects by what happens to deflection if span L is doubled?', null, 'δ = PL³/3EI: doubling L gives 8 times the deflection.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
+  values ('ME', 'mcq', 'A cantilever beam carries a point load at its free end. What happens to the deflection if the span L is doubled?', null, 'δ = PL³/3EI: doubling L gives 8 times the deflection.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'subject-specialisation') and t.slug = 'civil-engineering'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -246,11 +246,11 @@ with nq as (
   returning id
 )
 insert into me_q select 'M21', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Tripled', false, 1), ('B', 'Become 8x', true, 2), ('C', 'Becomes 4x', false, 3), ('D', 'Doubled', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M21';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Tripled', false, 1), ('B', 'Becomes 8x', true, 2), ('C', 'Becomes 4x', false, 3), ('D', 'Doubled', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M21';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
-  values ('ME', 'mcq', 'Unit hydrograph represents runoff from', null, 'A unit hydrograph is for 1 cm of effective rainfall.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
+  values ('ME', 'mcq', 'A unit hydrograph represents runoff from', null, 'A unit hydrograph is for 1 cm of effective rainfall.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'subject-specialisation') and t.slug = 'civil-engineering'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -258,11 +258,11 @@ with nq as (
   returning id
 )
 insert into me_q select 'M23', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Total rainfall', false, 1), ('B', '1cm rainfall', true, 2), ('C', 'Peak flood only', false, 3), ('D', '1mm rainfall', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M23';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Total rainfall', false, 1), ('B', '1 cm rainfall', true, 2), ('C', 'Peak flood only', false, 3), ('D', '1 mm rainfall', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M23';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
-  values ('ME', 'mcq', 'Weepholes in retaining wall help reduce', null, 'Weep holes drain water and cut hydrostatic pressure.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
+  values ('ME', 'mcq', 'Weep holes in a retaining wall help reduce', null, 'Weep holes drain water and cut hydrostatic pressure.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'subject-specialisation') and t.slug = 'civil-engineering'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -310,7 +310,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
-  values ('ME', 'mcq', 'Soils having more than 50% passing through 75-microm sieve is classified as', null, 'More than 50% finer than 75 µm: fine-grained soil.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
+  values ('ME', 'mcq', 'Soils with more than 50% passing the 75-micron sieve are classified as', null, 'More than 50% finer than 75 µm: fine-grained soil.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'subject-specialisation') and t.slug = 'civil-engineering'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -322,7 +322,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
-  values ('ME', 'mcq', 'The admixture used to increase setting time of concrete is', null, 'Retarders delay setting.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
+  values ('ME', 'mcq', 'The admixture used to increase the setting time of concrete is', null, 'Retarders delay setting.', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'subject-specialisation') and t.slug = 'civil-engineering'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,

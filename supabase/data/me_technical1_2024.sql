@@ -46,7 +46,7 @@ Key personnel of the school and education and curriculum experts discuss and fin
 Enabling a Creative Learning Environment in Finland
 A group of educators who wanted to change the traditional way of teaching started STEAM education in Yli-Ii school in Oulu, Finland. This initiative began as the new national core curriculum for basic education was taken into use in secondary schools from 2017 to 2019. The new curriculum sought to reinforce student activity, increase the sense of meaning in studying, and enable experiences of success through the development of creative learning environments and new ways of working.
 
-Yli-Ii school’s STEAM learning requires combining more than one subject together with 21st century skills. It is being implemented through a learning environment called Värkkäämö that promotes student-centered learning. Activities are designed to support students’ competence, autonomy, and involvement, and highlights cooperation between students and teachers. Students take an active role in designing their studies and the school’s STEAM working space. They can choose their working methods, platforms, and technology as they hone their skills and know-how.
+Yli-Ii school’s STEAM learning requires combining more than one subject together with 21st century skills. It is being implemented through a learning environment called Värkkäämö that promotes student-centered learning. Activities are designed to support students’ competence, autonomy, and involvement, and highlight cooperation between students and teachers. Students take an active role in designing their studies and the school’s STEAM working space. They can choose their working methods, platforms, and technology as they hone their skills and know-how.
 
 Teachers, meanwhile, collaborate in teaching cross-curricular subjects and open their classroom doors to teachers and students to seek the best solutions. As students are encouraged to set learning goals themselves and learn collaboration and communication skills, they become motivated, develop self-directness, and think like mathematicians and scientists.
 
@@ -160,7 +160,7 @@ insert into public.rubric_criteria (question_id, label, description, max_marks, 
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
-  values ('ME', 'long_answer', 'Lately, more crime news has become a big concern; the safety of people is questioned. Do you think installing CCTV cameras in strategic places (towns and institutes) is a rightful way to mitigate crimes and social issues? (10 marks)', 'I believe CCTV cameras are a useful tool, but they should be one part of a wider approach.
+  values ('ME', 'long_answer', 'Lately, rising crime in the news has become a big concern, and people's safety is being questioned. Do you think installing CCTV cameras in strategic places (towns and institutions) is the right way to reduce crime and social problems? (10 marks)', 'I believe CCTV cameras are a useful tool, but they should be one part of a wider approach.
 
 Cameras in towns, bus stations and institutes can deter theft, fights and vandalism, because people know they are being watched. Footage helps the police identify suspects and provides evidence in court, and it makes residents, especially women and students, feel safer at night.
 

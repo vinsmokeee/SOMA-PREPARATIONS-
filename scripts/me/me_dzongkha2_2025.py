@@ -123,7 +123,7 @@ However, a degree alone is not enough. Graduates must bring integrity, disciplin
 In conclusion, the courses offered by our colleges give graduates the knowledge GMC needs. If they combine that knowledge with strong values and hard work, our graduates can turn the vision of a mindful city into reality and build a better future for the nation."""),
 dict(key="E2", real=True, type=E, marks=25, topic="Essay: technology and society", stem="""Write an essay of about 300-350 words on the following topic.
 
-According to the Bhutan Media Foundation, Bhutanese spend an average of 163 minutes online each day, which is higher than the global average of 145 minutes per day. Intensive social media users include Generation Z (ages 13-29), Millennial (ages 30-44), university graduates, and employed citizens, each spending four or more hours daily on these platforms.
+According to the Bhutan Media Foundation, Bhutanese spend an average of 163 minutes online each day, which is higher than the global average of 145 minutes per day. Intensive social media users include Generation Z (ages 13-29), Millennials (ages 30-44), university graduates, and employed citizens, each spending four or more hours daily on these platforms.
 
 Discuss the impact of spending significant time on social media on mental health, time management, and social connections in the era of rapid technological advancement. (25 marks)""",
      key_points=[("Introduction using the figures given (163 minutes against a global 145; heavy users)", 3),
@@ -193,7 +193,7 @@ dict(key="L1", real=True, type=L, marks=20, topic="Letter writing: formal letter
 
 Your name is Sonam, an educated farmer from Mendrelgang Gewog, Punakha Dzongkhag. As a farmer, you are initiating a new agricultural project in your gewog.
 
-Write a letter to the Dzongkhag Agriculture and Livestock Officer mentioning the current clear problem statement, a well-defined objectives, methods, and a comprehensive budget, for your new project initiative. (20 marks)""",
+Write a letter to the Dzongkhag Agriculture and Livestock Officer setting out a clear problem statement, well-defined objectives, methods and a comprehensive budget for your new project. (20 marks)""",
      key_points=[("Correct formal format: sender's address, date, receiver's address, subject, salutation, closing and name", 4),
                  ("Clear problem statement", 4), ("Well-defined objectives", 4), ("Methods: how the project will be carried out", 4),
                  ("Budget with items and a total, and a polite request", 4)],
@@ -229,7 +229,7 @@ dict(key="L2", real=True, type=L, marks=20, topic="Letter writing: formal letter
 
 You are Dorji, the student counsellor of the College of Science and Technology, Phuntsholing, Chukha. Your college is organizing a symposium on "Buddhism in the 21st Century" during winter vacation.
 
-Write a letter to the President of your college requesting permission to participate. In your letter, explain why you are interested to organize this event, and explain its importance to the students and college, and how it can benefit the society. (20 marks)""",
+Write a letter to the President of your college requesting permission to participate. In your letter, explain why you are interested in organizing this event, and explain its importance to the students and college, and how it can benefit the society. (20 marks)""",
      key_points=[("Correct formal format: addresses, date, subject, salutation, closing and name", 4),
                  ("Clear request for permission", 3), ("Why the writer is interested in organising the event", 4),
                  ("Importance to the students and the college", 5), ("Benefit to society", 4)],

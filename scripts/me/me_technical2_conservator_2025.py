@@ -575,7 +575,7 @@ MCQ = r"""[
 },
 {
 "n": 56,
-"stem": "Ethics in conservation require:",
+"stem": "Ethics in conservation requires:",
 "opts": [
 "Secrecy of treatments",
 "Artistic interpretation",

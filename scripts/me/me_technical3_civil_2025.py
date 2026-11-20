@@ -31,7 +31,7 @@ MCQ = r"""[
 },
 {
 "n": 2,
-"stem": "In reinforce concrete, the primary purpose of stirrups is to",
+"stem": "In reinforced concrete, the primary purpose of stirrups is to",
 "opts": [
 "Resist axial tension",
 "Prevent shrinkage cracks",
@@ -101,7 +101,7 @@ MCQ = r"""[
 },
 {
 "n": 9,
-"stem": "The shape of STOP signboard is",
+"stem": "The shape of a STOP signboard is",
 "opts": [
 "Circular",
 "Triangular",
@@ -131,7 +131,7 @@ MCQ = r"""[
 },
 {
 "n": 12,
-"stem": "For the same cross-sectional area which has the highest moment of inertia?",
+"stem": "For the same cross-sectional area, which section has the highest moment of inertia?",
 "opts": [
 "Square",
 "Circle",
@@ -171,12 +171,12 @@ MCQ = r"""[
 },
 {
 "n": 16,
-"stem": "The quantity of cement required for 1m3 of 1:2:4 concrete (by volume, wet mix) is approximately",
+"stem": "The quantity of cement required for 1 m³ of 1:2:4 concrete (by volume, wet mix) is approximately",
 "opts": [
-"200 Kg",
-"250 Kg",
-"300 Kg",
-"400 Kg"
+"200 kg",
+"250 kg",
+"300 kg",
+"400 kg"
 ]
 },
 {
@@ -185,7 +185,7 @@ MCQ = r"""[
 "opts": [
 "Increase deflection",
 "Reduce tensile strength",
-"To increase the weight of structures",
+"Increase the weight of structures",
 "Introduce compressive stresses"
 ]
 },
@@ -203,15 +203,15 @@ MCQ = r"""[
 "n": 19,
 "stem": "Which is the correct sequence of treatment in a typical water treatment plant?",
 "opts": [
-"Screening-----Coagulation----Sedimentation----Filtration",
-"Filtration----Coagulation-----Sedimentation-----Screening",
-"Coagulation-----Filtration-----Sedimentation-----Disinfection",
-"Sedimentation-----Screening-----Filtration------Disinfection"
+"Screening → Coagulation → Sedimentation → Filtration",
+"Filtration → Coagulation → Sedimentation → Screening",
+"Coagulation → Filtration → Sedimentation → Disinfection",
+"Sedimentation → Screening → Filtration → Disinfection"
 ]
 },
 {
 "n": 20,
-"stem": "For maximum deflection in a simply supported beam carrying a UDL, the point of contraflexure occurs at",
+"stem": "In a simply supported beam carrying a UDL, the point of contraflexure occurs at",
 "opts": [
 "Centre",
 "Quarter span",
@@ -221,9 +221,9 @@ MCQ = r"""[
 },
 {
 "n": 21,
-"stem": "A cantilever beam with a point load at free end deflects by what happens to deflection if span L is doubled?",
+"stem": "A cantilever beam carries a point load at its free end. What happens to the deflection if the span L is doubled?",
 "opts": [
-"Become 8x",
+"Becomes 8x",
 "Becomes 4x",
 "Tripled",
 "Doubled"
@@ -241,17 +241,17 @@ MCQ = r"""[
 },
 {
 "n": 23,
-"stem": "Unit hydrograph represents runoff from",
+"stem": "A unit hydrograph represents runoff from",
 "opts": [
-"1mm rainfall",
-"1cm rainfall",
+"1 mm rainfall",
+"1 cm rainfall",
 "Peak flood only",
 "Total rainfall"
 ]
 },
 {
 "n": 24,
-"stem": "Weepholes in retaining wall help reduce",
+"stem": "Weep holes in a retaining wall help reduce",
 "opts": [
 "Hydrostatic pressure",
 "Flank pressure",
@@ -291,7 +291,7 @@ MCQ = r"""[
 },
 {
 "n": 28,
-"stem": "Soils having more than 50% passing through 75-microm sieve is classified as",
+"stem": "Soils with more than 50% passing the 75-micron sieve are classified as",
 "opts": [
 "Coarse soil",
 "Fine soil",
@@ -301,7 +301,7 @@ MCQ = r"""[
 },
 {
 "n": 29,
-"stem": "The admixture used to increase setting time of concrete is",
+"stem": "The admixture used to increase the setting time of concrete is",
 "opts": [
 "Retarder",
 "Accelerator",

@@ -261,7 +261,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'In a reaction, when the concentration of reactant is increased two times, the increase in rate of reaction was four times. Order of reaction is', null, 'Rate ∝ [A]ⁿ; doubling gives 4 times, so n = 2.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'In a reaction, when the concentration of the reactant is doubled, the rate of reaction increases four times. The order of the reaction is', null, 'Rate ∝ [A]ⁿ; doubling gives 4 times, so n = 2.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -309,7 +309,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Mercuric chloride is soluble in KI solution due to :', null, 'HgCl2 dissolves in excess KI as the complex K2[HgI4].', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Mercuric chloride is soluble in KI solution due to:', null, 'HgCl2 dissolves in excess KI as the complex K2[HgI4].', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -317,11 +317,11 @@ with nq as (
   returning id
 )
 insert into me_q select 'M27', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'none of the above', false, 1), ('B', 'the formation of complex ion', true, 2), ('C', 'both (a) and (b)', false, 3), ('D', 'common iodide ion', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M27';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'none of the above', false, 1), ('B', 'the formation of complex ion', true, 2), ('C', 'both complex ion formation and the common iodide ion', false, 3), ('D', 'common iodide ion', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M27';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Which one of the following functional group finally introduces the reaction of phenol with chloroform in presence of dilute sodium hydroxide?', null, 'Reimer-Tiemann reaction introduces −CHO (salicylaldehyde).', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Which functional group is finally introduced when phenol reacts with chloroform in the presence of dilute sodium hydroxide?', null, 'Reimer-Tiemann reaction introduces −CHO (salicylaldehyde).', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -341,7 +341,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M30', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'KMnO4 solution (Baeyer''s test)', false, 1), ('B', 'None of these', false, 2), ('C', 'Tollen''s test', true, 3), ('D', 'Lucas test', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M30';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'KMnO4 solution (Baeyer''s test)', false, 1), ('B', 'None of these', false, 2), ('C', 'Tollens'' test', true, 3), ('D', 'Lucas test', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M30';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -357,7 +357,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Among the following substance, the lowest vapour pressure is exerted by', null, 'Mercury has the lowest vapour pressure at room temperature.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Among the following substances, the lowest vapour pressure is exerted by', null, 'Mercury has the lowest vapour pressure at room temperature.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -377,7 +377,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M33', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Electroplating', false, 1), ('B', 'Both (a) & (b)', true, 2), ('C', 'Electrorefining', false, 3), ('D', 'None of these', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M33';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Electroplating', false, 1), ('B', 'Both electroplating and electrorefining', true, 2), ('C', 'Electrorefining', false, 3), ('D', 'None of these', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M33';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -405,7 +405,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Which of the following statement about the reaction given below are correct? MnO2 + 4HCl → MnCl2 + 2H2O + Cl2 i. HCl is oxidized to Cl2 ii. MnO2 is reduced to MnCl2 iii. MnCl2 acts as an oxidizing agent iv. HCl acts as an oxidizing agent', null, 'HCl is oxidised to Cl2 and MnO2 is reduced; MnO2 (not MnCl2) is the oxidising agent.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Which of the following statements about the reaction below are correct? MnO2 + 4HCl → MnCl2 + 2H2O + Cl2 i. HCl is oxidized to Cl2 ii. MnO2 is reduced to MnCl2 iii. MnCl2 acts as an oxidizing agent iv. HCl acts as an oxidizing agent', null, 'HCl is oxidised to Cl2 and MnO2 is reduced; MnO2 (not MnCl2) is the oxidising agent.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -417,7 +417,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A student took sodium sulphate solution in a test tube and added barium chloride solution to it. She observed that an insoluble substance has formed. The color and molecular formula of the insoluble substance is', null, 'BaSO4 is a white precipitate.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A student took sodium sulphate solution in a test tube and added barium chloride solution to it. She observed that an insoluble substance has formed. The colour and molecular formula of the insoluble substance are', null, 'BaSO4 is a white precipitate.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -429,7 +429,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'When lead nitrate powder is heated in boiling tube, we observe', null, '2Pb(NO3)2 → 2PbO + 4NO2 (brown) + O2.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'When lead nitrate powder is heated in a boiling tube, we observe', null, '2Pb(NO3)2 → 2PbO + 4NO2 (brown) + O2.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -449,7 +449,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M40', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '1.78 M SECTION C: Physics', false, 1), ('B', '0.50 M', false, 2), ('C', '1.02 M', false, 3), ('D', '2.05 M', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M40';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '1.78 M', false, 1), ('B', '0.50 M', false, 2), ('C', '1.02 M', false, 3), ('D', '2.05 M', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M40';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -477,7 +477,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The term "RC" has same unit as that of', null, 'RC is the time constant (seconds).', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The term "RC" has the same unit as', null, 'RC is the time constant (seconds).', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -489,7 +489,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A wire of resistance R is cut into two equal parts, its resistance becomes R/2. What happens to resistivity?', null, 'Resistivity is a material property; cutting does not change it.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A wire of resistance R is cut into two equal parts, so each part has a resistance of R/2. What happens to the resistivity?', null, 'Resistivity is a material property; cutting does not change it.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -513,7 +513,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The direction of induced current is always so as to oppose the change which causes the current is called:', null, 'Lenz''s law gives the opposing direction.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The rule that the induced current always flows so as to oppose the change that causes it is called:', null, 'Lenz''s law gives the opposing direction.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -537,7 +537,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'For a good transformer the hysterics loop are ______________in size.', null, 'A narrow (small) hysteresis loop means low core loss.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'For a good transformer, the hysteresis loop should be ______________ in size.', null, 'A narrow (small) hysteresis loop means low core loss.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -549,7 +549,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The application of mutual induction is a', null, 'Transformers work on mutual induction.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'An application of mutual induction is the', null, 'Transformers work on mutual induction.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -561,7 +561,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A device that allows permits flow of DC through the circuit easily, is called:', null, 'An inductor passes DC easily (low reactance at zero frequency).', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A device that allows DC to flow through a circuit easily is called:', null, 'An inductor passes DC easily (low reactance at zero frequency).', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -597,7 +597,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'If the frequency of A.C. is doubled, the reactance of inductor will be', null, 'XL = 2πfL doubles with frequency.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'If the frequency of A.C. is doubled, the reactance of an inductor will be', null, 'XL = 2πfL doubles with frequency.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -645,7 +645,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'What is the gravitational force between two 60 kg people sitting 100m apart?', null, 'F = 6.67×10⁻¹¹ × 60 × 60/100² = 2.4×10⁻¹¹ N.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'What is the gravitational force between two 60 kg people sitting 100 m apart?', null, 'F = 6.67×10⁻¹¹ × 60 × 60/100² = 2.4×10⁻¹¹ N.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -653,7 +653,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M59', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '2.4×10−9N', false, 1), ('B', '3.6×101N', false, 2), ('C', '3.6×10−1N', false, 3), ('D', '2.4×10−11N', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M59';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '2.4 × 10⁻⁹ N', false, 1), ('B', '3.6 × 10¹ N', false, 2), ('C', '3.6 × 10⁻¹ N', false, 3), ('D', '2.4 × 10⁻¹¹ N', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M59';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -693,7 +693,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The ability to read and write each piece of information in a storage device in approximately the same length of time of its location is', null, 'Random access: any location is reached in about the same time.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The ability to read and write each piece of information in a storage device in approximately the same length of time, regardless of its location, is', null, 'Random access: any location is reached in about the same time.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -729,7 +729,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A professor at the Stanford University coined the word ''artificial intelligence'' in 1956 at a conference heId at Dartmouth college. The name of the professor is', null, 'John McCarthy coined ''artificial intelligence'' in 1956.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A professor at Stanford University coined the term ''artificial intelligence'' in 1956 at a conference held at Dartmouth College. The name of the professor is', null, 'John McCarthy coined ''artificial intelligence'' in 1956.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'engineering-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,

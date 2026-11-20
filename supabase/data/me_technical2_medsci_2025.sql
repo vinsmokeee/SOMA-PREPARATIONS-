@@ -9,7 +9,7 @@ insert into public.paper_blueprint_sections (paper_id, subject_group_id, topic_s
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The wings of a dragonfly, eagle, bat and Pterodactyl is an example of', null, 'Wings of insects, birds, bats and pterosaurs do the same job but have different origins: analogous organs.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The wings of a dragonfly, eagle, bat and pterodactyl are an example of', null, 'Wings of insects, birds, bats and pterosaurs do the same job but have different origins: analogous organs.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -17,7 +17,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M1', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Vestigial organs', false, 1), ('B', 'None of the above', false, 2), ('C', 'Analogous organs', true, 3), ('D', 'Homologous organ', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M1';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Vestigial organs', false, 1), ('B', 'None of the above', false, 2), ('C', 'Analogous organs', true, 3), ('D', 'Homologous organsss', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M1';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -33,7 +33,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'In an experiment, a student cuts a transverse section of a young stem of a plant which he has taken from his school garden. After observing it under the microscope how would he ascertain whether it is a monocot stem or a dicot stem?', null, 'Arrangement of vascular bundles (ring in dicots, scattered in monocots) identifies the stem.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'In an experiment, a student cuts a transverse section of a young stem of a plant which he has taken from his school garden. After observing it under the microscope, how would he ascertain whether it is a monocot stem or a dicot stem?', null, 'Arrangement of vascular bundles (ring in dicots, scattered in monocots) identifies the stem.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -41,7 +41,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M4', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'With the help of caesarean strips', false, 1), ('B', 'With the help of vascular bundles', true, 2), ('C', 'With the help of stomatal apparatus', false, 3), ('D', 'With the help of bulliform cells', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M4';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'With the help of Casparian strips', false, 1), ('B', 'With the help of vascular bundles', true, 2), ('C', 'With the help of stomatal apparatus', false, 3), ('D', 'With the help of bulliform cells', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M4';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -165,7 +165,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Which of the following statement about parenchyma cell is INCORRECT?', null, 'Parenchyma cells are living.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Which of the following statements about parenchyma cells is INCORRECT?', null, 'Parenchyma cells are living.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -173,7 +173,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M15', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'They are non-living cells', true, 1), ('B', 'They have thin cell wall', false, 2), ('C', 'They from simple permanent tissues', false, 3), ('D', 'They are living cells', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M15';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'They are non-living cells', true, 1), ('B', 'They have thin cell wall', false, 2), ('C', 'They form simple permanent tissues', false, 3), ('D', 'They are living cells', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M15';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -189,7 +189,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The matching pairs given below are the parts of a nephron and its functions. Which pair is INCORRECT?', null, 'The PCT reabsorbs most substances; it does not ''release urea'' as its function.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The pairs below match parts of a nephron with their functions. Which pair is INCORRECT?', null, 'The PCT reabsorbs most substances; it does not ''release urea'' as its function.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -209,7 +209,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M18', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Helicase - winds DNA strands', true, 1), ('B', 'Primase synthesis RNA primer', false, 2), ('C', 'Ligase joins DNA strands', false, 3), ('D', 'DNA polymerase-I proofreading', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M18';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Helicase - winds DNA strands', true, 1), ('B', 'Primase - synthesises RNA primer', false, 2), ('C', 'Ligase joins DNA strands', false, 3), ('D', 'DNA polymerase I - proofreading', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M18';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -221,11 +221,11 @@ with nq as (
   returning id
 )
 insert into me_q select 'M19', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Rheumatoid arthritis', false, 1), ('B', 'Cancer', false, 2), ('C', 'Both B and C', true, 3), ('D', 'Diabetes mellitus (Type 1)', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M19';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Rheumatoid arthritis', false, 1), ('B', 'Cancer', false, 2), ('C', 'Both rheumatoid arthritis and type 1 diabetes', true, 3), ('D', 'Diabetes mellitus (Type 1)', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M19';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The conduction of nerve impulse through myelinated neuron is faster than non-myelinated neuron because', null, 'Impulses jump from node to node (saltatory conduction).', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The conduction of nerve impulse through a myelinated neuron is faster than through a non-myelinated neuron because', null, 'Impulses jump from node to node (saltatory conduction).', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -269,7 +269,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M24', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Semilunar valves closes sharply', true, 1), ('B', 'Tricuspid and bicuspid valve closes', false, 2), ('C', 'Semilunar and bicuspid closes', false, 3), ('D', 'Tricuspid and semilunar valves closes', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M24';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Semilunar valves close sharply', true, 1), ('B', 'Tricuspid and bicuspid valves close', false, 2), ('C', 'Semilunar and bicuspid valves close', false, 3), ('D', 'Tricuspid and semilunar valves close', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M24';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -293,7 +293,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M26', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Gram-positive cocci', false, 1), ('B', 'Acid-fast bacilli', false, 2), ('C', 'Spirochete', true, 3), ('D', 'Gram- negative cocci', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M26';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Gram-positive cocci', false, 1), ('B', 'Acid-fast bacilli', false, 2), ('C', 'Spirochete', true, 3), ('D', 'Gram-negative cocci', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M26';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -377,7 +377,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M33', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Isolated system', true, 1), ('B', 'Open system', false, 2), ('C', 'Closed system', false, 3), ('D', 'Non thermodynamics system', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M33';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Isolated system', true, 1), ('B', 'Open system', false, 2), ('C', 'Closed system', false, 3), ('D', 'Non-thermodynamic system', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M33';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -417,7 +417,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A fundamental concept in physics often described as measure of disorders, randomness, or uncertainty within a system is termed as', null, 'Entropy measures disorder.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A fundamental concept in physics often described as a measure of disorder, randomness or uncertainty within a system is termed', null, 'Entropy measures disorder.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -429,7 +429,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'What are the transition elements characteristics?', null, 'Transition elements are all metals.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'What is the characteristic nature of the transition elements?', null, 'Transition elements are all metals.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -465,7 +465,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Which of the following salt has highest pH?', null, 'Na2CO3 is a salt of a strong base and weak acid with strong hydrolysis: highest pH.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Which of the following salts has the highest pH?', null, 'Na2CO3 is a salt of a strong base and weak acid with strong hydrolysis: highest pH.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -489,7 +489,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'When silver nitrate solution is stored in copper vessel, silver gets precipitated out because:', null, 'Ag+ has a higher reduction potential, so Cu displaces Ag.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'When silver nitrate solution is stored in a copper vessel, silver gets precipitated out because:', null, 'Ag+ has a higher reduction potential, so Cu displaces Ag.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -497,7 +497,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M43', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Both silver and copper has negative oxidation potential', false, 1), ('B', 'Reduction potential of copper is higher than that of silver', false, 2), ('C', 'Both silver and copper have positive reduction potential.', false, 3), ('D', 'Reduction potential of silver is higher than that of copper', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M43';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Both silver and copper have negative oxidation potentials', false, 1), ('B', 'Reduction potential of copper is higher than that of silver', false, 2), ('C', 'Both silver and copper have positive reduction potentials', false, 3), ('D', 'Reduction potential of silver is higher than that of copper', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M43';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -561,7 +561,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The reaction of vegetables oils or fats with methanol in the presence of NaOH is called:', null, 'Oil + methanol with NaOH gives biodiesel by transesterification.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The reaction of vegetable oils or fats with methanol in the presence of NaOH is called:', null, 'Oil + methanol with NaOH gives biodiesel by transesterification.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -569,7 +569,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M49', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Transesterification', true, 1), ('B', 'Esterification', false, 2), ('C', 'Cannizaro reaction', false, 3), ('D', 'Aldol condensation', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M49';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Transesterification', true, 1), ('B', 'Esterification', false, 2), ('C', 'Cannizzaro reaction', false, 3), ('D', 'Aldol condensation', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M49';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -585,7 +585,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'An acid reacts with an alcohol to form ester in the presence of concentrated acid;the esterification reaction is fastest in:', null, 'Formic acid has least steric hindrance, so it esterifies fastest.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'An acid reacts with an alcohol to form ester in the presence of concentrated acid; the esterification reaction is fastest in:', null, 'Formic acid has least steric hindrance, so it esterifies fastest.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -629,7 +629,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M55', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'equals to work done', false, 1), ('B', 'equals to the heat absorbed', true, 2), ('C', 'equals to the heat evolved', false, 3), ('D', 'equals to the sum of the heat absorbed and work done', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M55';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'equal to the work done', false, 1), ('B', 'equal to the heat absorbed', true, 2), ('C', 'equal to the heat evolved', false, 3), ('D', 'equal to the sum of the heat absorbed and work done', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M55';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -653,7 +653,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M58', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Ohm-1 m-1', false, 1), ('B', 'Ohm', false, 2), ('C', 'Joule', false, 3), ('D', 'Ohm- meter', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M58';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Ohm⁻¹ m⁻¹', false, 1), ('B', 'Ohm', false, 2), ('C', 'Joule', false, 3), ('D', 'Ohm-metre', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M58';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -669,7 +669,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'One end of a towel dips into a bucket full of water and the other end hangs over the bucket. After sometime the towel becomes fully wet. It happens because of', null, 'Water rises along cotton fibres by capillarity.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'One end of a towel dips into a bucket full of water and the other end hangs over the bucket. After some time the towel becomes fully wet. It happens because of', null, 'Water rises along cotton fibres by capillarity.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -693,7 +693,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Which of the following waves have a maximum frequency?', null, 'Gamma rays have the highest frequency.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Which of the following waves has the maximum frequency?', null, 'Gamma rays have the highest frequency.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -705,7 +705,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Karma met with an Ophthalmologist and was asked to wear spectacles to enable him to see clearly up to 90 meters. Which of the following lenses would best suit his eyesight?', null, 'Unable to see far objects clearly (myopia): concave lens.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Karma visited an ophthalmologist and was asked to wear spectacles to enable him to see clearly up to 90 meters. Which of the following lenses would best suit his eyesight?', null, 'Unable to see far objects clearly (myopia): concave lens.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -713,7 +713,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M63', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'convex', false, 1), ('B', 'plano-convex', false, 2), ('C', 'convexo concave', false, 3), ('D', 'concave', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M63';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'convex', false, 1), ('B', 'plano-convex', false, 2), ('C', 'convexo-concave', false, 3), ('D', 'concave', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M63';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -741,7 +741,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Which one of the following statements accurately describes the significance of the nanotechnology in medicine and healthcare?', null, 'Nanotechnology enables targeted drug delivery.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Which one of the following statements accurately describes the significance of nanotechnology in medicine and healthcare?', null, 'Nanotechnology enables targeted drug delivery.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -785,7 +785,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M69', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Sound wave', false, 1), ('B', 'Light wave', false, 2), ('C', 'Water wave', false, 3), ('D', 'Both b and c', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M69';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Sound wave', false, 1), ('B', 'Light wave', false, 2), ('C', 'Water wave', false, 3), ('D', 'Both light waves and water waves', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M69';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -877,7 +877,7 @@ insert into public.rubric_criteria (question_id, label, description, max_marks, 
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'short_answer', 'State Newton''s laws of motion and give one example of each law on how they are applied by health care professionals while providing care to patients. (3 marks)', 'First law (inertia): a body stays at rest or in uniform motion unless acted on by an external force. Example: a patient on a moving stretcher keeps moving when it stops suddenly, so stretchers are moved smoothly and patients are secured with straps; wheelchair brakes are applied before transfers. Second law: force = mass x acceleration. Example: a heavier patient needs more force (or more staff, a hoist) to move or accelerate, so nurses use proper body mechanics. Third law: every action has an equal and opposite reaction. Example: when a patient pushes down on crutches or the bed rails, the reaction force lifts and supports the body; nurses push against the floor with their feet to move a patient up the bed.', null, '[{"point": "First law (inertia) with a care example, e.g. securing a patient on a moving stretcher / wheelchair brakes", "marks": 1}, {"point": "Second law F = ma with an example, e.g. more force needed to move a heavier patient; pushing a trolley", "marks": 1}, {"point": "Third law action-reaction with an example, e.g. pushing against the bed to reposition a patient; crutch walking", "marks": 1}]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'short_answer', 'State Newton''s laws of motion and give one example of how each law is applied by health care professionals while providing care to patients. (3 marks)', 'First law (inertia): a body stays at rest or in uniform motion unless acted on by an external force. Example: a patient on a moving stretcher keeps moving when it stops suddenly, so stretchers are moved smoothly and patients are secured with straps; wheelchair brakes are applied before transfers. Second law: force = mass x acceleration. Example: a heavier patient needs more force (or more staff, a hoist) to move or accelerate, so nurses use proper body mechanics. Third law: every action has an equal and opposite reaction. Example: when a patient pushes down on crutches or the bed rails, the reaction force lifts and supports the body; nurses push against the floor with their feet to move a patient up the bed.', null, '[{"point": "First law (inertia) with a care example, e.g. securing a patient on a moving stretcher / wheelchair brakes", "marks": 1}, {"point": "Second law F = ma with an example, e.g. more force needed to move a heavier patient; pushing a trolley", "marks": 1}, {"point": "Third law action-reaction with an example, e.g. pushing against the bed to reposition a patient; crutch walking", "marks": 1}]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 3,
     324, 'historical_official', 'awaiting_review',
     null, null,

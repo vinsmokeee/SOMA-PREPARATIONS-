@@ -203,7 +203,7 @@ MCQ = r"""[
 },
 {
 "n": 19,
-"stem": "Which of the following cannot directly interpreted from a boxplot?",
+"stem": "Which of the following cannot be directly interpreted from a boxplot?",
 "opts": [
 "Median",
 "Presence of outliers",
@@ -463,7 +463,7 @@ MCQ = r"""[
 },
 {
 "n": 45,
-"stem": "The civil service statistics shows following age distribution of civil servants: Mean = 50, Median = 45, Mode = 40. What is the likely shape of the distribution?",
+"stem": "Civil service statistics show the following age distribution of civil servants: Mean = 50, Median = 45, Mode = 40. What is the likely shape of the distribution?",
 "opts": [
 "Symmetric",
 "Right-skewed",
@@ -645,7 +645,7 @@ MCQ = r"""[
 "n": 63,
 "stem": "A stadium tracks the number of fans entering through a gate per minute and uses a Poisson distribution to model the arrivals. Which of the following situations violates a key assumption?",
 "opts": [
-"Fans enter randomly throughout the game .",
+"Fans enter randomly throughout the game.",
 "Fans come in large groups at specific times.",
 "The total average per hour remains stable.",
 "Fans enter independently of each other."
@@ -663,7 +663,7 @@ MCQ = r"""[
 },
 {
 "n": 65,
-"stem": "In a study of rural households, owning a television was found to be positively correlated with household income. Which of the following statement best explains this finding?",
+"stem": "In a study of rural households, owning a television was found to be positively correlated with household income. Which of the following statements best explains this finding?",
 "opts": [
 "Higher-income households are more likely to afford televisions.",
 "Households with televisions earn more due to access to information.",
