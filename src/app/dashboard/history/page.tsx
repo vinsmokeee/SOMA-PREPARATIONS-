@@ -31,7 +31,7 @@ export default async function HistoryPage({ searchParams }: PageProps<"/dashboar
   const supabase = await createClient();
   const { data } = await supabase
     .from("exam_attempts")
-    .select("id, status, started_at, deadline_at, score, max_score, correct_count, incorrect_count, time_spent_seconds, exams!inner(title, stage, slug)")
+    .select("id, status, started_at, deadline_at, score, max_score, correct_count, incorrect_count, time_spent_seconds, exams!exam_attempts_exam_id_fkey!inner(title, stage, slug)")
     .eq("exams.stage", stage)
     .order("started_at", { ascending: false })
     .limit(100);

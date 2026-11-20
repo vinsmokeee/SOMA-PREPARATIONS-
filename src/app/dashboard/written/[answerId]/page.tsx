@@ -29,7 +29,7 @@ export default async function WrittenAnswerPage({ params }: PageProps<"/dashboar
   const db = await createClient();
   const { data } = await db
     .from("attempt_answers")
-    .select("id, attempt_id, exam_question_id, answer_mode, text_answer, word_count, transcript_status, transcript_text, transcript_confidence, transcript_notes, transcript_edit_ratio, saved_at, exam_attempts!inner(status, submitted_at, deadline_at, user_id, exams(owner_id, title)), answer_pages(count)")
+    .select("id, attempt_id, exam_question_id, answer_mode, text_answer, word_count, transcript_status, transcript_text, transcript_confidence, transcript_notes, transcript_edit_ratio, saved_at, exam_attempts!inner(status, submitted_at, deadline_at, user_id, exams!exam_attempts_exam_id_fkey(owner_id, title)), answer_pages(count)")
     .eq("id", answerId)
     .eq("exam_attempts.user_id", user.id)
     .maybeSingle();
