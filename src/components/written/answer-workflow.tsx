@@ -52,6 +52,7 @@ export function AnswerWorkflow(p: WorkflowProps) {
 
   const locked = Boolean(p.evaluation && !["failed", "withdrawn"].includes(p.evaluation.status));
   const unclear = (text.match(/\[unclear\]/gi) ?? []).length;
+  const [askUnclear, setAskUnclear] = useState(false);
   const ts = p.transcript.status;
 
   return (
@@ -84,11 +85,17 @@ export function AnswerWorkflow(p: WorkflowProps) {
                 {unclear ? `${unclear} [unclear] ${unclear === 1 ? "part remains" : "parts remain"} — replace ${unclear === 1 ? "it" : "them"} with what you wrote. ` : ""}
                 Correct reading mistakes only. Large changes are noted on your evaluation, and your original photos are kept.
               </p>
+              {askUnclear && unclear > 0 ? (
+                <p role="alert" className="rounded-lg bg-warning-soft p-3 text-sm text-warning">
+                  {unclear} {unclear === 1 ? "part" : "parts"} still marked [unclear]. You can fix {unclear === 1 ? "it" : "them"} above, or confirm as it is: the AI will mark only the words it can read, so you may lose marks for the unclear parts.
+                </p>
+              ) : null}
               <div className="flex flex-wrap gap-2">
-                <button type="button" disabled={pending !== null || unclear > 0 || !text.trim()} onClick={() => run("confirm", () => confirmTranscriptAction(p.answerId, text))}
+                <button type="button" disabled={pending !== null || !text.trim()}
+                  onClick={() => (unclear > 0 && !askUnclear ? setAskUnclear(true) : run("confirm", () => confirmTranscriptAction(p.answerId, text)))}
                   className="inline-flex h-11 items-center gap-2 rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground disabled:opacity-50">
                   {pending === "confirm" ? <Loader2 className="size-4 animate-spin" aria-hidden /> : <CheckCircle2 className="size-4" aria-hidden />}
-                  {ts === "confirmed" ? "Save corrections" : "This matches my answer"}
+                  {askUnclear && unclear > 0 ? "Confirm with unclear parts" : ts === "confirmed" ? "Save corrections" : "This matches my answer"}
                 </button>
                 {p.canEditPages ? <button type="button" disabled={pending !== null} onClick={() => run("read", () => readHandwritingAction(p.answerId))} className="inline-flex h-11 items-center rounded-md border border-border-strong px-4 text-sm font-medium hover:bg-muted disabled:opacity-50">Read the pages again</button> : null}
               </div>

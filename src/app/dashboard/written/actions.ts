@@ -128,7 +128,8 @@ export async function readHandwritingAction(answerId: string): Promise<Result> {
 
 export async function confirmTranscriptAction(answerId: string, text: string): Promise<Result<{ editRatio: number }>> {
   if (!uuid.safeParse(answerId).success || typeof text !== "string" || text.length > 60000) return { ok: false, message: "Invalid request." };
-  if (/\[unclear\]/i.test(text)) return { ok: false, message: "Replace every [unclear] with what you wrote (or delete it) before confirming." };
+  // [unclear] parts may stay (founder, 20 Nov 2026): Dzongkha handwriting often has many, and retyping them on a phone
+  // is hard. The evaluator gives no credit for unreadable words and does not treat them as mistakes.
   const db = await signedIn();
   const { data, error } = await db.rpc("confirm_transcript", { _answer_id: answerId, _text: text });
   if (error) return { ok: false, message: message(error, "Could not save the text.") };
