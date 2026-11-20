@@ -106,8 +106,13 @@ for t in sorted({x['topic'] for x in b.Q}):
 # Pattern for personal mocks (replaces any earlier pattern of this paper)
 GROUP = getattr(b, 'SUBJECT_GROUP', None)  # subject group code: the pattern, timing and questions belong to that group
 group = f"(select id from public.subject_groups where code = {q(GROUP)})" if GROUP else 'null'
+SPEC = getattr(b, 'SPECIALISATION', None)  # specialisation code: the pattern and questions belong to that specialisation
+spec = f"(select id from public.specialisations where code = {q(SPEC)})" if SPEC else 'null'
+assert not (SPEC and GROUP), 'use SPECIALISATION or SUBJECT_GROUP, not both'
+if SPEC:
+    out.append(f"do $$ begin if {spec} is null then raise exception 'unknown specialisation {SPEC}'; end if; end $$;")
 if not ADDS:
-    out.append(f"delete from public.paper_blueprint_sections where paper_id = {paper} and subject_group_id is not distinct from {group};")
+    out.append(f"delete from public.paper_blueprint_sections where paper_id = {paper} and subject_group_id is not distinct from {group} and specialisation_id is not distinct from {spec};")
     if getattr(b, 'GROUP_TIMING', None):
         t = b.GROUP_TIMING
         out.append(f"insert into public.paper_group_settings (paper_id, subject_group_id, duration_minutes, reading_minutes, max_marks, source) "
@@ -115,8 +120,8 @@ if not ADDS:
                    f"on conflict (paper_id, subject_group_id) do update set duration_minutes = excluded.duration_minutes, "
                    f"reading_minutes = excluded.reading_minutes, max_marks = excluded.max_marks, source = excluded.source;")
 for i, p in enumerate([] if ADDS else b.PATTERN):
-    out.append(f"insert into public.paper_blueprint_sections (paper_id, subject_group_id, topic_slug, sort_order, title, question_type, question_count, marks_each, answer_any, source) "
-               f"values ({paper}, {group}, {q(p.get('topic'))}, {i + 1}, {q(p['title'])}, {q(p['type'])}, {p['count']}, {p['marks_each']}, {p.get('answer_any') or 'null'}, {q(b.SOURCE['title'])});")
+    out.append(f"insert into public.paper_blueprint_sections (paper_id, subject_group_id, specialisation_id, topic_slug, sort_order, title, question_type, question_count, marks_each, answer_any, source) "
+               f"values ({paper}, {group}, {spec}, {q(p.get('topic'))}, {i + 1}, {q(p['title'])}, {q(p['type'])}, {p['count']}, {p['marks_each']}, {p.get('answer_any') or 'null'}, {q(b.SOURCE['title'])});")
 def answer_positions(keys, seed):
     """Where the correct option goes for each MCQ, in order: A, B, C and D used about equally, shuffled,
     never the same letter more than twice in a row (founder, 20 Nov 2026: answers must look random)."""
@@ -142,12 +147,12 @@ for x in sorted(ROWS, key=lambda x: 0 if x.get('real') else 1):
     kp = [{'point': p, 'marks': m} for p, m in x.get('key_points', [])]
     out.append(f"""with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', {q(x['type'])}, {q(x['stem'].strip())}, {q(x['model'].strip()) if x.get('model') else 'null'}, {q(x.get('exp'))}, {q(json.dumps(kp, ensure_ascii=False))}::jsonb, {subject},
     (select t.id from public.topics t where t.subject_id = {subject} and t.slug = {q(slug(x['topic']))}), {paper}, 'standard', {x.get('marks', 20)},
     {60 if x['type'] == 'mcq' else int(x.get('marks', 20) * 108)}, {q('historical_official' if x.get('real') else 'ai_variation')}, {q('verified' if PUBLISH_AS else 'awaiting_review')},
     {f"(select id from me_q where key = {q(x['parent'])})" if x.get('parent') else 'null'}, {q(x.get('kind')) if x.get('parent') else 'null'},
-    {q(json.dumps(review, ensure_ascii=False))}::jsonb, {q(x.get('group'))}, {x.get('pos') or 'null'}, {PUBLISH_AS or 'null'}, {group}, {q(x.get('image'))})
+    {q(json.dumps(review, ensure_ascii=False))}::jsonb, {q(x.get('group'))}, {x.get('pos') or 'null'}, {PUBLISH_AS or 'null'}, {group}, {spec}, {q(x.get('image'))})
   returning id
 )
 insert into me_q select {q(x['key'])}, id from nq;""")
