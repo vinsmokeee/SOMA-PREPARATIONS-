@@ -30,15 +30,17 @@ def split_parts(text):
 
 
 def part_marks(part):
-    m = re.search(r'\((\d+)\s*marks?\)\s*$', part, re.I)
+    m = re.search(r'\((\d+(?:\.\d+)?)\s*marks?\)\s*$', part, re.I)
     assert m, ('no marks at the end of part', part[:60])
-    return int(m.group(1))
+    v = float(m.group(1))
+    return int(v) if v.is_integer() else v
 
 
 def scaled_rubric(marks):
     """The 20-mark rubric scaled to a part's marks (halves), adding up exactly."""
     total = sum(r[2] for r in b.RUBRIC)
     rows = [(l, d, round(mx * marks / total * 2) / 2) for l, d, mx in b.RUBRIC]
+    rows = [r for r in rows if r[2] > 0]  # very small parts: drop criteria that round to 0
     rows[0] = (rows[0][0], rows[0][1], rows[0][2] + marks - sum(r[2] for r in rows))
     return rows
 
@@ -90,7 +92,7 @@ for r in ROWS:
         r['parent'] = next(k for k in row_keys if k.startswith(r['parent'][:-1]))  # parent has fewer parts: link to its first
 ADDS = getattr(b, 'ADDS_TO_PAPER', False)  # an older year added to a paper whose pattern another batch set
 for p in ([] if ADDS else b.PATTERN):
-    n = len({x.get('group') or x['key'] for x in b.Q if x['type'] == p['type']})
+    n = len({x.get('group') or x['key'] for x in b.Q if x['type'] == p['type'] and (not p.get('topic') or slug(x['topic']) == p['topic'])})
     assert n >= p['count'], ('not enough questions for', p['title'], n)
 
 NOTE = ('Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is '
@@ -102,11 +104,19 @@ subject = f"(select id from public.subjects where slug = {q(b.SUBJECT)})"
 for t in sorted({x['topic'] for x in b.Q}):
     out.append(f"insert into public.topics (subject_id, slug, name) select {subject}, {q(slug(t))}, {q(t)} on conflict (subject_id, slug) do nothing;")
 # Pattern for personal mocks (replaces any earlier pattern of this paper)
+GROUP = getattr(b, 'SUBJECT_GROUP', None)  # subject group code: the pattern, timing and questions belong to that group
+group = f"(select id from public.subject_groups where code = {q(GROUP)})" if GROUP else 'null'
 if not ADDS:
-    out.append(f"delete from public.paper_blueprint_sections where paper_id = {paper};")
+    out.append(f"delete from public.paper_blueprint_sections where paper_id = {paper} and subject_group_id is not distinct from {group};")
+    if getattr(b, 'GROUP_TIMING', None):
+        t = b.GROUP_TIMING
+        out.append(f"insert into public.paper_group_settings (paper_id, subject_group_id, duration_minutes, reading_minutes, max_marks, source) "
+                   f"values ({paper}, {group}, {t.get('duration') or 'null'}, {t.get('reading') or 'null'}, {t.get('max_marks') or 'null'}, {q(b.SOURCE['title'])}) "
+                   f"on conflict (paper_id, subject_group_id) do update set duration_minutes = excluded.duration_minutes, "
+                   f"reading_minutes = excluded.reading_minutes, max_marks = excluded.max_marks, source = excluded.source;")
 for i, p in enumerate([] if ADDS else b.PATTERN):
-    out.append(f"insert into public.paper_blueprint_sections (paper_id, sort_order, title, question_type, question_count, marks_each, answer_any, source) "
-               f"values ({paper}, {i + 1}, {q(p['title'])}, {q(p['type'])}, {p['count']}, {p['marks_each']}, {p.get('answer_any') or 'null'}, {q(b.SOURCE['title'])});")
+    out.append(f"insert into public.paper_blueprint_sections (paper_id, subject_group_id, topic_slug, sort_order, title, question_type, question_count, marks_each, answer_any, source) "
+               f"values ({paper}, {group}, {q(p.get('topic'))}, {i + 1}, {q(p['title'])}, {q(p['type'])}, {p['count']}, {p['marks_each']}, {p.get('answer_any') or 'null'}, {q(b.SOURCE['title'])});")
 def answer_positions(keys, seed):
     """Where the correct option goes for each MCQ, in order: A, B, C and D used about equally, shuffled,
     never the same letter more than twice in a row (founder, 20 Nov 2026: answers must look random)."""
@@ -132,12 +142,12 @@ for x in sorted(ROWS, key=lambda x: 0 if x.get('real') else 1):
     kp = [{'point': p, 'marks': m} for p, m in x.get('key_points', [])]
     out.append(f"""with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
   values ('ME', {q(x['type'])}, {q(x['stem'].strip())}, {q(x['model'].strip()) if x.get('model') else 'null'}, {q(x.get('exp'))}, {q(json.dumps(kp, ensure_ascii=False))}::jsonb, {subject},
     (select t.id from public.topics t where t.subject_id = {subject} and t.slug = {q(slug(x['topic']))}), {paper}, 'standard', {x.get('marks', 20)},
     {60 if x['type'] == 'mcq' else int(x.get('marks', 20) * 108)}, {q('historical_official' if x.get('real') else 'ai_variation')}, {q('verified' if PUBLISH_AS else 'awaiting_review')},
     {f"(select id from me_q where key = {q(x['parent'])})" if x.get('parent') else 'null'}, {q(x.get('kind')) if x.get('parent') else 'null'},
-    {q(json.dumps(review, ensure_ascii=False))}::jsonb, {q(x.get('group'))}, {x.get('pos') or 'null'}, {PUBLISH_AS or 'null'})
+    {q(json.dumps(review, ensure_ascii=False))}::jsonb, {q(x.get('group'))}, {x.get('pos') or 'null'}, {PUBLISH_AS or 'null'}, {group}, {q(x.get('image'))})
   returning id
 )
 insert into me_q select {q(x['key'])}, id from nq;""")
