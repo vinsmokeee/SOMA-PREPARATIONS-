@@ -140,12 +140,12 @@ for x in sorted(ROWS, key=lambda x: 0 if x.get('real') else 1):
     kp = [{'point': p, 'marks': m} for p, m in x.get('key_points', [])]
     out.append(f"""with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
   values ('ME', {q(x['type'])}, {q(x['stem'].strip())}, {q(x['model'].strip()) if x.get('model') else 'null'}, {q(x.get('exp'))}, {q(json.dumps(kp, ensure_ascii=False))}::jsonb, {subject},
     (select t.id from public.topics t where t.subject_id = {subject} and t.slug = {q(slug(x['topic']))}), {paper}, 'standard', {x.get('marks', 20)},
     {60 if x['type'] == 'mcq' else int(x.get('marks', 20) * 108)}, {q('historical_official' if x.get('real') else 'ai_variation')}, {q('verified' if PUBLISH_AS else 'awaiting_review')},
     {f"(select id from me_q where key = {q(x['parent'])})" if x.get('parent') else 'null'}, {q(x.get('kind')) if x.get('parent') else 'null'},
-    {q(json.dumps(review, ensure_ascii=False))}::jsonb, {q(x.get('group'))}, {x.get('pos') or 'null'}, {PUBLISH_AS or 'null'}, {group})
+    {q(json.dumps(review, ensure_ascii=False))}::jsonb, {q(x.get('group'))}, {x.get('pos') or 'null'}, {PUBLISH_AS or 'null'}, {group}, {q(x.get('image'))})
   returning id
 )
 insert into me_q select {q(x['key'])}, id from nq;""")
