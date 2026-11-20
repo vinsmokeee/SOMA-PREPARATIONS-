@@ -555,7 +555,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'If n = 2^3, what is the value of n^n?', null, '8^8 = (2^3)^8 = 2^24.', '[]'::jsonb, (select id from public.subjects where slug = 'teacher-aptitude'),
+  values ('ME', 'mcq', 'If n = 2³, what is the value of nⁿ?', null, '8⁸ = (2³)⁸ = 2²⁴.', '[]'::jsonb, (select id from public.subjects where slug = 'teacher-aptitude'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'teacher-aptitude') and t.slug = 'problem-solving'), (select id from public.exam_papers where code = 'me-bed-3'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -563,7 +563,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'C53', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '2^24', true, 1), ('B', '2^9', false, 2), ('C', '2^11', false, 3), ('D', '2^6', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C53';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '2²⁴', true, 1), ('B', '2⁹', false, 2), ('C', '2¹¹', false, 3), ('D', '2⁶', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C53';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -687,7 +687,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'In the figure, the area of triangle ABC is 20 cm^2, BD = 4 cm is the height, and AD = BD. What is the length of DC?', null, 'AC = 2 x 20 / 4 = 10; AD = 4, so DC = 6.', '[]'::jsonb, (select id from public.subjects where slug = 'teacher-aptitude'),
+  values ('ME', 'mcq', 'In the figure, the area of triangle ABC is 20 cm², BD = 4 cm is the height, and AD = BD. What is the length of DC?', null, 'AC = 2 x 20 / 4 = 10; AD = 4, so DC = 6.', '[]'::jsonb, (select id from public.subjects where slug = 'teacher-aptitude'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'teacher-aptitude') and t.slug = 'problem-solving'), (select id from public.exam_papers where code = 'me-bed-3'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -795,7 +795,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A rectangular prism has a square base of side 8 cm and height 21 cm. What is one-fourth of its volume in cm^3?', null, '8 x 8 x 21 = 1,344; /4 = 336.', '[]'::jsonb, (select id from public.subjects where slug = 'teacher-aptitude'),
+  values ('ME', 'mcq', 'A rectangular prism has a square base of side 8 cm and height 21 cm. What is one-fourth of its volume in cm³?', null, '8 x 8 x 21 = 1,344; /4 = 336.', '[]'::jsonb, (select id from public.subjects where slug = 'teacher-aptitude'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'teacher-aptitude') and t.slug = 'problem-solving'), (select id from public.exam_papers where code = 'me-bed-3'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
