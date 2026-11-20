@@ -3,11 +3,12 @@
 Last updated: 2026-11-16. This note lets a new Claude session continue the work
 without the previous chat. Keep it up to date at the end of every working session.
 
-## Start here next session (stopped 20 Nov 2026, evening)
+## Start here next session (updated 20 Nov 2026, Dzongkha category loading)
 
 - **Waiting on the founder:** (1) a fluent Dzongkha check of ME Paper I (General) drafts, then publish batch "ME Paper I (General, Dzongkha): BCSE 2025 + similar, batch 1"; (2) Paper I writing time: cover says 3 h 45 min, instruction says 3 h (site uses 3 h).
 - **Live and published:** ME General Paper III (42 parts) and Paper II (60) for Administrative / Finance / PGDE; mocks with reading time, choosing questions, one part per screen, MCQ section, Retry my mistakes, Exam Room badges.
-- **Next work:** load the other ME categories from https://rcsc.gov.bt/bcse-past-question-papers/ (Dzongkha Graduates, Technical, B.Ed.), then older years 2024 → 2010 per category; PE batch 6+ toward 3,000 later.
+- **Dzongkha category (20 Nov, drafts):** Paper II English & Current Affairs (33: essay 1 of 2 ×25, letter 1 of 2 ×20, comprehension passage A–D 5×4, translation Dz→En 25, 10 current-affairs MCQs; real CA Q3–6, Q8 left out) and Paper I Dzongkha & GK (44: essay 1 of 2 ×20, formal writing 1 of 2 ×15, comprehension 5×3, translation Chöke→Dzongkha 20, GK (a) 10×2 short, (b) 10×1 MCQ; uncertain items left out). Both 15 min reading (migrations 20261226000100/0200). Founder began publishing Paper II items. **RCSC Dzongkha PDFs use a font that drops letters (སློབ→སོབ, རྫོང→རོང, སྲོལ→སོལ, བླ་མ→བ་མ):** `scripts/me/dz_fix.py` repairs known words; it was also applied in place to General Paper I and Dzongkha Paper II drafts (they had copied the damaged spellings). Always run new Dzongkha text through it, then list remaining `Xོ` syllables to eyeball. Dzongkha Paper III (Buddhist Studies) is next.
+- **Next work:** load the other ME categories from https://rcsc.gov.bt/bcse-past-question-papers/ (Dzongkha Paper III, then Technical, B.Ed.), then older years 2024 → 2010 per category; PE batch 6+ toward 3,000 later.
 - Follow the founder's standing rules below (automatic follow-on changes with the checklist; changes apply to current users immediately; DB updates without asking, except destructive ones).
 
 ## Where we stopped (18 Nov 2026)
