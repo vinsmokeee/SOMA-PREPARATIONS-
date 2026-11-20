@@ -20,7 +20,7 @@ export async function loadExamState(userId: string): Promise<ExamState> {
     db.from("profiles").select("pathway, entry_category_id, specialisation_id, subject_group_id, exam_categories(code, name, public_group), specialisations(name), subject_groups(name)").eq("id", userId).maybeSingle(),
     db.from("entitlements").select("ends_at, packages(includes_pe, includes_me, name)").is("revoked_at", null).eq("status", "active")
       .or(`ends_at.is.null,ends_at.gt.${new Date().toISOString()}`),
-    db.from("exam_attempts").select("id, status, started_at, exams(title, stage)").eq("user_id", userId).order("started_at", { ascending: false }).limit(20),
+    db.from("exam_attempts").select("id, status, started_at, exams!exam_attempts_exam_id_fkey(title, stage)").eq("user_id", userId).order("started_at", { ascending: false }).limit(20),
   ]);
   const premium: Record<Stage, string | null> = { PE: null, ME: null };
   for (const e of (ents ?? []) as unknown as { ends_at: string | null; packages: { includes_pe: boolean; includes_me: boolean; name: string } | null }[]) {

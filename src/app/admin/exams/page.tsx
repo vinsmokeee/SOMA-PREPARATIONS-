@@ -13,7 +13,7 @@ export const metadata: Metadata = { title: "Examinations" };
 export default async function AdminExamsPage() {
   await requirePermission("exams.manage", "/admin/exams");
   const db = await createClient();
-  const { data } = await db.from("exams").select("id, title, slug, stage, kind, status, duration_minutes, is_free, exam_questions(count), exam_attempts(count)").order("updated_at", { ascending: false });
+  const { data } = await db.from("exams").select("id, title, slug, stage, kind, status, duration_minutes, is_free, exam_questions(count), exam_attempts!exam_attempts_exam_id_fkey(count)").order("updated_at", { ascending: false });
   const rows = (data ?? []) as unknown as { id: string; title: string; slug: string; stage: string; kind: keyof typeof KIND_LABELS; status: string; duration_minutes: number; is_free: boolean; exam_questions: { count: number }[]; exam_attempts: { count: number }[] }[];
   return (
     <>
