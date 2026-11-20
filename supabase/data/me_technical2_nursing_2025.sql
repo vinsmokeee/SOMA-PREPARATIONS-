@@ -12,7 +12,7 @@ insert into public.paper_blueprint_sections (paper_id, subject_group_id, topic_s
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Before doctor’s round, you are following up the laboratory blood report of the patient with liver cirrhosis who is admitted in the medical ward. You observed that the albumin level was 2.5gm/dL. You will plan care for this patient to address the risk of developing;', null, 'Low albumin lowers plasma oncotic pressure, causing oedema.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Before doctor’s round, you are following up the laboratory blood report of the patient with liver cirrhosis who is admitted in the medical ward. You observed that the albumin level was 2.5gm/dL. You will plan care for this patient to address the risk of developing:', null, 'Low albumin lowers plasma oncotic pressure, causing oedema.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -24,7 +24,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Nursing process is a systematic patient-centered approach which requires nursing competencies in these sequential interrelated steps;', null, 'Assessment, diagnosis, planning, implementation, evaluation.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Nursing process is a systematic patient-centered approach which requires nursing competencies in these sequential, interrelated steps:', null, 'Assessment, diagnosis, planning, implementation, evaluation.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -36,7 +36,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'All are examples of primary prevention of diseases EXCEPT;', null, 'Screening is secondary prevention (early detection).', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'All are examples of primary prevention of diseases EXCEPT:', null, 'Screening is secondary prevention (early detection).', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -60,7 +60,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'You as the only clinical nurse in a general ward was asked to teach the student nurses. Since your ward has many chronic bedridden patients with pressure ulcers you decided to show them how a 3rd stage pressure ulcer looks like;', null, 'Stage 3: full-thickness skin loss into subcutaneous fat.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'As the only clinical nurse in a general ward, you were asked to teach the student nurses. Since your ward has many chronic bedridden patients with pressure ulcers, you decide to show them what a stage 3 pressure ulcer looks like. Which description fits?', null, 'Stage 3: full-thickness skin loss into subcutaneous fat.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -72,7 +72,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Which score denotes the need for intensive nursing care to prevent the development of pressure ulcer using the Norton scoring system as the pressure ulcer risk calculator.', null, 'Norton score of 14 or less = at risk.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Using the Norton scoring system as the pressure ulcer risk calculator, which score shows the need for intensive nursing care to prevent pressure ulcers?', null, 'Norton score of 14 or less = at risk.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -84,7 +84,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The nurse is administering medication to a patient with liver failure which resulted from end- stage cirrhosis. Which pharmacokinetic phase the patient most likely has the problem with?', null, 'Cirrhosis impairs hepatic drug metabolism.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The nurse is administering medication to a patient with liver failure which resulted from end-stage cirrhosis. Which pharmacokinetic phase is the patient most likely to have a problem with?', null, 'Cirrhosis impairs hepatic drug metabolism.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -96,7 +96,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'During disaster and emergencies authoritative leadership is preferred because of these key traits;', null, 'Emergencies need command and control.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'During disaster and emergencies authoritative leadership is preferred because of these key traits:', null, 'Emergencies need command and control.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -104,7 +104,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M10', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Visionary thinking and longtime goal orientation.', false, 1), ('B', 'Self-centered and cunning.', false, 2), ('C', 'Effective communicator and influencer.', false, 3), ('D', 'Command and control.', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M10';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Visionary thinking and long-term goal orientation.', false, 1), ('B', 'Self-centered and cunning.', false, 2), ('C', 'Effective communicator and influencer.', false, 3), ('D', 'Command and control.', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M10';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -120,7 +120,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Nurses have to be very careful during medication. The medication error happens when the nurse makes mistake during medication preparation and medication administration. When does the “omission error” happens?', null, 'Omission: a dose is not given.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Nurses have to be very careful during medication. A medication error happens when the nurse makes a mistake during medication preparation or administration. When does an “omission error” happen?', null, 'Omission: a dose is not given.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -128,11 +128,11 @@ with nq as (
   returning id
 )
 insert into me_q select 'M13', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'When the nurse forgets to administer a dose.', true, 1), ('B', 'When the nurse gives wrong dose.', false, 2), ('C', 'When the nurse gives the medicine at wrong time.', false, 3), ('D', 'When the nurse gives wrong drug.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M13';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'When the nurse forgets to administer a dose.', true, 1), ('B', 'When the nurse gives the wrong dose.', false, 2), ('C', 'When the nurse gives the medicine at the wrong time.', false, 3), ('D', 'When the nurse gives the wrong drug.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M13';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'All the following points are the objectives of competency-based framework for the Clinical Nurse in Bhutan except;', null, 'Fulfilling RCSC''s vision is not an objective of the clinical nursing competency framework.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'All the following points are the objectives of the competency-based framework for the Clinical Nurse in Bhutan EXCEPT:', null, 'Fulfilling RCSC''s vision is not an objective of the clinical nursing competency framework.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -144,7 +144,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A patient is treated for severe diarrhea and vomiting. Laboratory investigation showed hypokalemia and the treatment was initiated. When you evaluate her response to potassium replacement therapy, which of the following change should you observe?', null, 'Correcting hypokalaemia restores muscle strength.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A patient is treated for severe diarrhea and vomiting. Laboratory investigation showed hypokalemia and the treatment was initiated. When you evaluate her response to potassium replacement therapy, which of the following changes should you observe?', null, 'Correcting hypokalaemia restores muscle strength.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -164,11 +164,11 @@ with nq as (
   returning id
 )
 insert into me_q select 'M18', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Cold water causes vasoconstriction and trap heat inside the body.', true, 1), ('B', 'Cold water is effective in lower the temperature so they can continue with it.', false, 2), ('C', 'Cold water makes the skin dry and cause discomfort to the child.', false, 3), ('D', 'Cold water contains germs that would make the baby more ill.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M18';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Cold water causes vasoconstriction and traps heat inside the body.', true, 1), ('B', 'Cold water is effective in lowering the temperature so they can continue with it.', false, 2), ('C', 'Cold water makes the skin dry and causes discomfort to the child.', false, 3), ('D', 'Cold water contains germs that would make the baby more ill.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M18';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'When you are maintaining a therapeutic environment, encouraging your psychiatric patients to communicate with each other and you put efforts in promoting growth through role modeling, it is a form of;', null, 'A therapeutic community environment is milieu therapy.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'When you maintain a therapeutic environment, encourage your psychiatric patients to communicate with each other and promote growth through role modelling, it is a form of:', null, 'A therapeutic community environment is milieu therapy.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -180,7 +180,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Recognizing the verbal and nonverbal communication content of the various stages of grieving can help the nurse to select interventions that meet the patient’s psychological and physical needs. What are the Kubler-Ross’s five stages of grieving to explain what patient experience as they grieve and mourn?', null, 'Denial, anger, bargaining, depression, acceptance.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Recognizing the verbal and nonverbal communication content of the various stages of grieving can help the nurse to select interventions that meet the patient’s psychological and physical needs. What are Kübler-Ross’s five stages of grieving, which explain what patients experience as they grieve and mourn?', null, 'Denial, anger, bargaining, depression, acceptance.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -192,7 +192,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Tetralogy of Fallot is a common congenital heart defect involving 50% to 70% of all cyanotic congenital heart diseases. It consists of a grouping of four abnormal conditions of heart defects and they are;', null, 'Pulmonary stenosis, VSD, overriding aorta, right ventricular hypertrophy.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Tetralogy of Fallot is a common congenital heart defect involving 50% to 70% of all cyanotic congenital heart diseases. It consists of a grouping of four abnormal conditions of heart defects. They are:', null, 'Pulmonary stenosis, VSD, overriding aorta, right ventricular hypertrophy.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -204,7 +204,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'While caring for the pediatric patients, a nurse needs to understand the child’s developmental phases to give holistic and patient-centered care. Nursing care application based on the oral, anal, phallic, latency and genital stages of child development are derived from;', null, 'Oral-anal-phallic-latency-genital stages are Freud''s.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'While caring for paediatric patients, a nurse needs to understand the child’s developmental phases to give holistic and patient-centered care. Nursing care based on the oral, anal, phallic, latency and genital stages of child development is derived from:', null, 'Oral-anal-phallic-latency-genital stages are Freud''s.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -212,7 +212,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M22', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Kohlberg’s theory about development of moral reasoning.', false, 1), ('B', 'Piaget theory of cognitive development.', false, 2), ('C', 'Freud theory of psychosexual development.', true, 3), ('D', 'Erikson theory of psychosocial development.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M22';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Kohlberg’s theory about development of moral reasoning.', false, 1), ('B', 'Piaget’s theory of cognitive development.', false, 2), ('C', 'Freud’s theory of psychosexual development.', true, 3), ('D', 'Erikson’s theory of psychosocial development.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M22';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -228,7 +228,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The nurse in-charge delegated you to manage a patient admitted with diabetic ketoacidosis. As a team leader which physiologic change would you explain to the staff nurses (SNs) and assistant nurses (ANs) that this patient’s body attempt to attain acid-base balance?', null, 'Kussmaul breathing blows off CO2 to compensate for acidosis.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The nurse in charge has delegated you to manage a patient admitted with diabetic ketoacidosis. As team leader, which physiological change would you explain to the staff nurses (SNs) and assistant nurses (ANs) as this patient’s body attempts to restore acid-base balance?', null, 'Kussmaul breathing blows off CO2 to compensate for acidosis.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -240,7 +240,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Nurses have critical role in the antimicrobial stewardship (AMS). The goal of nursing function in the AMS is to;', null, 'AMS aims to prevent overuse and misuse of antibiotics.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Nurses have a critical role in antimicrobial stewardship (AMS). The goal of the nursing function in AMS is to:', null, 'AMS aims to prevent overuse and misuse of antibiotics.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -248,11 +248,11 @@ with nq as (
   returning id
 )
 insert into me_q select 'M25', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Adhere to nursing principal of infection management.', false, 1), ('B', 'Control patient safety incidences.', false, 2), ('C', 'Prevent overuse and misuse of antibiotics.', true, 3), ('D', 'Fulfill World Health Organization (WHO) mandates on antimicrobials usage.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M25';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Adhere to nursing principles of infection management.', false, 1), ('B', 'Control patient safety incidents.', false, 2), ('C', 'Prevent overuse and misuse of antibiotics.', true, 3), ('D', 'Fulfill World Health Organization (WHO) mandates on antimicrobial use.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M25';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Decrease of Parathyroid hormone (PTH) in hypothyroidism leads to;', null, 'Low PTH causes hypocalcaemia.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A decrease of parathyroid hormone (PTH), as in hypoparathyroidism, leads to:', null, 'Low PTH causes hypocalcaemia.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -264,7 +264,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'During the first antenatal care (ANC) the expected mother is provided the information on the expected date of delivery (EDD) of the baby. If the first day of the last menstrual period (LMP) is 20th March, 2025. Using obstetric wheel or calculator what is the EDD that the nurse should inform the expecting mother?', null, 'Naegele''s rule: LMP + 7 days − 3 months + 1 year = 27 Dec 2025.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'During the first antenatal care (ANC) the expectant mother is given information on the expected date of delivery (EDD) of the baby. The first day of the last menstrual period (LMP) is 20th March, 2025. Using obstetric wheel or calculator what is the EDD that the nurse should inform the expectant mother?', null, 'Naegele''s rule: LMP + 7 days − 3 months + 1 year = 27 Dec 2025.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -276,7 +276,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'During your round at the bedside of maternity ward, if you observe the expecting mother has the intense urge to push and also observed crowning of the baby’s head. What stage of labor appropriate nursing intervention would you provide for this woman?', null, 'Urge to push and crowning: second stage.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'During your round in the maternity ward, you observe that an expectant mother has an intense urge to push and the baby’s head is crowning. For which stage of labour would you provide the appropriate nursing care?', null, 'Urge to push and crowning: second stage.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -300,7 +300,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'At Jigme DorjiWangchuck National Referral Hospital, nurses are incentivized with extended hour payment for the extra shift they work. This strategy is adopted to facilitate efficient accomplishment of the nursing task and cover the shortage of nurses in the inpatient wards. Which management theory best fit this strategy?', null, 'Paying for output reflects Taylor''s scientific management.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'At Jigme Dorji Wangchuck National Referral Hospital, nurses are incentivized with extended hour payment for the extra shift they work. This strategy is adopted to facilitate efficient accomplishment of the nursing task and cover the shortage of nurses in the inpatient wards. Which management theory best fits this strategy?', null, 'Paying for output reflects Taylor''s scientific management.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -312,7 +312,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Which of the following risk factor will lead to osteoporosis?', null, 'All are risk factors for osteoporosis.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Which of the following risk factors can lead to osteoporosis?', null, 'All are risk factors for osteoporosis.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -324,7 +324,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Mistakes in the following code will lead to the mutation and may kill the affected cells or may irreversibly alter their functions and become malignant and is a basis for cancer. Which of the following is responsible for this mutation?', null, 'Mutations occur in DNA.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Mistakes in the genetic code lead to mutations, which may kill the affected cells or irreversibly alter their functions so that they become malignant; this is the basis of cancer. Where is this code found?', null, 'Mutations occur in DNA.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -336,7 +336,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A patient is brought to the emergency room of the district hospital to treat for the overdose of oral ingestion of drug. The doctor advised you to prepare activated charcoal. Which of the following cannot be treated with activated charcoal?', null, 'Activated charcoal binds cyanide poorly.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A patient is brought to the emergency room of the district hospital with an overdose of an oral drug. The doctor advises you to prepare activated charcoal. Which of the following cannot be treated with activated charcoal?', null, 'Activated charcoal binds cyanide poorly.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -348,7 +348,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'What postoperative intervention would you suggest to patient to help prevent atelectasis?', null, 'Coughing and deep breathing re-expand alveoli.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'What postoperative intervention would you suggest to the patient to help prevent atelectasis?', null, 'Coughing and deep breathing re-expand alveoli.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -372,7 +372,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'In the nursing practice ‘Good Samaritan Laws’ relates to;', null, 'Good Samaritan laws protect those who help in emergencies.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'In nursing practice, ‘Good Samaritan laws’ relate to:', null, 'Good Samaritan laws protect those who help in emergencies.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -384,7 +384,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'In the orthopedic ward a patient is walking with a cane and is stable when ambulating and changing cloths. Which of the following assessment techniques was used by the nurse to collect this data?', null, 'Observation is inspection.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'In the orthopedic ward a patient is walking with a cane and is stable when ambulating and changing clothes. Which of the following assessment techniques was used by the nurse to collect this data?', null, 'Observation is inspection.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -396,7 +396,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'While performing nursing assessment patient tells you that she has just return from another country and has had an upper respiratory infection for two weeks. How is this information beneficial to aid in the care of this patient?', null, 'Travel history helps identify outbreaks.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'While you are performing a nursing assessment, a patient tells you that she has just returned from another country and has had an upper respiratory infection for two weeks. How is this information beneficial to aid in the care of this patient?', null, 'Travel history helps identify outbreaks.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -432,7 +432,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Which of the following nursing diagnosis is a priority for the patient recovering from an exploratory laparoscopy?', null, 'Acute pain is the priority after surgery.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Which of the following nursing diagnoses is a priority for the patient recovering from an exploratory laparoscopy?', null, 'Acute pain is the priority after surgery.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -444,7 +444,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The process of identifying, analyzing, treatment and evaluating real and potential hazards in Continuous Quality Improvement (CQI) is called;', null, 'Identifying and treating hazards is risk management.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The process of identifying, analysing, treating and evaluating real and potential hazards in Continuous Quality Improvement (CQI) is called:', null, 'Identifying and treating hazards is risk management.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -456,7 +456,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'According to the international nursing diagnosis or NANDA-I the nursing diagnosis can be any of the following except;', null, 'NANDA-I types: problem-focused, risk, health promotion, syndrome.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'According to the international nursing diagnosis or NANDA-I a nursing diagnosis can be any of the following EXCEPT:', null, 'NANDA-I types: problem-focused, risk, health promotion, syndrome.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -468,7 +468,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'All the following statements are the objectives of patient admission in the ward except;', null, 'Signing a rules form is not an admission objective.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'All the following statements are the objectives of patient admission to the ward EXCEPT:', null, 'Signing a rules form is not an admission objective.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -476,11 +476,11 @@ with nq as (
   returning id
 )
 insert into me_q select 'M47', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Facilitate recovery of patient from his or her health-related problems.', false, 1), ('B', 'Help new patient adjust to hospital environment and routines.', false, 2), ('C', 'Get the patient sign on rules and responsibilities form during admission.', true, 3), ('D', 'Alleviate the patient’s fear and worry about the hospitalization.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M47';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Facilitate recovery of patient from his or her health-related problems.', false, 1), ('B', 'Help new patient adjust to hospital environment and routines.', false, 2), ('C', 'Get the patient to sign the rules and responsibilities form during admission.', true, 3), ('D', 'Alleviate the patient’s fear and worry about the hospitalization.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M47';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The ethical principle of nonmaleficence requires that;', null, 'Nonmaleficence: do no harm.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The ethical principle of nonmaleficence requires that:', null, 'Nonmaleficence: do no harm.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -488,11 +488,11 @@ with nq as (
   returning id
 )
 insert into me_q select 'M48', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'No harm be done to patient, either deliberately or unintentionally.', true, 1), ('B', 'Good be done for the benefit of the patient.', false, 2), ('C', 'No patient be misled or deceived by the nurse during car', false, 3), ('D', 'All patients are treated equally regardless of gender, sexual orientation, religion, ethnicity, disease, or social standing.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M48';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'No harm be done to patient, either deliberately or unintentionally.', true, 1), ('B', 'Good be done for the benefit of the patient.', false, 2), ('C', 'No patient be misled or deceived by the nurse during care.e.e.', false, 3), ('D', 'All patients are treated equally regardless of gender, sexual orientation, religion, ethnicity, disease, or social standing.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M48';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Nurses assess pulse for pulse rate (number of beats), rhythm (pattern and interval between the beat) and the volume (the force of blood with each beat). Select the correct site for the assessment of Femoral Pulse;', null, 'Femoral pulse: below the inguinal ligament.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Nurses assess pulse for pulse rate (number of beats), rhythm (pattern and interval between the beats) and the volume (the force of blood with each beat). Select the correct site for the assessment of femoral pulse:', null, 'Femoral pulse: below the inguinal ligament.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -504,7 +504,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Which of the following is true for the appropriate clinical decision making for oxygen therapy for the patient with pneumonia and the patient with COPD?', null, 'COPD patients risk CO2 retention.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Which of the following is true about clinical decision-making for oxygen therapy in a patient with pneumonia and a patient with COPD?', null, 'COPD patients risk CO2 retention.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-general-health-sciences'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -512,11 +512,11 @@ with nq as (
   returning id
 )
 insert into me_q select 'M50', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'COPD patient has high risk of CO₂ retention then the patient with pneumonia.', true, 1), ('B', 'Oxygen target (SpO₂) for pneumonia should be between 88–92% and for COPD >94%.', false, 2), ('C', 'Oxygen can be administered freely depending on the severity for patient with COPD whereas for the patient with pneumonia oxygen has to be limited to 1-2 L/min. SECTION B: PROBLEM SOLVING [25 MARKS]', false, 3), ('D', 'Patient with pneumonia rely on hypoxic drive (low oxygen) to breath where as in COPD the patient’s respiratory drive is normal.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M50';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'A COPD patient has a higher risk of CO₂ retention than a patient with pneumonia.', true, 1), ('B', 'Oxygen target (SpO₂) for pneumonia should be between 88–92% and for COPD >94%.', false, 2), ('C', 'Oxygen can be administered freely depending on the severity for patient with COPD whereas for the patient with pneumonia oxygen has to be limited to 1-2 L/min. ', false, 3), ('D', 'Patients with pneumonia rely on hypoxic drive (low oxygen) to breathe, whereas in COPD the patient’s respiratory drive is normal.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M50';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A patient has been prescribed a medication every 6 hour at 6 am. What will be the next three administration times?', null, 'Every 6 h after 6 am: 12 pm, 6 pm, 12 am.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A patient has been prescribed a medication every 6 hours, starting at 6 am. What will be the next three administration times?', null, 'Every 6 h after 6 am: 12 pm, 6 pm, 12 am.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -524,11 +524,11 @@ with nq as (
   returning id
 )
 insert into me_q select 'M51', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '12 pm, 6pm, 12 am', true, 1), ('B', '12 am, 6am,12 pm', false, 2), ('C', '10am. 2 pm, 6 pm', false, 3), ('D', '12 pm, 4 pm, 8am', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M51';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '12 pm, 6 pm, 12 am', true, 1), ('B', '12 am, 6 am, 12 pm', false, 2), ('C', '10 am, 2 pm, 6 pm', false, 3), ('D', '12 pm, 4 pm, 8 am', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M51';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A patient is prescribed 750 mg of injection Acyclovir. The medicine in available in 500 mg/vial which is to be constituted with 10 ml of sterile water. How many ml of the reconstituted solution should the nurse administers to the patient?', null, '750/500 × 10 ml = 15 ml.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A patient is prescribed 750 mg of injection Acyclovir. The medicine is available as 500 mg/vial, to be reconstituted with 10 ml of sterile water. How many ml of the reconstituted solution should the nurse administer to the patient?', null, '750/500 × 10 ml = 15 ml.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -540,7 +540,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A vail contains 30 ml of medicine. On day one, 10% of the total is used and on day two another 10% of the total is used. On the Day three, 50% of the remaining medicines is used. how much medicine is left inside the vial?', null, '30 − 3 − 3 = 24 ml; half used leaves 12 ml.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A vial contains 30 ml of medicine. On day one, 10% of the total is used, and on day two another 10% of the total is used. On day three, 50% of the remaining medicine is used. How much medicine is left in the vial?', null, '30 − 3 − 3 = 24 ml; half used leaves 12 ml.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -552,7 +552,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A dose of 5 ml anti venom is required for 150 ml of venom in a patient. What is the least amount of antivenom required if a patient had been bitten by a snake which can carry a max load of 90 ml of venom', null, '90/150 × 5 ml = 3 ml.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A dose of 5 ml of antivenom is required for 150 ml of venom in a patient. What is the least amount of antivenom required if a patient has been bitten by a snake that can carry a maximum of 90 ml of venom?', null, '90/150 × 5 ml = 3 ml.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -564,7 +564,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A roll of bandages has a length of 30 mtrs. A roll of bandages cost nu.120, and it can be only bought in rolls and not length. If you have a budget of Nu.1,500 how much bandages in meter can you buy?', null, 'Nu 1,500 buys 12 whole rolls = 360 m.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A roll of bandage is 30 metres long and costs Nu 120. Bandages can only be bought in whole rolls, not by length. With a budget of Nu 1,500, how many metres of bandage can you buy?', null, 'Nu 1,500 buys 12 whole rolls = 360 m.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -576,7 +576,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A child weighs 20 kg. the doctor prescribes a drug at 10 mg/kg/day which is administered every 12 hours. How much will the nurse administer per dose?', null, '200 mg/day in two doses = 100 mg.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A child weighs 20 kg. The doctor prescribes a drug at 10 mg/kg/day which is administered every 12 hours. How much will the nurse administer per dose?', null, '200 mg/day in two doses = 100 mg.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -612,7 +612,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A sliding scale insulin order requires 1 unit of insulin for every 10 mg/dl of blood glucose over 150 mg/dl. If a patient’s blood glucose level is 200 mg/dl, how many units if insulin should the nurse administer?', null, '(200 − 150)/10 = 5 units.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A sliding scale insulin order requires 1 unit of insulin for every 10 mg/dl of blood glucose over 150 mg/dl. If a patient’s blood glucose level is 200 mg/dl, how many units of insulin should the nurse administer?', null, '(200 − 150)/10 = 5 units.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -624,7 +624,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A patient is ordered to receive 500 mL of Normal Saline solution containing Calcium gluconate 500 mg to be administered at 5mg/min. how long will it take to finish the IV bag?', null, '500 mg at 5 mg/min = 100 min.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A patient is ordered to receive 500 mL of Normal Saline solution containing Calcium gluconate 500 mg to be administered at 5 mg/min. How long will it take to finish the IV bag?', null, '500 mg at 5 mg/min = 100 min.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -636,7 +636,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The doctor prescribes ceftazidime 0.3 g IM three times a day. Reconstitution instructions: For IM solution, add 1.5ml diluent which will give appropriate amount of 1.8 ml (280 mg/ml). What amount will you administer?', null, '300 mg ÷ 280 mg/ml ≈ 1.1 ml.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The doctor prescribes ceftazidime 0.3 g IM three times a day. Reconstitution instructions: For IM solution, add 1.5 ml diluent, which will give about 1.8 ml (280 mg/ml). What amount will you administer?', null, '300 mg ÷ 280 mg/ml ≈ 1.1 ml.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -648,7 +648,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A patient is prescribed 1200 ml of 0.9% NS solution at rate of 125 ml/hr. the drop factor is 12 drops/ml. How many drops per minutes should the nurse adjust the flow rate to safely administers the prescribes solution?', null, '125 × 12/60 = 25 drops/min.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A patient is prescribed 1200 ml of 0.9% NS solution at a rate of 125 ml/hr. The drop factor is 12 drops/ml. At how many drops per minute should the nurse set the flow rate to safely administer the prescribed solution?', null, '125 × 12/60 = 25 drops/min.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -660,7 +660,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The doctor orders infusion of 1000 ml of 0.9% NS to be order over time period of 8 hours using a macroseta set with a drop factor of 10 drops per minute for a patient with pneumonia. You initiated the IV at 1:00 PM during your shift. With the current rate, at what time will you hang the next bag?', null, '8 hours after 1 PM: 9 PM the same day.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The doctor orders an infusion of 1000 ml of 0.9% NS over a period of 8 hours using a macrodrip set with a drop factor of 10 drops per ml for a patient with pneumonia. You initiated the IV at 1:00 PM during your shift. With the current rate, at what time will you hang the next bag?', null, '8 hours after 1 PM: 9 PM the same day.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -668,11 +668,11 @@ with nq as (
   returning id
 )
 insert into me_q select 'M65', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '9 PM of the same day', true, 1), ('B', '10 Pm the next day', false, 2), ('C', '9 PM the next day', false, 3), ('D', '10 PM of the same day', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M65';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '9 PM of the same day', true, 1), ('B', '10 PM the next day', false, 2), ('C', '9 PM the next day', false, 3), ('D', '10 PM of the same day', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M65';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Your hospital has alcohol-based hand rub (500ml container) containing 7.5% Chlorohexidine solution. You want dilute the solution to make it 2% Chlorhexidine which is the recommended concentration. How much diluent (70% alcohol) will you add to the solution to make it the desired concentration', null, '7.5 × 500 = 2 × V; V = 1875 ml; add 1375 ml.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Your hospital has alcohol-based hand rub (500ml container) containing 7.5% chlorhexidine solution. You want to dilute the solution to 2% chlorhexidine, which is the recommended concentration. How much diluent (70% alcohol) will you add to make it the desired concentration?', null, '7.5 × 500 = 2 × V; V = 1875 ml; add 1375 ml.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -684,7 +684,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'You are teaching your support staffs to make bleaching solution for instrument decontamination. The hospital supplies Sodium Dichlorocyanurate tablets Available chlorine 1gm per tablet). How many tablets needs to be added to 1 liter of water to make 0.5% bleaching solution.', null, '0.5% = 5 g chlorine per litre = 5 tablets.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'You are teaching your support staff to make a bleaching solution for instrument decontamination. The hospital supplies sodium dichlorocyanurate tablets (available chlorine 1 g per tablet). How many tablets need to be added to 1 litre of water to make a 0.5% bleaching solution?', null, '0.5% = 5 g chlorine per litre = 5 tablets.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -708,7 +708,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The ratio of making Lactulose enema solution is 1 part lactulose solution to 4 parts of 0.9% normal saline solution (NS). How much NS is required to make 250 ml of lactulose enema?', null, '1:4 means 4/5 of 250 ml = 200 ml NS.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A lactulose enema solution is made with 1 part lactulose solution to 4 parts of 0.9% normal saline solution (NS). How much NS is required to make 250 ml of lactulose enema?', null, '1:4 means 4/5 of 250 ml = 200 ml NS.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -728,7 +728,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M70', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '33.3.ml/hour', false, 1), ('B', '1.66 ml/hour', false, 2), ('C', '3.33 ml/hour', false, 3), ('D', '16.6 ml/hour', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M70';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '33.3 ml/hour', false, 1), ('B', '1.66 ml/hour', false, 2), ('C', '3.33 ml/hour', false, 3), ('D', '16.6 ml/hour', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M70';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -744,7 +744,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A 100ml solution contains 25% of a drug. How many ml of NS can you add to make it 20%?', null, '25 g drug in 125 ml = 20%, so add 25 ml.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A 100ml solution contains 25% of a drug. How many ml of NS must you add to make it 20%?', null, '25 g drug in 125 ml = 20%, so add 25 ml.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -756,7 +756,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'A candle has a length of 10cm. When lit it burns at a rate 2 mm in 15 mins. After being lit for 2.5 hours how much candle is left behind?', null, '2.5 h = 10 × 15 min; 10 × 2 mm = 2 cm; 8 cm left.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'A candle has a length of 10 cm. When lit, it burns at a rate of 2 mm in 15 minutes. After being lit for 2.5 hours, how much of the candle is left?', null, '2.5 h = 10 × 15 min; 10 × 2 mm = 2 cm; 8 cm left.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -768,7 +768,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'If a painting completed by 8 workers in 12 days how long would it take for 10 workers to do the same work?', null, '8 × 12/10 = 9.6 days.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'If a painting job is completed by 8 workers in 12 days, how long would it take 10 workers to do the same work?', null, '8 × 12/10 = 9.6 days.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-problem-solving'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -792,7 +792,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The number of patients nurse karma attended during her 7-day shift is as follows: [12, 15, 13, 16, 14, 15. 13]. What is the median number of patients attended?', null, 'Sorted: 12, 13, 13, 14, 15, 15, 16: median 14.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'The number of patients Nurse Karma attended during her 7-day shift is as follows: [12, 15, 13, 16, 14, 15, 13]. What is the median number of patients attended?', null, 'Sorted: 12, 13, 13, 14, 15, 15, 16: median 14.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-data-interpretation'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -804,7 +804,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'What type of graph is the most appropriate for showing the trend of patient admission over 12 months period?', null, 'Trends over time: line graph.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'What type of graph is the most appropriate for showing the trend of patient admission over a 12-month period?', null, 'Trends over time: line graph.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-data-interpretation'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -882,7 +882,7 @@ Which statement cannot be interpreted from the graph?', null, 'The graph says no
   returning id
 )
 insert into me_q select 'M82', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'During the second quarter, patient count showed an increase after experiencing decline for a month', false, 1), ('B', 'The number of patients decrease after the introduction of new admission criteria.', true, 2), ('C', 'There are at least 10 patients in each month of the year', false, 3), ('D', 'There is a constant increase in the number of patients in first quarter', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M82';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'During the second quarter, patient count showed an increase after a decline for a month', false, 1), ('B', 'The number of patients decreased after the introduction of new admission criteria.', true, 2), ('C', 'There are at least 10 patients in each month of the year', false, 3), ('D', 'There is a constant increase in the number of patients in first quarter', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M82';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -986,7 +986,7 @@ with nq as (
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
   values ('ME', 'mcq', 'Use the line graph (number of doctors working in hospitals A-E in 2005, 2010, 2015 and 2020) to answer.
 
-Which statement is TRUE as per the data shown in the graph', null, 'C (15 → 47) and D (12 → 38) more than tripled.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+Which statement is TRUE as per the data shown in the graph???', null, 'C (15 → 47) and D (12 → 38) more than tripled.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-data-interpretation'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -994,13 +994,13 @@ Which statement is TRUE as per the data shown in the graph', null, 'C (15 → 47
   returning id
 )
 insert into me_q select 'M91', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'None of the hospital has lost more than 50% of their doctors', false, 1), ('B', 'Hospital E has constantly lost doctors throughout the recorded years', false, 2), ('C', 'More than 2 hospitals have less doctors in 2020 compared to 2005', false, 3), ('D', 'Two hospitals have more than triple number of doctors from 2005 to 2020', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M91';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'None of the hospitals has lost more than 50% of their doctors', false, 1), ('B', 'Hospital E has constantly lost doctors throughout the recorded years', false, 2), ('C', 'More than 2 hospitals have fewer doctors in 2020 compared to 2005', false, 3), ('D', 'Two hospitals have more than tripled their number of doctors from 2005 to 2020', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M91';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
   values ('ME', 'mcq', 'Pie chart - annual budget allocation of a hospital''s departments: Dept A 13%, Dept B 25%, Dept C 11%, Dept D 35%, Dept E 16%.
 
-If the total budget was Nu 540,000. How much did department E get?', null, '16% of 540,000 = 86,400.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+If the total budget was Nu 540,000, how much did department E get?', null, '16% of 540,000 = 86,400.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-data-interpretation'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -1028,7 +1028,7 @@ with nq as (
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
   values ('ME', 'mcq', 'Pie chart - annual budget allocation of a hospital''s departments: Dept A 13%, Dept B 25%, Dept C 11%, Dept D 35%, Dept E 16%.
 
-If department D receives Nu 78500. How much does department E get?', null, '78,500 × 16/35 ≈ 35,885.7.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+If department D receives Nu 78,500, how much does department E get?', null, '78,500 × 16/35 ≈ 35,885.7.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-data-interpretation'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -1042,7 +1042,7 @@ with nq as (
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
   values ('ME', 'mcq', 'Pie chart - annual budget allocation of a hospital''s departments: Dept A 13%, Dept B 25%, Dept C 11%, Dept D 35%, Dept E 16%.
 
-If department E receives the entire budget of department C in addition to its own and department D receives Nu. 78500, what is the budget allocated to department D?', null, 'D''s own share is given as Nu 78,500.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+If department E receives the entire budget of department C in addition to its own and department D receives Nu 78,500, what is the budget allocated to department D?', null, 'D''s own share is given as Nu 78,500.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-data-interpretation'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -1064,7 +1064,7 @@ Which statement CANNOT be interpreted from the data graph above?', null, 'The ch
   returning id
 )
 insert into me_q select 'M96', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Ward B receives quarter of the total budget', false, 1), ('B', 'Ward D has the most patients thus receive the highest budget', true, 2), ('C', 'Ward C receives the least budget', false, 3), ('D', 'Ward D receive more budget than ward A and E combined.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M96';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Department B receives a quarter of the total budget', false, 1), ('B', 'Department D has the most patients and thus receives the highest budget', true, 2), ('C', 'Department C receives the least budget', false, 3), ('D', 'Department D receives more budget than departments A and E combined.', false, 4)) as v(label, body, ok, pos) where me_q.key = 'M96';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -1084,7 +1084,7 @@ with nq as (
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
   values ('ME', 'mcq', 'Table - medication rounds completed by nurses (Morning / Afternoon / Night): Monday 18 / 15 / 12; Tuesday 20 / 18 / 14; Wednesday 22 / 20 / 16; Thursday 19 / 17 / 15; Friday 21 / 19 / 17.
 
-What is the average number of rounds Night Shift over the 5 days?', null, '(12 + 14 + 16 + 15 + 17)/5 = 14.8.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+What is the average number of rounds in the night shift over the 5 days?', null, '(12 + 14 + 16 + 15 + 17)/5 = 14.8.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-data-interpretation'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -1098,7 +1098,7 @@ with nq as (
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
   values ('ME', 'mcq', 'Table - medication rounds completed by nurses (Morning / Afternoon / Night): Monday 18 / 15 / 12; Tuesday 20 / 18 / 14; Wednesday 22 / 20 / 16; Thursday 19 / 17 / 15; Friday 21 / 19 / 17.
 
-If one nurse is allowed to do no more than 8 medications rounds per shift, how many nurses were needed for Wednesday’s total medication round?', null, '58/8 = 7.25, so 8 nurses.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+If one nurse is allowed to do no more than 8 medication rounds per shift, how many nurses were needed for Wednesday’s total medication rounds?', null, '58/8 = 7.25, so 8 nurses.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'nursing-data-interpretation'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,

@@ -50,7 +50,7 @@ with nq as (
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
   values ('ME', 'essay', 'Write an essay of about 300-350 words on the following topic.
 
-According to the Bhutan Media Foundation, Bhutanese spend an average of 163 minutes online each day, which is higher than the global average of 145 minutes per day. Intensive social media users include Generation Z (ages 13-29), Millennial (ages 30-44), university graduates, and employed citizens, each spending four or more hours daily on these platforms.
+According to the Bhutan Media Foundation, Bhutanese spend an average of 163 minutes online each day, which is higher than the global average of 145 minutes per day. Intensive social media users include Generation Z (ages 13-29), Millennials (ages 30-44), university graduates, and employed citizens, each spending four or more hours daily on these platforms.
 
 Discuss the impact of spending significant time on social media on mental health, time management, and social connections in the era of rapid technological advancement. (25 marks)', 'Living online: the cost of 163 minutes a day
 
@@ -82,7 +82,7 @@ with nq as (
 
 Your name is Sonam, an educated farmer from Mendrelgang Gewog, Punakha Dzongkhag. As a farmer, you are initiating a new agricultural project in your gewog.
 
-Write a letter to the Dzongkhag Agriculture and Livestock Officer mentioning the current clear problem statement, a well-defined objectives, methods, and a comprehensive budget, for your new project initiative. (20 marks)', 'Sonam
+Write a letter to the Dzongkhag Agriculture and Livestock Officer setting out a clear problem statement, well-defined objectives, methods and a comprehensive budget for your new project. (20 marks)', 'Sonam
 Mendrelgang Gewog
 Punakha Dzongkhag
 
@@ -127,7 +127,7 @@ with nq as (
 
 You are Dorji, the student counsellor of the College of Science and Technology, Phuntsholing, Chukha. Your college is organizing a symposium on "Buddhism in the 21st Century" during winter vacation.
 
-Write a letter to the President of your college requesting permission to participate. In your letter, explain why you are interested to organize this event, and explain its importance to the students and college, and how it can benefit the society. (20 marks)', 'Dorji
+Write a letter to the President of your college requesting permission to participate. In your letter, explain why you are interested in organizing this event, and explain its importance to the students and college, and how it can benefit the society. (20 marks)', 'Dorji
 Student Counsellor
 College of Science and Technology
 Phuntsholing, Chukha

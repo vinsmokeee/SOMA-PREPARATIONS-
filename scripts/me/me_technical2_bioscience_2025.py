@@ -34,9 +34,9 @@ MCQ = r"""[
 },
 {
 "n": 2,
-"stem": "The inner, darker and harder portions of secondary xylem that cannot conduct water in an older dicot stem is called:",
+"stem": "The inner, darker and harder portions of secondary xylem that cannot conduct water in an older dicot stem are called:",
 "opts": [
-"Alburnam",
+"Alburnum",
 "Bast",
 "Wood",
 "Duramen"
@@ -134,7 +134,7 @@ MCQ = r"""[
 },
 {
 "n": 12,
-"stem": "In a reversible reaction, rates of both sides of a reaction are:",
+"stem": "In a reversible reaction at equilibrium, the rates of the forward and backward reactions are:",
 "opts": [
 "Same",
 "Different",
@@ -154,7 +154,7 @@ MCQ = r"""[
 },
 {
 "n": 14,
-"stem": "Which part of ovary in mammals acts as an endocrine gland after ovulation?",
+"stem": "Which part of the ovary in mammals acts as an endocrine gland after ovulation?",
 "opts": [
 "Vitelline membrane",
 "Graafian follicle",
@@ -257,7 +257,7 @@ MCQ = r"""[
 "stem": "Which is NOT a characteristic of plant cell walls?",
 "opts": [
 "Found only in the sporophyte phase of life cycle",
-"Among other compounds contain compounds built of simple sugars",
+"Contain, among other compounds, polymers built of simple sugars",
 "May contain enzymes that are biologically active",
 "Often contain strengthening polymers"
 ]
@@ -304,7 +304,7 @@ MCQ = r"""[
 },
 {
 "n": 29,
-"stem": "The name of Norman Borloug is associated with:",
+"stem": "The name of Norman Borlaug is associated with:",
 "opts": [
 "White revolution",
 "Green revolution",
@@ -348,7 +348,7 @@ MCQ = r"""[
 "opts": [
 "Henry’s law",
 "Raoult’s law",
-"Kirchoff’s law",
+"Kirchhoff’s law",
 "Distribution law"
 ]
 },
@@ -374,7 +374,7 @@ MCQ = r"""[
 },
 {
 "n": 36,
-"stem": "Which of the following is not vestigial organ in human?",
+"stem": "Which of the following is not a vestigial organ in humans?",
 "opts": [
 "Tail vertebrae",
 "Nails",
@@ -399,7 +399,7 @@ MCQ = r"""[
 "Van’t Hoff",
 "Raoult",
 "Nernst",
-"Zigmondy"
+"Zsigmondy"
 ]
 },
 {
@@ -464,7 +464,7 @@ MCQ = r"""[
 },
 {
 "n": 45,
-"stem": "Which tissues gives rise to secondary growth?",
+"stem": "Which tissue gives rise to secondary growth?",
 "opts": [
 "Apical meristem",
 "Adventitious roots",
@@ -474,7 +474,7 @@ MCQ = r"""[
 },
 {
 "n": 46,
-"stem": "Ontology recapitulates phylogeny. This theory is called:",
+"stem": "Ontogeny recapitulates phylogeny. This theory is called:",
 "opts": [
 "Biogenetic law",
 "Law of embryology",
@@ -499,7 +499,7 @@ MCQ = r"""[
 "Fehling",
 "Grignard",
 "Schiff’s",
-"Tollen’s"
+"Tollens’"
 ]
 },
 {
@@ -624,7 +624,7 @@ MCQ = r"""[
 },
 {
 "n": 61,
-"stem": "The pH of 1.0 x 10-4 M solution of HCl is:",
+"stem": "The pH of 1.0 × 10⁻⁴ M solution of HCl is:",
 "opts": [
 "6",
 "5",
@@ -666,7 +666,7 @@ MCQ = r"""[
 "n": 65,
 "stem": "Process of vernalisation can be induced by:",
 "opts": [
-"Cytokinin l",
+"Cytokinin",
 "Auxin",
 "Ethylene",
 "Gibberellic acid"
@@ -694,7 +694,7 @@ MCQ = r"""[
 },
 {
 "n": 68,
-"stem": "Which of the following is bacterium involved in denitrification?",
+"stem": "Which of the following is a bacterium involved in denitrification?",
 "opts": [
 "Nitrosomonas",
 "Pseudomonas",
@@ -707,7 +707,7 @@ MCQ = r"""[
 "stem": "Haemophilia is more commonly seen in human males than in human females because:",
 "opts": [
 "This disease is due to an X-linked dominant mutation",
-"This disease is due to Y-lined recessive mutation",
+"This disease is due to Y-linked recessive mutation",
 "This disease is due to an X-linked recessive mutation",
 "This disease is due to Y-linked dominant mutation"
 ]

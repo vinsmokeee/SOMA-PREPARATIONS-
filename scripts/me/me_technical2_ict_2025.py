@@ -155,7 +155,7 @@ MCQ = r"""[
 },
 {
 "n": 14,
-"stem": "_________is predominantly used to prevent layer 2 loops and broadcast storms and is also used for network redundancy",
+"stem": "_________ is predominantly used to prevent layer 2 loops and broadcast storms, and is also used for network redundancy.",
 "opts": [
 "RIP",
 "STP",

@@ -27,7 +27,7 @@ PATTERN = [
 MCQ = r"""[
 {
 "n": 1,
-"stem": "Before doctor’s round, you are following up the laboratory blood report of the patient with liver cirrhosis who is admitted in the medical ward. You observed that the albumin level was 2.5gm/dL. You will plan care for this patient to address the risk of developing;",
+"stem": "Before doctor’s round, you are following up the laboratory blood report of the patient with liver cirrhosis who is admitted in the medical ward. You observed that the albumin level was 2.5gm/dL. You will plan care for this patient to address the risk of developing:",
 "opts": [
 "Jaundice of the skin.",
 "Prolonged blood coagulation.",
@@ -57,7 +57,7 @@ MCQ = r"""[
 },
 {
 "n": 4,
-"stem": "Nursing process is a systematic patient-centered approach which requires nursing competencies in these sequential interrelated steps;",
+"stem": "Nursing process is a systematic patient-centered approach which requires nursing competencies in these sequential, interrelated steps:",
 "opts": [
 "Assessment, implementation, evaluation, planning and diagnosis.",
 "Assessment, diagnosis, outcomes, implementation and evaluation.",
@@ -67,7 +67,7 @@ MCQ = r"""[
 },
 {
 "n": 5,
-"stem": "All are examples of primary prevention of diseases EXCEPT;",
+"stem": "All are examples of primary prevention of diseases EXCEPT:",
 "opts": [
 "Hypertension screening.",
 "Maintaining ideal weight.",
@@ -87,7 +87,7 @@ MCQ = r"""[
 },
 {
 "n": 7,
-"stem": "You as the only clinical nurse in a general ward was asked to teach the student nurses. Since your ward has many chronic bedridden patients with pressure ulcers you decided to show them how a 3rd stage pressure ulcer looks like;",
+"stem": "As the only clinical nurse in a general ward, you were asked to teach the student nurses. Since your ward has many chronic bedridden patients with pressure ulcers, you decide to show them what a stage 3 pressure ulcer looks like. Which description fits?",
 "opts": [
 "The epidermis and part of underlying layer of dermis is exposed.",
 "Loss of skin and the wound extends through the dermis to fatty subcutaneous tissues.",
@@ -97,7 +97,7 @@ MCQ = r"""[
 },
 {
 "n": 8,
-"stem": "Which score denotes the need for intensive nursing care to prevent the development of pressure ulcer using the Norton scoring system as the pressure ulcer risk calculator.",
+"stem": "Using the Norton scoring system as the pressure ulcer risk calculator, which score shows the need for intensive nursing care to prevent pressure ulcers?",
 "opts": [
 "≤14 = at risk",
 "<18 = at risk",
@@ -107,7 +107,7 @@ MCQ = r"""[
 },
 {
 "n": 9,
-"stem": "The nurse is administering medication to a patient with liver failure which resulted from end- stage cirrhosis. Which pharmacokinetic phase the patient most likely has the problem with?",
+"stem": "The nurse is administering medication to a patient with liver failure which resulted from end-stage cirrhosis. Which pharmacokinetic phase is the patient most likely to have a problem with?",
 "opts": [
 "Absorption",
 "Distribution",
@@ -117,9 +117,9 @@ MCQ = r"""[
 },
 {
 "n": 10,
-"stem": "During disaster and emergencies authoritative leadership is preferred because of these key traits;",
+"stem": "During disaster and emergencies authoritative leadership is preferred because of these key traits:",
 "opts": [
-"Visionary thinking and longtime goal orientation.",
+"Visionary thinking and long-term goal orientation.",
 "Command and control.",
 "Self-centered and cunning.",
 "Effective communicator and influencer."
@@ -147,17 +147,17 @@ MCQ = r"""[
 },
 {
 "n": 13,
-"stem": "Nurses have to be very careful during medication. The medication error happens when the nurse makes mistake during medication preparation and medication administration. When does the “omission error” happens?",
+"stem": "Nurses have to be very careful during medication. A medication error happens when the nurse makes a mistake during medication preparation or administration. When does an “omission error” happen?",
 "opts": [
-"When the nurse gives wrong drug.",
-"When the nurse gives wrong dose.",
-"When the nurse gives the medicine at wrong time.",
+"When the nurse gives the wrong drug.",
+"When the nurse gives the wrong dose.",
+"When the nurse gives the medicine at the wrong time.",
 "When the nurse forgets to administer a dose."
 ]
 },
 {
 "n": 14,
-"stem": "All the following points are the objectives of competency-based framework for the Clinical Nurse in Bhutan except;",
+"stem": "All the following points are the objectives of the competency-based framework for the Clinical Nurse in Bhutan EXCEPT:",
 "opts": [
 "Define clear roles and responsibilities for service delivery.",
 "Ensure training and development are effective and aligned to the goal.",
@@ -187,7 +187,7 @@ MCQ = r"""[
 },
 {
 "n": 17,
-"stem": "A patient is treated for severe diarrhea and vomiting. Laboratory investigation showed hypokalemia and the treatment was initiated. When you evaluate her response to potassium replacement therapy, which of the following change should you observe?",
+"stem": "A patient is treated for severe diarrhea and vomiting. Laboratory investigation showed hypokalemia and the treatment was initiated. When you evaluate her response to potassium replacement therapy, which of the following changes should you observe?",
 "opts": [
 "Worsening constipation.",
 "Increasing muscle strength.",
@@ -200,14 +200,14 @@ MCQ = r"""[
 "stem": "During your shift in the pediatric ward, you see parents using cold water to lower the fever of their child. You have decided to provide group health education for behavioral change of the parents to start tepid sponging. What is the negative aspect of using cold water that you would say to the parents?",
 "opts": [
 "Cold water contains germs that would make the baby more ill.",
-"Cold water is effective in lower the temperature so they can continue with it.",
-"Cold water causes vasoconstriction and trap heat inside the body.",
-"Cold water makes the skin dry and cause discomfort to the child."
+"Cold water is effective in lowering the temperature so they can continue with it.",
+"Cold water causes vasoconstriction and traps heat inside the body.",
+"Cold water makes the skin dry and causes discomfort to the child."
 ]
 },
 {
 "n": 19,
-"stem": "When you are maintaining a therapeutic environment, encouraging your psychiatric patients to communicate with each other and you put efforts in promoting growth through role modeling, it is a form of;",
+"stem": "When you maintain a therapeutic environment, encourage your psychiatric patients to communicate with each other and promote growth through role modelling, it is a form of:",
 "opts": [
 "Group Therapy",
 "Cognitive Behavioral Therapy",
@@ -217,7 +217,7 @@ MCQ = r"""[
 },
 {
 "n": 20,
-"stem": "Recognizing the verbal and nonverbal communication content of the various stages of grieving can help the nurse to select interventions that meet the patient’s psychological and physical needs. What are the Kubler-Ross’s five stages of grieving to explain what patient experience as they grieve and mourn?",
+"stem": "Recognizing the verbal and nonverbal communication content of the various stages of grieving can help the nurse to select interventions that meet the patient’s psychological and physical needs. What are Kübler-Ross’s five stages of grieving, which explain what patients experience as they grieve and mourn?",
 "opts": [
 "Denial, anger, bargaining, depression and acceptance.",
 "Anger, denial, acceptance, depression and bargaining.",
@@ -227,7 +227,7 @@ MCQ = r"""[
 },
 {
 "n": 21,
-"stem": "Tetralogy of Fallot is a common congenital heart defect involving 50% to 70% of all cyanotic congenital heart diseases. It consists of a grouping of four abnormal conditions of heart defects and they are;",
+"stem": "Tetralogy of Fallot is a common congenital heart defect involving 50% to 70% of all cyanotic congenital heart diseases. It consists of a grouping of four abnormal conditions of heart defects. They are:",
 "opts": [
 "Pulmonary stenosis, atrial septal defect, patent ductus arteriosus and ventricular septal defect.",
 "Ventricular septal defect, atrial septal defect, overriding aorta and ventricular hypertrophy.",
@@ -237,11 +237,11 @@ MCQ = r"""[
 },
 {
 "n": 22,
-"stem": "While caring for the pediatric patients, a nurse needs to understand the child’s developmental phases to give holistic and patient-centered care. Nursing care application based on the oral, anal, phallic, latency and genital stages of child development are derived from;",
+"stem": "While caring for paediatric patients, a nurse needs to understand the child’s developmental phases to give holistic and patient-centered care. Nursing care based on the oral, anal, phallic, latency and genital stages of child development is derived from:",
 "opts": [
-"Piaget theory of cognitive development.",
-"Freud theory of psychosexual development.",
-"Erikson theory of psychosocial development.",
+"Piaget’s theory of cognitive development.",
+"Freud’s theory of psychosexual development.",
+"Erikson’s theory of psychosocial development.",
 "Kohlberg’s theory about development of moral reasoning."
 ]
 },
@@ -257,7 +257,7 @@ MCQ = r"""[
 },
 {
 "n": 24,
-"stem": "The nurse in-charge delegated you to manage a patient admitted with diabetic ketoacidosis. As a team leader which physiologic change would you explain to the staff nurses (SNs) and assistant nurses (ANs) that this patient’s body attempt to attain acid-base balance?",
+"stem": "The nurse in charge has delegated you to manage a patient admitted with diabetic ketoacidosis. As team leader, which physiological change would you explain to the staff nurses (SNs) and assistant nurses (ANs) as this patient’s body attempts to restore acid-base balance?",
 "opts": [
 "Increasing the respiration rate.",
 "Decreasing the respiration rate.",
@@ -267,12 +267,12 @@ MCQ = r"""[
 },
 {
 "n": 25,
-"stem": "Nurses have critical role in the antimicrobial stewardship (AMS). The goal of nursing function in the AMS is to;",
+"stem": "Nurses have a critical role in antimicrobial stewardship (AMS). The goal of the nursing function in AMS is to:",
 "opts": [
 "Prevent overuse and misuse of antibiotics.",
-"Adhere to nursing principal of infection management.",
-"Control patient safety incidences.",
-"Fulfill World Health Organization (WHO) mandates on antimicrobials usage."
+"Adhere to nursing principles of infection management.",
+"Control patient safety incidents.",
+"Fulfill World Health Organization (WHO) mandates on antimicrobial use."
 ]
 },
 {
@@ -287,7 +287,7 @@ MCQ = r"""[
 },
 {
 "n": 27,
-"stem": "Decrease of Parathyroid hormone (PTH) in hypothyroidism leads to;",
+"stem": "A decrease of parathyroid hormone (PTH), as in hypoparathyroidism, leads to:",
 "opts": [
 "Hyponatremia",
 "Hypernatremia",
@@ -297,7 +297,7 @@ MCQ = r"""[
 },
 {
 "n": 28,
-"stem": "During the first antenatal care (ANC) the expected mother is provided the information on the expected date of delivery (EDD) of the baby. If the first day of the last menstrual period (LMP) is 20th March, 2025. Using obstetric wheel or calculator what is the EDD that the nurse should inform the expecting mother?",
+"stem": "During the first antenatal care (ANC) the expectant mother is given information on the expected date of delivery (EDD) of the baby. The first day of the last menstrual period (LMP) is 20th March, 2025. Using obstetric wheel or calculator what is the EDD that the nurse should inform the expectant mother?",
 "opts": [
 "27th December, 2025.",
 "20th December, 2025.",
@@ -307,7 +307,7 @@ MCQ = r"""[
 },
 {
 "n": 29,
-"stem": "During your round at the bedside of maternity ward, if you observe the expecting mother has the intense urge to push and also observed crowning of the baby’s head. What stage of labor appropriate nursing intervention would you provide for this woman?",
+"stem": "During your round in the maternity ward, you observe that an expectant mother has an intense urge to push and the baby’s head is crowning. For which stage of labour would you provide the appropriate nursing care?",
 "opts": [
 "Latent phase - First stage of labor.",
 "Active phase - First stage of labor.",
@@ -327,7 +327,7 @@ MCQ = r"""[
 },
 {
 "n": 31,
-"stem": "At Jigme DorjiWangchuck National Referral Hospital, nurses are incentivized with extended hour payment for the extra shift they work. This strategy is adopted to facilitate efficient accomplishment of the nursing task and cover the shortage of nurses in the inpatient wards. Which management theory best fit this strategy?",
+"stem": "At Jigme Dorji Wangchuck National Referral Hospital, nurses are incentivized with extended hour payment for the extra shift they work. This strategy is adopted to facilitate efficient accomplishment of the nursing task and cover the shortage of nurses in the inpatient wards. Which management theory best fits this strategy?",
 "opts": [
 "Taylor’s scientific management.",
 "Fayol’s administrative management.",
@@ -337,7 +337,7 @@ MCQ = r"""[
 },
 {
 "n": 32,
-"stem": "Which of the following risk factor will lead to osteoporosis?",
+"stem": "Which of the following risk factors can lead to osteoporosis?",
 "opts": [
 "Low body mass index (BMI)",
 "Low calcium and vitamin D diet.",
@@ -347,7 +347,7 @@ MCQ = r"""[
 },
 {
 "n": 33,
-"stem": "Mistakes in the following code will lead to the mutation and may kill the affected cells or may irreversibly alter their functions and become malignant and is a basis for cancer. Which of the following is responsible for this mutation?",
+"stem": "Mistakes in the genetic code lead to mutations, which may kill the affected cells or irreversibly alter their functions so that they become malignant; this is the basis of cancer. Where is this code found?",
 "opts": [
 "Ribosomes in the cytoplasm.",
 "Protein in the ribosomes.",
@@ -367,7 +367,7 @@ MCQ = r"""[
 },
 {
 "n": 35,
-"stem": "A patient is brought to the emergency room of the district hospital to treat for the overdose of oral ingestion of drug. The doctor advised you to prepare activated charcoal. Which of the following cannot be treated with activated charcoal?",
+"stem": "A patient is brought to the emergency room of the district hospital with an overdose of an oral drug. The doctor advises you to prepare activated charcoal. Which of the following cannot be treated with activated charcoal?",
 "opts": [
 "Carbamazepine",
 "Cyanide",
@@ -377,7 +377,7 @@ MCQ = r"""[
 },
 {
 "n": 36,
-"stem": "What postoperative intervention would you suggest to patient to help prevent atelectasis?",
+"stem": "What postoperative intervention would you suggest to the patient to help prevent atelectasis?",
 "opts": [
 "Coughing and deep breathing.",
 "Pressing the surgical wound while coughing.",
@@ -397,7 +397,7 @@ MCQ = r"""[
 },
 {
 "n": 38,
-"stem": "In the nursing practice ‘Good Samaritan Laws’ relates to;",
+"stem": "In nursing practice, ‘Good Samaritan laws’ relate to:",
 "opts": [
 "Mandating nurses to be polite and empathetic towards patient during medical distress.",
 "Defining the standard of care which a reasonable, prudent practitioner with similar education and experience would do or not do in similar circumstances.",
@@ -407,7 +407,7 @@ MCQ = r"""[
 },
 {
 "n": 39,
-"stem": "In the orthopedic ward a patient is walking with a cane and is stable when ambulating and changing cloths. Which of the following assessment techniques was used by the nurse to collect this data?",
+"stem": "In the orthopedic ward a patient is walking with a cane and is stable when ambulating and changing clothes. Which of the following assessment techniques was used by the nurse to collect this data?",
 "opts": [
 "Auscultation",
 "Percussion",
@@ -417,7 +417,7 @@ MCQ = r"""[
 },
 {
 "n": 40,
-"stem": "While performing nursing assessment patient tells you that she has just return from another country and has had an upper respiratory infection for two weeks. How is this information beneficial to aid in the care of this patient?",
+"stem": "While you are performing a nursing assessment, a patient tells you that she has just returned from another country and has had an upper respiratory infection for two weeks. How is this information beneficial to aid in the care of this patient?",
 "opts": [
 "It would help in understanding the type of patient’s occupation.",
 "It will help in determining the patient’s socioeconomic status.",
@@ -447,7 +447,7 @@ MCQ = r"""[
 },
 {
 "n": 43,
-"stem": "Which of the following nursing diagnosis is a priority for the patient recovering from an exploratory laparoscopy?",
+"stem": "Which of the following nursing diagnoses is a priority for the patient recovering from an exploratory laparoscopy?",
 "opts": [
 "Pain, acute.",
 "Nutrition, imbalanced.",
@@ -457,7 +457,7 @@ MCQ = r"""[
 },
 {
 "n": 44,
-"stem": "The process of identifying, analyzing, treatment and evaluating real and potential hazards in Continuous Quality Improvement (CQI) is called;",
+"stem": "The process of identifying, analysing, treating and evaluating real and potential hazards in Continuous Quality Improvement (CQI) is called:",
 "opts": [
 "Performance and Outcome management.",
 "Actual Performance management.",
@@ -477,7 +477,7 @@ MCQ = r"""[
 },
 {
 "n": 46,
-"stem": "According to the international nursing diagnosis or NANDA-I the nursing diagnosis can be any of the following except;",
+"stem": "According to the international nursing diagnosis or NANDA-I a nursing diagnosis can be any of the following EXCEPT:",
 "opts": [
 "Self-care focused diagnosis.",
 "Problem-focused diagnosis.",
@@ -487,27 +487,27 @@ MCQ = r"""[
 },
 {
 "n": 47,
-"stem": "All the following statements are the objectives of patient admission in the ward except;",
+"stem": "All the following statements are the objectives of patient admission to the ward EXCEPT:",
 "opts": [
 "Help new patient adjust to hospital environment and routines.",
-"Get the patient sign on rules and responsibilities form during admission.",
+"Get the patient to sign the rules and responsibilities form during admission.",
 "Alleviate the patient’s fear and worry about the hospitalization.",
 "Facilitate recovery of patient from his or her health-related problems."
 ]
 },
 {
 "n": 48,
-"stem": "The ethical principle of nonmaleficence requires that;",
+"stem": "The ethical principle of nonmaleficence requires that:",
 "opts": [
 "All patients are treated equally regardless of gender, sexual orientation, religion, ethnicity, disease, or social standing.",
 "Good be done for the benefit of the patient.",
-"No patient be misled or deceived by the nurse during car",
+"No patient be misled or deceived by the nurse during care.e.e.",
 "No harm be done to patient, either deliberately or unintentionally."
 ]
 },
 {
 "n": 49,
-"stem": "Nurses assess pulse for pulse rate (number of beats), rhythm (pattern and interval between the beat) and the volume (the force of blood with each beat). Select the correct site for the assessment of Femoral Pulse;",
+"stem": "Nurses assess pulse for pulse rate (number of beats), rhythm (pattern and interval between the beats) and the volume (the force of blood with each beat). Select the correct site for the assessment of femoral pulse:",
 "opts": [
 "Behind the knee.",
 "At the antecubital fossa.",
@@ -517,27 +517,27 @@ MCQ = r"""[
 },
 {
 "n": 50,
-"stem": "Which of the following is true for the appropriate clinical decision making for oxygen therapy for the patient with pneumonia and the patient with COPD?",
+"stem": "Which of the following is true about clinical decision-making for oxygen therapy in a patient with pneumonia and a patient with COPD?",
 "opts": [
 "Oxygen target (SpO₂) for pneumonia should be between 88–92% and for COPD >94%.",
-"COPD patient has high risk of CO₂ retention then the patient with pneumonia.",
-"Patient with pneumonia rely on hypoxic drive (low oxygen) to breath where as in COPD the patient’s respiratory drive is normal.",
-"Oxygen can be administered freely depending on the severity for patient with COPD whereas for the patient with pneumonia oxygen has to be limited to 1-2 L/min. SECTION B: PROBLEM SOLVING [25 MARKS]"
+"A COPD patient has a higher risk of CO₂ retention than a patient with pneumonia.",
+"Patients with pneumonia rely on hypoxic drive (low oxygen) to breathe, whereas in COPD the patient’s respiratory drive is normal.",
+"Oxygen can be administered freely depending on the severity for patient with COPD whereas for the patient with pneumonia oxygen has to be limited to 1-2 L/min. "
 ]
 },
 {
 "n": 51,
-"stem": "A patient has been prescribed a medication every 6 hour at 6 am. What will be the next three administration times?",
+"stem": "A patient has been prescribed a medication every 6 hours, starting at 6 am. What will be the next three administration times?",
 "opts": [
-"10am. 2 pm, 6 pm",
-"12 pm, 6pm, 12 am",
-"12 pm, 4 pm, 8am",
-"12 am, 6am,12 pm"
+"10 am, 2 pm, 6 pm",
+"12 pm, 6 pm, 12 am",
+"12 pm, 4 pm, 8 am",
+"12 am, 6 am, 12 pm"
 ]
 },
 {
 "n": 52,
-"stem": "A patient is prescribed 750 mg of injection Acyclovir. The medicine in available in 500 mg/vial which is to be constituted with 10 ml of sterile water. How many ml of the reconstituted solution should the nurse administers to the patient?",
+"stem": "A patient is prescribed 750 mg of injection Acyclovir. The medicine is available as 500 mg/vial, to be reconstituted with 10 ml of sterile water. How many ml of the reconstituted solution should the nurse administer to the patient?",
 "opts": [
 "5 ml",
 "10 ml",
@@ -547,7 +547,7 @@ MCQ = r"""[
 },
 {
 "n": 53,
-"stem": "A vail contains 30 ml of medicine. On day one, 10% of the total is used and on day two another 10% of the total is used. On the Day three, 50% of the remaining medicines is used. how much medicine is left inside the vial?",
+"stem": "A vial contains 30 ml of medicine. On day one, 10% of the total is used, and on day two another 10% of the total is used. On day three, 50% of the remaining medicine is used. How much medicine is left in the vial?",
 "opts": [
 "9 ml",
 "10 ml",
@@ -557,7 +557,7 @@ MCQ = r"""[
 },
 {
 "n": 54,
-"stem": "A dose of 5 ml anti venom is required for 150 ml of venom in a patient. What is the least amount of antivenom required if a patient had been bitten by a snake which can carry a max load of 90 ml of venom",
+"stem": "A dose of 5 ml of antivenom is required for 150 ml of venom in a patient. What is the least amount of antivenom required if a patient has been bitten by a snake that can carry a maximum of 90 ml of venom?",
 "opts": [
 "2 ml",
 "3 ml",
@@ -567,7 +567,7 @@ MCQ = r"""[
 },
 {
 "n": 55,
-"stem": "A roll of bandages has a length of 30 mtrs. A roll of bandages cost nu.120, and it can be only bought in rolls and not length. If you have a budget of Nu.1,500 how much bandages in meter can you buy?",
+"stem": "A roll of bandage is 30 metres long and costs Nu 120. Bandages can only be bought in whole rolls, not by length. With a budget of Nu 1,500, how many metres of bandage can you buy?",
 "opts": [
 "350 meters",
 "360 meters",
@@ -577,7 +577,7 @@ MCQ = r"""[
 },
 {
 "n": 56,
-"stem": "A child weighs 20 kg. the doctor prescribes a drug at 10 mg/kg/day which is administered every 12 hours. How much will the nurse administer per dose?",
+"stem": "A child weighs 20 kg. The doctor prescribes a drug at 10 mg/kg/day which is administered every 12 hours. How much will the nurse administer per dose?",
 "opts": [
 "200 mg",
 "150 mg",
@@ -617,7 +617,7 @@ MCQ = r"""[
 },
 {
 "n": 60,
-"stem": "A sliding scale insulin order requires 1 unit of insulin for every 10 mg/dl of blood glucose over 150 mg/dl. If a patient’s blood glucose level is 200 mg/dl, how many units if insulin should the nurse administer?",
+"stem": "A sliding scale insulin order requires 1 unit of insulin for every 10 mg/dl of blood glucose over 150 mg/dl. If a patient’s blood glucose level is 200 mg/dl, how many units of insulin should the nurse administer?",
 "opts": [
 "5 units",
 "6 units",
@@ -627,7 +627,7 @@ MCQ = r"""[
 },
 {
 "n": 61,
-"stem": "A patient is ordered to receive 500 mL of Normal Saline solution containing Calcium gluconate 500 mg to be administered at 5mg/min. how long will it take to finish the IV bag?",
+"stem": "A patient is ordered to receive 500 mL of Normal Saline solution containing Calcium gluconate 500 mg to be administered at 5 mg/min. How long will it take to finish the IV bag?",
 "opts": [
 "60 minutes",
 "80 minutes",
@@ -647,7 +647,7 @@ MCQ = r"""[
 },
 {
 "n": 63,
-"stem": "The doctor prescribes ceftazidime 0.3 g IM three times a day. Reconstitution instructions: For IM solution, add 1.5ml diluent which will give appropriate amount of 1.8 ml (280 mg/ml). What amount will you administer?",
+"stem": "The doctor prescribes ceftazidime 0.3 g IM three times a day. Reconstitution instructions: For IM solution, add 1.5 ml diluent, which will give about 1.8 ml (280 mg/ml). What amount will you administer?",
 "opts": [
 "1 ml",
 "1.1 ml",
@@ -657,7 +657,7 @@ MCQ = r"""[
 },
 {
 "n": 64,
-"stem": "A patient is prescribed 1200 ml of 0.9% NS solution at rate of 125 ml/hr. the drop factor is 12 drops/ml. How many drops per minutes should the nurse adjust the flow rate to safely administers the prescribes solution?",
+"stem": "A patient is prescribed 1200 ml of 0.9% NS solution at a rate of 125 ml/hr. The drop factor is 12 drops/ml. At how many drops per minute should the nurse set the flow rate to safely administer the prescribed solution?",
 "opts": [
 "10 drops per minute",
 "15 drops per minute",
@@ -667,17 +667,17 @@ MCQ = r"""[
 },
 {
 "n": 65,
-"stem": "The doctor orders infusion of 1000 ml of 0.9% NS to be order over time period of 8 hours using a macroseta set with a drop factor of 10 drops per minute for a patient with pneumonia. You initiated the IV at 1:00 PM during your shift. With the current rate, at what time will you hang the next bag?",
+"stem": "The doctor orders an infusion of 1000 ml of 0.9% NS over a period of 8 hours using a macrodrip set with a drop factor of 10 drops per ml for a patient with pneumonia. You initiated the IV at 1:00 PM during your shift. With the current rate, at what time will you hang the next bag?",
 "opts": [
 "9 PM the next day",
-"10 Pm the next day",
+"10 PM the next day",
 "9 PM of the same day",
 "10 PM of the same day"
 ]
 },
 {
 "n": 66,
-"stem": "Your hospital has alcohol-based hand rub (500ml container) containing 7.5% Chlorohexidine solution. You want dilute the solution to make it 2% Chlorhexidine which is the recommended concentration. How much diluent (70% alcohol) will you add to the solution to make it the desired concentration",
+"stem": "Your hospital has alcohol-based hand rub (500ml container) containing 7.5% chlorhexidine solution. You want to dilute the solution to 2% chlorhexidine, which is the recommended concentration. How much diluent (70% alcohol) will you add to make it the desired concentration?",
 "opts": [
 "580 ml",
 "1250 ml",
@@ -687,7 +687,7 @@ MCQ = r"""[
 },
 {
 "n": 67,
-"stem": "You are teaching your support staffs to make bleaching solution for instrument decontamination. The hospital supplies Sodium Dichlorocyanurate tablets Available chlorine 1gm per tablet). How many tablets needs to be added to 1 liter of water to make 0.5% bleaching solution.",
+"stem": "You are teaching your support staff to make a bleaching solution for instrument decontamination. The hospital supplies sodium dichlorocyanurate tablets (available chlorine 1 g per tablet). How many tablets need to be added to 1 litre of water to make a 0.5% bleaching solution?",
 "opts": [
 "1 tablet",
 "3 tablets",
@@ -707,7 +707,7 @@ MCQ = r"""[
 },
 {
 "n": 69,
-"stem": "The ratio of making Lactulose enema solution is 1 part lactulose solution to 4 parts of 0.9% normal saline solution (NS). How much NS is required to make 250 ml of lactulose enema?",
+"stem": "A lactulose enema solution is made with 1 part lactulose solution to 4 parts of 0.9% normal saline solution (NS). How much NS is required to make 250 ml of lactulose enema?",
 "opts": [
 "250 ml",
 "200 ml",
@@ -719,7 +719,7 @@ MCQ = r"""[
 "n": 70,
 "stem": "A patient with atrial fibrillation is receiving Amiodarone infusion for 24 hours. The dose ordered is 1mg/min in the first 8 hours and 0.5mg/min in the next 16 hours. 900mg of amiodarone was diluted in 500ml of NS. At the 10th hour, what will be the rate of the infusion in ml/hour?",
 "opts": [
-"33.3.ml/hour",
+"33.3 ml/hour",
 "3.33 ml/hour",
 "16.6 ml/hour",
 "1.66 ml/hour"
@@ -737,7 +737,7 @@ MCQ = r"""[
 },
 {
 "n": 72,
-"stem": "A 100ml solution contains 25% of a drug. How many ml of NS can you add to make it 20%?",
+"stem": "A 100ml solution contains 25% of a drug. How many ml of NS must you add to make it 20%?",
 "opts": [
 "10 ml",
 "15 ml",
@@ -747,7 +747,7 @@ MCQ = r"""[
 },
 {
 "n": 73,
-"stem": "A candle has a length of 10cm. When lit it burns at a rate 2 mm in 15 mins. After being lit for 2.5 hours how much candle is left behind?",
+"stem": "A candle has a length of 10 cm. When lit, it burns at a rate of 2 mm in 15 minutes. After being lit for 2.5 hours, how much of the candle is left?",
 "opts": [
 "9 cm",
 "8.5 cm",
@@ -757,7 +757,7 @@ MCQ = r"""[
 },
 {
 "n": 74,
-"stem": "If a painting completed by 8 workers in 12 days how long would it take for 10 workers to do the same work?",
+"stem": "If a painting job is completed by 8 workers in 12 days, how long would it take 10 workers to do the same work?",
 "opts": [
 "8.4 days",
 "9.6 days",
@@ -777,7 +777,7 @@ MCQ = r"""[
 },
 {
 "n": 76,
-"stem": "The number of patients nurse karma attended during her 7-day shift is as follows: [12, 15, 13, 16, 14, 15. 13]. What is the median number of patients attended?",
+"stem": "The number of patients Nurse Karma attended during her 7-day shift is as follows: [12, 15, 13, 16, 14, 15, 13]. What is the median number of patients attended?",
 "opts": [
 "13",
 "14",
@@ -787,7 +787,7 @@ MCQ = r"""[
 },
 {
 "n": 77,
-"stem": "What type of graph is the most appropriate for showing the trend of patient admission over 12 months period?",
+"stem": "What type of graph is the most appropriate for showing the trend of patient admission over a 12-month period?",
 "opts": [
 "Pie Chart",
 "Bar Graph",
@@ -841,8 +841,8 @@ MCQ = r"""[
 "opts": [
 "There is a constant increase in the number of patients in first quarter",
 "There are at least 10 patients in each month of the year",
-"During the second quarter, patient count showed an increase after experiencing decline for a month",
-"The number of patients decrease after the introduction of new admission criteria."
+"During the second quarter, patient count showed an increase after a decline for a month",
+"The number of patients decreased after the introduction of new admission criteria."
 ]
 },
 {
@@ -930,18 +930,18 @@ MCQ = r"""[
 },
 {
 "n": 91,
-"stem": "Use the line graph (number of doctors working in hospitals A-E in 2005, 2010, 2015 and 2020) to answer.\n\nWhich statement is TRUE as per the data shown in the graph",
+"stem": "Use the line graph (number of doctors working in hospitals A-E in 2005, 2010, 2015 and 2020) to answer.\n\nWhich statement is TRUE as per the data shown in the graph???",
 "opts": [
-"None of the hospital has lost more than 50% of their doctors",
-"Two hospitals have more than triple number of doctors from 2005 to 2020",
+"None of the hospitals has lost more than 50% of their doctors",
+"Two hospitals have more than tripled their number of doctors from 2005 to 2020",
 "Hospital E has constantly lost doctors throughout the recorded years",
-"More than 2 hospitals have less doctors in 2020 compared to 2005"
+"More than 2 hospitals have fewer doctors in 2020 compared to 2005"
 ],
 "image": "/papers/me/tech2-nursing-2025-doctors-line.png"
 },
 {
 "n": 92,
-"stem": "Pie chart - annual budget allocation of a hospital's departments: Dept A 13%, Dept B 25%, Dept C 11%, Dept D 35%, Dept E 16%.\n\nIf the total budget was Nu 540,000. How much did department E get?",
+"stem": "Pie chart - annual budget allocation of a hospital's departments: Dept A 13%, Dept B 25%, Dept C 11%, Dept D 35%, Dept E 16%.\n\nIf the total budget was Nu 540,000, how much did department E get?",
 "opts": [
 "86400",
 "189000",
@@ -961,7 +961,7 @@ MCQ = r"""[
 },
 {
 "n": 94,
-"stem": "Pie chart - annual budget allocation of a hospital's departments: Dept A 13%, Dept B 25%, Dept C 11%, Dept D 35%, Dept E 16%.\n\nIf department D receives Nu 78500. How much does department E get?",
+"stem": "Pie chart - annual budget allocation of a hospital's departments: Dept A 13%, Dept B 25%, Dept C 11%, Dept D 35%, Dept E 16%.\n\nIf department D receives Nu 78,500, how much does department E get?",
 "opts": [
 "78500",
 "56071.5",
@@ -971,7 +971,7 @@ MCQ = r"""[
 },
 {
 "n": 95,
-"stem": "Pie chart - annual budget allocation of a hospital's departments: Dept A 13%, Dept B 25%, Dept C 11%, Dept D 35%, Dept E 16%.\n\nIf department E receives the entire budget of department C in addition to its own and department D receives Nu. 78500, what is the budget allocated to department D?",
+"stem": "Pie chart - annual budget allocation of a hospital's departments: Dept A 13%, Dept B 25%, Dept C 11%, Dept D 35%, Dept E 16%.\n\nIf department E receives the entire budget of department C in addition to its own and department D receives Nu 78,500, what is the budget allocated to department D?",
 "opts": [
 "60557.14",
 "24671.43",
@@ -983,10 +983,10 @@ MCQ = r"""[
 "n": 96,
 "stem": "Pie chart - annual budget allocation of a hospital's departments: Dept A 13%, Dept B 25%, Dept C 11%, Dept D 35%, Dept E 16%.\n\nWhich statement CANNOT be interpreted from the data graph above?",
 "opts": [
-"Ward C receives the least budget",
-"Ward B receives quarter of the total budget",
-"Ward D has the most patients thus receive the highest budget",
-"Ward D receive more budget than ward A and E combined."
+"Department C receives the least budget",
+"Department B receives a quarter of the total budget",
+"Department D has the most patients and thus receives the highest budget",
+"Department D receives more budget than departments A and E combined."
 ]
 },
 {
@@ -1001,7 +1001,7 @@ MCQ = r"""[
 },
 {
 "n": 98,
-"stem": "Table - medication rounds completed by nurses (Morning / Afternoon / Night): Monday 18 / 15 / 12; Tuesday 20 / 18 / 14; Wednesday 22 / 20 / 16; Thursday 19 / 17 / 15; Friday 21 / 19 / 17.\n\nWhat is the average number of rounds Night Shift over the 5 days?",
+"stem": "Table - medication rounds completed by nurses (Morning / Afternoon / Night): Monday 18 / 15 / 12; Tuesday 20 / 18 / 14; Wednesday 22 / 20 / 16; Thursday 19 / 17 / 15; Friday 21 / 19 / 17.\n\nWhat is the average number of rounds in the night shift over the 5 days?",
 "opts": [
 "14.5",
 "15",
@@ -1011,7 +1011,7 @@ MCQ = r"""[
 },
 {
 "n": 99,
-"stem": "Table - medication rounds completed by nurses (Morning / Afternoon / Night): Monday 18 / 15 / 12; Tuesday 20 / 18 / 14; Wednesday 22 / 20 / 16; Thursday 19 / 17 / 15; Friday 21 / 19 / 17.\n\nIf one nurse is allowed to do no more than 8 medications rounds per shift, how many nurses were needed for Wednesday’s total medication round?",
+"stem": "Table - medication rounds completed by nurses (Morning / Afternoon / Night): Monday 18 / 15 / 12; Tuesday 20 / 18 / 14; Wednesday 22 / 20 / 16; Thursday 19 / 17 / 15; Friday 21 / 19 / 17.\n\nIf one nurse is allowed to do no more than 8 medication rounds per shift, how many nurses were needed for Wednesday’s total medication rounds?",
 "opts": [
 "6",
 "7",

@@ -25,41 +25,41 @@ FACING EXTINCTION (Kevin Hall)
 
 For many centuries, the Kawesqars (Kah-WES-cars) endured in the harsh land at the bottom of South America where the bitter wind is sometimes strong enough to knock down a child, but they have not fared so well against their fellow man. Today fewer than 20 pureblood Kawesqars survive.
 
-Most of the pureblood Kawesqars and another 100 people of mixed-race live in Punta Arenas, Chile’s southernmost city; in Puerto Willaims, on the Chilian coast of Terria del Feugo Island near the southern tip of South America; or in Puerto Eden, on Wellington Island.
+Most of the pureblood Kawesqars and another 100 people of mixed-race live in Punta Arenas, Chile’s southernmost city; in Puerto Williams, on the Chilean coast of Tierra del Fuego Island near the southern tip of South America; or in Puerto Eden, on Wellington Island.
 
 Diseases brought by European sheep farmers and seal hunters at the end of the 19th century killed many Kawesqars. So did alcoholism. The settlers’ bounty on the heads of the Kawesqars who hunted their sheep was a factor, too, but so was the simple act of switching to western clothing.
 
 Discarded clothing carried Western diseases, and because the stormy Patagonia region of South America often experiences all four seasons in a day, paddling in the wet clothing soon brought pulmonary diseases for which the Kawesqars had no immunity. Tuberculosis reached epidemic proportions.
 
-Today, The Kawesqars are nearly extinct, pursued by social scientists on ‘cultural salvage’ operations to learn as much as possible about them before they disappear.
+Today, the Kawesqars are nearly extinct, pursued by social scientists on ‘cultural salvage’ operations to learn as much as possible about them before they disappear.
 
-With the death of the last surviving elders “goes all our ancestral knowledge,” said Oscar Aguilera, an ethnolinguistic (a students of the languages of society) at the University of Chile in Santiago who had spent two decades among the Kawesqars.
+With the death of the last surviving elders “goes all our ancestral knowledge,” said Oscar Aguilera, an ethnolinguist (a student of the languages of society) at the University of Chile in Santiago who had spent two decades among the Kawesqars.
 
 The nomadic Kawesqars had neither tribal structure nor leaders, living instead in extended families headed by the oldest male. To the surprise of anthropologists, they also had no god or gods.
 
-“They believe in a force that gives balance to all things,”said Nelson Auguila, an anthropologist who head the Punta Arenas office of the National Indeginuous Develoopment Corp. (Conadi), a quasi- governmental aid agency for native Chilians. When the balance in upset, Kawesqars blame a spirit called Ayayema.
+“They believe in a force that gives balance to all things,” said Nelson Aguilera, an anthropologist who heads the Punta Arenas office of the National Indigenous Development Corp. (Conadi), a quasi-governmental aid agency for native Chileans. When the balance is upset, Kawesqars blame a spirit called Ayayema.
 
 Alberto Achacaz Walakial, whose family guesses he is between 70 and 80, is one of the surviving elders. He lives in a shack with a car seat as his couch. To put food on the table, he carves sea lion bones into makeshift harpoon tips and sews tiny toy canoes out of sea lion skins, souvenirs for the tourist trade.
 
-“We used to navigate these straits in canoes. But that was when we were children, “he recalled in Spanish. He is short and stocky, round-faced, with oriental eyes, coarse hair, a dark complexion and a halting speech rhythm. Kawesqars resemble Alaskan Inuit, who are also believed to have come to the Americas from Asia, and who live in a similarly unforgiving environment.
+“We used to navigate these straits in canoes. But that was when we were children,” he recalled in Spanish. He is short and stocky, round-faced, with oriental eyes, coarse hair, a dark complexion and a halting speech rhythm. Kawesqars resemble Alaskan Inuit, who are also believed to have come to the Americas from Asia, and who live in a similarly unforgiving environment.
 
-Achacaz became animated – and hard to understand-as he recalled fishing and hunting expeditions in his childhood. That was before 1936 when Chile built an air force base on Wellington Island. The last Kawesqars abandoned their wigwams in favour of ramshackle subsidized housing. Instead of fishing, they began taking odd jobs. Cheap jackets replaced the wraps of sea lion skin that had helped them fend off the cold for generations.
+Achacaz became animated – and hard to understand – as he recalled fishing and hunting expeditions in his childhood. That was before 1936 when Chile built an air force base on Wellington Island. The last Kawesqars abandoned their wigwams in favour of ramshackle subsidized housing. Instead of fishing, they began taking odd jobs. Cheap jackets replaced the wraps of sea lion skin that had helped them fend off the cold for generations.
 
 Only one of Achacaz’s three daughters, Veronica, speaks Kawesqar. There are almost no Kawesqars left to marry who are not blood relatives.
 
 “It would be really nice, because we understand things among ourselves that no one else does,” said Veronica, 40, who married a mixed-race man. Their daughter, Susan, 4, soon will begin learning Kawesqar from elders. It won’t be easy, because of the way their language reflects the Kawesqar’s unique experience. For example, the Kawesqars have words for the immediate future, but not for the indefinite future – basically, for tonight’s dinner but not for next Friday’s meal.
 
-“For them, this is a concept that just doesn’t exist,” said Paz Errazuriz, a Chiliean artist who brought the Kawesqars national attention in 1996 with an acclaimed photography exhibit called Nomads of the Sea, which has since travelled the globe. She contends the Kawesqars’ lack of the concept of a future helps explain their inability to escape poverty. On the other hand, Kawesqars have at least 32 variants of the word ‘here”, one each for the principal places or kinds of places they used to visit as nomads.
+“For them, this is a concept that just doesn’t exist,” said Paz Errazuriz, a Chilean artist who brought the Kawesqars national attention in 1996 with an acclaimed photography exhibit called Nomads of the Sea, which has since travelled the globe. She contends the Kawesqars’ lack of the concept of a future helps explain their inability to escape poverty. On the other hand, Kawesqars have at least 32 variants of the word ‘here’, one each for the principal places or kinds of places they used to visit as nomads.
 
-Their ancestors are believed to have wandered across the Bering Strait from Siberia to Alaska thousands of years ago. They lived in isolation until 1520, when Ferdinand Magellan, a Portugese captain sailing under the Spanish flag, discovered the southern strait that links the Atlantic and Pacific oceans.
+Their ancestors are believed to have wandered across the Bering Strait from Siberia to Alaska thousands of years ago. They lived in isolation until 1520, when Ferdinand Magellan, a Portuguese captain sailing under the Spanish flag, discovered the southern strait that links the Atlantic and Pacific oceans.
 
 “They were always people with great mobility”, said Conadi’s Aguilera. “Land means nothing to them. They view the sea as land.” Offered land, a few Kawesqars accepted small parcels in southernmost Chile, but most did not. Some, such as Patricio Tonko, 30, want exclusive fishing rights in certain Patagonian channels and the government aid to buy commercial fishing boats.
 
-But their dwindling numbers make it hard to win attention from Santiago, the Chilian capital 2,500 kilometers to the north. “There is nobody who represents us. All the indigenous power is in the north”, where another more numerous native group lives, the Mapuches, said Tonko, a full-blooded Kawesqar who was adopted and raised in Punta Arenas in a Spanish-speaking household.
+But their dwindling numbers make it hard to win attention from Santiago, the Chilean capital 2,500 kilometers to the north. “There is nobody who represents us. All the indigenous power is in the north”, where another more numerous native group lives, the Mapuches, said Tonko, a full-blooded Kawesqar who was adopted and raised in Punta Arenas in a Spanish-speaking household.
 
 Among the Kawesqars’ biggest challenges is escaping the impression they’re already extinct. Tourist haunts in Patagonia sell postcards and buttons made from grainy, sepia-coloured photographs of
 
-Kawesqars at the end of the 19th century. “The impression left is that Chile had an indigenous past but that it’s over”, said Mario Martinez, one of the first activists to help the Kawesqars. “Everything there points to an end: an end of the race and the culture”, photographer Errazuriz said in an interview in Santiagio. “They are at the end of their lineage and live at the end of the world . . . It is evident in everything that they are the last.”"""
+Kawesqars at the end of the 19th century. “The impression left is that Chile had an indigenous past but that it’s over”, said Mario Martinez, one of the first activists to help the Kawesqars. “Everything there points to an end: an end of the race and the culture”, photographer Errazuriz said in an interview in Santiago. “They are at the end of their lineage and live at the end of the world . . . It is evident in everything that they are the last.”"""
 
 DZP = """༉ འཛམ་གླིང་ནང་ལུ་ ཡར་རྒྱས་ཀྱི་འགྱུར་བ་ཚུ་ ཡར་ངོའི་ཟླཝ་བཟུམ་སྦེ་ ཉིནམ་གཅིག་བ་ཉིནམ་གཅིག་ གོང་འཕེལ་འགྱོཝ་མས། དེ་དང་ཅི་ཁར་ འཕྲུལ་ཆས་ཚུ་ཡང་ རྣམ་པ་སྣ་ཚོགས་ ཐོན་དོ་ཡོད་པའི་གྲས་ལས་ ད་རེས་ནངས་པ་ མི་ག་ར་གིས་ ཁྱབ་ཆེཝ་སྦེ་ ལག་ལེན་འཐབ་མི་ འགྲུལ་འཕྲིན་འདི་ཨིན་པས། དེ་ཡོད་པ་ཅིན་ གནམ་མེད་ས་མེད་ སྟབས་བདེ་ཏོག་ཏོ་དང་ མེད་པ་ཅིན་ཐ་སྡུག་པའི་ནང་ལས་ ཐ་སྡུག་ཤོས་ཅིག་ཨིན་མས། འགྲུལ་འཕྲིན་འདི་ བརྒྱུད་འཕྲིན་བཟུམ་སྦེ་མེན་པར་ རང་ག་ཏེ་འགྱོ་ས་ལུ་ འབག་བཏུབ། ལག་ལེན་འཐབ་རུང་ སྟབས་བདེ་ཏོག་ཏོ་ ཨིནམ་པའི་གུ་ མེད་ཐབས་མེད་པའི་ནོར་བུ་བཟུམ་ཅིག་ཨིན། དེ་འབདཝ་ད་འགྲུལ་འཕྲིན་འདི་ལག་ལེན་ འཐབ་མ་ཤེས་པ་ཅིན་ འཕྲལ་དང་ཕུག་ལུ་ དེ་ལས་བརྟེན་པའི་ གནོད་པ་དང་ཉེན་ཁ་ཡང་ སྦོམ་སྦེ་ར་མཐོངམ་མས།
 
@@ -129,7 +129,7 @@ On the positive side, a higher SDF brings more revenue per visitor for health, e
 On the negative side, many tourists may choose cheaper destinations, so arrivals fall. Tour operators, hotels, guides, drivers, restaurants and handicraft sellers lose income, and many young people in the sector lose jobs at a time when the economy is recovering from COVID-19. Foreign exchange earnings may also fall.
 
 In my opinion the policy is right in principle, but it needs flexibility: incentives such as reduced fees for longer stays or for visits to less-visited eastern dzongkhags, and better quality services so that tourists feel they get value for the fee. (The SDF was later reduced to US $100 in 2023.)"""),
-top("B3", "Topical issues: environment", """At the 2021 United Nations Climate Change Conference (COP 26) several countries agreed to accelerate the implementation of 'transition to zero emission vehicles' as one of the ways to address climate change. Explain your stand on this agreement by giving evidences on the pros and cons of 'zero emission vehicles'.""",
+top("B3", "Topical issues: environment", """At the 2021 United Nations Climate Change Conference (COP 26), several countries agreed to accelerate the implementation of 'transition to zero emission vehicles' as one of the ways to address climate change. Explain your stand on this agreement by giving evidence of the pros and cons of 'zero emission vehicles'.""",
     [("Clear stand", 2), ("Pros with evidence (no exhaust, less CO2 and air pollution, lower running costs, use of clean hydropower in Bhutan, less fuel import)", 4),
      ("Cons with evidence (high cost, charging infrastructure, battery mining and disposal, electricity source in other countries, range in mountains)", 4)],
     """I support the agreement, while recognising its challenges.

@@ -46,15 +46,15 @@ CASE_1 = """Read the following passage and answer ALL THREE questions.
 
 The Threat of NCDs - Case Study
 
-In our current society, a sense of complacency and invincibility where people think they have time or that their body can take a few more years or a decade more of unhealthy living, is costing us dearly. People should first come to know with this reality. The traditional Bhutanese diet removed from its physically active rural living style, is an NCD diet.
+In our current society, a sense of complacency and invincibility where people think they have time or that their body can take a few more years or a decade more of unhealthy living, is costing us dearly. People should first come to terms with this reality. The traditional Bhutanese diet, removed from its physically active rural lifestyle, is an NCD diet.
 
-The popular ema datshi is high in butter and fat, and worse, it can take dollops of salt and taste even better for it. Our shakham and sikam are not only bad for our stomach but also our cholesterol levels. Traditional Bhutanese diet has very little vegetables incorporated in it, except for chillies and some dried greens.
+The popular ema datshi is high in butter and fat, and worse, it can take dollops of salt and taste even better for it. Our shakham and sikam are not only bad for our stomach but also our cholesterol levels. The traditional Bhutanese diet has very few vegetables incorporated in it, except for chillies and some dried greens.
 
-If the above is not bad enough, we all eat extra quantities of rice even three times a day, and while it tastes good, rice is the most inferior of all the grains. Rice is also a sugar delivery mechanism to the body explaining how even Bhutanese without sweet tooth get diabetes. The high proportion of red meat diet in Bhutanese cuisine may also explain our high cancer rates.
+If the above is not bad enough, we all eat extra quantities of rice even three times a day, and while it tastes good, rice is the most inferior of all the grains. Rice is also a sugar delivery mechanism to the body explaining how even Bhutanese without a sweet tooth get diabetes. The high proportion of red meat diet in Bhutanese cuisine may also explain our high cancer rates.
 
-The habit of chewing doma kills taste cells in the tongue and it increases the propensity for salt intake which contributes in a major way to kidney related issues. Add to this, the increasing consumption of junk food and fizzy drinks is also a catalyst to NCD.
+The habit of chewing doma kills taste cells in the tongue and it increases the propensity for salt intake which contributes in a major way to kidney-related issues. Add to this, the increasing consumption of junk food and fizzy drinks is also a catalyst for NCDs.
 
-As more and more Bhutanese moves to urban areas, there is less space and time to exercise, and people are confined to their apartments. Childrens of Thimphu may be among the unhealthiest in the country with no space to play and move, which also contributes to a drug abusive culture.
+As more and more Bhutanese move to urban areas, there is less space and time to exercise, and people are confined to their apartments. Children in Thimphu may be among the unhealthiest in the country with no space to play and move, which also contributes to a culture of drug abuse.
 
 We may not have realized it yet, but we are in the middle of an NCD epidemic and it is only getting worse. Given our limited population and human resources, it is important to take care of the people we have. It is high time that a much more comprehensive approach be taken in dealing with NCDs, not just with screenings, but also with more awareness and better policy measures on the ground.
 

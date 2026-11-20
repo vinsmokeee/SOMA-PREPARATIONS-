@@ -201,7 +201,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'Which of the following cannot directly interpreted from a boxplot?', null, 'A boxplot shows the median, quartiles and outliers, not the mean.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Which of the following cannot be directly interpreted from a boxplot?', null, 'A boxplot shows the median, quartiles and outliers, not the mean.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'statistics-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -501,7 +501,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'The civil service statistics shows following age distribution of civil servants: Mean = 50, Median = 45, Mode = 40. What is the likely shape of the distribution?', null, 'Mean > median > mode: right (positively) skewed.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'Civil service statistics show the following age distribution of civil servants: Mean = 50, Median = 45, Mode = 40. What is the likely shape of the distribution?', null, 'Mean > median > mode: right (positively) skewed.', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'statistics-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
@@ -701,7 +701,7 @@ with nq as (
   returning id
 )
 insert into me_q select 'M63', id from nq;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Fans enter randomly throughout the game .', false, 1), ('B', 'The total average per hour remains stable.', false, 2), ('C', 'Fans enter independently of each other.', false, 3), ('D', 'Fans come in large groups at specific times.', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M63';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Fans enter randomly throughout the game.', false, 1), ('B', 'The total average per hour remains stable.', false, 2), ('C', 'Fans enter independently of each other.', false, 3), ('D', 'Fans come in large groups at specific times.', true, 4)) as v(label, body, ok, pos) where me_q.key = 'M63';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
@@ -717,7 +717,7 @@ insert into public.question_options (question_id, label, body, is_correct, posit
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, image_url)
-  values ('ME', 'mcq', 'In a study of rural households, owning a television was found to be positively correlated with household income. Which of the following statement best explains this finding?', null, 'Higher income allows buying a TV (reverse direction).', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+  values ('ME', 'mcq', 'In a study of rural households, owning a television was found to be positively correlated with household income. Which of the following statements best explains this finding?', null, 'Higher income allows buying a TV (reverse direction).', '[]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'statistics-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
