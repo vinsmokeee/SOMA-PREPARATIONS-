@@ -24,7 +24,7 @@ PATTERN = [
 ]
 TOPIC = "Medical Science: general subject knowledge"
 
-MCQ = """[
+MCQ = r"""[
 {
 "n": 1,
 "stem": "The wings of a dragonfly, eagle, bat and Pterodactyl is an example of",

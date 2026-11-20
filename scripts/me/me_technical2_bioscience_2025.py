@@ -21,7 +21,7 @@ PATTERN = [
 ]
 TOPIC = "Bio Science: general subject knowledge"
 
-MCQ = """[
+MCQ = r"""[
 {
 "n": 1,
 "stem": "In monocot roots, which type of vascular bundles are found?",

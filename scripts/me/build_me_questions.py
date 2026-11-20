@@ -30,15 +30,17 @@ def split_parts(text):
 
 
 def part_marks(part):
-    m = re.search(r'\((\d+)\s*marks?\)\s*$', part, re.I)
+    m = re.search(r'\((\d+(?:\.\d+)?)\s*marks?\)\s*$', part, re.I)
     assert m, ('no marks at the end of part', part[:60])
-    return int(m.group(1))
+    v = float(m.group(1))
+    return int(v) if v.is_integer() else v
 
 
 def scaled_rubric(marks):
     """The 20-mark rubric scaled to a part's marks (halves), adding up exactly."""
     total = sum(r[2] for r in b.RUBRIC)
     rows = [(l, d, round(mx * marks / total * 2) / 2) for l, d, mx in b.RUBRIC]
+    rows = [r for r in rows if r[2] > 0]  # very small parts: drop criteria that round to 0
     rows[0] = (rows[0][0], rows[0][1], rows[0][2] + marks - sum(r[2] for r in rows))
     return rows
 
