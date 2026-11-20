@@ -99,7 +99,7 @@ m("BN4", DI, "In a pie chart, a category that is 25% of the data has a central a
 # ---------------- Section C
 m("C51", PS, "Which one of the following fractions is greatest?", ["1/2", "2/3", "3/4", "4/5"], "D", "0.5, 0.67, 0.75, 0.8."),
 m("C52", PS, "Which of the following numbers is farthest from 1 on the number line?", ["-10", "-5", "5", "10"], "A", "Distance 11."),
-m("C53", PS, "If n = 2^3, what is the value of n^n?", ["2^6", "2^9", "2^11", "2^24"], "D", "8^8 = (2^3)^8 = 2^24."),
+m("C53", PS, "If n = 2³, what is the value of nⁿ?", ["2⁶", "2⁹", "2¹¹", "2²⁴"], "D", "8⁸ = (2³)⁸ = 2²⁴."),
 m("C54", PS, "There are 40 students; 25 of them are girls. What percent of the class is boys?", ["25.0%", "37.5%", "62.0%", "62.5%"], "B", "15/40 = 37.5%."),
 m("C55", PS, "Arjun borrowed Nu 12,000 at simple interest for 5 years and paid Nu 3,600 interest. What is the rate per annum?", ["4%", "5%", "6%", "8%"], "C", "3600 / (12000 x 5) = 6%."),
 m("C56", PS, "40% of a number is 1,992. What is 95% of that number?", ["4,731", "4,800", "4,900", "4,980"], "A", "Number 4,980; 95% = 4,731."),
@@ -110,7 +110,7 @@ m("C60", PS, "What percentage of 2/7 is 1/35?", ["10%", "12%", "14%", "16%"], "A
 m("C61", PS, "About 1/7 of Bhutan's population lives in Punakha. Haa has about 3/4 of Punakha's population. What fraction of Bhutan's population lives in Haa?", ["1/4", "3/28", "3/11", "21/28"], "B", "1/7 x 3/4 = 3/28."),
 m("C62", PS, "A shopkeeper sells a watch for Nu 3,800 at a 5% loss. At what price should it be sold for a 5% profit?", ["Nu 3,980", "Nu 4,000", "Nu 4,200", "Nu 4,400"], "C", "Cost 4,000; +5% = 4,200."),
 m("C63", PS, "The average of 4 and A is 12 and the average of 6 and B is 20. What is the average of A and B?", ["27", "28", "29", "30"], "A", "A = 20, B = 34, average 27."),
-m("C64", PS, "In the figure, the area of triangle ABC is 20 cm^2, BD = 4 cm is the height, and AD = BD. What is the length of DC?", ["2 cm", "2√2 cm", "4√2 cm", "6 cm"], "D", "AC = 2 x 20 / 4 = 10; AD = 4, so DC = 6.", image="triangle"),
+m("C64", PS, "In the figure, the area of triangle ABC is 20 cm², BD = 4 cm is the height, and AD = BD. What is the length of DC?", ["2 cm", "2√2 cm", "4√2 cm", "6 cm"], "D", "AC = 2 x 20 / 4 = 10; AD = 4, so DC = 6.", image="triangle"),
 m("C65", PS, "A fast car leaves Thimphu for Paro at 80 km/h. At the same time a slow car leaves Paro for Thimphu at 30 km/h. When they meet, which one is farther from Thimphu?", ["The slow car", "The fast car", "Both are equally far from Thimphu", "Cannot be determined"], "C", "When they meet they are at the same place."),
 m("C66", PS, "The sum of the ages of 5 children born at intervals of 3 years is 50 years. What is the age of the eldest child?", ["15 years", "16 years", "17 years", "18 years"], "B", "5x + 30 = 50, x = 4; eldest 4 + 12 = 16."),
 m("C67", PS, "How many bricks of 25 cm x 11.25 cm x 6 cm are needed for a wall 8 m x 6 m x 22.5 cm?", ["5,600", "6,000", "6,400", "7,200"], "C", "10,800,000 / 1,687.5 = 6,400."),
@@ -119,7 +119,7 @@ m("C69", PS, "A phone costs Nu 17,500. The shopkeeper gives a 20% discount and t
 m("C70", PS, "Dorji and Dema can do a piece of work in 10 days; Dorji alone in 12 days. In how many days can Dema alone do it?", ["50 days", "55 days", "60 days", "65 days"], "C", "1/10 - 1/12 = 1/60."),
 m("C71", PS, "10 roommates share a monthly rent of Nu x equally. If y of them move out, what is the additional rent paid by each remaining roommate?", ["10x/y", "x/(10-y)", "x/(10(10-y))", "xy/(10(10-y))"], "D", "x/(10-y) - x/10 = xy/(10(10-y))."),
 m("C72", PS, "Norbu, Sharmila and Tenzin can do a piece of work in 20, 30 and 60 days. In how many days can Norbu do the work if helped by the other two every third day?", ["12 days", "15 days", "18 days", "20 days"], "B", "Every 3 days: 2/20 + 1/10 = 1/5 of the work; 15 days."),
-m("C73", PS, "A rectangular prism has a square base of side 8 cm and height 21 cm. What is one-fourth of its volume in cm^3?", ["312", "324", "336", "348"], "C", "8 x 8 x 21 = 1,344; /4 = 336."),
+m("C73", PS, "A rectangular prism has a square base of side 8 cm and height 21 cm. What is one-fourth of its volume in cm³?", ["312", "324", "336", "348"], "C", "8 x 8 x 21 = 1,344; /4 = 336."),
 m("C74", PS, "Money was deposited in a bank at simple interest for 2 years. At 1% higher rate it would have earned Nu 24 more. What is the principal?", ["Nu 1,000", "Nu 1,200", "Nu 1,400", "Nu 1,600"], "B", "P x 1% x 2 = 24, P = 1,200."),
 m("C75", PS, "A bus takes 6 hours from Thimphu to Bumthang at 50 km/h and 7 hours 30 minutes for the return trip. What is the average speed for the whole trip?", ["48.2 km/h", "46.8 km/h", "45.3 km/h", "44.4 km/h"], "D", "600 km / 13.5 h = 44.4."),
 # ---------------- Section D
