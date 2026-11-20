@@ -9,7 +9,7 @@ import { createClient } from "@/lib/supabase/server";
 /** Publish every waiting question of one batch (founder taps once per batch). */
 export async function publishBatchAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
   try { await assertPermission("questions.publish"); } catch { return { status: "error", message: "Only users who can publish questions can do this." }; }
-  const batch = z.string().min(1).max(80).safeParse(formData.get("batch"));
+  const batch = z.string().min(1).max(200).safeParse(formData.get("batch"));
   if (!batch.success) return { status: "error", message: "Choose a batch to publish." };
   const db = await createClient();
   const { data, error } = await db.rpc("publish_question_batch", { _batch: batch.data });
