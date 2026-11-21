@@ -56,6 +56,14 @@ select tests.assert_fails(format($$select public.choose_mock_questions(%L, '{not
 select tests.assert((select count(*) = 2 and bool_and(x ->> 'choose_any' = '1') from jsonb_array_elements(public.get_attempt_paper(:'m1') -> 'questions') x), 'paper shows the choice rule');
 select public.choose_mock_questions(:'m1', array[(select x ->> 'choice_group' from jsonb_array_elements(public.get_attempt_paper(:'m1') -> 'questions') x limit 1)]);
 select tests.assert(jsonb_array_length(public.get_attempt_paper(:'m1') -> 'attempt' -> 'chosen_groups') = 1, 'the choice is saved');
+-- A question not chosen is listed as such and can never be uploaded, read or evaluated (no AI cost)
+select x ->> 'exam_question_id' as unchosen from jsonb_array_elements(public.get_attempt_paper(:'m1') -> 'questions') x
+  where not (x ->> 'choice_group' = any (array(select jsonb_array_elements_text(public.get_attempt_paper(:'m1') -> 'attempt' -> 'chosen_groups')))) \gset
+select x ->> 'exam_question_id' as chosen from jsonb_array_elements(public.get_attempt_paper(:'m1') -> 'questions') x
+  where x ->> 'choice_group' = any (array(select jsonb_array_elements_text(public.get_attempt_paper(:'m1') -> 'attempt' -> 'chosen_groups'))) \gset
+select tests.assert(array(select public.attempt_unchosen_questions(:'m1')) = array[:'unchosen'::uuid], 'the question not chosen is listed for the result page');
+select tests.assert_fails(format($$select public.ensure_written_answer(%L, %L)$$, :'m1', :'unchosen'), 'no answer sheet for a question not chosen');
+select tests.assert(public.ensure_written_answer(:'m1', :'chosen') is not null, 'the chosen question still takes an answer sheet');
 select tests.login(:'b');
 select tests.assert_fails(format($$select public.choose_mock_questions(%L, '{}')$$, :'m1'), 'only the student chooses');
 reset role;
