@@ -54,7 +54,8 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
   const cats = [["administrative", "Administrative Service"], ["finance", "Finance Service"], ["pgde", "Education Service (PGDE)"], ["dzongkha", "Dzongkha"], ["bed", "Education Service (B.Ed.)"], ["technical", "Technical Service"]];
   const mePapers = ["Languages and General Knowledge", "General Subject Knowledge (common to subject groups)", "Subject Specialisation (for a specific position)"]
     .map((title, i) => ({ id: `8d000000-0000-4000-8000-00000000000${i}`, number: i + 1, title }));
-  const nb = (o: Partial<Note>): Note => ({ question_id: `nb-${Math.random()}`, kind: "mcq", paper_id: null, paper_number: null, paper_title: null, subject: "English communication", subject_order: 1,
+  let nbN = 0;
+  const nb = (o: Partial<Note>): Note => ({ question_id: `nb-${++nbN}`, kind: "mcq", paper_id: null, paper_number: null, paper_title: null, subject: "English communication", subject_order: 1,
     stem: "Q", image_url: null, source_year: null, answer: null, explanation: null, model_answer: null, score: null, max_score: null, saved_at: "2027-01-03T00:00:00Z", ...o });
   const notes: Note[] = [
     nb({ stem: "Choose the word closest in meaning to PLATITUDE.", answer: "Cliché", explanation: "A platitude is a remark used too often to be interesting.", source_year: 2011 }),
@@ -144,6 +145,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
       key_past: [{ stem: "Which word is the odd one out: apple, mango, potato, banana?", image_url: null, explanation: "Potato is a vegetable; the others are fruits.", subject: "Logic & analytical problem solving", source_year: 2010, answer: "Potato" }] }} />,
     "notebook-pe": <Notebook stage="PE" papers={[]} paperId={null} notes={notes.filter((n) => !n.paper_id)} />,
     "notebook-me": <Notebook stage="ME" papers={mePapers} paperId={null} notes={notes.filter((n) => n.paper_id)} />,
+    "notebook-me-paper": <Notebook stage="ME" papers={mePapers} paperId={mePapers[0].id} notes={notes.filter((n) => n.paper_id)} />,
     "pe-scores": <><ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} /><ScoresHint /></>,
     "pe-new": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "pe-premium-new": <ExamArea d={area({ openAttempt: null })} />,

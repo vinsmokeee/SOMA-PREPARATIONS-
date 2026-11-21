@@ -2,7 +2,6 @@ import Link from "next/link";
 import { BookMarked, CheckCircle2 } from "lucide-react";
 import { PageTitle } from "@/components/app/app-shell";
 import { QuestionStem } from "@/components/exam/question-stem";
-import { cn } from "@/lib/utils";
 
 export type Note = {
   question_id: string; kind: "mcq" | "written";
@@ -83,35 +82,57 @@ function Empty({ stage }: { stage: "PE" | "ME" }) {
   );
 }
 
+function PaperChooser({ tabs, notes }: { tabs: NotebookPaper[]; notes: Note[] }) {
+  return (
+    <div className="mx-auto max-w-2xl space-y-6">
+      <PageTitle title="Your notebook · ME" description="All your correct answers are saved here as notes, with the answer. Choose a paper." />
+      {tabs.length ? (
+        <ul className="grid grid-cols-1 gap-3">
+          {tabs.map((p) => {
+            const count = notes.filter((n) => n.paper_id === p.id).length;
+            return (
+              <li key={p.id} className="min-w-0">
+                <Link href={`/dashboard/notebook?stage=ME&paper=${p.id}`} className="flex w-full min-w-0 items-center gap-4 rounded-2xl bg-gradient-to-br from-[#7c4a2d] to-[#a8703f] p-4 text-white shadow-md active:scale-[0.98]">
+                  <BookMarked className="size-7 shrink-0" aria-hidden />
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-lg font-extrabold">{paperName(p)}</span>
+                    <span className="block truncate text-xs text-white/85">{p.title}</span>
+                  </span>
+                  <span className="shrink-0 rounded-full bg-white/20 px-2.5 py-1 text-xs font-bold">{count} note{count === 1 ? "" : "s"}</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      ) : <Empty stage="ME" />}
+    </div>
+  );
+}
+
 /** "Your notebook": every question the student has answered correctly, kept as a note with its answer. */
 export function Notebook({ stage, notes, papers, paperId }: { stage: "PE" | "ME"; notes: Note[]; papers: NotebookPaper[]; paperId: string | null }) {
   const tabs = stage === "ME" ? notebookPapers(papers, notes) : [];
-  const current = tabs.find((p) => p.id === paperId) ?? tabs[0] ?? null;
+  const current = tabs.find((p) => p.id === paperId) ?? null;
   const shown = stage === "ME" ? notes.filter((n) => n.paper_id === current?.id) : notes;
+  // ME: first choose Paper I, II or III; then that paper's notes (founder, 22 Nov 2026).
+  if (stage === "ME" && !current) return <PaperChooser tabs={tabs} notes={notes} />;
   return (
     <div className="mx-auto max-w-2xl space-y-6">
       <PageTitle title={`Your notebook · ${stage}`} description="All your correct answers are saved here as notes, with the answer, so you can revise any time." />
       <div className="flex items-center gap-3 rounded-2xl bg-gradient-to-br from-[#7c4a2d] to-[#a8703f] p-4 text-white">
         <BookMarked className="size-7 shrink-0" aria-hidden />
-        <p className="text-sm"><span className="block text-2xl font-extrabold">{notes.length}</span>note{notes.length === 1 ? "" : "s"} so far. Every correct answer adds one.</p>
+        <p className="text-sm"><span className="block text-2xl font-extrabold">{shown.length}</span>note{shown.length === 1 ? "" : "s"} {current ? `in ${paperName(current)}` : "so far"}. Every correct answer adds one.</p>
       </div>
 
-      {stage === "ME" && tabs.length ? (
-        <nav aria-label="Papers" className="grid gap-2" style={{ gridTemplateColumns: `repeat(${Math.min(tabs.length, 3)}, minmax(0, 1fr))` }}>
-          {tabs.map((p) => {
-            const count = notes.filter((n) => n.paper_id === p.id).length;
-            const active = p.id === current?.id;
-            return (
-              <Link key={p.id} href={`/dashboard/notebook?stage=ME&paper=${p.id}`} aria-current={active ? "page" : undefined}
-                className={cn("rounded-2xl px-3 py-3 text-center ring-1", active ? "bg-[#7c4a2d] text-white ring-[#7c4a2d]" : "bg-white text-[#5c3a22] ring-[#e7d6c6]")}>
-                <span className="block text-sm font-extrabold">{paperName(p)}</span>
-                <span className={cn("block text-xs", active ? "text-white/85" : "text-muted-foreground")}>{count} note{count === 1 ? "" : "s"}</span>
-              </Link>
-            );
-          })}
-        </nav>
+      {stage === "ME" && current ? (
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-extrabold text-[#5c3a22]">{paperName(current)}</h2>
+            <p className="text-sm text-muted-foreground">{current.title}</p>
+          </div>
+          <Link href="/dashboard/notebook?stage=ME" className="shrink-0 rounded-full bg-[#f6ede4] px-3 py-1.5 text-sm font-semibold text-[#7c4a2d]">All papers</Link>
+        </div>
       ) : null}
-      {stage === "ME" && current ? <p className="-mt-3 text-sm text-muted-foreground">{current.title}</p> : null}
 
       {shown.length ? <Subjects notes={shown} /> : <Empty stage={stage} />}
     </div>
