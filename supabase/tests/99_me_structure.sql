@@ -60,7 +60,9 @@ select qs.id, 'ME', 'short_answer', 'ME structure test question ' || qs.tag, 'x'
   case qs.tag when 'eng2' then :'g_eng'::uuid when 'nurse2' then :'g_nurse'::uuid end,
   'verified', :'boss', now()
 from qs;
-update public.questions set status = 'published' where id in (select id from qs);
+update public.questions set status = 'published' where id in (select id from qs where tag not in ('untagged3', 'loose'));
+select tests.assert_fails(format($$update public.questions set status = 'published' where id = %L$$, (select id from qs where tag = 'loose')), 'an ME question without its paper cannot be published');
+select tests.assert_fails(format($$update public.questions set status = 'published' where id = %L$$, (select id from qs where tag = 'untagged3')), 'a Paper III question without its specialisation cannot be published');
 
 set local role authenticated;
 select tests.login(:'civil');

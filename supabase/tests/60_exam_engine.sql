@@ -12,7 +12,7 @@ insert into public.questions (id, stage, question_type, stem, explanation, statu
   ('40000000-0000-4000-8000-000000000003', 'PE', 'mcq', 'Question three stem', 'Because C.', 'verified', :'b', 2),
   ('40000000-0000-4000-8000-000000000004', 'ME', 'essay', 'Discuss an essay topic', null, 'verified', :'b', 10),
   ('40000000-0000-4000-8000-000000000005', 'PE', 'mcq', 'Draft question stem', null, 'draft', null, 1);
-update public.questions set model_answer = 'A model answer.' where id = '40000000-0000-4000-8000-000000000004';
+update public.questions set model_answer = 'A model answer.', paper_id = (select id from public.exam_papers where code = 'me-general-3') where id = '40000000-0000-4000-8000-000000000004';
 update public.questions set status = 'published' where status = 'verified';
 insert into public.question_options (id, question_id, label, body, is_correct, position) values
   ('41000000-0000-4000-8000-000000000011', '40000000-0000-4000-8000-000000000001', 'A', 'Right', true, 1),

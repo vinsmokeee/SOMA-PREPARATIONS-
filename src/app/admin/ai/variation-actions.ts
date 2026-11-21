@@ -75,6 +75,7 @@ const REVIEW_ERRORS: Record<string, string> = {
   SUBJECT_REQUIRED: "needs a subject",
   MCQ_NEEDS_TWO_OPTIONS_ONE_CORRECT: "needs exactly one correct option",
   INVALID_TRANSITION: "is not in a state that can be approved",
+  ALLOCATION: "is missing its paper, subject group or specialisation",
 };
 
 /** Human approval of AI drafts (one or many): verify only. */
