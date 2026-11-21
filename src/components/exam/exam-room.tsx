@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Dialog } from "radix-ui";
 import { AlertTriangle, BookOpen, ChevronLeft, PencilLine, ChevronRight, Clock3, Flag, LayoutGrid, Loader2, Save, WifiOff, X } from "lucide-react";
 import type { SaveInput, SaveResult, SubmitResult } from "@/app/exam/actions";
-import { clockOffset, countWords, formatClock, questionState, remainingSeconds, type QuestionState } from "@/lib/exam/logic";
+import { clockOffset, countWords, dueTimeWarnings, formatClock, questionState, remainingSeconds, timeWarningText, timerTone, type QuestionState } from "@/lib/exam/logic";
 import type { AttemptPaper, MarkQuality, PaperQuestion } from "@/lib/exam/types";
 import { OmrBubble } from "./omr-bubble";
 import { resumeIndex } from "@/lib/exam/resume";
@@ -272,7 +272,9 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed, pa
   const [offset] = useState(() => clockOffset(paper.attempt.server_now, Date.now()));
   const [remaining, setRemaining] = useState(() => remainingSeconds(paper.attempt.deadline_at, Date.now(), offset));
   const [announcement, setAnnouncement] = useState("");
-  const warned = useRef({ five: false, one: false });
+  const warned = useRef<number[]>([]);
+  const startRemaining = useRef(remaining);
+  const [toast, setToast] = useState<{ id: number; text: string; urgent: boolean } | null>(null);
 
   useEffect(() => {
     const tick = () => setRemaining(remainingSeconds(paper.attempt.deadline_at, Date.now(), offset));
@@ -280,15 +282,23 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed, pa
     return () => clearInterval(id);
   }, [offset, paper.attempt.deadline_at]);
 
+  // Visible warnings at 30, 10, 5 and 1 minutes left (also read out by screen readers).
   useEffect(() => {
-    if (remaining <= 300 && remaining > 60 && !warned.current.five) {
-      warned.current.five = true;
-      setAnnouncement("5 minutes remaining.");
-    } else if (remaining <= 60 && remaining > 0 && !warned.current.one) {
-      warned.current.one = true;
-      setAnnouncement("1 minute remaining. The examination will be submitted automatically.");
-    }
-  }, [remaining]);
+    if (untimed) return;
+    const due = dueTimeWarnings(remaining, startRemaining.current, warned.current);
+    if (!due.length) return;
+    warned.current = [...warned.current, ...due];
+    const t = Math.min(...due);
+    const text = timeWarningText(t);
+    setAnnouncement(text);
+    setToast({ id: t, text, urgent: t <= 300 });
+  }, [remaining, untimed]);
+
+  useEffect(() => {
+    if (!toast) return;
+    const id = setTimeout(() => setToast(null), 10000);
+    return () => clearTimeout(id);
+  }, [toast]);
 
   // ---- submission ----------------------------------------------------------
   const [submitting, setSubmitting] = useState<null | "manual" | "auto">(null);
@@ -360,7 +370,7 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed, pa
   const answeredCount = states.filter((s) => s === "answered" || s === "answered_flagged").length;
   const flaggedCount = states.filter((s) => s === "flagged" || s === "answered_flagged").length;
   const unansweredCount = questions.length - answeredCount;
-  const lowTime = remaining <= 300;
+  const tone = timerTone(remaining);
   const hasMcq = questions.some((q) => !isWritten(q));
 
   return (
@@ -389,7 +399,7 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed, pa
             aria-label={`Time remaining ${formatClock(remaining)}`}
             className={cn(
               "flex items-center gap-1.5 rounded-md px-2.5 py-1.5 font-mono text-sm font-semibold tabular-nums sm:text-base",
-              lowTime ? "bg-danger text-white" : "bg-ink text-white",
+              tone === "danger" ? "bg-danger text-white" : tone === "warning" ? "bg-warning text-white" : "bg-ink text-white",
             )}
           >
             <Clock3 className="size-4" aria-hidden />
@@ -397,6 +407,15 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed, pa
           </div>
           )}
         </div>
+        {toast && !untimed ? (
+          <div className={cn("border-t px-3 py-2 sm:px-6", toast.urgent ? "border-[#f1cfca] bg-danger-soft" : "border-[#f0e0b8] bg-warning-soft")}>
+            <div className="mx-auto flex max-w-6xl items-center gap-2">
+              <Clock3 className={cn("size-4 shrink-0", toast.urgent ? "text-danger" : "text-warning")} aria-hidden />
+              <p className={cn("flex-1 text-sm font-semibold", toast.urgent ? "text-danger" : "text-warning")}>{toast.text}</p>
+              <button type="button" onClick={() => setToast(null)} className="rounded px-2 py-1 text-xs font-medium text-ink hover:bg-white/60">Dismiss</button>
+            </div>
+          </div>
+        ) : null}
       </header>
 
       <div className="mx-auto flex w-full max-w-6xl flex-1 gap-8 px-3 pb-28 pt-5 sm:px-6 lg:pb-10">
