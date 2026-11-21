@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { areas, focusPaper, weightedScore, type MeProgressPaper } from "@/components/student/paper-home";
+import { areas, focusPaper, typesInPaperOrder, weightedScore, type MeProgressPaper } from "@/components/student/paper-home";
 
 const paper = (o: Partial<MeProgressPaper>): MeProgressPaper => ({
   id: "x", number: 1, title: "P", weight: 15, duration_minutes: null, max_marks: null, marked: 0, recent: null,
@@ -31,5 +31,18 @@ describe("question type names on a paper", () => {
     const p = { pattern: [{ title: "Part A: Institutions", type: "long_answer", count: 4, marks_each: 20, answer_any: 2 }] };
     expect(paperTypeLabel(p, "long_answer")).toBe("Part A: Institutions");
     expect(paperTypeLabel(p, "essay")).toBe("Essays");
+  });
+});
+
+describe("typesInPaperOrder", () => {
+  it("lists practice types in the paper's section order, extra types last", () => {
+    const pattern = [
+      { title: "Section I: Case study", type: "analytical", count: 1, marks_each: 30, answer_any: null },
+      { title: "Section II: Topical discussion", type: "long_answer", count: 1, marks_each: 30, answer_any: null },
+      { title: "Section IV: Dzongkha comprehension", type: "passage", count: 1, marks_each: 20, answer_any: null },
+      { title: "Section V: Translation", type: "translation", count: 1, marks_each: 15, answer_any: null },
+    ];
+    const types = [{ type: "translation", count: 7 }, { type: "short_answer", count: 3 }, { type: "passage", count: 21 }, { type: "long_answer", count: 24 }, { type: "analytical", count: 21 }];
+    expect(typesInPaperOrder({ pattern, types }).map((t) => t.type)).toEqual(["analytical", "long_answer", "passage", "translation", "short_answer"]);
   });
 });
