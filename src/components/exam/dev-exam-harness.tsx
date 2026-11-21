@@ -20,6 +20,7 @@ declare global {
  */
 export function DevExamHarness({ paper, failSaves, untimed }: { paper: AttemptPaper; failSaves: number; untimed?: boolean }) {
   const [finished, setFinished] = useState(false);
+  const [paused, setPaused] = useState(false);
   // In-memory answer-sheet storage for the handwritten option.
   const written = useMemo(() => {
     const store = (): Record<string, PageInfo[]> => (window.__somaPages ??= {});
@@ -71,6 +72,14 @@ export function DevExamHarness({ paper, failSaves, untimed }: { paper: AttemptPa
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (paused) {
+    return (
+      <main id="main" className="mx-auto max-w-lg p-10 text-center">
+        <h1 className="font-serif text-2xl font-semibold">Examination paused</h1>
+        <p className="mt-2 text-muted-foreground">Development harness — the Paused exam page would open here.</p>
+      </main>
+    );
+  }
   if (finished) {
     return (
       <main id="main" className="mx-auto max-w-lg p-10 text-center">
@@ -80,5 +89,6 @@ export function DevExamHarness({ paper, failSaves, untimed }: { paper: AttemptPa
     );
   }
   const hasWritten = paper.questions.some((q) => q.type !== "mcq");
-  return <ExamRoom paper={paper} save={save} submit={submit} onFinished={() => setFinished(true)} written={hasWritten ? written : undefined} untimed={untimed} />;
+  return <ExamRoom paper={paper} save={save} submit={submit} onFinished={() => setFinished(true)} written={hasWritten ? written : undefined} untimed={untimed}
+    pause={untimed ? undefined : async () => { await new Promise((r) => setTimeout(r, 150)); return { ok: true }; }} onPaused={() => setPaused(true)} />;
 }

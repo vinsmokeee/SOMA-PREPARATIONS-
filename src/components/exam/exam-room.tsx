@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Dialog } from "radix-ui";
-import { AlertTriangle, BookOpen, ChevronLeft, PencilLine, ChevronRight, Clock3, Flag, LayoutGrid, Loader2, Save, WifiOff, X } from "lucide-react";
+import { AlertTriangle, BookOpen, ChevronLeft, PencilLine, ChevronRight, Clock3, Flag, LayoutGrid, Loader2, Pause, Save, WifiOff, X } from "lucide-react";
 import type { SaveInput, SaveResult, SubmitResult } from "@/app/exam/actions";
 import { clockOffset, countWords, dueTimeWarnings, formatClock, questionState, remainingSeconds, timeWarningText, timerTone, type QuestionState } from "@/lib/exam/logic";
 import type { AttemptPaper, MarkQuality, PaperQuestion } from "@/lib/exam/types";
@@ -41,6 +41,9 @@ export type ExamRoomProps = {
   untimed?: boolean;
   /** "Answer any N" papers: link back to the whole question paper (to read it again or change the choice). */
   paperHref?: string;
+  /** Pause a timed exam: the timer stops and the exam waits in "Paused exam" (founder, 22 Nov 2026). */
+  pause?: (attemptId: string) => Promise<{ ok: boolean; message?: string }>;
+  onPaused?: () => void;
 };
 
 function isWritten(q: PaperQuestion) {
@@ -53,7 +56,7 @@ function isAnswered(q: PaperQuestion, a: Answer | undefined, w?: WrittenMode) {
   return isWritten(q) ? a.text.trim().length > 0 : Boolean(a.selected);
 }
 
-export function ExamRoom({ paper, save, submit, onFinished, written, untimed, paperHref }: ExamRoomProps) {
+export function ExamRoom({ paper, save, submit, onFinished, written, untimed, paperHref, pause, onPaused }: ExamRoomProps) {
   const [modes, setModes] = useState<Record<string, WrittenMode>>(() => written?.initial ?? {});
   const [modeError, setModeError] = useState<string | null>(null);
   const changeMode = async (q: PaperQuestion, mode: "typed" | "handwritten") => {
@@ -300,6 +303,41 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed, pa
     return () => clearTimeout(id);
   }, [toast]);
 
+  // ---- pause -----------------------------------------------------------------
+  const [pauseOpen, setPauseOpen] = useState(false);
+  const [pausing, setPausing] = useState(false);
+  const [pauseError, setPauseError] = useState<string | null>(null);
+  const [honesty, setHonesty] = useState(false);
+  const doPause = useCallback(async () => {
+    if (!pause || finishedRef.current) return;
+    setPauseOpen(false);
+    setPausing(true);
+    setPauseError(null);
+    // Save everything first, exactly as when submitting.
+    for (const id of [...textTimers.current.keys()]) {
+      flushText(id);
+      const a = answers[id];
+      if (a) enqueue(id, { textAnswer: a.text });
+    }
+    if (current && view === "question") {
+      const delta = takeTime();
+      if (delta > 0) enqueue(current.exam_question_id, { timeSpentDelta: delta });
+    }
+    await drain(10000);
+    let r: { ok: boolean; message?: string };
+    try { r = await pause(attemptId); } catch { r = { ok: false }; }
+    if (r.ok) {
+      finishedRef.current = true;   // stop the timer and autosave on this screen
+      // No time limit on a pause (founder, 22 Nov 2026), so a short honesty reminder, then the Paused exam section.
+      setPausing(false);
+      setHonesty(true);
+      setTimeout(() => onPaused?.(), 4000);
+      return;
+    }
+    setPausing(false);
+    setPauseError(r.message ?? "The examination could not be paused. Check your connection and try again.");
+  }, [answers, attemptId, current, drain, enqueue, flushText, onPaused, pause, takeTime, view]);
+
   // ---- submission ----------------------------------------------------------
   const [submitting, setSubmitting] = useState<null | "manual" | "auto">(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -394,6 +432,13 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed, pa
           {untimed ? (
             <span className="rounded-md bg-muted px-2.5 py-1.5 text-sm font-medium text-ink">Untimed practice</span>
           ) : (
+          <>
+          {pause ? (
+            <button type="button" onClick={() => setPauseOpen(true)} disabled={pausing || Boolean(submitting)}
+              className="inline-flex shrink-0 items-center gap-1 rounded-md border border-border-strong px-2.5 py-1.5 text-xs font-semibold text-ink hover:bg-muted disabled:opacity-50">
+              <Pause className="size-3.5" aria-hidden /> Pause
+            </button>
+          ) : null}
           <div
             role="timer"
             aria-label={`Time remaining ${formatClock(remaining)}`}
@@ -405,6 +450,7 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed, pa
             <Clock3 className="size-4" aria-hidden />
             {formatClock(remaining)}
           </div>
+          </>
           )}
         </div>
         {toast && !untimed ? (
@@ -572,6 +618,51 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed, pa
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
+
+      <Dialog.Root open={pauseOpen} onOpenChange={setPauseOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 z-40 bg-ink/40" />
+          <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-background p-6 shadow-xl focus:outline-none">
+            <Dialog.Title className="font-serif text-xl font-semibold text-ink">Pause your examination?</Dialog.Title>
+            <Dialog.Description className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
+              The timer stops at {formatClock(remaining)} and your answers are saved. Continue any time from <strong className="text-ink">Paused exam</strong> on your home page. You cannot start another mock test until you finish this one.
+            </Dialog.Description>
+            <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+              <Dialog.Close className="h-11 rounded-md border border-border-strong px-4 text-sm font-medium">Keep working</Dialog.Close>
+              <button type="button" onClick={() => void doPause()} className="h-11 rounded-md bg-slate-700 px-4 text-sm font-semibold text-white hover:bg-slate-800">
+                Pause examination
+              </button>
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+
+      {pausing ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 p-6" role="alertdialog" aria-live="assertive" aria-label="Pausing">
+          <div className="max-w-sm text-center">
+            <Loader2 className="mx-auto size-8 animate-spin text-slate-600" aria-hidden />
+            <p className="mt-4 font-serif text-xl font-semibold text-ink">Saving and pausing</p>
+          </div>
+        </div>
+      ) : null}
+      {honesty ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 p-6" role="alertdialog" aria-live="assertive" aria-label="Exam paused">
+          <div className="w-full max-w-sm rounded-2xl bg-background p-6 text-center shadow-xl">
+            <Pause className="mx-auto size-8 text-slate-600" aria-hidden />
+            <p className="mt-3 font-serif text-xl font-semibold text-ink">Please don&apos;t cheat</p>
+            <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
+              This is a practice exam. Looking up answers while it is paused only cheats yourself: your marks would not show what you really know.
+            </p>
+            <p className="mt-3 text-sm font-medium text-ink">Your exam is paused. Continue it any time from Paused exam.</p>
+          </div>
+        </div>
+      ) : null}
+      {pauseError ? (
+        <div className="fixed inset-x-3 bottom-24 z-50 mx-auto max-w-lg rounded-lg border border-[#f1cfca] bg-danger-soft p-4 text-sm shadow-lg lg:bottom-6" role="alert">
+          <p className="flex items-start gap-2 text-danger"><AlertTriangle className="mt-0.5 size-4 shrink-0" aria-hidden /> {pauseError}</p>
+          <button type="button" onClick={() => setPauseError(null)} className="mt-3 h-10 rounded-md border border-border-strong bg-white px-4 text-sm font-semibold text-ink">OK</button>
+        </div>
+      ) : null}
 
       {/* Submitting overlay */}
       {submitting ? (

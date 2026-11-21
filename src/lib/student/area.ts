@@ -39,11 +39,12 @@ export async function loadMeProgress(): Promise<MeProgressPaper[]> {
 /** Everything the inside of an exam needs. */
 export async function loadArea(stage: Stage, state: ExamState): Promise<AreaData> {
   const db = await createClient();
-  const [learning, training, allowance, papers] = await Promise.all([
+  const [learning, training, allowance, papers, paused] = await Promise.all([
     loadLearningData(),
     db.rpc("my_training"),
     stage === "ME" ? db.rpc("my_evaluation_allowance") : Promise.resolve({ data: null }),
     stage === "ME" ? loadMeProgress() : Promise.resolve([] as MeProgressPaper[]),
+    db.rpc("my_paused_exams"),
   ]);
   const perf = learning.performance;
   const subjects = perf?.by_subject.filter((s) => s.stage === stage) ?? [];
@@ -60,6 +61,7 @@ export async function loadArea(stage: Stage, state: ExamState): Promise<AreaData
     entryLabel: stage === "ME" ? state.entry.label : null,
     premium,
     openAttempt: state.openAttempt[stage],
+    paused: ((paused.data ?? []) as { paused: boolean; stage: string }[]).filter((x) => x.paused).length,
     training: t && t.plan.stage === stage ? t : null,
     answered,
     accuracy: answered ? accuracy(correct, answered) : null,

@@ -15,6 +15,7 @@ const MESSAGES: Record<string, string> = {
   QUESTION_NOT_FOUND: "This question is no longer available. Skip this item.",
   ITEM_NOT_FOUND: "This item is no longer in your plan.",
   RATE_LIMIT: "Daily practice limit reached. Please try again tomorrow.",
+  PAUSED_EXAM_EXISTS: "Finish your paused exam first. Open “Paused exam” on your home page to continue it.",
 };
 const message = (e: { message: string } | null) => Object.entries(MESSAGES).find(([k]) => e?.message.includes(k))?.[1] ?? "Could not start. Please try again.";
 const itemSchema = z.object({ item: z.uuid() });
