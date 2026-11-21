@@ -25,14 +25,17 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
   await requireUser(`/dashboard/results/${attemptId}`);
   if (!/^[0-9a-f-]{36}$/i.test(attemptId)) notFound();
   const supabase = await createClient();
-  const [{ data, error }, { data: cut }] = await Promise.all([
+  const [{ data, error }, { data: cut }, { data: repeats }] = await Promise.all([
     supabase.rpc("get_attempt_result", { _attempt_id: attemptId }),
     supabase.from("pe_cutoff_history").select("year, value, unit").order("year", { ascending: false }).limit(1).maybeSingle(),
+    supabase.rpc("attempt_repeat_years", { _attempt_id: attemptId }),
   ]);
   const { data: peAccess } = await supabase.rpc("has_stage_access", { _stage: "PE" });
   if (error?.message?.includes("ATTEMPT_IN_PROGRESS")) redirect(`/exam/${attemptId}`);
   if (error || !data) notFound();
   const r = data as AttemptResult;
+  const years = new Map(((repeats ?? []) as { exam_question_id: string; years: number[] }[]).map((x) => [x.exam_question_id, x.years]));
+  r.questions = r.questions.map((q) => ({ ...q, repeat_years: years.get(q.exam_question_id) }));
   const personal = /^(qotd|practice|mock)-/.test(r.exam.slug ?? "");
   const a = r.attempt;
   const mcqs = r.questions.filter((q) => q.type === "mcq");

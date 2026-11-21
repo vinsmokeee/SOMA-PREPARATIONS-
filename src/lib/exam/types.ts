@@ -78,6 +78,8 @@ export type ResultQuestion = {
   difficulty: string;
   origin?: string | null;
   source_year?: number | null;
+  /** Years RCSC asked this question (only shown when 2 or more). */
+  repeat_years?: number[];
   options: ResultOption[];
   rubric: { label: string; description: string; max_marks: number }[];
   references: { citation: string; url: string | null }[];

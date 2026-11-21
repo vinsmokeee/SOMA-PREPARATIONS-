@@ -68,6 +68,7 @@ export default async function QuestionsPage({ searchParams }: PageProps<"/admin/
         description="Every question goes Draft → Awaiting review → Verified → Published. Nothing reaches students until it is published."
         actions={
           <>
+            <Button asChild variant="secondary"><Link href="/admin/questions/repeated">Repeated questions</Link></Button>
             <Button asChild variant="secondary"><Link href="/admin/questions/import">Import CSV</Link></Button>
             <Button asChild><Link href="/admin/questions/new">New question</Link></Button>
           </>
