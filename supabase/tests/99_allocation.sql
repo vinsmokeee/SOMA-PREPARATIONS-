@@ -41,4 +41,22 @@ select tests.assert(exists (select 1 from public.written_practice_questions() wh
 select tests.login(:'dz');
 select tests.assert(not exists (select 1 from public.written_practice_questions() where stem like 'AL %'), 'Dzongkha student: no Technical questions at all');
 select tests.assert(not (public.my_last_minute_summary('ME')::text like '%AL %'), 'Dzongkha student: no Technical past-paper questions');
+-- Switching subject (paid students are switched by an administrator): the account immediately sees only the new subject
+select tests.login(:'med');
+select tests.assert_fails(format($$update public.profiles set specialisation_id = %L where id = %L$$, :'s_agri', :'med'), 'a paid student cannot switch subject alone');
+select tests.login(:'boss');
+update public.profiles set specialisation_id = :'s_agri' where id = :'med';
+select tests.login(:'med');
+select tests.assert(exists (select 1 from public.written_practice_questions() where stem like 'AL agriculture%')
+  and not exists (select 1 from public.written_practice_questions() where stem like 'AL medicine%'), 'after switching Medical -> Agriculture: only Agriculture questions');
+select tests.login(:'boss');
+update public.profiles set specialisation_id = :'s_med' where id = :'med';
+select tests.login(:'med');
+select tests.assert(exists (select 1 from public.written_practice_questions() where stem like 'AL medicine%')
+  and not exists (select 1 from public.written_practice_questions() where stem like 'AL agriculture%'), 'and back to Medical: only Medical questions');
+-- The administrator switching their own entry (Medical -> Agriculture) sees only the new subject too
+select tests.login(:'boss');
+update public.profiles set specialisation_id = :'s_agri' where id = :'boss';
+select tests.assert(exists (select 1 from public.written_practice_questions() where stem like 'AL agriculture%')
+  and not exists (select 1 from public.written_practice_questions() where stem like 'AL medicine%'), 'admin after switching to Agriculture: only Agriculture');
 rollback;
