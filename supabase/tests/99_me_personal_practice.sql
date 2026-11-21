@@ -64,11 +64,11 @@ select x ->> 'exam_question_id' as chosen from jsonb_array_elements(public.get_a
 select tests.assert(array(select public.attempt_unchosen_questions(:'m1')) = array[:'unchosen'::uuid], 'the question not chosen is listed for the result page');
 select tests.assert_fails(format($$select public.ensure_written_answer(%L, %L)$$, :'m1', :'unchosen'), 'no answer sheet for a question not chosen');
 select tests.assert(public.ensure_written_answer(:'m1', :'chosen') is not null, 'the chosen question still takes an answer sheet');
--- Mock answers are marked together at half price (delivery = batch)
+-- Mock answers are marked straight away, like practice (founder: no waiting for hours)
 select public.save_answer(:'m1', :'chosen', null, false, 'A typed essay answer for the mock test about governance.');
 select public.submit_attempt(:'m1');
 select public.request_answer_evaluation((select id from public.attempt_answers where attempt_id = :'m1' and exam_question_id = :'chosen')) as mev \gset
-select tests.assert((select delivery from public.evaluations where id = :'mev') = 'batch', 'mock answers are marked in a batch');
+select tests.assert((select delivery from public.evaluations where id = :'mev') = 'instant', 'mock answers are marked straight away');
 select tests.login(:'b');
 select tests.assert_fails(format($$select public.choose_mock_questions(%L, '{}')$$, :'m1'), 'only the student chooses');
 reset role;

@@ -144,11 +144,10 @@ export async function requestEvaluationAction(answerId: string): Promise<Result>
   const db = await signedIn();
   const { data: evId, error } = await db.rpc("request_answer_evaluation", { _answer_id: answerId });
   if (error || !evId) return { ok: false, message: message(error, "The evaluation could not be requested.") };
-  const { data: ev } = await db.from("evaluations").select("status, assigned_at, delivery").eq("id", evId as string).single();
-  // Mock-test answers are marked together by the scheduled job (half price); practice answers straight away.
+  const { data: ev } = await db.from("evaluations").select("status, assigned_at").eq("id", evId as string).single();
   // Start it if new, or restart it if a previous run stopped without finishing (e.g. a timeout).
   const stale = ev && ev.status === "in_progress" && Date.now() - new Date(ev.assigned_at).getTime() > 10 * 60 * 1000;
-  if (ev && ev.delivery !== "batch" && (ev.status === "queued" || stale)) after(() => runEvaluation(evId as string));
+  if (ev && (ev.status === "queued" || stale)) after(() => runEvaluation(evId as string));
   revalidatePath(`/dashboard/written/${answerId}`);
   return { ok: true, data: undefined };
 }

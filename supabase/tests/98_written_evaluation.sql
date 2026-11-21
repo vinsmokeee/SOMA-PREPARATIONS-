@@ -87,7 +87,6 @@ select tests.assert(((:'c2'::jsonb) ->> 'edit_ratio')::numeric > 0.5, 'heavy rew
 select public.request_answer_evaluation(:'ans') as ev \gset
 select tests.assert(public.request_answer_evaluation(:'ans') = :'ev'::uuid, 'request is idempotent');
 select tests.assert(((public.my_evaluation_allowance()) ->> 'used')::int = 2 and ((public.my_evaluation_allowance()) ->> 'limit')::int = 3, 'allowance counts the request (and the extra re-read)');
-select tests.assert((select delivery from public.evaluations where id = :'ev') = 'instant', 'practice answers are marked straight away');
 select tests.assert_fails(format($$select public.confirm_transcript(%L, 'x y z')$$, :'ans'), 'answer locked after evaluation request');
 select tests.assert_fails(format($$select public.add_answer_page(%L, %L)$$, :'ans', :'s' || '/' || :'ans' || '/late.jpg'), 'no pages after evaluation request');
 -- Students cannot write marks

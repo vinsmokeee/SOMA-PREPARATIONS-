@@ -31,8 +31,7 @@ export function AnswerWorkflow(p: WorkflowProps) {
 
   const evStatus = p.evaluation?.status ?? null;
   const improving = Boolean(p.evaluation?.improved_requested_at && !p.evaluation.details?.improved_answer);
-  const batchQueued = p.evaluation?.delivery === "batch" && evStatus === "queued";
-  const busy = BUSY.has(p.transcript.status ?? "") || (BUSY.has(evStatus ?? "") && !batchQueued) || improving;
+  const busy = BUSY.has(p.transcript.status ?? "") || BUSY.has(evStatus ?? "") || improving;
 
   // While AI work runs in the background, refresh the page every few seconds (for up to 5 minutes).
   useEffect(() => {
@@ -136,11 +135,7 @@ export function AnswerWorkflow(p: WorkflowProps) {
         {evStatus === "completed" && p.evaluation ? (
           <EvaluationView ev={p.evaluation} answerId={p.answerId} reported={p.reported} />
         ) : evStatus === "queued" || evStatus === "in_progress" ? (
-          p.evaluation?.delivery === "batch" ? (
-            <p className="flex items-start gap-2 rounded-lg bg-muted p-3 text-sm text-ink" role="status"><Loader2 className="mt-0.5 size-4 shrink-0 animate-spin" aria-hidden /> Your mock-test answer is in the marking queue. Mock answers are marked together, and your feedback will be ready within a few hours (usually within an hour). We will send you a notification — you can close this page.</p>
-          ) : (
-            <p className="flex items-center gap-2 text-sm text-muted-foreground" role="status"><Loader2 className="size-4 animate-spin" aria-hidden /> Evaluating your answer… this usually takes one to two minutes. You can leave this page and come back.</p>
-          )
+          <p className="flex items-center gap-2 text-sm text-muted-foreground" role="status"><Loader2 className="size-4 animate-spin" aria-hidden /> Evaluating your answer… this usually takes one to two minutes. You can leave this page and come back.</p>
         ) : (
           <div className="space-y-2">
             {evStatus === "withdrawn" ? <p className="rounded-lg bg-muted p-3 text-sm">Your previous evaluation was withdrawn by the Soma team after review. You can request a new one; it was not counted towards your allowance.</p> : null}

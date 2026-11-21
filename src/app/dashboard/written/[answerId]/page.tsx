@@ -39,7 +39,7 @@ export default async function WrittenAnswerPage({ params }: PageProps<"/dashboar
 
   const [{ data: result }, { data: evs }, { data: allowance }, { data: cfg }, { data: reports }, { data: reads }] = await Promise.all([
     db.rpc("get_attempt_result", { _attempt_id: a.attempt_id }),
-    db.from("evaluations").select("id, status, score, max_score, scored, confidence, weakness_tags, rubric_scores, details, error_message, completed_at, improved_requested_at, assigned_at, delivery")
+    db.from("evaluations").select("id, status, score, max_score, scored, confidence, weakness_tags, rubric_scores, details, error_message, completed_at, improved_requested_at, assigned_at")
       .eq("answer_id", answerId).eq("method", "ai_feedback").order("assigned_at", { ascending: false }).limit(1),
     db.rpc("my_evaluation_allowance"),
     db.rpc("evaluation_config"),

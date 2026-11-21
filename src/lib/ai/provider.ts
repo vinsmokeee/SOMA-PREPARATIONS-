@@ -24,15 +24,8 @@ export type StructuredResult<T> =
   | { ok: true; data: T; model: string; inputTokens: number; outputTokens: number; usedFallback: boolean }
   | { ok: false; reason: "refused" | "invalid_output" | "truncated" | "error" | "not_configured"; message: string; model?: string; inputTokens?: number; outputTokens?: number };
 
-/** Half-price batch processing (results within hours). Optional: providers without it are used instantly. */
-export type BatchSubmit = { ok: true; batchId: string } | { ok: false; message: string };
-/** null while the batch is still processing; otherwise one result per request id. */
-export type BatchResults<T> = Map<string, StructuredResult<T>> | null;
-
 export interface AiProvider {
   readonly name: string;
   readonly model: string;
   generateStructured<S extends z.ZodType>(req: StructuredRequest<S>): Promise<StructuredResult<z.infer<S>>>;
-  submitBatch?<S extends z.ZodType>(items: { id: string; req: StructuredRequest<S> }[]): Promise<BatchSubmit>;
-  batchResults?<S extends z.ZodType>(batchId: string, schema: S): Promise<BatchResults<z.infer<S>>>;
 }
