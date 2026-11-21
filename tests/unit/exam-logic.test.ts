@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { mergePatch } from "@/components/exam/use-autosave";
-import { breakdownBy, clockOffset, countWords, formatClock, formatDuration, remainingSeconds, revisionSuggestions } from "@/lib/exam/logic";
+import { breakdownBy, clockOffset, countWords, dueTimeWarnings, formatClock, formatDuration, remainingSeconds, revisionSuggestions, timerTone, timeWarningText } from "@/lib/exam/logic";
 import type { ResultQuestion } from "@/lib/exam/types";
 
 describe("timer", () => {
@@ -84,5 +84,28 @@ describe("performance breakdown", () => {
   });
   it("ignores written questions", () => {
     expect(breakdownBy([{ ...q("Essay", "c"), type: "essay" }], "subject")).toEqual([]);
+  });
+});
+
+describe("time warnings", () => {
+  it("warns at 30, 10, 5 and 1 minutes left, once each", () => {
+    const start = 3 * 3600;
+    expect(dueTimeWarnings(1801, start, [])).toEqual([]);
+    expect(dueTimeWarnings(1800, start, [])).toEqual([1800]);
+    expect(dueTimeWarnings(1500, start, [1800])).toEqual([]);
+    expect(dueTimeWarnings(600, start, [1800])).toEqual([600]);
+    expect(dueTimeWarnings(60, start, [1800, 600, 300])).toEqual([60]);
+    expect(dueTimeWarnings(0, start, [])).toEqual([]);
+  });
+  it("skips warnings that were already passed when the paper opened, and collapses missed ones", () => {
+    expect(dueTimeWarnings(480, 500, [])).toEqual([]);          // opened at 8:20 left: no 30- or 10-minute warning
+    expect(dueTimeWarnings(300, 500, [])).toEqual([300]);
+    expect(dueTimeWarnings(250, 3600, [1800])).toEqual([600, 300]);  // phone was asleep
+  });
+  it("colours the timer orange from 10 minutes and red from 5", () => {
+    expect(timerTone(601)).toBe("normal");
+    expect(timerTone(600)).toBe("warning");
+    expect(timerTone(300)).toBe("danger");
+    expect(timeWarningText(60)).toMatch(/submitted automatically/);
   });
 });

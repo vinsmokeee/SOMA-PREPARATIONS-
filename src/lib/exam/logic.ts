@@ -79,3 +79,28 @@ export function breakdownBy(questions: ResultQuestion[], key: "subject" | "topic
 export function revisionSuggestions(rows: Breakdown[], threshold = 60): Breakdown[] {
   return rows.filter((r) => (r.accuracy !== null && r.accuracy < threshold) || r.unanswered > r.total / 2);
 }
+
+/** Time warnings during a timed paper, in seconds left: 30, 10, 5 and 1 minutes. */
+export const TIME_WARNINGS = [1800, 600, 300, 60] as const;
+
+/**
+ * Warnings that have just become due. A warning is skipped when the paper was opened with
+ * less than a minute more than that warning (for example a short paper, or reopening late).
+ * Several due at once (the phone was asleep) collapse to the latest one.
+ */
+export function dueTimeWarnings(remaining: number, startRemaining: number, given: readonly number[]): number[] {
+  if (remaining <= 0) return [];
+  return TIME_WARNINGS.filter((t) => remaining <= t && startRemaining > t + 60 && !given.includes(t));
+}
+
+export function timeWarningText(t: number): string {
+  if (t >= 1800) return "30 minutes left. Check for questions you have not answered yet.";
+  if (t >= 600) return "10 minutes left. Start finishing the answer you are writing.";
+  if (t >= 300) return "5 minutes left.";
+  return "1 minute left. Your paper will be submitted automatically when the time ends.";
+}
+
+/** Timer colour: normal, orange from 10 minutes left, red from 5 minutes. */
+export function timerTone(remaining: number): "normal" | "warning" | "danger" {
+  return remaining <= 300 ? "danger" : remaining <= 600 ? "warning" : "normal";
+}
