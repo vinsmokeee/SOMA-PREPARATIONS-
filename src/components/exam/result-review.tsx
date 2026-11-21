@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Bot, Calculator, Check, ExternalLink, Flag, UserCheck, X } from "lucide-react";
+import { Bot, Calculator, Check, ExternalLink, Flag, UserCheck, X, Repeat } from "lucide-react";
 import { formatDuration } from "@/lib/exam/logic";
 import { originLabel } from "@/lib/exam/origin";
 import { TYPE_LABELS, type ResultQuestion } from "@/lib/exam/types";
@@ -103,6 +103,11 @@ function QuestionCard({ q }: { q: ResultQuestion }) {
       </div>
       <QuestionStem stem={q.stem} imageUrl={q.image_url} className="mt-3" />
       {originLabel(q.origin, q.source_year) ? <p className="mt-1 text-xs text-muted-foreground">{originLabel(q.origin, q.source_year)}</p> : null}
+      {q.repeat_years && q.repeat_years.length >= 2 ? (
+        <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-warning-soft px-2.5 py-1 text-xs font-semibold text-warning">
+          <Repeat className="size-3.5" aria-hidden /> Repeated question: asked by RCSC {q.repeat_years.length} times ({joinYears(q.repeat_years)}) - study it well
+        </p>
+      ) : null}
 
       {q.type === "mcq" ? (
         <ul className="mt-4 space-y-2">
@@ -187,4 +192,8 @@ function QuestionCard({ q }: { q: ResultQuestion }) {
       ) : null}
     </li>
   );
+}
+
+function joinYears(y: number[]): string {
+  return y.length <= 1 ? y.join("") : `${y.slice(0, -1).join(", ")} and ${y[y.length - 1]}`;
 }

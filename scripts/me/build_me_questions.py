@@ -156,6 +156,9 @@ for x in sorted(ROWS, key=lambda x: 0 if x.get('real') else 1):
   returning id
 )
 insert into me_q select {q(x['key'])}, id from nq;""")
+    if x.get('real') and str(b.SOURCE.get('year', '')).isdigit():
+        # Repeated-question tracking: every real RCSC question records the year it was asked.
+        out.append(f"insert into public.question_appearances (question_id, year) select id, {int(b.SOURCE['year'])} from me_q where key = {q(x['key'])} on conflict do nothing;")
     if x['type'] == 'mcq':
         # Stored in a random order (seeded by the question), so answers are not always in the same position.
         # order[pos] = index of the option shown at position pos; the correct one goes where ANSWER_AT says.
