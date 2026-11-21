@@ -28,6 +28,7 @@ const MESSAGES: Record<string, string> = {
   SUBMIT_FIRST: "Submit your answer before requesting an evaluation.",
   EMPTY_ANSWER: "The answer is empty.",
   NO_EVALUATIONS_LEFT: "You have used all AI evaluations included in your plan.",
+  NO_REREADS_LEFT: "You have used your free re-reads and all AI evaluations in your plan. You can still correct the text yourself in the box above.",
   NOTHING_TO_CONFIRM: "There is no text to confirm yet.",
   INVALID_TEXT: "The answer text is empty or too long.",
   ACCESS_REQUIRED: "This question is part of ME Premium.",
@@ -121,8 +122,8 @@ export async function readHandwritingAction(answerId: string): Promise<Result> {
   const db = await signedIn();
   const { data, error } = await db.rpc("begin_transcription", { _answer_id: answerId });
   if (error || !data) return { ok: false, message: message(error, "Could not start reading your handwriting.") };
-  const paths = (data as { paths: string[] }).paths;
-  after(() => runTranscription(answerId, paths));
+  const { paths, charge_id } = data as { paths: string[]; charge_id: string | null };
+  after(() => runTranscription(answerId, paths, charge_id ?? null));
   revalidatePath(`/dashboard/written/${answerId}`);
   return { ok: true, data: undefined };
 }

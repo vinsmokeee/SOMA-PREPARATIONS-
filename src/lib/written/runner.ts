@@ -1,6 +1,7 @@
 import "server-only";
 import { getAiProvider } from "@/lib/ai";
-import type { AiImage } from "@/lib/ai/provider";
+import type { z } from "zod";
+import type { AiImage, StructuredRequest, StructuredResult } from "@/lib/ai/provider";
 import {
   assessTranscription, buildEvaluationPrompt, buildImprovedPrompt, buildTranscriptionPrompt, EVALUATION_SYSTEM,
   evaluationSchema, finalizeEvaluation, IMPROVED_SYSTEM, improvedSchema, markingCriteria, TRANSCRIBE_SYSTEM, transcriptionSchema,
@@ -41,11 +42,13 @@ async function config(db: Db) {
   return (data?.value ?? {}) as { instructions?: string };
 }
 
-export async function runTranscription(answerId: string, paths: string[]): Promise<void> {
+export async function runTranscription(answerId: string, paths: string[], chargeId: string | null = null): Promise<void> {
   const db = createAdminClient();
   const provider = getAiProvider();
   const fail = async (message: string) => {
     await db.from("attempt_answers").update({ transcript_status: "failed", transcript_notes: { message } }).eq("id", answerId);
+    // A re-read that used an AI evaluation is given back when the reading fails.
+    if (chargeId) await db.from("ai_allowance_uses").delete().eq("id", chargeId);
   };
   if (!provider) return fail("AI is not configured on this site yet. Please type your answer instead, or try again later.");
   const { aa, q, userId } = await loadAnswerContext(db, answerId);
@@ -97,6 +100,27 @@ function buildContext(loaded: Awaited<ReturnType<typeof loadAnswerContext>>, ins
   };
 }
 
+/** The marking request for one answer (shared by instant and batch marking). */
+export async function prepareEvaluation(db: Db, answerId: string) {
+  const ctx = buildContext(await loadAnswerContext(db, answerId), (await config(db)).instructions ?? null);
+  const { criteria } = markingCriteria(ctx);
+  const req: StructuredRequest<typeof evaluationSchema> = {
+    system: EVALUATION_SYSTEM, prompt: buildEvaluationPrompt(ctx, criteria), schema: evaluationSchema, maxTokens: 12000, effort: "high",
+  };
+  return { ctx, req };
+}
+
+/** Saves a successful marking result on the evaluation. */
+export async function completeEvaluation(db: Db, evaluationId: string, ctx: EvaluationContext,
+  r: Extract<StructuredResult<z.infer<typeof evaluationSchema>>, { ok: true }>, jobId: string | null, extra: Record<string, unknown> = {}) {
+  const f = finalizeEvaluation(r.data, ctx);
+  await db.from("evaluations").update({
+    status: "completed", completed_at: now(), ai_job_id: jobId, score: f.score, max_score: f.maxScore, scored: f.scored,
+    rubric_scores: f.rubricScores, feedback: f.details.summary, details: { ...f.details, used_fallback: r.usedFallback, model: r.model, ...extra },
+    confidence: f.confidence, weakness_tags: f.tags, error_message: null,
+  }).eq("id", evaluationId);
+}
+
 export async function runEvaluation(evaluationId: string): Promise<void> {
   const db = createAdminClient();
   const { data: ev } = await db.from("evaluations").select("id, answer_id, status, requested_by").eq("id", evaluationId).single();
@@ -107,27 +131,19 @@ export async function runEvaluation(evaluationId: string): Promise<void> {
   await db.from("evaluations").update({ status: "in_progress" }).eq("id", evaluationId);
 
   try {
-    const loaded = await loadAnswerContext(db, ev.answer_id);
-    const ctx = buildContext(loaded, (await config(db)).instructions ?? null);
-    const { criteria } = markingCriteria(ctx);
-    const prompt = buildEvaluationPrompt(ctx, criteria);
+    const { ctx, req } = await prepareEvaluation(db, ev.answer_id);
     const { data: job } = await db.from("ai_jobs").insert({
       kind: "answer_feedback", provider: provider.name, model: provider.model, status: "running", started_at: now(),
       requested_by: ev.requested_by, input: { evaluation_id: evaluationId, answer_id: ev.answer_id, words: ctx.wordCount },
     }).select("id").single();
-    const r = await provider.generateStructured({ system: EVALUATION_SYSTEM, prompt, schema: evaluationSchema, maxTokens: 12000, effort: "high" });
+    const r = await provider.generateStructured(req);
     if (!r.ok) {
       if (job) await db.from("ai_jobs").update({ status: "failed", error_message: `${r.reason}: ${r.message}`, completed_at: now() }).eq("id", job.id);
       await fail(r.reason === "refused" ? "This answer could not be evaluated automatically." : "The evaluation could not be completed. You can try again.");
       return;
     }
-    const f = finalizeEvaluation(r.data, ctx);
     if (job) await db.from("ai_jobs").update({ status: "succeeded", model: r.model, completed_at: now(), input_tokens: r.inputTokens, output_tokens: r.outputTokens, output: { used_fallback: r.usedFallback } }).eq("id", job.id);
-    await db.from("evaluations").update({
-      status: "completed", completed_at: now(), ai_job_id: job?.id, score: f.score, max_score: f.maxScore, scored: f.scored,
-      rubric_scores: f.rubricScores, feedback: f.details.summary, details: { ...f.details, used_fallback: r.usedFallback, model: r.model },
-      confidence: f.confidence, weakness_tags: f.tags, error_message: null,
-    }).eq("id", evaluationId);
+    await completeEvaluation(db, evaluationId, ctx, r, job?.id ?? null);
   } catch (e) {
     console.error("evaluation failed", evaluationId, e instanceof Error ? e.message : e);
     await fail("The evaluation could not be completed. You can try again.");
@@ -137,7 +153,12 @@ export async function runEvaluation(evaluationId: string): Promise<void> {
 export async function runImprovedAnswer(evaluationId: string): Promise<void> {
   const db = createAdminClient();
   const provider = getAiProvider();
-  if (!provider) return;
+  // If it cannot be written, the AI evaluation it used is given back and the student can try again.
+  const refund = async () => {
+    await db.from("ai_allowance_uses").delete().eq("evaluation_id", evaluationId).eq("kind", "improved_answer");
+    await db.from("evaluations").update({ improved_requested_at: null }).eq("id", evaluationId);
+  };
+  if (!provider) return refund();
   const { data: ev } = await db.from("evaluations").select("id, answer_id, details, requested_by").eq("id", evaluationId).single();
   if (!ev) return;
   const details = (ev.details ?? {}) as { summary?: string; key_points_missing?: string[]; suggestions?: string[]; improved_answer?: unknown };
@@ -155,6 +176,6 @@ export async function runImprovedAnswer(evaluationId: string): Promise<void> {
   if (r.ok) {
     await db.from("evaluations").update({ details: { ...details, improved_answer: r.data.improved_answer, improved_changes: r.data.what_changed } }).eq("id", evaluationId);
   } else {
-    await db.from("evaluations").update({ improved_requested_at: null }).eq("id", evaluationId);
+    await refund();
   }
 }

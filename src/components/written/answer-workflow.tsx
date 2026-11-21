@@ -15,6 +15,8 @@ export type WorkflowProps = {
   transcript: { status: string | null; text: string | null; confidence: string | null; notes: { message?: string; retake?: boolean; page_issues?: { page: number; issue: string }[] } | null; editRatio: number | null };
   pageCount: number; canEditPages: boolean; maxPages: number; dzongkhaBeta: boolean;
   evaluation: EvaluationRow | null; allowance: { limit: number; used: number; remaining: number; plan: string } | null; reported: boolean;
+  /** Free handwriting re-reads left for this answer (after that, each uses one AI evaluation). */
+  freeRereadsLeft?: number | null;
 };
 
 const BUSY = new Set(["reading", "queued", "in_progress"]);
@@ -99,6 +101,11 @@ export function AnswerWorkflow(p: WorkflowProps) {
                 </button>
                 {p.canEditPages ? <button type="button" disabled={pending !== null} onClick={() => run("read", () => readHandwritingAction(p.answerId))} className="inline-flex h-11 items-center rounded-md border border-border-strong px-4 text-sm font-medium hover:bg-muted disabled:opacity-50">Read the pages again</button> : null}
               </div>
+              {p.canEditPages && typeof p.freeRereadsLeft === "number" ? (
+                <p className="text-xs text-muted-foreground">
+                  {p.freeRereadsLeft > 0 ? `${p.freeRereadsLeft} free re-read${p.freeRereadsLeft === 1 ? "" : "s"} left for this answer. After that, each re-read uses one AI evaluation.` : "Each further re-read uses one AI evaluation. You can also correct the text yourself above, which is free."}
+                </p>
+              ) : null}
               {ts === "confirmed" ? <p className="flex items-center gap-1.5 text-sm text-primary"><CheckCircle2 className="size-4" aria-hidden /> Text confirmed.</p> : null}
             </div>
           ) : ts === "confirmed" ? (
@@ -133,7 +140,7 @@ export function AnswerWorkflow(p: WorkflowProps) {
           <div className="space-y-2">
             {evStatus === "withdrawn" ? <p className="rounded-lg bg-muted p-3 text-sm">Your previous evaluation was withdrawn by the Soma team after review. You can request a new one; it was not counted towards your allowance.</p> : null}
             {evStatus === "failed" ? <p className="rounded-lg bg-warning-soft p-3 text-sm text-warning">{p.evaluation?.error_message ?? "The evaluation could not be completed."} This did not use up your allowance.</p> : null}
-            {p.allowance ? <p className="text-sm text-muted-foreground">{p.allowance.remaining} of {p.allowance.limit} AI evaluations left.</p> : null}
+            {p.allowance ? <p className="text-sm text-muted-foreground">{p.allowance.remaining} of {p.allowance.limit} AI evaluations left. Improved answers and extra handwriting re-reads also use one.</p> : null}
             <button type="button"
               disabled={pending !== null || (p.mode === "handwritten" && ts !== "confirmed") || !(p.textAnswer ?? "").trim() || (p.allowance?.remaining ?? 0) <= 0}
               onClick={() => run("evaluate", () => requestEvaluationAction(p.answerId))}

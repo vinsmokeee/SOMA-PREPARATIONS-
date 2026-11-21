@@ -57,6 +57,25 @@ select public.begin_transcription(:'ans');
 select tests.assert_fails(format($$select public.begin_transcription(%L)$$, :'ans'), 'no double reading');
 reset role;  -- the server (secret key) stores the transcript
 update public.attempt_answers set transcript_status = 'needs_review', transcript_text = 'The monarchy guides the nation and the constitution limits power.', transcript_confidence = 'medium' where id = :'ans';
+-- Re-reads: the first reading and 2 re-reads are free; the next one uses one AI evaluation.
+insert into public.ai_jobs (kind, provider, model, status, requested_by, input)
+select 'answer_transcription', 'anthropic', 'm', 'succeeded', :'s', jsonb_build_object('answer_id', :'ans') from generate_series(1, 2);
+set local role authenticated;
+select tests.login(:'s');
+select tests.assert((public.answer_read_info(:'ans') ->> 'free_rereads_left')::int = 1, 'one free re-read left after two readings');
+select tests.assert(public.begin_transcription(:'ans') ->> 'charge_id' is null, 'a free re-read uses nothing');
+reset role;
+insert into public.ai_jobs (kind, provider, model, status, requested_by, input) values ('answer_transcription', 'anthropic', 'm', 'succeeded', :'s', jsonb_build_object('answer_id', :'ans'));
+update public.attempt_answers set transcript_status = 'needs_review' where id = :'ans';
+set local role authenticated;
+select tests.login(:'s');
+select tests.assert((public.answer_read_info(:'ans') ->> 'free_rereads_left')::int = 0, 'no free re-reads left');
+select tests.assert(public.begin_transcription(:'ans') ->> 'charge_id' is not null, 'an extra re-read uses one AI evaluation');
+select tests.assert((public.my_evaluation_allowance() ->> 'used')::int = 1, 'the extra re-read is counted');
+select tests.login(:'o');
+select tests.assert_fails(format($$select public.answer_read_info(%L)$$, :'ans'), 'others cannot see read info');
+reset role;
+update public.attempt_answers set transcript_status = 'needs_review' where id = :'ans';
 set local role authenticated;
 select tests.login(:'s');
 select public.confirm_transcript(:'ans', 'The monarchy guides the nation and the constitution limits power.') as c \gset
@@ -67,7 +86,7 @@ select tests.assert(((:'c2'::jsonb) ->> 'edit_ratio')::numeric > 0.5, 'heavy rew
 -- Evaluation request: queued, idempotent, counted, locks the answer
 select public.request_answer_evaluation(:'ans') as ev \gset
 select tests.assert(public.request_answer_evaluation(:'ans') = :'ev'::uuid, 'request is idempotent');
-select tests.assert(((public.my_evaluation_allowance()) ->> 'used')::int = 1 and ((public.my_evaluation_allowance()) ->> 'limit')::int = 3, 'allowance counts the request');
+select tests.assert(((public.my_evaluation_allowance()) ->> 'used')::int = 2 and ((public.my_evaluation_allowance()) ->> 'limit')::int = 3, 'allowance counts the request (and the extra re-read)');
 select tests.assert_fails(format($$select public.confirm_transcript(%L, 'x y z')$$, :'ans'), 'answer locked after evaluation request');
 select tests.assert_fails(format($$select public.add_answer_page(%L, %L)$$, :'ans', :'s' || '/' || :'ans' || '/late.jpg'), 'no pages after evaluation request');
 -- Students cannot write marks
@@ -88,6 +107,13 @@ select tests.assert(((public.my_written_performance()) -> 'weaknesses' -> 0 ->> 
 select tests.assert(jsonb_array_length(public.my_written_answers()) = 1, 'history lists the answer');
 select tests.assert(public.request_improved_answer(:'ev') = true, 'improved answer requested');
 select tests.assert(public.request_improved_answer(:'ev') = false, 'improved answer not requested twice');
+select tests.assert((public.my_evaluation_allowance() ->> 'remaining')::int = 0, 'the improved answer uses one AI evaluation');
+reset role;
+update public.evaluations set improved_requested_at = now() - interval '10 minutes' where id = :'ev';
+set local role authenticated;
+select tests.login(:'s');
+select tests.assert(public.request_improved_answer(:'ev') = true, 'a retry after a failure is not charged again');
+select tests.assert((select count(*) from public.ai_allowance_uses where kind = 'improved_answer') = 1, 'charged once per evaluation');
 insert into public.evaluation_reports (evaluation_id, user_id, reason, message) values (:'ev', :'s', 'marks_unfair', 'I covered the separation of powers.');
 
 -- Another student sees nothing

@@ -179,19 +179,16 @@ async function MeResultActions({ attemptId, examId, kind }: { attemptId: string;
 async function WrittenPanel({ attemptId, written, closedAt, deadline }: { attemptId: string; written: ResultQuestion[]; closedAt: string; deadline: string }) {
   const db = await createClient();
   const ids = written.map((q) => q.answer?.id).filter(Boolean) as string[];
-  const [{ data: rows }, { data: cfg }, { data: unchosenIds }] = await Promise.all([
+  const [{ data: rows }, { data: cfg }] = await Promise.all([
     ids.length
       ? db.from("attempt_answers").select("id, answer_mode, transcript_status, answer_pages(count), evaluations(status, score, max_score, scored, method)").in("id", ids)
       : Promise.resolve({ data: [] as never[] }),
     db.rpc("evaluation_config"),
-    db.rpc("attempt_unchosen_questions", { _attempt_id: attemptId }),
   ]);
   const info = new Map(((rows ?? []) as { id: string; answer_mode: string; transcript_status: string | null; answer_pages: { count: number }[]; evaluations: { status: string; score: number | null; max_score: number | null; scored: boolean | null; method: string }[] }[]).map((r) => [r.id, r]));
   const windowMin = Number((cfg as { upload_window_minutes?: number } | null)?.upload_window_minutes ?? 15);
   const windowEnds = Math.min(new Date(closedAt).getTime(), new Date(deadline).getTime()) + windowMin * 60 * 1000;
   const windowOpen = requestTimeMs() <= windowEnds;
-  // In "answer any N" mocks, questions the student did not choose cannot be uploaded or evaluated (no AI cost).
-  const unchosen = new Set(((unchosenIds ?? []) as unknown as string[]).map(String));
   return (
     <section className="mt-6 rounded-xl border border-border p-5" aria-labelledby="written-h">
       <h2 id="written-h" className="font-semibold text-ink">Written answers — AI-assisted evaluation</h2>
@@ -201,14 +198,6 @@ async function WrittenPanel({ attemptId, written, closedAt, deadline }: { attemp
       </p>
       <ul className="mt-3 divide-y divide-border">
         {written.map((q) => {
-          if (unchosen.has(q.exam_question_id)) {
-            return (
-              <li key={q.exam_question_id} className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center">
-                <span className="flex-1 text-sm"><span className="font-medium text-ink">Question {q.number}</span> <span className="text-muted-foreground">· {Number(q.marks)} marks</span></span>
-                <Badge tone="neutral">Question not chosen during exam</Badge>
-              </li>
-            );
-          }
           const r = q.answer?.id ? info.get(q.answer.id) : undefined;
           const ev = r?.evaluations.find((e) => e.method === "ai_feedback" && e.status !== "failed");
           const pages = r?.answer_pages?.[0]?.count ?? 0;
