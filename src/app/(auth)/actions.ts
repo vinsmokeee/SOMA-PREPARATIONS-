@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { emailLinkClient } from "@/lib/supabase/email-link";
 import { siteConfig } from "@/config/site";
 import { isSupabaseConfigured } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
@@ -91,9 +92,9 @@ export async function requestPasswordReset(_prev: AuthState, formData: FormData)
   if (!parsed.success) return { status: "error", fieldErrors: toFieldErrors(parsed.error) };
   if (!isSupabaseConfigured()) return NOT_CONFIGURED;
 
-  const supabase = await createClient();
-  await supabase.auth.resetPasswordForEmail(parsed.data.email, {
-    redirectTo: `${siteConfig.url}/auth/confirm?next=/reset-password`,
+  // Implicit-flow link so it works whichever browser or mail app opens it.
+  await emailLinkClient().auth.resetPasswordForEmail(parsed.data.email, {
+    redirectTo: `${siteConfig.url}/auth/link?next=/reset-password`,
   });
   // Same response whether or not the account exists.
   return { status: "success", message: "If an account exists for that email, a password reset link is on its way." };
@@ -125,12 +126,13 @@ export async function sendDeviceLink(_prev: AuthState, formData: FormData): Prom
   const email = typeof data?.claims?.email === "string" ? data.claims.email : null;
   if (!email) return { status: "error", message: "Please sign in again." };
   const next = safeRedirectPath(formData.get("next"));
-  const { error } = await supabase.auth.signInWithOtp({
+  // Implicit-flow link so it works whichever browser or mail app opens it.
+  const { error } = await emailLinkClient().auth.signInWithOtp({
     email,
-    options: { shouldCreateUser: false, emailRedirectTo: `${siteConfig.url}/auth/confirm?next=${encodeURIComponent(next)}` },
+    options: { shouldCreateUser: false, emailRedirectTo: `${siteConfig.url}/auth/link?next=${encodeURIComponent(next)}` },
   });
   if (error) {
     return { status: "error", message: error.code === "over_email_send_rate_limit" ? "Too many e-mails were sent recently. Please wait a few minutes and try again." : "The link could not be sent. Please try again." };
   }
-  return { status: "success", message: "Check your e-mail and open the link in this same browser." };
+  return { status: "success", message: "Check your e-mail and tap the link. It works in any browser or app on this device." };
 }
