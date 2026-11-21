@@ -1,10 +1,6 @@
 -- ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers
 begin;
 delete from public.questions where specialisation_id = (select id from public.specialisations where code = 'drungtsho') and paper_id = (select id from public.exam_papers where code = 'me-technical-3') and status = 'draft' and ai_review ->> 'batch' = 'ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers';
-delete from public.paper_blueprint_sections where paper_id = (select id from public.exam_papers where code = 'me-technical-3') and subject_group_id is null and specialisation_id = (select id from public.specialisations where code = 'drungtsho');
-insert into public.paper_blueprint_sections (paper_id, subject_group_id, specialisation_id, topic_slug, sort_order, title, question_type, question_count, marks_each, answer_any, source) values ((select id from public.exam_papers where code = 'me-technical-3'), null, (select id from public.specialisations where code = 'drungtsho'), null, 1, 'Section A Part I: Multiple choice questions', 'mcq', 20, 1, null, 'BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine');
-insert into public.paper_blueprint_sections (paper_id, subject_group_id, specialisation_id, topic_slug, sort_order, title, question_type, question_count, marks_each, answer_any, source) values ((select id from public.exam_papers where code = 'me-technical-3'), null, (select id from public.specialisations where code = 'drungtsho'), null, 2, 'Section A: Short answer questions', 'short_answer', 1, 30, null, 'BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine');
-insert into public.paper_blueprint_sections (paper_id, subject_group_id, specialisation_id, topic_slug, sort_order, title, question_type, question_count, marks_each, answer_any, source) values ((select id from public.exam_papers where code = 'me-technical-3'), null, (select id from public.specialisations where code = 'drungtsho'), null, 3, 'Section B: Long answer questions (all compulsory)', 'long_answer', 1, 50, null, 'BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine');
 with nq as (
   insert into public.questions (stage, question_type, stem, key_points, subject_id, paper_id, difficulty, marks, estimated_seconds, origin, status, ai_review, passage_group, passage_position, specialisation_id)
   values ('ME', 'mcq', 'ཡང་ན་སྟ་རེའི་ཁ་དང་འདྲ་བ་སོགས་ཀུན་ཀྱང་རིང་ཐུང་གི་ཚད་སྲིད་ལ་སོར་དྲུག་ཡོད་པ་ཟེར་བའི་ཚད་འདི།', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 1, 60,
@@ -157,7 +153,7 @@ with nq as (
 ག མཁྲིས་རྩ་གསེར་གདུང་
 ང ལོང་བུ་དར་དཔྱངས
 ཅ མཆིན་པ་སྤང་', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5, 540,
-    'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectiona', 1, (select id from public.specialisations where code = 'drungtsho'))
+    'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, null, null, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
@@ -169,11 +165,13 @@ with nq as (
 ༡. བསྐ་བ་ནི་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་།
 ༢. དྲི་དུགས་པ་ནི་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་།
 ༣. མདོག་དམར་བ་ནི་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་།
-༤. ཀུ་ཡ་མཐུག་པ་ནི་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་།', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 4, 432,
-    'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectiona', 2, (select id from public.specialisations where code = 'drungtsho'))
+༤. ཀུ་ཡ་མཐུག་པ་ནི་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་་།
+
+(Marks: 5 - set to the latest RCSC layout; the 2024 paper gave 4.)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5, 540,
+    'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, null, null, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
-insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 2.5, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 0.5, 3)) as v(l, d, m, p);
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
 with nq as (
   insert into public.questions (stage, question_type, stem, key_points, subject_id, paper_id, difficulty, marks, estimated_seconds, origin, status, ai_review, passage_group, passage_position, specialisation_id)
   values ('ME', 'short_answer', 'དྲི་བ་བཞི་པ།
@@ -184,7 +182,7 @@ with nq as (
 ༣ རྟ་ཤ།
 ༤ བཞག་ཤ་དཀར་ནག
 ༥ འདར་ཤ་ཁུག་པ།', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5, 540,
-    'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectiona', 3, (select id from public.specialisations where code = 'drungtsho'))
+    'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, null, null, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
@@ -192,7 +190,7 @@ with nq as (
   insert into public.questions (stage, question_type, stem, key_points, subject_id, paper_id, difficulty, marks, estimated_seconds, origin, status, ai_review, passage_group, passage_position, specialisation_id)
   values ('ME', 'short_answer', 'དྲི་བ་ལྔ་པ།
 བཤད་བརྒྱུད་དུ་འབྱུང་བ་ལྔ་ལས་ལུས་ཕུང་བསྒྲུབ་ཚུལ་སྐོར་གསུངས་ཡོད་པའི་རྩ་བ་ཚིགས་རྐང་ལྔ་པོ་བྲིས་ནི། (སྐུགས་༡x༥=༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5, 540,
-    'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectiona', 4, (select id from public.specialisations where code = 'drungtsho'))
+    'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, null, null, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
@@ -202,11 +200,13 @@ with nq as (
 གཤམ་གསལ་ཐིག་གི་རེའུ་མིག་ནང་དུ་ཡོད་པའི་ཀླད་པ་མི་འདྲ་བ་བདུན་པོ་རྣམས་ མགོ་དབྱིབས་དང་སར་ཏེ་ལན་ཤོག་ནང་ཏུ་བཀོད།
 (སྐུགས་༦)
 ཀླད་པ། ཆུ་ཀླད། འོ་ཀླད། ཤ་ཀླད། མར་ཀླད། བུང་ཀླད། ཕྲུམ་ཀླད། ཞོ་ཀླད།
-མགོ་དབྱིབས།', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 6, 648,
-    'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectiona', 5, (select id from public.specialisations where code = 'drungtsho'))
+མགོ་དབྱིབས།
+
+(Marks: 5 - set to the latest RCSC layout; the 2024 paper gave 6.)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5, 540,
+    'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, null, null, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
-insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.5, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.5, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
 with nq as (
   insert into public.questions (stage, question_type, stem, key_points, subject_id, paper_id, difficulty, marks, estimated_seconds, origin, status, ai_review, passage_group, passage_position, specialisation_id)
   values ('ME', 'short_answer', 'དྲི་བ་བདུན་པ།
@@ -220,93 +220,97 @@ with nq as (
 ༤ སྨད་ཀྱི་དབྱེ་གསང་ཚིགས་པ་བཅུ་བཞི་ནས་གཡས་གཡོན་མཁྱིད་གང་གི་ས་ན་མཁལ་མའི་རྣག་འབབ་གསང༌།
 ༥ ལྟེ་བ་ནས་སྣེ་སའི་དཀྱིལ་དུ་འཐེན། དཔྱི་ཟུར་ནས་མཚན་མའི་སྟེང་དུ་འཐེན་པ་རྒྱ་གྲམ་དུ་ཐིག་བཏབ་པའི་རྒྱ་གྲམ་གྱི་ས་ནི་ལྟོ་བའི་
 སྤྱིའི་གསང་ཡིན་ནོ།', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5, 540,
-    'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectiona', 6, (select id from public.specialisations where code = 'drungtsho'))
+    'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, null, null, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
 with nq as (
   insert into public.questions (stage, question_type, stem, key_points, subject_id, paper_id, difficulty, marks, estimated_seconds, origin, status, ai_review, passage_group, passage_position, specialisation_id)
-  values ('ME', 'long_answer', 'དྲི་བ་དང་པ།
+  values ('ME', 'passage', 'དྲི་བ་དང་པ།
 ཕྱི་པའི་ནང་ལུ་ Artery, Veins and Nerves ཟེར་མི་འདི་གསོ་བ་རིག་པའི་ནང་ལུ་ག་ཅི་སླབ་ཨིན་ན་དང་ དེ་ཚུ་དོན་སོད་
-གང་ནས་དགྱེས་ཚུལ་ཡན་ལག་གང་དུ་འགྲོ་བའི་ཚུལ་བྲིས། (སྐུགས་༢x༣=༦)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 6, 648,
+གང་ནས་དགྱེས་ཚུལ་ཡན་ལག་གང་དུ་འགྲོ་བའི་ཚུལ་བྲིས། (སྐུགས་༢x༣=༦)
+
+(Marks: 5 - set to the latest RCSC layout; the 2024 paper gave 6.)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5.0, 540.0,
     'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectionb', 1, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
-insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.5, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.5, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
 with nq as (
   insert into public.questions (stage, question_type, stem, key_points, subject_id, paper_id, difficulty, marks, estimated_seconds, origin, status, ai_review, passage_group, passage_position, specialisation_id)
-  values ('ME', 'long_answer', 'དྲི་བ་གཉིས་པ།
+  values ('ME', 'passage', 'དྲི་བ་གཉིས་པ།
 སྤྱིར་བཏང་རླུང་གི་ནད་གཞི་ལུ་སྣུམས་འཆོས་དང་བྱུག་པ་ལེགས་ཀྱང་ དམིགས་བསལ་མ་རུང་བའི་རླུང་ནད་ཞིག་ཡོད་པ་དེའི་ ནད་ཀྱི་
-མིང་ངོས་འཛིན་འབད་ཞིནམ་ལས་ ནད་རྟགས་འབྲི་སྟེ་ བྱུག་པ་མ་རུང་བའི་ཁུངས་བཀལ་ནི། (སྐུགས་ ༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5, 540,
+མིང་ངོས་འཛིན་འབད་ཞིནམ་ལས་ ནད་རྟགས་འབྲི་སྟེ་ བྱུག་པ་མ་རུང་བའི་ཁུངས་བཀལ་ནི། (སྐུགས་ ༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5.0, 540.0,
     'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectionb', 2, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
 with nq as (
   insert into public.questions (stage, question_type, stem, key_points, subject_id, paper_id, difficulty, marks, estimated_seconds, origin, status, ai_review, passage_group, passage_position, specialisation_id)
-  values ('ME', 'long_answer', 'དྲི་བ་གསུམ་པ།
-སྨན་བཏང་ཚུལ་བཅུའི་རྩ་བ་བྲིས་ཞིནམ་ལས་འགྲེལ་བཤད་མདོར་བསྡུས་རེ་བྲིས། (སྐུགས་ ༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5, 540,
+  values ('ME', 'passage', 'དྲི་བ་གསུམ་པ།
+སྨན་བཏང་ཚུལ་བཅུའི་རྩ་བ་བྲིས་ཞིནམ་ལས་འགྲེལ་བཤད་མདོར་བསྡུས་རེ་བྲིས། (སྐུགས་ ༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5.0, 540.0,
     'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectionb', 3, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
 with nq as (
   insert into public.questions (stage, question_type, stem, key_points, subject_id, paper_id, difficulty, marks, estimated_seconds, origin, status, ai_review, passage_group, passage_position, specialisation_id)
-  values ('ME', 'long_answer', 'དྲི་བ་བཞི་པ།
+  values ('ME', 'passage', 'དྲི་བ་བཞི་པ།
 མགོ་ནད་ མུར་འགྲམ་ཟུག་ཅིང་གཟེར་བ་དང༌། དཔྲལ་བ་དང་སྨིན་མའི་མཚམས་ལུག་པ་འདྲ་སྙམ་དུ་སེམས་པ་དང༌། རྣ་བ་འུར་ཞིང་སོ་
 དང་འགྲམ་པ་ན་ལ་རྩ་འཁྱུག་ཅིང་མིག་གིས་བལྟ་བ་མི་བཟོད་ལ་ས་ཆུ་མང་བ་དང་ལྡང་དུབ་ཏུ་ན་ཞིང་སྣུམ་དུགས་དང་མགོ་བསམས་པ་ཅིན་
 དྲག་དོཝ་བཟུམ་འཚོར་མི་འདི་མགོ་ནད་གཙོ་ཕལ་གང་གི་ཁོངས་སུ་གཏོགས་པ་དང་ དེའི་ཟས་སོ ད་ སྨན་དཔྱད་ཀྱི་ཁ་གསལ་རྒྱས་པར་
-བྲིས། (སྐུགས་ ༤)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 4, 432,
+བྲིས། (སྐུགས་ ༤)
+
+(Marks: 5 - set to the latest RCSC layout; the 2024 paper gave 4.)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5.0, 540.0,
     'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectionb', 4, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
-insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 2.5, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 0.5, 3)) as v(l, d, m, p);
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
 with nq as (
   insert into public.questions (stage, question_type, stem, key_points, subject_id, paper_id, difficulty, marks, estimated_seconds, origin, status, ai_review, passage_group, passage_position, specialisation_id)
-  values ('ME', 'long_answer', 'དྲི་བ་བཅུ་ལྔ་པ།
+  values ('ME', 'passage', 'དྲི་བ་བཅུ་ལྔ་པ།
 དྲང་སོང་ཞལ་ལུང་ལྟར་གྱི་གྲོང་ཁྱེར་བལྟ་ན་སྡུག་གི་འདོད་པ་མི་འཐུན་པ་གཞན་༤ བཀོད་ནས་ རང་ལུགས་སྨན་གྱི་གྲོང་ཁྱེར་གྱི་འདོད་
-པ་བྲིས། (སྐུགས་ ༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5, 540,
+པ་བྲིས། (སྐུགས་ ༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5.0, 540.0,
     'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectionb', 5, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
 with nq as (
   insert into public.questions (stage, question_type, stem, key_points, subject_id, paper_id, difficulty, marks, estimated_seconds, origin, status, ai_review, passage_group, passage_position, specialisation_id)
-  values ('ME', 'long_answer', 'དྲི་བ་བཅུ་དྲུག་པ།
+  values ('ME', 'passage', 'དྲི་བ་བཅུ་དྲུག་པ།
 སོད་ཀ་གཏར་བའི་སྐབས་སུ་དོན་སོད་གང་གི་རྩ་དང་མི་ནོར་གཅེས་པའི་ཚུལ་དང་གདབས་ཐབས་ལ་སྔར་དང་དེང་སང་མི་འདྲ་བའི་ཚུལ་
-བཙག་བུའི་དབྱེ་བ་དང་བཅས་ཏེ་འཁོད། (སྐུགས ༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5, 540,
+བཙག་བུའི་དབྱེ་བ་དང་བཅས་ཏེ་འཁོད། (སྐུགས ༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5.0, 540.0,
     'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectionb', 6, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
 with nq as (
   insert into public.questions (stage, question_type, stem, key_points, subject_id, paper_id, difficulty, marks, estimated_seconds, origin, status, ai_review, passage_group, passage_position, specialisation_id)
-  values ('ME', 'long_answer', 'དྲི་བ་བདུན་པ།
-ཡན་ལག་གི་གནད་བཤད་པའི་སྐབས་རྨེན་བུའི་གནད་བརྒྱད་ཀྱི་དབྱེ་བ་གྲངས་ཚུལ་ཡང་དག་སྦེ་བྲིས། (སྐུགས ༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5, 540,
+  values ('ME', 'passage', 'དྲི་བ་བདུན་པ།
+ཡན་ལག་གི་གནད་བཤད་པའི་སྐབས་རྨེན་བུའི་གནད་བརྒྱད་ཀྱི་དབྱེ་བ་གྲངས་ཚུལ་ཡང་དག་སྦེ་བྲིས། (སྐུགས ༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5.0, 540.0,
     'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectionb', 7, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
 with nq as (
   insert into public.questions (stage, question_type, stem, key_points, subject_id, paper_id, difficulty, marks, estimated_seconds, origin, status, ai_review, passage_group, passage_position, specialisation_id)
-  values ('ME', 'long_answer', 'དྲི་བ་བརྒྱད་པ།
-ཆུ་སེར་ནད་ཀྱི་འགྱུར་ཚུལ་དང་ སྨན་དང་དཔྱད་ཀྱི་སྐོར་བྲིས་ནི། (སྐུགས ༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5, 540,
+  values ('ME', 'passage', 'དྲི་བ་བརྒྱད་པ།
+ཆུ་སེར་ནད་ཀྱི་འགྱུར་ཚུལ་དང་ སྨན་དང་དཔྱད་ཀྱི་སྐོར་བྲིས་ནི། (སྐུགས ༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5.0, 540.0,
     'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectionb', 8, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
 with nq as (
   insert into public.questions (stage, question_type, stem, key_points, subject_id, paper_id, difficulty, marks, estimated_seconds, origin, status, ai_review, passage_group, passage_position, specialisation_id)
-  values ('ME', 'long_answer', 'དྲི་བ་དགུ་པ།
+  values ('ME', 'passage', 'དྲི་བ་དགུ་པ།
 རྩ་དཀར་གསོ་བའི་ལེའུ་ལས་་་་གང་ཞིག་རྩ་ནད་ཚུལ་མི་ཤེས་པ།། གཟའ་ཕོག་ཟེར་བའི་སྨན་པ་བླུན་པོ་སྟེ་ཞེས་པའི་དོན་ཚན་གྱི་ཐོག་ལུ་
-རྩོམ་བྲིས་ ཚིགས་འབྲུ་༢༥༠ བྲིས། (སྐུགས ༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5, 540,
+རྩོམ་བྲིས་ ཚིགས་འབྲུ་༢༥༠ བྲིས། (སྐུགས ༥)', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5.0, 540.0,
     'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectionb', 9, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select nq.id, v.l, v.d, v.m, v.p from nq, (values ('Content', 'Correct facts, terms and reasoning from Sowa Rigpa; answers exactly what is asked.', 3.0, 1), ('Application', 'Applies the idea to the case or question with examples or steps.', 1.0, 2), ('Expression', 'Clear, organised answer in good Dzongkha.', 1.0, 3)) as v(l, d, m, p);
 with nq as (
   insert into public.questions (stage, question_type, stem, key_points, subject_id, paper_id, difficulty, marks, estimated_seconds, origin, status, ai_review, passage_group, passage_position, specialisation_id)
-  values ('ME', 'long_answer', 'དྲི་བ་བཅུ་པ།
+  values ('ME', 'passage', 'དྲི་བ་བཅུ་པ།
 གཤམ་འཁོད་མགོའི་ཤ་གནད་ཀྱི་གནས་ལུགས་མིང་ དབྱིན་སྐད་ཐོག་ལུ་ཡོད་མི་འདི་ རང་ལུགས་གསོ་བ་རིགས་པའི་མགོའི་ཤ་གནད་ལྔ་
 ལུ་སྐད་འགྱུར་འབད་དེ་བྲིས་ནི། (སྐུགས ༥)
 1. Gelea aponeurotica
@@ -314,7 +318,7 @@ with nq as (
 3. Temporalis Muscle
 4. Occipitalis Muscle
 5. Sternocleidomastoid muscle
-བཀྲིས་བདེ་ལེགས།', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5, 540,
+བཀྲིས་བདེ་ལེགས།', '[]'::jsonb, (select id from public.subjects where slug = 'subject-specialisation'), (select id from public.exam_papers where code = 'me-technical-3'), 'standard', 5.0, 540.0,
     'historical_official', 'draft', '{"verdict": "needs_expert", "issues": ["Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing."], "batch": "ME Paper III (Technical, Traditional Medicine): BCSE 2024 - questions only, Drungtsho to add answers", "source": {"title": "BCSE 2024 Main Examination, Technical Paper III, Traditional Medicine", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}}'::jsonb, 'me-technical-3-tradmed2024-sectionb', 10, (select id from public.specialisations where code = 'drungtsho'))
   returning id
 ), yr as (insert into public.question_appearances (question_id, year) select id, 2024 from nq)

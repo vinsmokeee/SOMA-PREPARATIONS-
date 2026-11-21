@@ -11,7 +11,7 @@ insert into public.topics (subject_id, slug, name) select (select id from public
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'language-general-knowledge'), 'translation-english-to-dzongkha', 'Translation: English to Dzongkha' on conflict (subject_id, slug) do nothing;
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'analytical', 'Read the following passage (an excerpt from the book ''The Tipping Point'') and answer ALL THREE questions.
 
 Suicide, smoking, and the search for the unsticky cigarette: Case Study (by Malcolm Gladwell)
@@ -47,17 +47,18 @@ Third, both follow social rules and rituals rather than rational thinking. Micro
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'case-study'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 10,
     1080, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, 'me-technical-1-2021b5-cs', 1, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, 'me-technical-1-2021b5-cs', 1, null, null, null, null)
   returning id
 )
 insert into me_q select 'A1', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'A1' on conflict do nothing;
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content and relevance', 'Answers exactly what is asked with correct, relevant points (and evidence from the passage where asked).', 4.0, 1 from me_q where key = 'A1';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Analysis and examples', 'Explains reasons and effects, gives Bhutanese examples and practical suggestions.', 2.5, 2 from me_q where key = 'A1';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language', 'Correct grammar, spelling and vocabulary (Dzongkha items: spelling and honorifics).', 2.0, 3 from me_q where key = 'A1';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Organisation', 'Logical order, paragraphs or points.', 1.5, 4 from me_q where key = 'A1';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'analytical', 'Question 2
 How does the author suggest that the Micronesian epidemic is deeply rooted in the day-to-day practice and culture of the Micronesian youth? (10 marks)', 'The author shows that suicide had become part of everyday youth culture in Micronesia.
 
@@ -67,17 +68,18 @@ Anthropologist Donald Rubinstein notes that the idea had become embedded in loca
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'case-study'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 10,
     1080, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, 'me-technical-1-2021b5-cs', 2, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, 'me-technical-1-2021b5-cs', 2, null, null, null, null)
   returning id
 )
 insert into me_q select 'A2', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'A2' on conflict do nothing;
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content and relevance', 'Answers exactly what is asked with correct, relevant points (and evidence from the passage where asked).', 4.0, 1 from me_q where key = 'A2';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Analysis and examples', 'Explains reasons and effects, gives Bhutanese examples and practical suggestions.', 2.5, 2 from me_q where key = 'A2';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language', 'Correct grammar, spelling and vocabulary (Dzongkha items: spelling and honorifics).', 2.0, 3 from me_q where key = 'A2';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Organisation', 'Logical order, paragraphs or points.', 1.5, 4 from me_q where key = 'A2';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'analytical', 'Question 3
 How do you relate the Micronesian epidemic and the smoking epidemic of the US to the smoking habit and the suicide trend among the youth of Bhutan? (10 marks)', 'Similar patterns can be seen in Bhutan.
 
@@ -89,17 +91,18 @@ The lesson is that we must treat these as social epidemics: use positive peer le
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'case-study'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 10,
     1080, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, 'me-technical-1-2021b5-cs', 3, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, 'me-technical-1-2021b5-cs', 3, null, null, null, null)
   returning id
 )
 insert into me_q select 'A3', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'A3' on conflict do nothing;
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content and relevance', 'Answers exactly what is asked with correct, relevant points (and evidence from the passage where asked).', 4.0, 1 from me_q where key = 'A3';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Analysis and examples', 'Explains reasons and effects, gives Bhutanese examples and practical suggestions.', 2.5, 2 from me_q where key = 'A3';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language', 'Correct grammar, spelling and vocabulary (Dzongkha items: spelling and honorifics).', 2.0, 3 from me_q where key = 'A3';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Organisation', 'Logical order, paragraphs or points.', 1.5, 4 from me_q where key = 'A3';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'long_answer', 'Both formal media and social media seem to praise the way Bhutan managed the Covid-19 pandemic so far. In your opinion, did Bhutan succeed or fail in managing and containing the pandemic so far? What are the factors contributing to either the success or the failure story? (10 marks)', 'In my view Bhutan clearly succeeded in managing the pandemic, recording very few deaths compared with most countries.
 
 The most important factor was the leadership of His Majesty The King, who travelled across the country to guide preparations and personally supported frontline workers. The government acted early: borders were closed, mandatory quarantine and testing were introduced, and lockdowns were imposed quickly when cases appeared.
@@ -110,17 +113,18 @@ De-suups, health workers and volunteers worked tirelessly at borders and quarant
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'topical-issues-health-and-governance'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 10,
     1080, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'B1', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'B1' on conflict do nothing;
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content and relevance', 'Answers exactly what is asked with correct, relevant points (and evidence from the passage where asked).', 4.0, 1 from me_q where key = 'B1';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Analysis and examples', 'Explains reasons and effects, gives Bhutanese examples and practical suggestions.', 2.5, 2 from me_q where key = 'B1';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language', 'Correct grammar, spelling and vocabulary (Dzongkha items: spelling and honorifics).', 2.0, 3 from me_q where key = 'B1';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Organisation', 'Logical order, paragraphs or points.', 1.5, 4 from me_q where key = 'B1';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'long_answer', 'In the past, the human-wildlife conflict was limited to loss of agricultural produce and domestic animals. However, in recent times, the conflict has taken human lives. Suggest practical strategies to solve this human-wildlife conflict. (10 marks)', 'Several practical strategies can reduce the conflict.
 
 First, protect fields and homes physically: electric (solar) fencing and chain-link fences around villages and fields, community guarding schedules, lights and noise alarms, and secure sheds for livestock at night.
@@ -133,17 +137,18 @@ Finally, protect people''s lives with awareness on how to behave around bears, e
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'topical-issues-environment-and-agriculture'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 10,
     1080, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'B2', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'B2' on conflict do nothing;
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content and relevance', 'Answers exactly what is asked with correct, relevant points (and evidence from the passage where asked).', 4.0, 1 from me_q where key = 'B2';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Analysis and examples', 'Explains reasons and effects, gives Bhutanese examples and practical suggestions.', 2.5, 2 from me_q where key = 'B2';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language', 'Correct grammar, spelling and vocabulary (Dzongkha items: spelling and honorifics).', 2.0, 3 from me_q where key = 'B2';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Organisation', 'Logical order, paragraphs or points.', 1.5, 4 from me_q where key = 'B2';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'long_answer', 'During the Covid-19 pandemic, the construction sector in Bhutan has suffered due to lack of foreign technical manpower. This went on to show that Bhutan is still dependent on foreign technical skill in the construction sector. How can Bhutan improve technical skill in future? (10 marks)', 'Bhutan can build its own technical workforce in several ways.
 
 First, strengthen technical and vocational education: modernise TTIs, offer practical courses in masonry, carpentry, plumbing, electrical work and machine operation, and link training with real apprenticeships on construction sites, followed by national certification.
@@ -156,17 +161,18 @@ Finally, use partnerships with foreign firms and experts so that every large pro
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'topical-issues-skills-and-economy'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 10,
     1080, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'B3', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'B3' on conflict do nothing;
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content and relevance', 'Answers exactly what is asked with correct, relevant points (and evidence from the passage where asked).', 4.0, 1 from me_q where key = 'B3';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Analysis and examples', 'Explains reasons and effects, gives Bhutanese examples and practical suggestions.', 2.5, 2 from me_q where key = 'B3';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language', 'Correct grammar, spelling and vocabulary (Dzongkha items: spelling and honorifics).', 2.0, 3 from me_q where key = 'B3';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Organisation', 'Logical order, paragraphs or points.', 1.5, 4 from me_q where key = 'B3';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'long_answer', 'Young people worldwide today have trendy perceptions of beauty and body standards that could be detrimental to their health, psychological wellbeing, and social behaviour. Discuss the reality of the situation in Bhutan. (10 marks)', 'Bhutanese youth are not immune to global beauty trends. Through social media, films and K-pop, many young people admire very slim, fair-skinned, "perfect" looks. Fairness creams, cosmetics, hair colouring and fashion are increasingly popular, and some young people diet excessively or use supplements to change their bodies.
 
 These standards can harm health when young people skip meals, take unsafe products or develop eating disorders. They also affect mental wellbeing: comparing themselves with edited photos online leads to low self-esteem, anxiety and depression. Socially, they can lead to body-shaming, bullying and spending money on appearance rather than essentials.
@@ -175,221 +181,239 @@ However, many Bhutanese youth still value traditional dress and inner qualities.
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'topical-issues-youth-and-society'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 10,
     1080, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'B4', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'B4' on conflict do nothing;
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content and relevance', 'Answers exactly what is asked with correct, relevant points (and evidence from the passage where asked).', 4.0, 1 from me_q where key = 'B4';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Analysis and examples', 'Explains reasons and effects, gives Bhutanese examples and practical suggestions.', 2.5, 2 from me_q where key = 'B4';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language', 'Correct grammar, spelling and vocabulary (Dzongkha items: spelling and honorifics).', 2.0, 3 from me_q where key = 'B4';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Organisation', 'Logical order, paragraphs or points.', 1.5, 4 from me_q where key = 'B4';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'The International Day of Happiness is celebrated every year on', null, 'The UN International Day of Happiness is 20 March.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C1', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C1' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '21st March', false, 1), ('B', '20th March', true, 2), ('C', '21st April', false, 3), ('D', '20th April', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C1';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'The first country to launch an automated (self-driving) train sharing tracks with regular trains is', null, 'Germany (Hamburg S-Bahn, 2021).', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C2', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C2' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Germany', true, 1), ('B', 'USA', false, 2), ('C', 'UK', false, 3), ('D', 'Japan', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C2';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'Who is the author of the book ''A Promised Land''?', null, '''A Promised Land'' (2020) is Barack Obama''s memoir.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C4', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C4' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'J.K. Rowling', false, 1), ('B', 'Shashi Tharoor', false, 2), ('C', 'Mahatma Gandhi', false, 3), ('D', 'Barack Obama', true, 4)) as v(label, body, ok, pos) where me_q.key = 'C4';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'What do the five Olympic rings represent?', null, 'The rings stand for the five inhabited continents united by the Olympics.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C5', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C5' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Ethnicity', false, 1), ('B', 'Values', false, 2), ('C', 'Continents', true, 3), ('D', 'Diversity', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C5';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'All of the following countries have embassies in Bhutan EXCEPT', null, 'India, Bangladesh and Kuwait have embassies in Thimphu; Thailand does not.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C6', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C6' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Kuwait', false, 1), ('B', 'Bangladesh', false, 2), ('C', 'Thailand', true, 3), ('D', 'India', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C6';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'The 2021 Nobel Peace Prize was awarded to the field of', null, 'Journalists Maria Ressa and Dmitry Muratov received the 2021 Nobel Peace Prize.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C7', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C7' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Journalism', true, 1), ('B', 'Medicine', false, 2), ('C', 'Literature', false, 3), ('D', 'Chemistry', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C7';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'Lumbini, the birthplace of Gautama Buddha, is in', null, 'Lumbini is in southern Nepal.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C8', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C8' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Nepal', true, 1), ('B', 'Sri Lanka', false, 2), ('C', 'Sikkim', false, 3), ('D', 'Bihar', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C8';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'The national flag of Bhutan was first used during', null, 'The first national flag was designed for the signing of the 1949 Indo-Bhutan Treaty.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C9', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C9' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Bhutan''s admission to the UN in 1971', false, 1), ('B', 'the signing of the Treaty of Sinchula in 1865', false, 2), ('C', 'the signing of the Indo-Bhutan Treaty in 1949', true, 3), ('D', 'Prime Minister Nehru''s visit to Bhutan in 1958', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C9';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'The DOGE-1 mission to the Moon was to be launched by which company?', null, 'DOGE-1 was announced as a SpaceX rideshare mission.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C10', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C10' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'NASA', false, 1), ('B', 'Roscosmos', false, 2), ('C', 'ISRO', false, 3), ('D', 'SpaceX', true, 4)) as v(label, body, ok, pos) where me_q.key = 'C10';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'From which country did the United States withdraw its troops in 2021?', null, 'US troops left Afghanistan in August 2021.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C11', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C11' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Afghanistan', true, 1), ('B', 'Yemen', false, 2), ('C', 'Iran', false, 3), ('D', 'Iraq', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C11';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'All of the following are Scandinavian countries EXCEPT', null, 'Scandinavia is Denmark, Norway and Sweden.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C13', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C13' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Denmark', false, 1), ('B', 'Canada', true, 2), ('C', 'Sweden', false, 3), ('D', 'Norway', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C13';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'G-77 is a group of', null, 'The Group of 77 is a coalition of developing countries at the UN.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C14', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C14' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'developing countries', true, 1), ('B', 'underdeveloped countries', false, 2), ('C', 'developed countries', false, 3), ('D', 'the most developed countries', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C14';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'Which of the following is NOT an official language of the UN?', null, 'German is not one of the six official UN languages.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C16', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C16' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Arabic', false, 1), ('B', 'German', true, 2), ('C', 'French', false, 3), ('D', 'Chinese', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C16';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'Peace is symbolised by which of the following?', null, 'The olive branch is a traditional symbol of peace.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C17', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C17' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Blue light', false, 1), ('B', 'Candle flame', false, 2), ('C', 'Lotus', false, 3), ('D', 'Olive branch', true, 4)) as v(label, body, ok, pos) where me_q.key = 'C17';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'How many Opposition Party members were there in the National Assembly in 2008-2013?', null, 'The PDP won only 2 of 47 seats in 2008.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C18', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C18' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '3', false, 1), ('B', '8', false, 2), ('C', '2', true, 3), ('D', '7', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C18';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'The capital of Sweden is', null, 'Stockholm is Sweden''s capital.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C19', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C19' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Helsinki', false, 1), ('B', 'Ottawa', false, 2), ('C', 'Vienna', false, 3), ('D', 'Stockholm', true, 4)) as v(label, body, ok, pos) where me_q.key = 'C19';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'mcq', 'UNIDO stands for', null, 'UNIDO is the UN Industrial Development Organization.', '[]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'general-knowledge'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 1,
     60, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'C20', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'C20' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'The United Nations Immunology Development Organization', false, 1), ('B', 'The United Nations Industrial Development Organization', true, 2), ('C', 'The United Nations Innovation Development Organization', false, 3), ('D', 'The United Nations Infrastructure Development Organization', false, 4)) as v(label, body, ok, pos) where me_q.key = 'C20';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'passage', 'ད་རེས་ནངས་པ་ དཔལ་འབོར་གོང་འཕེལ་འགྱོཝ་དང་གཅིག་ཁར་ མི་གི་བསམ་པ་དང་སྤྱོད་པ་ཡང་ འགྱུར་ཏེ་འགྱོ་མི་ཚུ་ ང་བཅས་ར་ཆོས་དང་ལམ་སྲོལ་ལས་བརྟེན་ཏེ་ བཅོས་ཁ་རྐྱབ་དགོཔ་འདི་ག་ཅི་དེ་ ཁག་ཆེ་བས་ཟེར་ཞུ་ནི་ཨིན། དཔེ་གཏམ་ལས་ འདོདཔ་ཆེནི་ཀུན་དང་བྲལ་ཟེར་སླབ་དོ་བཟུམ་སྦེ་ རྒྱུ་ནོར་ལུ་ཞན་ཆགས་བསྐྱེད་པ་ཅིན་ སེམས་ལུ་ཞི་བདེ་དང་དགའ་སྐྱིད་མེད་པའི་ཁར་ ཤིཝ་ད་ལུ་ཡང་དམྱལ་བར་ལུ་འགྱོ་ནིའི་ལཱ་ཨིནམ་ལས། ཆོས་དང་ལམ་སྲོལ་ལས་བརྟེན་པའི་ རང་གི་སེམས་ལུ་ དགའ་སྐྱིད་དང་ཞི་བདེ་ཐོབ་མི་ཚུགས།དཔེ་གཏམ་ལས་ཡང་ དཔེ་ཅིག་ཡོདན་ ཀུན་གྱིས་ཤེས། མཚམས་ཚོད་ཤེས་ན་མཁས་པའི་རྟགས་ ཟེར་སླབ་དོ་བཟུམ་སྦེ་ ནང་པའི་ཆོས་ལྡན་གྱི་རྒྱལ་ཁབ་ནང་ སྐྱེས་མིའི་མི་སེར་ཚུ་ འདོད་པ་མ་ཆེ་བར་ རྒྱུ་ནོར་ལུ་མཚམས་ཚོད་ཤེས་ཏེ་ མནོ་བསམ་གཏང་ཐངས་དང་བ་བ་སྤྱོད་ལམ་ལེགས་ཤོམ་གྱི་ཐོག་ལས་ གཞན་ལུ་གནོད་པའི་སེམས་འདི་སྤངས་ཞིནམ་ལས་ ཕན་པའི་མནོ་བསམ་གཏང་ཚུགས་པ་ཅིན་ལེགས་ཤོམ་འོང་ནི་ཨིན།
 
 དཔལ་ལྡན་འབྲུག་པའི་རྒྱལ་ཁབ་འདི་ནང་ལུ་ ཆོས་དང་འཇིག་རྟེན་གཉིས་ཀྱི་ལམ་སྲོལ་ཚུ་ རྒྱལ་ཁབ་གཞན་དང་དང་རྩ་ལས་རང་མ་འདྲཝ་སྦེ་ སྔོན་བྱོན་རྒྱལ་བ་གོངམ་དང་ཕམ་བཟང་པོ་ཚུ་གི་མཛད་ཤུལ་ ཡ་མཚན་ཆེ་ཏོག་ཏོ་གི་རྒྱལ་ཡོངས་སྐད་ཡིག་རྫོང་ཁ་དང་ གྱོན་ཆས་གོ་དང་དཀྱི་ར་ སྒྲིག་ལམ་རྣམ་གཞག་ཚུ་ མ་ཉམས་པར་ཧེ་མ་ལས་ད་ལོ་ཚུན་ཚོད་ མི་རབས་བརྒྱུད་དེ་ གོངམ་གིས་འོགམ་ལུ་བྱམས་བརྩེ་དང་སྐྱིད་སྡུག་ འོགམ་གི་གོངམ་ལུ་དད་པ་དང་གུས་ཞབས། ཕམ་དང་བུ་གཞི་གི་འདུ་ཤེས་ སྤུན་ཆའི་བརྩེ་གདུང་། ཉེ་འཁོར་གྱི་ཆ་བཞག། གཉེན་གྲོགས་ཀྱི་དམ་ཚིག། དགའ་མཐུན་གྱི་དག་སྣང་། ཁྱིམ་ཚང་ངོ་ཤེས་འདྲིས་ཤེས་ཅན་གྱི་མི་ཚུ་ལུ་ བརྩེ་བའི་སེམས་རྒྱུན་ཆད་མེད་པར་བསྐྱེད་དགོ།
@@ -405,62 +429,71 @@ with nq as (
 ༢ རྒྱུ་ནོར་ལུ་སེམས་ཆགས་པ་ཅིན་ རང་གི་མི་ཚེ་ནང་ལུ་ གནོད་པ་ག་ཅི་རང་འདུག་གོ? གནད་དོན་ ༢ བྲིས། (༢)
 ༣ རྒྱལ་ཁབ་གཞན་དང་མ་འདྲཝ་སྦེ་ཡོད་པའི་ ཕམ་བཟང་པོའི་མཛད་ཤུལ་གྱི་ལམ་སྲོལ་ ཡིག་རྒྱུགས་འདི་ནང་ཡོད་མི་ ༢ ཐོ་བཀོད་འབད། (༢)
 ༤ མི་དང་སེམས་ཅན་ཚུ་ལུ་ ཕན་པའི་ལཱ་གཞན་འབད་མ་ཚུགས་རུང་ ག་ཅི་འབད་དགོཔ་སྦེ་ བཀོད་དེ་འདུག་གོ? (༢)
-༥ ཁྱོད་ཀྱིས་འབད་བ་ཅིན་ ང་བཅས་རའི་ཆོས་དང་ལམ་སྲོལ་ཚུ་ བདག་འཛིན་འབད་དགོཔ་ཁག་ཆེ་བས་ག? ག་ཅི་འབད? (༢)', '༡ ཆོས་དང་ ལམ་སྲོལ་ལས་ བརྟེན་ཏེ་ བཅོས་ཁ་ རྐྱབ་དགོ།
+༥ ཁྱོད་ཀྱིས་འབད་བ་ཅིན་ ང་བཅས་རའི་ཆོས་དང་ལམ་སྲོལ་ཚུ་ བདག་འཛིན་འབད་དགོཔ་ཁག་ཆེ་བས་ག? ག་ཅི་འབད? (༢)
+
+(Marks: 12 - set to the latest RCSC layout; the 2021 paper gave 9.)', '༡ ཆོས་དང་ ལམ་སྲོལ་ལས་ བརྟེན་ཏེ་ བཅོས་ཁ་ རྐྱབ་དགོ།
 ༢ སེམས་ལུ་ ཞི་བདེ་དང་ དགའ་སྐྱིད་ མེད་པའི་ཁར་ ཤི་བའི་ཤུལ་ལུ་ཡང་ དམྱལ་བར་ འགྱོ་ནིའི་ལཱ་ ཨིན།
 ༣ རྒྱལ་ཡོངས་སྐད་ཡིག་ རྫོང་ཁ་དང་ གྱོན་ཆས་ གོ་དང་ ཀི་ར། སྒྲིག་ལམ་རྣམ་གཞག།
 ༤ ཕན་པ་ གཞན་ འབད་མ་ཚུགས་རུང་ ན་བ་ཅིན་ ཤི་མ་བཅུག་ ཟེར་བའི་ བྱམས་པ་དང་ ཤི་བ་ཅིན་ ངན་སོང་ལུ་ མ་ཚུད་འབད་ ཟེར་བའི་ སྙིང་རྗེ་ སེམས་ཀྱི་ གདིང་ལས་ བསྐྱེད་དགོ།
-༥ ཁག་ཆེ། ཆོས་དང་ ལམ་སྲོལ་ སྐད་ཡིག་ གྱོན་ཆས་འདི་ རྒྱལ་ཁབ་ཀྱི་ ངོ་རྟགས་ཨིནམ་ལས་ ཉམས་པ་ཅིན་ རང་དབང་རང་བཙན་དང་ སྲུང་སྐྱོབ་ལུ་ གནོད་ནི་ཨིན།', null, '[{"point": "༡ ཆོས་དང་ལམ་སྲོལ་གྱིས།", "marks": 1}, {"point": "༢ སེམས་ལུ་ ཞི་བདེ་དང་ དགའ་སྐྱིད་མེད། ཤི་བའི་ཤུལ་ལུ་ དམྱལ་བར་འགྱོ་ནིའི་ལཱ།", "marks": 2}, {"point": "༣ རྒྱལ་ཡོངས་སྐད་ཡིག་ རྫོང་ཁ། གྱོན་ཆས་ གོ་དང་ ཀི་ར། སྒྲིག་ལམ་རྣམ་གཞག། (གཉིས་)", "marks": 2}, {"point": "༤ ན་བ་ཅིན་ ཤི་མ་བཅུག་ཟེར་བའི་ བྱམས་པ་དང་ ཤི་བ་ཅིན་ … ཟེར་བའི་ སྙིང་རྗེ་ སེམས་ཀྱི་གདིང་ལས་ བསྐྱེད་དགོ།", "marks": 2}, {"point": "༥ ཁག་ཆེ་ - རྒྱུ་མཚན་ (རང་དབང་རང་བཙན་དང་ སྲུང་སྐྱོབ། ངོ་རྐྱང་།)", "marks": 2}]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
-    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'dzongkha-comprehension'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 9,
-    972, 'historical_official', 'awaiting_review',
+༥ ཁག་ཆེ། ཆོས་དང་ ལམ་སྲོལ་ སྐད་ཡིག་ གྱོན་ཆས་འདི་ རྒྱལ་ཁབ་ཀྱི་ ངོ་རྟགས་ཨིནམ་ལས་ ཉམས་པ་ཅིན་ རང་དབང་རང་བཙན་དང་ སྲུང་སྐྱོབ་ལུ་ གནོད་ནི་ཨིན།', null, '[{"point": "༡ ཆོས་དང་ལམ་སྲོལ་གྱིས།", "marks": 2.0}, {"point": "༢ སེམས་ལུ་ ཞི་བདེ་དང་ དགའ་སྐྱིད་མེད། ཤི་བའི་ཤུལ་ལུ་ དམྱལ་བར་འགྱོ་ནིའི་ལཱ།", "marks": 2.5}, {"point": "༣ རྒྱལ་ཡོངས་སྐད་ཡིག་ རྫོང་ཁ། གྱོན་ཆས་ གོ་དང་ ཀི་ར། སྒྲིག་ལམ་རྣམ་གཞག། (གཉིས་)", "marks": 2.5}, {"point": "༤ ན་བ་ཅིན་ ཤི་མ་བཅུག་ཟེར་བའི་ བྱམས་པ་དང་ ཤི་བ་ཅིན་ … ཟེར་བའི་ སྙིང་རྗེ་ སེམས་ཀྱི་གདིང་ལས་ བསྐྱེད་དགོ།", "marks": 2.5}, {"point": "༥ ཁག་ཆེ་ - རྒྱུ་མཚན་ (རང་དབང་རང་བཙན་དང་ སྲུང་སྐྱོབ། ངོ་རྐྱང་།)", "marks": 2.5}]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'dzongkha-comprehension'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 12,
+    1296, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": ["Dzongkha: please have a fluent Dzongkha reader check it before publishing.", "Real RCSC Dzongkha text from a PDF whose font drops letters; repaired automatically: compare with the PDF."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, 'me-technical-1-2021b5-dz', 1, null)
+    '{"verdict": "pass", "issues": ["Dzongkha: please have a fluent Dzongkha reader check it before publishing.", "Real RCSC Dzongkha text from a PDF whose font drops letters; repaired automatically: compare with the PDF."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, 'me-technical-1-2021b5-dz', 1, null, null, null, null)
   returning id
 )
 insert into me_q select 'D1', id from nq;
-insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content and relevance', 'Answers exactly what is asked with correct, relevant points (and evidence from the passage where asked).', 3.5, 1 from me_q where key = 'D1';
-insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Analysis and examples', 'Explains reasons and effects, gives Bhutanese examples and practical suggestions.', 2.0, 2 from me_q where key = 'D1';
-insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language', 'Correct grammar, spelling and vocabulary (Dzongkha items: spelling and honorifics).', 2.0, 3 from me_q where key = 'D1';
-insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Organisation', 'Logical order, paragraphs or points.', 1.5, 4 from me_q where key = 'D1';
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'D1' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content and relevance', 'Answers exactly what is asked with correct, relevant points (and evidence from the passage where asked).', 4.5, 1 from me_q where key = 'D1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Analysis and examples', 'Explains reasons and effects, gives Bhutanese examples and practical suggestions.', 3.0, 2 from me_q where key = 'D1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language', 'Correct grammar, spelling and vocabulary (Dzongkha items: spelling and honorifics).', 2.5, 3 from me_q where key = 'D1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Organisation', 'Logical order, paragraphs or points.', 2.0, 4 from me_q where key = 'D1';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'passage', 'ཁ༽ འོག་གི་མིང་ཚིག་ཚུ་གི་ རྗོད་ཚིག་བཟོ། (ཡིག་རྒྱུགས་ནང་ལས་ འདྲ་བཤུས་རྐྱབ་མི་ཆོག) (སྐུགས་ ༦x༠.༥=༣)
-༡) ངོ་ཤེས་འདྲིས་ཤེས།  ༢) བརྩེ་གདུང་།  ༣) དཔེ་གཏམ།  ༤) གསོལ་མཆོད།  ༥) འཇིག་རྟེན།  ༦) དགའ་སྐྱིད།', '༡ གཡུས་ཚན་འདི་ནང་ མི་ག་ར་ ངོ་ཤེས་འདྲིས་ཤེས་ཅན་ཨིན།
+༡) ངོ་ཤེས་འདྲིས་ཤེས།  ༢) བརྩེ་གདུང་།  ༣) དཔེ་གཏམ།  ༤) གསོལ་མཆོད།  ༥) འཇིག་རྟེན།  ༦) དགའ་སྐྱིད།
+
+(Marks: 4 - set to the latest RCSC layout; the 2021 paper gave 3.)', '༡ གཡུས་ཚན་འདི་ནང་ མི་ག་ར་ ངོ་ཤེས་འདྲིས་ཤེས་ཅན་ཨིན།
 ༢ ཨམ་གྱིས་ ཨ་ལུ་ལུ་ བརྩེ་གདུང་ ཆེ་ཏོག་ཏོ་ ཡོད།
 ༣ རྒན་ཤོས་ཚུ་གིས་ དཔེ་གཏམ་ ལེ་ཤ་ ཤེས།
 ༤ ལོ་གསར་ནང་ ཆོས་སྐྱོང་ལུ་ གསོལ་མཆོད་ ཕུལཝ་ཨིན།
 ༥ འཇིག་རྟེན་འདི་ནང་ རྟག་པ་ ག་ནི་ཡང་ མེད།
-༦ བཟའ་ཚང་ ག་ར་ དགའ་སྐྱིད་ཀྱི་ ངང་ལུ་ སྡོད་ཡི།', null, '[{"point": "ཚིག་ ༦ ལུ་ རྗོད་ཚིག་ ཀྲིག་ཀྲི་ (ཚིག་རེ་ལུ་ ༠.༥)", "marks": 3}]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
-    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'dzongkha-comprehension'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 3,
-    324, 'historical_official', 'awaiting_review',
+༦ བཟའ་ཚང་ ག་ར་ དགའ་སྐྱིད་ཀྱི་ ངང་ལུ་ སྡོད་ཡི།', null, '[{"point": "ཚིག་ ༦ ལུ་ རྗོད་ཚིག་ ཀྲིག་ཀྲི་ (ཚིག་རེ་ལུ་ ༠.༥)", "marks": 4.0}]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'dzongkha-comprehension'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 4,
+    432, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": ["Dzongkha: please have a fluent Dzongkha reader check it before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, 'me-technical-1-2021b5-dz', 2, null)
+    '{"verdict": "pass", "issues": ["Dzongkha: please have a fluent Dzongkha reader check it before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, 'me-technical-1-2021b5-dz', 2, null, null, null, null)
   returning id
 )
 insert into me_q select 'D2', id from nq;
-insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content and relevance', 'Answers exactly what is asked with correct, relevant points (and evidence from the passage where asked).', 1.0, 1 from me_q where key = 'D2';
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'D2' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content and relevance', 'Answers exactly what is asked with correct, relevant points (and evidence from the passage where asked).', 1.5, 1 from me_q where key = 'D2';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Analysis and examples', 'Explains reasons and effects, gives Bhutanese examples and practical suggestions.', 1.0, 2 from me_q where key = 'D2';
-insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language', 'Correct grammar, spelling and vocabulary (Dzongkha items: spelling and honorifics).', 0.5, 3 from me_q where key = 'D2';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language', 'Correct grammar, spelling and vocabulary (Dzongkha items: spelling and honorifics).', 1.0, 3 from me_q where key = 'D2';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Organisation', 'Logical order, paragraphs or points.', 0.5, 4 from me_q where key = 'D2';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'passage', 'ག༽ འོག་གི་མིང་ཚིག་ཚུ་གི་ རྣམ་གྲངས་ ཡིག་རྒྱུགས་ནང་ལས་འཚོལ་ཏེ་བྲིས། (སྐུགས་ ༦x༠.༥=༣)
-༡) ལེགས་ཤོམ་བཟོ།  ༢) གོ་ལ།  ༣) ཧ་ལས་སི་སི།  ༤) འབད་གཞག་བཅའ་གཞག།  ༥) དགོ་འདོད་ཆེ།  ༦) རྨགཔ་དང་ཨམ་སྲུ།', 'ལེགས་ཤོམ་བཟོ = བཅོས་ཁ་རྐྱབ། གོ་ལ = གྱོན་ཆས། ཧ་ལས་སི་སི = ཡ་མཚན་ཆེ། འབད་གཞག་བཅའ་གཞག = བྱ་བ་སྤྱོད་ལམ། དགོ་འདོད་ཆེ = འདོདཔ་ཆེ། རྨགཔ་དང་ཨམ་སྲུ = ཁྱིམ་ཚང་ (to confirm)', null, '[{"point": "ལེགས་ཤོམ་བཟོ → བཅོས་ཁ་རྐྱབ། གོ་ལ → གྱོན་ཆས། ཧ་ལས་སི་སི → ཡ་མཚན་ཆེ། འབད་གཞག་བཅའ་གཞག → བྱ་བ་སྤྱོད་ལམ། དགོ་འདོད་ཆེ → འདོདཔ་ཆེ། རྨགཔ་དང་ཨམ་སྲུ → ཁྱིམ་ཚང་ / གཉེན་གྲོགས (to confirm) (ཚིག་རེ་ལུ་ ༠.༥)", "marks": 3}]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
-    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'dzongkha-comprehension'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 3,
-    324, 'historical_official', 'awaiting_review',
+༡) ལེགས་ཤོམ་བཟོ།  ༢) གོ་ལ།  ༣) ཧ་ལས་སི་སི།  ༤) འབད་གཞག་བཅའ་གཞག།  ༥) དགོ་འདོད་ཆེ།  ༦) རྨགཔ་དང་ཨམ་སྲུ།
+
+(Marks: 4 - set to the latest RCSC layout; the 2021 paper gave 3.)', 'ལེགས་ཤོམ་བཟོ = བཅོས་ཁ་རྐྱབ། གོ་ལ = གྱོན་ཆས། ཧ་ལས་སི་སི = ཡ་མཚན་ཆེ། འབད་གཞག་བཅའ་གཞག = བྱ་བ་སྤྱོད་ལམ། དགོ་འདོད་ཆེ = འདོདཔ་ཆེ། རྨགཔ་དང་ཨམ་སྲུ = ཁྱིམ་ཚང་ (to confirm)', null, '[{"point": "ལེགས་ཤོམ་བཟོ → བཅོས་ཁ་རྐྱབ། གོ་ལ → གྱོན་ཆས། ཧ་ལས་སི་སི → ཡ་མཚན་ཆེ། འབད་གཞག་བཅའ་གཞག → བྱ་བ་སྤྱོད་ལམ། དགོ་འདོད་ཆེ → འདོདཔ་ཆེ། རྨགཔ་དང་ཨམ་སྲུ → ཁྱིམ་ཚང་ / གཉེན་གྲོགས (to confirm) (ཚིག་རེ་ལུ་ ༠.༥)", "marks": 4.0}]'::jsonb, (select id from public.subjects where slug = 'language-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'dzongkha-comprehension'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 4,
+    432, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": ["Dzongkha: please have a fluent Dzongkha reader check it before publishing.", "Synonyms: a Dzongkha teacher should confirm the expected words from the passage."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, 'me-technical-1-2021b5-dz', 3, null)
+    '{"verdict": "pass", "issues": ["Dzongkha: please have a fluent Dzongkha reader check it before publishing.", "Synonyms: a Dzongkha teacher should confirm the expected words from the passage."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, 'me-technical-1-2021b5-dz', 3, null, null, null, null)
   returning id
 )
 insert into me_q select 'D3', id from nq;
-insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content and relevance', 'Answers exactly what is asked with correct, relevant points (and evidence from the passage where asked).', 1.0, 1 from me_q where key = 'D3';
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'D3' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content and relevance', 'Answers exactly what is asked with correct, relevant points (and evidence from the passage where asked).', 1.5, 1 from me_q where key = 'D3';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Analysis and examples', 'Explains reasons and effects, gives Bhutanese examples and practical suggestions.', 1.0, 2 from me_q where key = 'D3';
-insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language', 'Correct grammar, spelling and vocabulary (Dzongkha items: spelling and honorifics).', 0.5, 3 from me_q where key = 'D3';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language', 'Correct grammar, spelling and vocabulary (Dzongkha items: spelling and honorifics).', 1.0, 3 from me_q where key = 'D3';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Organisation', 'Logical order, paragraphs or points.', 0.5, 4 from me_q where key = 'D3';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
-                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by)
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
   values ('ME', 'translation', 'འོག་ལུ་ ཨིང་སྐད་ནང་ཡོད་མི་ གསུང་བཤད་འདི་ རྫོང་ཁའི་ཐོག་ལུ་ སྐད་སྒྱུར་འབད་དེ་བྲིས། (སྐུགས་ ༡༥)
 
 Today I speak on behalf of our teachers and students – our teachers will always be committed and dedicated teachers – our students will always be diligent and loyal students – but it is the duty of parents, policy makers and the government to put the right tools in their hands – the right books, the right curriculum, the right direction. For this we must first ask ourselves where do we want to go as an economy, as a democracy, as a nation. In other words, what is the Vision for Bhutan? Then we must build an education system that nurtures people with the right skills, knowledge and training to fulfill this Vision. The sooner we realize this the better. The word Vision is such a profound word and yet one that is so commonly mis-used. I feel that there is no better reason to use this word than to describe the importance of education. For if our Vision for the nation is not contained in the pages of the books that our young children hold, in the words of our teachers as they lead their classrooms, and in the education policies of our governments, then let it be said– we have no Vision.
@@ -473,10 +506,11 @@ An excerpt from Address of His Majesty The King during 3rd convocation of the Ro
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'language-general-knowledge') and t.slug = 'translation-english-to-dzongkha'), (select id from public.exam_papers where code = 'me-technical-1'), 'standard', 15,
     1620, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": ["Dzongkha: please have a fluent Dzongkha reader check it before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null)
+    '{"verdict": "pass", "issues": ["Dzongkha: please have a fluent Dzongkha reader check it before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (Technical): BCSE 2021, batch 5", "source": {"title": "BCSE 2021 Main Examination, Technical category, Paper I (Language and GK)", "year": 2021, "url": "https://rcsc.gov.bt/technical-paper-1/"}}'::jsonb, null, null, null, null, null, null)
   returning id
 )
 insert into me_q select 'T1', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2021 from me_q where key = 'T1' on conflict do nothing;
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content and relevance', 'Answers exactly what is asked with correct, relevant points (and evidence from the passage where asked).', 6.0, 1 from me_q where key = 'T1';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Analysis and examples', 'Explains reasons and effects, gives Bhutanese examples and practical suggestions.', 4.0, 2 from me_q where key = 'T1';
 insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language', 'Correct grammar, spelling and vocabulary (Dzongkha items: spelling and honorifics).', 3.0, 3 from me_q where key = 'T1';

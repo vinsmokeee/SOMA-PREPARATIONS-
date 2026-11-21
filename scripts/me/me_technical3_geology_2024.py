@@ -11,6 +11,7 @@ GROUP_TAG = "geo2024"
 PAPER = "me-technical-3"
 SUBJECT = "subject-specialisation"
 SPECIALISATION = "geology"
+ADDS_TO_PAPER = True  # 2025 is the latest Geology paper: its layout stays (founder rule, 21 Nov 2026)
 MIN_WORDS = 0
 SOURCE = {"title": "BCSE 2024 Main Examination, Technical Paper III, Geology", "year": 2024, "url": "https://rcsc.gov.bt/technical-paper-iii/"}
 TOPIC = "Geology"

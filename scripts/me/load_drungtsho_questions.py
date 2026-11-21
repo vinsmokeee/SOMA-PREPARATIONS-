@@ -5,7 +5,7 @@ the PDF text (pdftotext -layout) and the expert adds the correct options, model 
 Layout read from the paper itself:
   Section A: question 1 = multiple choice (options ཀ ཁ ག ང); questions 2.. = short answers with their printed marks.
   Section B (after the line containing 'སྡེ་ཚན་ཁ་པ'): long questions with their printed marks, all compulsory.
-Mock pattern: MCQs x 1 mark; Section A short answers as one group; Section B as one group (all compulsory).
+Mock layout: the latest paper's (set by load_tradmed_2025_images.py); see the founder rule below.
 
 Usage: python3 -I scripts/me/load_drungtsho_questions.py <paper.txt> <year> <out.sql>
 """
@@ -76,21 +76,26 @@ def rubric(marks):
 
 
 items = [dict(type='mcq', marks=1, stem=x['stem'], opts=x['opts']) for x in mcqs]
-items += [dict(type='short_answer', marks=m, stem=s, group=f'me-technical-3-tradmed{year}-sectiona', pos=i + 1) for i, (s, m) in enumerate(saqs)]
-items += [dict(type='long_answer', marks=m, stem=s, group=f'me-technical-3-tradmed{year}-sectionb', pos=i + 1) for i, (s, m) in enumerate(longs)]
+# Founder rule (21 Nov 2026): older-year questions follow the LATEST paper's layout and marks (2025: short answers
+# 5 marks each, picked singly; Section B = choose 1 of 2 sets worth 50). So each Section A short answer becomes a
+# single 5-mark question, and Section B's long questions become one 50-mark set (passage group, 5 marks per question)
+# that a mock can offer as Case I or II. A changed mark is noted in the stem.
+NOTE = '\n\n(Marks: {new:g} - set to the latest RCSC layout; the {year} paper gave {old}.)'
+def remark(s, old, new):
+    return s if old == new else s + NOTE.format(new=new, old=old, year=year)
+B_EACH = round(50 / len(longs), 2) if longs else 0
+items += [dict(type='short_answer', marks=5, stem=remark(s, m, 5)) for s, m in saqs]
+items += [dict(type='passage', marks=B_EACH, stem=remark(s, m, B_EACH), group=f'me-technical-3-tradmed{year}-sectionb', pos=i + 1) for i, (s, m) in enumerate(longs)]
 
 paper = "(select id from public.exam_papers where code = 'me-technical-3')"
 subject = "(select id from public.subjects where slug = 'subject-specialisation')"
 spec = "(select id from public.specialisations where code = 'drungtsho')"
 out = [f'-- {BATCH}', 'begin;',
+       # Re-running deletes this batch's drafts: do NOT re-run once the Drungtsho has started adding answers.
        f"delete from public.questions where specialisation_id = {spec} and paper_id = {paper} and status = 'draft' and ai_review ->> 'batch' = {q(BATCH)};",
-       f"delete from public.paper_blueprint_sections where paper_id = {paper} and subject_group_id is null and specialisation_id = {spec};"]
-pattern = [("Section A Part I: Multiple choice questions", 'mcq', len(mcqs), 1),
-           ("Section A: Short answer questions", 'short_answer', 1, sa_total),
-           ("Section B: Long answer questions (all compulsory)", 'long_answer', 1, b_total)]
-for i, (title, ty, n, mk) in enumerate(pattern):
-    out.append(f"insert into public.paper_blueprint_sections (paper_id, subject_group_id, specialisation_id, topic_slug, sort_order, title, question_type, question_count, marks_each, answer_any, source) "
-               f"values ({paper}, null, {spec}, null, {i + 1}, {q(title)}, {q(ty)}, {n}, {mk}, null, {q(SOURCE['title'])});")
+       ]
+# The current layout for this specialisation is written by load_tradmed_2025_images.py (latest paper); this loader
+# must not overwrite it.
 review = {'verdict': 'needs_expert', 'issues': ['Answers not written by Soma: a Drungtsho must add the correct option / model answer and key points before publishing.'],
           'batch': BATCH, 'source': SOURCE}
 for x in items:
