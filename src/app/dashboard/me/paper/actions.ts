@@ -19,6 +19,7 @@ const MESSAGES: Record<string, string> = {
   ACCESS_REQUIRED: "This is part of ME Premium.",
   RATE_LIMIT: "Daily limit reached. Please try again tomorrow.",
   QUESTION_NOT_FOUND: "This paper is not available for your entry.",
+  PAUSED_EXAM_EXISTS: "Finish your paused exam first. Open “Paused exam” on your home page to continue it.",
 };
 const message = (e: { message: string } | null | undefined, fallback: string) =>
   Object.entries(MESSAGES).find(([k]) => e?.message.includes(k))?.[1] ?? fallback;

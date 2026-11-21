@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { ArrowRight, BarChart3, BookMarked, Check, ClipboardCheck, Crown, DoorOpen, Flame, Lock, Newspaper, PenLine, PencilLine, PlayCircle } from "lucide-react";
+import { ArrowRight, BarChart3, BookMarked, Pause, Check, ClipboardCheck, Crown, DoorOpen, Lock, Newspaper, PenLine, PencilLine } from "lucide-react";
 import { chooseExamAction, startFreeAction, setMeEntryAction } from "@/app/dashboard/exam-actions";
-import { StartButton } from "@/components/training/start-button";
 import { TodayPlan } from "@/components/training/today-plan";
-import { itemAction, type TrainingData } from "@/lib/training/model";
+import type { TrainingData } from "@/lib/training/model";
 import { cn } from "@/lib/utils";
 import { WhyPremium } from "./exam-info";
 import { FreeLimitNote, MockCta } from "@/components/exam/mock-cta";
@@ -304,6 +303,8 @@ export type AreaData = {
   entryLabel: string | null;
   premium: string | null;          // "Premium until …" or null for free
   openAttempt: { id: string; title: string } | null;
+  /** Exams the student paused (shown on the grey "Paused exam" tile). */
+  paused?: number;
   training: TrainingData | null;   // shown when today's plan is for this exam
   answered: number;
   accuracy: number | null;
@@ -317,26 +318,28 @@ export type AreaData = {
 
 export function ExamArea({ d }: { d: AreaData }) {
   const t = d.training;
-  const items = t?.items ?? [];
-  const next = items.find((i) => i.status === "pending" || i.status === "started");
-  const done = items.filter((i) => i.status === "done" || i.status === "skipped").length;
   const pe = d.stage === "PE";
+  const paused = d.paused ?? 0;
+  const pausedTile = { href: `/dashboard/paused?stage=${d.stage}`, label: "Paused exam", sub: paused ? `${paused} paused · tap to continue` : "Pause an exam and finish later", icon: Pause, tint: "from-slate-600 to-slate-400" };
+  const notebookTile = { href: `/dashboard/notebook?stage=${d.stage}`, label: "Your notebook", sub: "All correct answers saved as notes", icon: BookMarked, tint: "from-[#7c4a2d] to-[#a8703f]" };
+  const currentAffairs = { href: "/dashboard/current-affairs", label: "Current affairs", sub: "News and the Question of the Day", icon: Newspaper, tint: "from-violet-600 to-purple-500" };
+  // Order (founder, 22 Nov 2026): Paused exam next to My scores; Last-minute summary next to Your notebook.
   const tiles = pe
     ? [
         { href: "/dashboard/analytics?stage=PE", label: "My scores", sub: d.answered ? `${d.answered} answered` : "Your progress", icon: BarChart3, tint: "from-fuchsia-600 to-pink-500" },
+        pausedTile,
         { href: "/dashboard/omr-practice", label: "OMR sketch practice", sub: "Practise your shading for the RCSC PE", icon: PencilLine, tint: "from-slate-700 to-slate-500" },
-        // Current affairs and the Question of the Day open the same page, so one tile (founder, 22 Nov 2026).
-        { href: "/dashboard/current-affairs", label: "Current affairs", sub: "News and the Question of the Day", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
-        // Your notebook: every correct answer kept as a note (founder, 22 Nov 2026).
-        { href: "/dashboard/notebook?stage=PE", label: "Your notebook", sub: "All correct answers saved as notes", icon: BookMarked, tint: "from-[#7c4a2d] to-[#a8703f]" },
+        currentAffairs,
+        { href: "/dashboard/last-minute?stage=PE", label: "Last-minute summary", sub: "Your key points to revise", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
+        notebookTile,
       ]
     : [
         { href: "/dashboard/written/history", label: "My answers", sub: "Marks and AI feedback", icon: PenLine, tint: "from-rose-600 to-[#7a1e3a]" },
-        { href: "/dashboard/last-minute?stage=ME", label: "Last-minute summary", sub: "Your key points to revise", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
-        { href: "/dashboard/current-affairs", label: "Current affairs", sub: "News and the Question of the Day", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
+        currentAffairs,
         { href: "/dashboard/analytics?stage=ME", label: "My scores", sub: d.written ? `${d.written} answer${d.written === 1 ? "" : "s"} marked` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
-        // Your notebook: every correct answer kept as a note (founder, 22 Nov 2026).
-        { href: "/dashboard/notebook?stage=ME", label: "Your notebook", sub: "All correct answers saved as notes", icon: BookMarked, tint: "from-[#7c4a2d] to-[#a8703f]" },
+        pausedTile,
+        { href: "/dashboard/last-minute?stage=ME", label: "Last-minute summary", sub: "Your key points to revise", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
+        notebookTile,
       ];
 
   return (
@@ -352,49 +355,12 @@ export function ExamArea({ d }: { d: AreaData }) {
       ) : null}
       {!pe && d.progress?.length ? <MeOverall papers={d.progress} /> : null}
 
-      {/* PE: the mock test comes first (founder, 19 Nov 2026); an unfinished test is offered before a new one.
-          ME: the paper cards are the way in, so this box only appears to continue an unfinished paper (founder, 20 Nov 2026). */}
-      {pe && !d.openAttempt ? (
-        d.freeUsedUp ? <FreeLimitNote title="You have taken today’s free test" /> : <MockCta premium={Boolean(d.premium)} />
-      ) : !pe && !d.openAttempt ? null : (
-      <section className={cn("relative overflow-hidden rounded-3xl bg-gradient-to-br p-5 text-white shadow-xl sm:p-7", STAGE_INFO[d.stage].gradient)}>
-        <span className="absolute -right-10 -top-10 size-40 rounded-full bg-white/10" aria-hidden />
-        <div className="relative flex items-start justify-between gap-3">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-white/80">
-              {d.openAttempt || done ? "Continue where you left off" : "Start here"}
-            </p>
-            <h2 className="mt-1 text-2xl font-extrabold text-white">
-              {d.openAttempt ? d.openAttempt.title : next ? next.title : items.length ? "All done for today!" : pe ? "Your first practice" : "Your first written answer"}
-            </h2>
-            {t && items.length ? <p className="mt-1 text-sm text-white/85">Today: {done} of {items.length} done</p> : null}
-          </div>
-          {t ? (
-            <div className="flex shrink-0 flex-col items-center rounded-2xl bg-white/15 px-3 py-2">
-              <Flame className="size-6 text-yellow-200" aria-hidden />
-              <span className="text-xl font-extrabold leading-none">{t.stats.current_streak}</span>
-              <span className="text-[10px] font-semibold uppercase text-white/80">days</span>
-            </div>
-          ) : null}
-        </div>
-        <div className="relative mt-5">
-          {d.openAttempt ? (
-            <Link href={`/exam/${d.openAttempt.id}`} className="flex h-14 items-center justify-center gap-2 rounded-2xl bg-white text-lg font-bold text-[var(--on-white,#9a3412)] shadow-lg">
-              <PlayCircle className="size-5" aria-hidden /> Continue
-            </Link>
-          ) : next ? (
-            <StartButton itemId={next.id} label={itemAction(next)} className="bg-white text-[var(--on-white,#9a3412)]" />
-          ) : (
-            <Link href={pe ? (d.premium ? "/dashboard/practice?stage=PE" : "/dashboard/exams?stage=PE") : d.papers?.[0] ? `/dashboard/me/paper/${d.papers[0].id}` : "/dashboard/me"} className="flex h-14 items-center justify-center rounded-2xl bg-white text-lg font-bold text-[var(--on-white,#9a3412)] shadow-lg">
-              {pe ? (d.premium ? "Start practice" : "Take today’s free test") : "Write an answer"}
-            </Link>
-          )}
-        </div>
-      </section>
-      )}
+      {/* PE: the mock test comes first (founder, 19 Nov 2026). The "Continue where you left off" box was removed
+          (founder, 22 Nov 2026): unfinished and paused exams are in the "Paused exam" section. */}
+      {pe ? (d.freeUsedUp ? <FreeLimitNote title="You have taken today’s free test" /> : <MockCta premium={Boolean(d.premium)} />) : null}
 
       {/* Free plan note */}
-      {!d.premium && !(pe && d.freeUsedUp && !d.openAttempt) ? (
+      {!d.premium && !(pe && d.freeUsedUp) ? (
         <Link href={`/dashboard/${d.stage.toLowerCase()}?plans=1`}
           className="flex items-center gap-3 rounded-2xl bg-yellow-100 p-4 text-yellow-950 ring-1 ring-yellow-300">
           <Crown className="size-6 shrink-0 text-yellow-700" aria-hidden />
@@ -418,7 +384,7 @@ export function ExamArea({ d }: { d: AreaData }) {
       ) : null}
 
       {/* Today's plan */}
-      {t && items.length ? (
+      {t && t.items.length ? (
         <section aria-labelledby="plan-h">
           <div className="mb-3 flex items-baseline justify-between">
             <h2 id="plan-h" className="text-lg font-bold">Today&apos;s plan</h2>

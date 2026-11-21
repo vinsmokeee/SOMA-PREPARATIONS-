@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
-import { saveAnswer, submitAttempt } from "@/app/exam/actions";
+import { pauseAttempt, saveAnswer, submitAttempt } from "@/app/exam/actions";
 import { setAnswerModeAction } from "@/app/dashboard/written/actions";
 import { createPagesApi } from "@/components/written/pages-api";
 import type { PagesApi } from "@/components/written/handwritten-pages";
@@ -30,6 +30,9 @@ export function ExamRoomClient({ paper, userId, written, untimed, maxPages, pape
       },
     };
   }, [attemptId, maxPages, userId, written]);
+  const onPaused = useCallback(() => {
+    router.replace(`/dashboard/paused?stage=${paper.exam.stage}`);
+  }, [router, paper.exam.stage]);
   const hasWritten = paper.questions.some((q) => q.type !== "mcq");
-  return <ExamRoom paper={paper} save={saveAnswer} submit={submitAttempt} onFinished={onFinished} written={hasWritten ? support : undefined} untimed={untimed} paperHref={paperHref} />;
+  return <ExamRoom paper={paper} save={saveAnswer} submit={submitAttempt} onFinished={onFinished} written={hasWritten ? support : undefined} untimed={untimed} paperHref={paperHref} pause={untimed ? undefined : pauseAttempt} onPaused={onPaused} />;
 }
