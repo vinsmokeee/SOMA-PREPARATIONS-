@@ -323,21 +323,21 @@ export function ExamArea({ d }: { d: AreaData }) {
   const pausedTile = { href: `/dashboard/paused?stage=${d.stage}`, label: "Paused exam", sub: paused ? `${paused} paused · tap to continue` : "Pause an exam and finish later", icon: Pause, tint: "from-slate-600 to-slate-400" };
   const notebookTile = { href: `/dashboard/notebook?stage=${d.stage}`, label: "Your notebook", sub: "All correct answers saved as notes", icon: BookMarked, tint: "from-[#7c4a2d] to-[#a8703f]" };
   const currentAffairs = { href: "/dashboard/current-affairs", label: "Current affairs", sub: "News and the Question of the Day", icon: Newspaper, tint: "from-violet-600 to-purple-500" };
-  // Order (founder, 22 Nov 2026): Paused exam next to My scores; Last-minute summary next to Your notebook.
+  // Order (founder, 22 Nov 2026): Paused exam and Current affairs swapped; Last-minute summary next to Your notebook.
   const tiles = pe
     ? [
         { href: "/dashboard/analytics?stage=PE", label: "My scores", sub: d.answered ? `${d.answered} answered` : "Your progress", icon: BarChart3, tint: "from-fuchsia-600 to-pink-500" },
-        pausedTile,
-        { href: "/dashboard/omr-practice", label: "OMR sketch practice", sub: "Practise your shading for the RCSC PE", icon: PencilLine, tint: "from-slate-700 to-slate-500" },
         currentAffairs,
+        { href: "/dashboard/omr-practice", label: "OMR sketch practice", sub: "Practise your shading for the RCSC PE", icon: PencilLine, tint: "from-slate-700 to-slate-500" },
+        pausedTile,
         { href: "/dashboard/last-minute?stage=PE", label: "Last-minute summary", sub: "Your key points to revise", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
         notebookTile,
       ]
     : [
         { href: "/dashboard/written/history", label: "My answers", sub: "Marks and AI feedback", icon: PenLine, tint: "from-rose-600 to-[#7a1e3a]" },
-        currentAffairs,
-        { href: "/dashboard/analytics?stage=ME", label: "My scores", sub: d.written ? `${d.written} answer${d.written === 1 ? "" : "s"} marked` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
         pausedTile,
+        { href: "/dashboard/analytics?stage=ME", label: "My scores", sub: d.written ? `${d.written} answer${d.written === 1 ? "" : "s"} marked` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
+        currentAffairs,
         { href: "/dashboard/last-minute?stage=ME", label: "Last-minute summary", sub: "Your key points to revise", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
         notebookTile,
       ];
