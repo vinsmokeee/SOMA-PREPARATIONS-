@@ -12,13 +12,13 @@ describe("Your notebook", () => {
     const g = bySubject([note({ subject: "English" }), note({ subject: "Logic" }), note({ subject: "English" })]);
     expect(g.map((x) => [x.subject, x.notes.length])).toEqual([["English", 2], ["Logic", 1]]);
   });
-  it("shows Paper I, II and III once each; notes from another entry go under the same paper number", () => {
+  it("shows the student's own Paper I, II and III; a note sits only under its own paper", () => {
     const own = [{ id: "p3", number: 3, title: "Paper III" }, { id: "p1", number: 1, title: "Paper I" }, { id: "p2", number: 2, title: "Paper II" }];
-    const notes = [note({ paper_id: "old2", paper_number: 2, paper_title: "Old Paper II" }), note({ paper_id: "p2", paper_number: 2 }), note({ paper_id: "p1", paper_number: 1 })];
+    const notes = [note({ paper_id: "other2", paper_number: 2, paper_title: "Another entry's Paper II" }), note({ paper_id: "p2", paper_number: 2 }), note({ paper_id: "p1", paper_number: 1 })];
     const tabs = notebookPapers(own, notes);
     expect(tabs.map((p) => p.id)).toEqual(["p1", "p2", "p3"]);
     expect(paperName(tabs[1])).toBe("Paper II");
-    expect(notesForPaper(notes, tabs[1])).toHaveLength(2);
+    expect(notesForPaper(notes, tabs[1])).toHaveLength(1);
     expect(notesForPaper(notes, tabs[2])).toHaveLength(0);
   });
   it("without an entry, uses the papers that have notes", () => {

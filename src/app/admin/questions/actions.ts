@@ -69,6 +69,10 @@ const REVIEW_MESSAGES: Record<string, string> = {
   EXPLANATION_REQUIRED: "Add an explanation before verifying.",
   MODEL_ANSWER_REQUIRED: "Add a model answer before verifying.",
   SUBJECT_REQUIRED: "Choose a subject before verifying.",
+  "a subject-paper question needs its specialisation": "Choose the specialisation (subject) before publishing a Paper III question.",
+  "a group-paper question needs its subject group": "Choose the Paper II subject group before publishing.",
+  "an ME question needs its paper": "Choose the ME paper before publishing.",
+  "the specialisation is not in that subject group": "The specialisation and the Paper II subject group do not match.",
   QUESTION_IN_PUBLISHED_EXAM: "This question is in a published examination. Unpublish the examination first.",
   "Missing permission": "You do not have permission for this action.",
 };

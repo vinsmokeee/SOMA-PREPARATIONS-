@@ -24,19 +24,17 @@ export function bySubject(notes: Note[]): { subject: string; notes: Note[] }[] {
 }
 
 /**
- * One box per paper number (Paper I, II, III): the student's own papers for their current entry. Notes from
- * another entry's paper (a student who changed entry) go under the same paper number, so no paper repeats.
+ * One box per paper (Paper I, II, III): the student's own papers for their current entry. Notes only ever come from
+ * that entry (the database leaves out other subjects), so papers never repeat and subjects never mix.
  */
 export function notebookPapers(own: NotebookPaper[], notes: Note[]): NotebookPaper[] {
-  const out: NotebookPaper[] = [];
-  const add = (p: NotebookPaper) => { if (!out.some((x) => x.number === p.number)) out.push(p); };
-  own.forEach(add);
-  for (const n of notes) if (n.paper_id) add({ id: n.paper_id, number: n.paper_number, title: n.paper_title ?? "Other paper" });
+  const out: NotebookPaper[] = [...own];
+  if (!out.length) for (const n of notes) if (n.paper_id && !out.some((x) => x.id === n.paper_id)) out.push({ id: n.paper_id, number: n.paper_number, title: n.paper_title ?? "Paper" });
   return out.sort((a, b) => (a.number ?? 99) - (b.number ?? 99));
 }
 
-/** The notes that belong under a paper box: same paper, or the same paper number. */
-export const notesForPaper = (notes: Note[], p: NotebookPaper) => notes.filter((n) => n.paper_id === p.id || (p.number !== null && n.paper_number === p.number));
+/** The notes under a paper box: that paper's own questions only. */
+export const notesForPaper = (notes: Note[], p: NotebookPaper) => notes.filter((n) => n.paper_id === p.id);
 
 function NoteCard({ n }: { n: Note }) {
   return (

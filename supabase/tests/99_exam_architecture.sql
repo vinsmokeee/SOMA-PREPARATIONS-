@@ -37,7 +37,10 @@ values ('ME', 'short_answer', 'EA civil paper three question about concrete', 'x
        ('ME', 'short_answer', 'EA civil paper two question in its own bank', 'x', :'t2', :'civil', null, 'verified', :'b'),
        ('ME', 'short_answer', 'EA general paper one dzongkha question', 'x', :'g1', null, null, 'verified', :'b'),
        ('ME', 'short_answer', 'EA unrestricted legacy written question', 'x', null, null, null, 'verified', :'b');
-update public.questions set status = 'published' where stem like 'EA %';
+update public.questions set status = 'published' where stem like 'EA %' and stem not like 'EA unclassified%' and stem not like 'EA unrestricted%';
+-- Untagged ME questions cannot even be published (allocation lock)
+select tests.assert_fails($$update public.questions set status = 'published' where stem like 'EA unclassified%'$$, 'a Paper II question without its group cannot be published');
+select tests.assert_fails($$update public.questions set status = 'published' where stem like 'EA unrestricted%'$$, 'an ME question without its paper cannot be published');
 
 set local role authenticated;
 select tests.login(:'civ');
