@@ -16,6 +16,7 @@ import { runEvaluation, runImprovedAnswer, runTranscription } from "@/lib/writte
 
 const MESSAGES: Record<string, string> = {
   ANSWER_LOCKED: "This answer can no longer be changed (the upload window has closed or evaluation has started).",
+  QUESTION_NOT_CHOSEN: "You did not choose this question during the exam, so it cannot be evaluated.",
   UPLOAD_WINDOW_CLOSED: "The time for uploading answer sheets for this examination has ended.",
   TOO_MANY_PAGES: "You have reached the maximum number of pages for one answer.",
   PAGE_TOO_LARGE: "This photo is too large. Please retake it.",
