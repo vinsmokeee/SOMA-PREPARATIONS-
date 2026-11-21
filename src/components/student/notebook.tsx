@@ -23,14 +23,20 @@ export function bySubject(notes: Note[]): { subject: string; notes: Note[] }[] {
   return [...groups].map(([subject, list]) => ({ subject, notes: list }));
 }
 
-/** The papers to show as tabs: the student's own papers first, then any other paper that has notes. */
+/**
+ * One box per paper number (Paper I, II, III): the student's own papers for their current entry. Notes from
+ * another entry's paper (a student who changed entry) go under the same paper number, so no paper repeats.
+ */
 export function notebookPapers(own: NotebookPaper[], notes: Note[]): NotebookPaper[] {
-  const out = [...own];
-  for (const n of notes) {
-    if (n.paper_id && !out.some((p) => p.id === n.paper_id)) out.push({ id: n.paper_id, number: n.paper_number, title: n.paper_title ?? "Other paper" });
-  }
+  const out: NotebookPaper[] = [];
+  const add = (p: NotebookPaper) => { if (!out.some((x) => x.number === p.number)) out.push(p); };
+  own.forEach(add);
+  for (const n of notes) if (n.paper_id) add({ id: n.paper_id, number: n.paper_number, title: n.paper_title ?? "Other paper" });
   return out.sort((a, b) => (a.number ?? 99) - (b.number ?? 99));
 }
+
+/** The notes that belong under a paper box: same paper, or the same paper number. */
+export const notesForPaper = (notes: Note[], p: NotebookPaper) => notes.filter((n) => n.paper_id === p.id || (p.number !== null && n.paper_number === p.number));
 
 function NoteCard({ n }: { n: Note }) {
   return (
@@ -89,7 +95,7 @@ function PaperChooser({ tabs, notes }: { tabs: NotebookPaper[]; notes: Note[] })
       {tabs.length ? (
         <ul className="grid grid-cols-1 gap-3">
           {tabs.map((p) => {
-            const count = notes.filter((n) => n.paper_id === p.id).length;
+            const count = notesForPaper(notes, p).length;
             return (
               <li key={p.id} className="min-w-0">
                 <Link href={`/dashboard/notebook?stage=ME&paper=${p.id}`} className="flex w-full min-w-0 items-center gap-4 rounded-2xl bg-gradient-to-br from-[#7c4a2d] to-[#a8703f] p-4 text-white shadow-md active:scale-[0.98]">
@@ -113,7 +119,7 @@ function PaperChooser({ tabs, notes }: { tabs: NotebookPaper[]; notes: Note[] })
 export function Notebook({ stage, notes, papers, paperId }: { stage: "PE" | "ME"; notes: Note[]; papers: NotebookPaper[]; paperId: string | null }) {
   const tabs = stage === "ME" ? notebookPapers(papers, notes) : [];
   const current = tabs.find((p) => p.id === paperId) ?? null;
-  const shown = stage === "ME" ? notes.filter((n) => n.paper_id === current?.id) : notes;
+  const shown = stage === "ME" ? (current ? notesForPaper(notes, current) : []) : notes;
   // ME: first choose Paper I, II or III; then that paper's notes (founder, 22 Nov 2026).
   if (stage === "ME" && !current) return <PaperChooser tabs={tabs} notes={notes} />;
   return (
