@@ -107,6 +107,13 @@ select tests.assert(((public.my_written_performance()) -> 'weaknesses' -> 0 ->> 
 select tests.assert(jsonb_array_length(public.my_written_answers()) = 1, 'history lists the answer');
 select tests.assert(jsonb_array_length(public.my_notebook('ME')) = 1 and (public.my_notebook('ME') -> 0 ->> 'score')::numeric = 7
   and public.my_notebook('ME') -> 0 ->> 'kind' = 'written' and public.my_notebook('ME') -> 0 ->> 'model_answer' is not null, 'a written answer marked 70% is a notebook note with the model answer');
+select tests.assert(public.my_notebook('ME') -> 0 ->> 'subject' = 'Governance', 'without a topic, an ME note is grouped by its subject');
+reset role;
+insert into public.topics (subject_id, slug, name) values ((select id from public.subjects where slug = 'we-governance'), 'we-constitution', 'Constitution and governance');
+update public.questions set topic_id = (select id from public.topics where slug = 'we-constitution') where id = :'q';
+set local role authenticated;
+select tests.login(:'s');
+select tests.assert(public.my_notebook('ME') -> 0 ->> 'subject' = 'Constitution and governance', 'ME notes are grouped by topic inside each paper');
 select tests.assert(public.request_improved_answer(:'ev') = true, 'improved answer requested');
 select tests.assert(public.request_improved_answer(:'ev') = false, 'improved answer not requested twice');
 select tests.assert((public.my_evaluation_allowance() ->> 'remaining')::int = 0, 'the improved answer uses one AI evaluation');
