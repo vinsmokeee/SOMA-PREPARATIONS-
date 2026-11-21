@@ -6,6 +6,7 @@ insert into public.topics (subject_id, slug, name) select (select id from public
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan', 'General knowledge: Bhutan' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan-constitution', 'General knowledge: Bhutan constitution' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan-culture', 'General knowledge: Bhutan culture' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan-economy', 'General knowledge: Bhutan economy' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan-government', 'General knowledge: Bhutan government' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan-law', 'General knowledge: Bhutan law' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-books', 'General knowledge: books' on conflict (subject_id, slug) do nothing;
@@ -486,7 +487,7 @@ with nq as (
 )
 insert into me_q select 'D1', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D1' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'UAE', false, 1), ('B', 'South Korea', true, 2), ('C', 'USA', false, 3), ('D', 'Japan', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D1';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'South Korea', true, 1), ('B', 'UAE', false, 2), ('C', 'USA', false, 3), ('D', 'Japan', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D1';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -499,7 +500,7 @@ with nq as (
 )
 insert into me_q select 'D2', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D2' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'FIFA Ballon d''Or', true, 1), ('B', 'UEFA Best Player', false, 2), ('C', 'UEFA Golden Shoe', false, 3), ('D', 'FIFA Golden Boot', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D2';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'UEFA Best Player', false, 1), ('B', 'UEFA Golden Shoe', false, 2), ('C', 'FIFA Ballon d''Or', true, 3), ('D', 'FIFA Golden Boot', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D2';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -512,7 +513,7 @@ with nq as (
 )
 insert into me_q select 'D3', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D3' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Ctrl + C', false, 1), ('B', 'Ctrl + P', false, 2), ('C', 'Ctrl + B', false, 3), ('D', 'Ctrl + V', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D3';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Ctrl + C', false, 1), ('B', 'Ctrl + V', true, 2), ('C', 'Ctrl + P', false, 3), ('D', 'Ctrl + B', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D3';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -538,7 +539,7 @@ with nq as (
 )
 insert into me_q select 'D5', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D5' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Ministries, Departments and Autonomous agencies', false, 1), ('B', 'Parliament, National Council and National Assembly', false, 2), ('C', 'Dzongkhag, Gewog and Chiwog', false, 3), ('D', 'Executive, Legislative and Judiciary', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D5';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Ministries, Departments and Autonomous agencies', false, 1), ('B', 'Executive, Legislative and Judiciary', true, 2), ('C', 'Parliament, National Council and National Assembly', false, 3), ('D', 'Dzongkhag, Gewog and Chiwog', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D5';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -551,7 +552,7 @@ with nq as (
 )
 insert into me_q select 'D6', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D6' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Australia and Sweden', false, 1), ('B', 'Australia and New Zealand', true, 2), ('C', 'Australia and England', false, 3), ('D', 'Australia and Spain', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D6';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Australia and Sweden', false, 1), ('B', 'Australia and England', false, 2), ('C', 'Australia and Spain', false, 3), ('D', 'Australia and New Zealand', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D6';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -564,7 +565,7 @@ with nq as (
 )
 insert into me_q select 'D8', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D8' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'SpaceX', false, 1), ('B', 'NASA', false, 2), ('C', 'ISRO', true, 3), ('D', 'CSIRO', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D8';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'SpaceX', false, 1), ('B', 'ISRO', true, 2), ('C', 'NASA', false, 3), ('D', 'CSIRO', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D8';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -577,7 +578,7 @@ with nq as (
 )
 insert into me_q select 'D10', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D10' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'the most southern latitude at which the sun can appear directly over the moon', false, 1), ('B', 'the most northern latitude at which the sun can appear over the moon', false, 2), ('C', 'the most southern latitude at which the sun can appear directly overhead at noon', true, 3), ('D', 'the most northern latitude at which the sun can appear directly overhead at noon', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D10';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'the most southern latitude at which the sun can appear directly over the moon', false, 1), ('B', 'the most northern latitude at which the sun can appear over the moon', false, 2), ('C', 'the most northern latitude at which the sun can appear directly overhead at noon', false, 3), ('D', 'the most southern latitude at which the sun can appear directly overhead at noon', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D10';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -590,7 +591,7 @@ with nq as (
 )
 insert into me_q select 'D12', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D12' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Aung San Suu Kyi', true, 1), ('B', 'Nelson Mandela', false, 2), ('C', 'Taslima Nasreen', false, 3), ('D', 'Benazir Bhutto', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D12';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Nelson Mandela', false, 1), ('B', 'Aung San Suu Kyi', true, 2), ('C', 'Taslima Nasreen', false, 3), ('D', 'Benazir Bhutto', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D12';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -603,7 +604,7 @@ with nq as (
 )
 insert into me_q select 'D13', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D13' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Rome', false, 1), ('B', 'New Delhi', false, 2), ('C', 'Paris', false, 3), ('D', 'New York', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D13';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'New York', true, 1), ('B', 'Rome', false, 2), ('C', 'New Delhi', false, 3), ('D', 'Paris', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D13';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -616,7 +617,7 @@ with nq as (
 )
 insert into me_q select 'D14', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D14' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Nelson Mandela', true, 1), ('B', 'Barack Obama', false, 2), ('C', 'Martin Luther King', false, 3), ('D', 'Steve Jobs', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D14';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Barack Obama', false, 1), ('B', 'Martin Luther King', false, 2), ('C', 'Nelson Mandela', true, 3), ('D', 'Steve Jobs', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D14';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -629,7 +630,7 @@ with nq as (
 )
 insert into me_q select 'D15', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D15' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Crow', false, 1), ('B', 'Dung beetle', true, 2), ('C', 'Ant', false, 3), ('D', 'Elephant', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D15';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Crow', false, 1), ('B', 'Ant', false, 2), ('C', 'Dung beetle', true, 3), ('D', 'Elephant', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D15';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -655,7 +656,7 @@ with nq as (
 )
 insert into me_q select 'D17', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D17' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Jamie Zeppa', false, 1), ('B', 'Kunzang Choden', false, 2), ('C', 'Karma Ura', false, 3), ('D', 'Linda Leaming', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D17';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Jamie Zeppa', false, 1), ('B', 'Linda Leaming', true, 2), ('C', 'Kunzang Choden', false, 3), ('D', 'Karma Ura', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D17';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -668,7 +669,7 @@ with nq as (
 )
 insert into me_q select 'D18', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D18' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'H.E. Dechen Wangmo - Ministry of Health', false, 1), ('B', 'H.E. Dorji Tshering - Ministry of Industry, Commerce and Employment', true, 2), ('C', 'H.E. Loknath Sharma - Ministry of Energy and Natural Resources', false, 3), ('D', 'H.E. Ugyen Dorji - Ministry of Home Affairs', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D18';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'H.E. Dechen Wangmo - Ministry of Health', false, 1), ('B', 'H.E. Loknath Sharma - Ministry of Energy and Natural Resources', false, 2), ('C', 'H.E. Ugyen Dorji - Ministry of Home Affairs', false, 3), ('D', 'H.E. Dorji Tshering - Ministry of Industry, Commerce and Employment', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D18';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -681,7 +682,7 @@ with nq as (
 )
 insert into me_q select 'D19', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D19' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Laissez-faire leadership', true, 1), ('B', 'Transactional leadership', false, 2), ('C', 'Transformational leadership', false, 3), ('D', 'Charismatic leadership', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D19';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Transactional leadership', false, 1), ('B', 'Transformational leadership', false, 2), ('C', 'Charismatic leadership', false, 3), ('D', 'Laissez-faire leadership', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D19';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -694,5 +695,41 @@ with nq as (
 )
 insert into me_q select 'D20', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'D20' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Civil Bill', false, 1), ('B', 'Assent Bill', false, 2), ('C', 'Tort Bill', true, 3), ('D', 'Asset Bill', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D20';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Tort Bill', true, 1), ('B', 'Civil Bill', false, 2), ('C', 'Assent Bill', false, 3), ('D', 'Asset Bill', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D20';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'Which sport uses the terms ''shuttlecock'' and ''smash''?', null, 'A shuttlecock is used in badminton.', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-sports'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2023, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N1', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Basketball', false, 1), ('B', 'Volleyball', false, 2), ('C', 'Table tennis', false, 3), ('D', 'Badminton', true, 4)) as v(label, body, ok, pos) where me_q.key = 'N1';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'Zhabdrung Kuchoe, a public holiday in Bhutan, commemorates the:', null, 'Zhabdrung Kuchoe marks the passing away (parinirvana) of Zhabdrung Ngawang Namgyel.', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-bhutan-culture'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2023, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N2', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Passing away of Zhabdrung Ngawang Namgyel', true, 1), ('B', 'Coronation of the First King', false, 2), ('C', 'Birth of Guru Rinpoche', false, 3), ('D', 'Arrival of Zhabdrung in Bhutan', false, 4)) as v(label, body, ok, pos) where me_q.key = 'N2';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'Druk Holding and Investments (DHI), which manages the government''s commercial companies, was established in:', null, 'DHI was established in 2007 by Royal Charter.', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-bhutan-economy'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2023, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N3', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '2012', false, 1), ('B', '2003', false, 2), ('C', '2007', true, 3), ('D', '1999', false, 4)) as v(label, body, ok, pos) where me_q.key = 'N3';
 commit;

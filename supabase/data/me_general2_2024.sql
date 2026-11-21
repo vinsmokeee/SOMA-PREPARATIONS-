@@ -4,6 +4,11 @@ create temp table me_q (key text primary key, id uuid not null) on commit drop;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'case-study-and-comprehension', 'Case study and comprehension' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge', 'General knowledge' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan', 'General knowledge: Bhutan' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan-constitution', 'General knowledge: Bhutan constitution' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan-culture', 'General knowledge: Bhutan culture' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan-foreign-relations', 'General knowledge: Bhutan foreign relations' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan-politics', 'General knowledge: Bhutan politics' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan-religion', 'General knowledge: Bhutan religion' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-current-affairs', 'General knowledge: current affairs' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-geography', 'General knowledge: geography' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-sports', 'General knowledge: sports' on conflict (subject_id, slug) do nothing;
@@ -364,7 +369,7 @@ with nq as (
 )
 insert into me_q select 'D5', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2024 from me_q where key = 'D5' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Ministry of Industry, Commerce and Employment', true, 1), ('B', 'Ministry of Economic, Labour and Employment Affairs', false, 2), ('C', 'Ministry of Infrastructure and Transport', false, 3), ('D', 'Ministry of Human Resource and Employment', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D5';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Ministry of Economic, Labour and Employment Affairs', false, 1), ('B', 'Ministry of Infrastructure and Transport', false, 2), ('C', 'Ministry of Industry, Commerce and Employment', true, 3), ('D', 'Ministry of Human Resource and Employment', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D5';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -377,7 +382,7 @@ with nq as (
 )
 insert into me_q select 'D8', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2024 from me_q where key = 'D8' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Left-hand Ball Wicket', false, 1), ('B', 'Leg Before Wicket', true, 2), ('C', 'Longest Boundary Wicket', false, 3), ('D', 'Level Ball Wicket', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D8';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Left-hand Ball Wicket', false, 1), ('B', 'Longest Boundary Wicket', false, 2), ('C', 'Level Ball Wicket', false, 3), ('D', 'Leg Before Wicket', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D8';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -390,7 +395,7 @@ with nq as (
 )
 insert into me_q select 'D10', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2024 from me_q where key = 'D10' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'China', false, 1), ('B', 'Japan', false, 2), ('C', 'USA', true, 3), ('D', 'France', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D10';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'China', false, 1), ('B', 'Japan', false, 2), ('C', 'France', false, 3), ('D', 'USA', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D10';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -403,7 +408,7 @@ with nq as (
 )
 insert into me_q select 'D11', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2024 from me_q where key = 'D11' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Laos', false, 1), ('B', 'Myanmar', false, 2), ('C', 'Vietnam', true, 3), ('D', 'Singapore', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D11';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Laos', false, 1), ('B', 'Vietnam', true, 2), ('C', 'Myanmar', false, 3), ('D', 'Singapore', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D11';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -416,7 +421,7 @@ with nq as (
 )
 insert into me_q select 'D12', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2024 from me_q where key = 'D12' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'William Hanna and Joseph Barbera', true, 1), ('B', 'Oleg Kuzovkov', false, 2), ('C', 'George Miller and Warren Coleman', false, 3), ('D', 'Chris Wedge and David Brown', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D12';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Oleg Kuzovkov', false, 1), ('B', 'George Miller and Warren Coleman', false, 2), ('C', 'Chris Wedge and David Brown', false, 3), ('D', 'William Hanna and Joseph Barbera', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D12';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -429,7 +434,7 @@ with nq as (
 )
 insert into me_q select 'D13', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2024 from me_q where key = 'D13' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Quick Record', false, 1), ('B', 'Quick Response', true, 2), ('C', 'Quick Report', false, 3), ('D', 'Quick Receive', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D13';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Quick Record', false, 1), ('B', 'Quick Report', false, 2), ('C', 'Quick Response', true, 3), ('D', 'Quick Receive', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D13';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -442,7 +447,7 @@ with nq as (
 )
 insert into me_q select 'D16', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2024 from me_q where key = 'D16' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Shift + A', false, 1), ('B', 'Ctrl + S', false, 2), ('C', 'Shift + S', false, 3), ('D', 'Ctrl + A', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D16';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Shift + A', false, 1), ('B', 'Ctrl + A', true, 2), ('C', 'Ctrl + S', false, 3), ('D', 'Shift + S', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D16';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -481,7 +486,7 @@ with nq as (
 )
 insert into me_q select 'D19', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2024 from me_q where key = 'D19' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Prime Minister', false, 1), ('B', 'Druk Gyalpo', true, 2), ('C', 'Speaker of the National Assembly', false, 3), ('D', 'Chief Justice', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D19';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Prime Minister', false, 1), ('B', 'Speaker of the National Assembly', false, 2), ('C', 'Druk Gyalpo', true, 3), ('D', 'Chief Justice', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D19';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -495,4 +500,112 @@ with nq as (
 insert into me_q select 'D20', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2024 from me_q where key = 'D20' on conflict do nothing;
 insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Myanmar', false, 1), ('B', 'Pakistan', false, 2), ('C', 'Bangladesh', true, 3), ('D', 'China', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D20';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'The Je Khenpo is the spiritual head of the:', null, 'The Je Khenpo heads the Zhung Dratshang, the Central Monastic Body.', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-bhutan-religion'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2024, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N1', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Dzongkhag Tshogdu', false, 1), ('B', 'Royal Privy Council', false, 2), ('C', 'National Council', false, 3), ('D', 'Zhung Dratshang (Central Monastic Body)', true, 4)) as v(label, body, ok, pos) where me_q.key = 'N1';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'Lhabab Duechen (the Descending Day of Lord Buddha) marks the Buddha''s return to earth from:', null, 'The Buddha descended from the Heaven of the Thirty-Three after teaching the Dharma to his mother.', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-bhutan-culture'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2024, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N2', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'The Heaven of the Thirty-Three (Trayastrimsha), where he taught his mother', true, 1), ('B', 'Lumbini', false, 2), ('C', 'Mount Kailash', false, 3), ('D', 'Bodh Gaya', false, 4)) as v(label, body, ok, pos) where me_q.key = 'N2';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'Under the Gyalsung (National Service) programme, Bhutanese youth are enrolled in the year they turn:', null, 'Gyalsung is mandatory for young Bhutanese in the year they turn 18.', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-bhutan'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2024, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N3', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '25', false, 1), ('B', '21', false, 2), ('C', '18', true, 3), ('D', '16', false, 4)) as v(label, body, ok, pos) where me_q.key = 'N3';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'The video-sharing app TikTok is owned by which company?', null, 'TikTok is owned by ByteDance.', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-technology'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2024, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N4', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Alibaba', false, 1), ('B', 'ByteDance', true, 2), ('C', 'Meta', false, 3), ('D', 'Tencent', false, 4)) as v(label, body, ok, pos) where me_q.key = 'N4';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'How many members are there in the National Council of Bhutan?', null, 'The National Council has 25 members: 20 elected (one per dzongkhag) and 5 eminent members nominated by the Druk Gyalpo.', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-bhutan-politics'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2024, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N5', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '25', true, 1), ('B', '20', false, 2), ('C', '47', false, 3), ('D', '72', false, 4)) as v(label, body, ok, pos) where me_q.key = 'N5';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'Bhutan and India established formal diplomatic relations in:', null, 'Formal diplomatic relations were established in 1968; the friendship treaty dates from 1949 (revised 2007).', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-bhutan-foreign-relations'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2024, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N6', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '1961', false, 1), ('B', '1968', true, 2), ('C', '1949', false, 3), ('D', '1971', false, 4)) as v(label, body, ok, pos) where me_q.key = 'N6';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'Under the Constitution of Bhutan, the Druk Gyalpo must step down on reaching the age of:', null, 'Article 2 of the Constitution sets the Druk Gyalpo''s retirement age at 65.', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-bhutan-constitution'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2024, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N7', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '65', true, 1), ('B', '75', false, 2), ('C', '70', false, 3), ('D', '60', false, 4)) as v(label, body, ok, pos) where me_q.key = 'N7';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'Bhutan first took part in the Olympic Games in:', null, 'Bhutan debuted at the 1984 Los Angeles Olympics with archers.', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-sports'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2024, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N8', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', '1984 Los Angeles', true, 1), ('B', '1980 Moscow', false, 2), ('C', '1972 Munich', false, 3), ('D', '1992 Barcelona', false, 4)) as v(label, body, ok, pos) where me_q.key = 'N8';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'In football, a ''hat-trick'' means a player:', null, 'A hat-trick is three goals by one player in a single match.', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-sports'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2024, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N9', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Saves three penalties', false, 1), ('B', 'Scores three goals in one match', true, 2), ('C', 'Plays three matches in a week', false, 3), ('D', 'Receives three yellow cards', false, 4)) as v(label, body, ok, pos) where me_q.key = 'N9';
 commit;

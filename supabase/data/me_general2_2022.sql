@@ -3,7 +3,9 @@ begin;
 create temp table me_q (key text primary key, id uuid not null) on commit drop;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'case-study-and-comprehension', 'Case study and comprehension' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan', 'General knowledge: Bhutan' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan-judiciary', 'General knowledge: Bhutan judiciary' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan-law', 'General knowledge: Bhutan law' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-bhutan-religion', 'General knowledge: Bhutan religion' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-books', 'General knowledge: books' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-environment', 'General knowledge: environment' on conflict (subject_id, slug) do nothing;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'english-general-knowledge'), 'general-knowledge-geography', 'General knowledge: geography' on conflict (subject_id, slug) do nothing;
@@ -365,7 +367,7 @@ with nq as (
 )
 insert into me_q select 'D1', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2022 from me_q where key = 'D1' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Professor Veerabhadran Ramanathan', true, 1), ('B', 'Professor Jeffrey D. Sachs', false, 2), ('C', 'Professor Tilman', false, 3), ('D', 'Professor Stephen Carpenter', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D1';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Professor Jeffrey D. Sachs', false, 1), ('B', 'Professor Tilman', false, 2), ('C', 'Professor Veerabhadran Ramanathan', true, 3), ('D', 'Professor Stephen Carpenter', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D1';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -378,7 +380,7 @@ with nq as (
 )
 insert into me_q select 'D2', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2022 from me_q where key = 'D2' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Hubble Space Telescope', false, 1), ('B', 'Xuntian Space Telescope', false, 2), ('C', 'James Webb Space Telescope', true, 3), ('D', 'Subaru Telescope', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D2';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'James Webb Space Telescope', true, 1), ('B', 'Hubble Space Telescope', false, 2), ('C', 'Xuntian Space Telescope', false, 3), ('D', 'Subaru Telescope', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D2';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -391,7 +393,7 @@ with nq as (
 )
 insert into me_q select 'D3', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2022 from me_q where key = 'D3' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Zaporizhzhia Nuclear Power Plant', true, 1), ('B', 'Rostov Nuclear Power Plant', false, 2), ('C', 'Khmelnytskyi Nuclear Power Plant', false, 3), ('D', 'Chernobyl Nuclear Power Plant', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D3';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Rostov Nuclear Power Plant', false, 1), ('B', 'Zaporizhzhia Nuclear Power Plant', true, 2), ('C', 'Khmelnytskyi Nuclear Power Plant', false, 3), ('D', 'Chernobyl Nuclear Power Plant', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D3';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -404,7 +406,7 @@ with nq as (
 )
 insert into me_q select 'D4', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2022 from me_q where key = 'D4' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'George Saunders for Lincoln in the Bardo', false, 1), ('B', 'Joshua Cohen for The Netanyahus', false, 2), ('C', 'Geetanjali Shree for Tomb of Sand', false, 3), ('D', 'Damon Galgut for The Promise', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D4';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Damon Galgut for The Promise', true, 1), ('B', 'George Saunders for Lincoln in the Bardo', false, 2), ('C', 'Joshua Cohen for The Netanyahus', false, 3), ('D', 'Geetanjali Shree for Tomb of Sand', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D4';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -482,7 +484,7 @@ with nq as (
 )
 insert into me_q select 'D12', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2022 from me_q where key = 'D12' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Joe Biden', false, 1), ('B', 'Narendra Modi', false, 2), ('C', 'Angela Merkel', true, 3), ('D', 'Volodymyr Zelenskyy', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D12';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Joe Biden', false, 1), ('B', 'Narendra Modi', false, 2), ('C', 'Volodymyr Zelenskyy', false, 3), ('D', 'Angela Merkel', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D12';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -508,7 +510,7 @@ with nq as (
 )
 insert into me_q select 'D15', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2022 from me_q where key = 'D15' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'India', false, 1), ('B', 'Bhutan', true, 2), ('C', 'Maldives', false, 3), ('D', 'Thailand', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D15';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'India', false, 1), ('B', 'Maldives', false, 2), ('C', 'Bhutan', true, 3), ('D', 'Thailand', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D15';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -521,7 +523,7 @@ with nq as (
 )
 insert into me_q select 'D16', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2022 from me_q where key = 'D16' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Fifty-Ngultrum note', false, 1), ('B', 'Ten-Ngultrum note', false, 2), ('C', 'Five-Ngultrum note', true, 3), ('D', 'Twenty-Ngultrum note', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D16';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Fifty-Ngultrum note', false, 1), ('B', 'Ten-Ngultrum note', false, 2), ('C', 'Twenty-Ngultrum note', false, 3), ('D', 'Five-Ngultrum note', true, 4)) as v(label, body, ok, pos) where me_q.key = 'D16';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -534,7 +536,7 @@ with nq as (
 )
 insert into me_q select 'D17', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2022 from me_q where key = 'D17' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Holinshed', false, 1), ('B', 'Edward Gibbon', true, 2), ('C', 'Macaulay', false, 3), ('D', 'Herodotus', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D17';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Holinshed', false, 1), ('B', 'Macaulay', false, 2), ('C', 'Edward Gibbon', true, 3), ('D', 'Herodotus', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D17';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -573,5 +575,41 @@ with nq as (
 )
 insert into me_q select 'D20', id from nq;
 insert into public.question_appearances (question_id, year) select id, 2022 from me_q where key = 'D20' on conflict do nothing;
-insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Droupadi Murmu', true, 1), ('B', 'Kiran Bedi', false, 2), ('C', 'Mary Kom', false, 3), ('D', 'Indira Gandhi', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D20';
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Kiran Bedi', false, 1), ('B', 'Droupadi Murmu', true, 2), ('C', 'Mary Kom', false, 3), ('D', 'Indira Gandhi', false, 4)) as v(label, body, ok, pos) where me_q.key = 'D20';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'The highest appellate court in Bhutan is the:', null, 'The Supreme Court is the highest appellate authority (Article 21 of the Constitution).', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-bhutan-judiciary'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2022, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N1', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Supreme Court', true, 1), ('B', 'Dungkhag Court', false, 2), ('C', 'Dzongkhag Court', false, 3), ('D', 'High Court', false, 4)) as v(label, body, ok, pos) where me_q.key = 'N1';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'The 2020 Summer Olympic and Paralympic Games, held in 2021, were hosted by:', null, 'Tokyo hosted the 2020 Games, postponed to 2021 by COVID-19.', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-sports'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2022, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N2', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Rio de Janeiro', false, 1), ('B', 'Beijing', false, 2), ('C', 'Tokyo', true, 3), ('D', 'Paris', false, 4)) as v(label, body, ok, pos) where me_q.key = 'N2';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'mcq', 'Who is the 70th Je Khenpo of Bhutan, enthroned in 1996?', null, 'His Holiness Trulku Jigme Choedra became the 70th Je Khenpo in 1996.', '[]'::jsonb, (select id from public.subjects where slug = 'english-general-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'english-general-knowledge') and t.slug = 'general-knowledge-bhutan-religion'), (select id from public.exam_papers where code = 'me-general-2'), 'standard', 1,
+    60, 'ai_variation', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": [], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (General): BCSE 2022, batch 2", "what_changed": "Same kind of question as the RCSC paper (same part, marks and skills), on a new topic."}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'N3', id from nq;
+insert into public.question_options (question_id, label, body, is_correct, position) select me_q.id, v.label, v.body, v.ok, v.pos from me_q, (values ('A', 'Yonten Gyeltshen', false, 1), ('B', 'Trulku Jigme Choedra', true, 2), ('C', 'Ngawang Tenzin Dondrup', false, 3), ('D', 'Geshe Gendun Rinchen', false, 4)) as v(label, body, ok, pos) where me_q.key = 'N3';
 commit;

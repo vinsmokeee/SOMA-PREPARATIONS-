@@ -2,6 +2,7 @@
 founder, 21 Nov 2026). Joins the 2025 bank (pattern from me_general2_2025.py).
 Section D left out (answer not certain): Q7 (Five Nations Championship sport), Q9 (Treldha Tshechu date),
 Q11 (DHI-owned companies).
+The 3 left-out MCQs are replaced by 3 new ones of the same kinds (keys N1-N3).
 Answers and marking guides were written by Claude: please check before publishing.
 """
 import os, runpy
@@ -227,4 +228,11 @@ mcq("D17", "General knowledge: books", "Who is the author of the book 'Married t
 mcq("D18", "General knowledge: Bhutan government", "Which pairing of minister and ministry (Third Parliament government, 2023) is inaccurate?", ["H.E. Dechen Wangmo - Ministry of Health", "H.E. Ugyen Dorji - Ministry of Home Affairs", "H.E. Loknath Sharma - Ministry of Energy and Natural Resources", "H.E. Dorji Tshering - Ministry of Industry, Commerce and Employment"], "d", "Dorji Tshering headed the Ministry of Infrastructure and Transport; the MoICE minister was Karma Dorji."),
 mcq("D19", "General knowledge: management", "Which leadership style gives employees autonomy and allows them to make decisions within their roles?", ["Transformational leadership", "Transactional leadership", "Laissez-faire leadership", "Charismatic leadership"], "c", "Laissez-faire ('let them do') leadership delegates decisions to employees."),
 mcq("D20", "General knowledge: Bhutan law", "The Civil Liability Bill passed during the July 2023 sitting of Parliament is also known as the:", ["Asset Bill", "Tort Bill", "Civil Bill", "Assent Bill"], "b", "The Civil Liability Bill deals with torts (civil wrongs) and is known as the Tort Bill."),
+# ---- new questions of the same kinds, replacing the real MCQs left out above (written by Claude; check before publishing)
+dict(key="N1", new=True, type=MCQ, topic="General knowledge: sports", stem="Which sport uses the terms 'shuttlecock' and 'smash'?",
+     opts=["Table tennis", "Badminton", "Volleyball", "Basketball"], ans=1, exp="A shuttlecock is used in badminton."),
+dict(key="N2", new=True, type=MCQ, topic="General knowledge: Bhutan culture", stem="Zhabdrung Kuchoe, a public holiday in Bhutan, commemorates the:",
+     opts=["Birth of Guru Rinpoche", "Passing away of Zhabdrung Ngawang Namgyel", "Arrival of Zhabdrung in Bhutan", "Coronation of the First King"], ans=1, exp="Zhabdrung Kuchoe marks the passing away (parinirvana) of Zhabdrung Ngawang Namgyel."),
+dict(key="N3", new=True, type=MCQ, topic="General knowledge: Bhutan economy", stem="Druk Holding and Investments (DHI), which manages the government's commercial companies, was established in:",
+     opts=["1999", "2003", "2007", "2012"], ans=2, exp="DHI was established in 2007 by Royal Charter."),
 ]

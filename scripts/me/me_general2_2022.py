@@ -2,6 +2,7 @@
 founder, 21 Nov 2026). Joins the 2025 bank (pattern from me_general2_2025.py).
 Section D left out (answer not certain): Q9 (who appoints Dungkhag Drangpons), Q10 (Tokyo Paralympics were 2020
 Games held in 2021 - two options fit), Q14 (Je Khenpo nickname).
+The 3 left-out MCQs are replaced by 3 new ones of the same kinds (keys N1-N3).
 Answers and marking guides were written by Claude: please check before publishing.
 """
 import os, runpy
@@ -181,4 +182,11 @@ mcq("D17", "General knowledge: books", "Who is the author of 'The History of the
 mcq("D18", "General knowledge: mathematics", "The number one followed by one hundred zeros is known as a:", ["Googol", "Megatron", "Gigabyte", "Namonole"], "a", "10^100 is a googol."),
 mcq("D19", "General knowledge: sports", "Which of the following colours does not appear on the Olympic rings?", ["Blue", "Yellow", "Black", "Orange"], "d", "The rings are blue, yellow, black, green and red - no orange."),
 mcq("D20", "General knowledge: world", "Who is the first person from a tribal community, and the second woman after Pratibha Patil, to become President of India?", ["Droupadi Murmu", "Indira Gandhi", "Kiran Bedi", "Mary Kom"], "a", "Droupadi Murmu became India's 15th President in July 2022."),
+# ---- new questions of the same kinds, replacing the real MCQs left out above (written by Claude; check before publishing)
+dict(key="N1", new=True, type=MCQ, topic="General knowledge: Bhutan judiciary", stem="The highest appellate court in Bhutan is the:",
+     opts=["High Court", "Supreme Court", "Dzongkhag Court", "Dungkhag Court"], ans=1, exp="The Supreme Court is the highest appellate authority (Article 21 of the Constitution)."),
+dict(key="N2", new=True, type=MCQ, topic="General knowledge: sports", stem="The 2020 Summer Olympic and Paralympic Games, held in 2021, were hosted by:",
+     opts=["Beijing", "Paris", "Tokyo", "Rio de Janeiro"], ans=2, exp="Tokyo hosted the 2020 Games, postponed to 2021 by COVID-19."),
+dict(key="N3", new=True, type=MCQ, topic="General knowledge: Bhutan religion", stem="Who is the 70th Je Khenpo of Bhutan, enthroned in 1996?",
+     opts=["Trulku Jigme Choedra", "Geshe Gendun Rinchen", "Ngawang Tenzin Dondrup", "Yonten Gyeltshen"], ans=0, exp="His Holiness Trulku Jigme Choedra became the 70th Je Khenpo in 1996."),
 ]

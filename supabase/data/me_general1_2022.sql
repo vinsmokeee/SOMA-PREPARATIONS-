@@ -1,7 +1,160 @@
--- ME Paper I (General, Dzongkha): BCSE 2022 comprehension, batch 2: ME questions loaded as drafts (awaiting review) for /admin/ai/review.
+-- ME Paper I (General, Dzongkha): BCSE 2022, batch 2: ME questions loaded as drafts (awaiting review) for /admin/ai/review.
 begin;
 create temp table me_q (key text primary key, id uuid not null) on commit drop;
 insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'dzongkha'), 'comprehension', 'Comprehension' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'dzongkha'), 'essay', 'Essay' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'dzongkha'), 'formal-writing', 'Formal writing' on conflict (subject_id, slug) do nothing;
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'essay', 'འོག་ལུ་དྲི་བ་ ཀ་ ཁ་ སྦེ་གཉིས་ཡོད་ས་ལས་ གང་རུང་ཅིག་གདམ་ཁ་རྐྱབ་སྟེ་ ཚིག་འབྲུ་ ༤༥༠-༥༠༠ གི་ནང་འཁོད་ལུ་བཅུད་བསྡུ་བའི་འབྲི་རྩོམ་ཅིག་བྲི་དགོ།
+
+ཀ༽ འཛམ་གླིང་ནང་ ཚ་དྲོད་ཡར་སེང་ ཤུགས་སྦེ་ར་འགྱོཝ་འདྲཝ་ཅིག་འབད་བ་ཅིན་ དེ་གིས་རང་བཞིན་མཐའ་འཁོར་གནས་སྟངས་དང་ འགྲོ་བ་མི་དང་སེམས་ཅན་སྤྱི་ཡོངས་ཀྱི་ འཚོ་བའི་གནས་སྟངས་ལུ་ གནོད་པ་ག་ཅི་བཟུམ་ར་འབྱུང་ནི་ཨིན་ན་དང་། ལྷག་པར་དུ་ འབྲུག་རྒྱལ་ཁབ་ཀྱི་ནང་འཁོད་ཐོན་སྐྱེད་ཡོངས་འབོར་ཚུ་ལུ་ ག་དེ་སྦེ་ཐོ་ཕོག་ནི་ཨིན་ན་ཚུ་གི་སྐོར་ལས་ འཆར་སྣང་འབྲི་རྩོམ་འབྲེལ་ཆགས་ཏོག་ཏོ་ཅིག་བྲིས།
+(སྐུགས་ ༣༠ - ད་ལྟོའི་དྲི་ཤོག་གི་ གཞི་ཚད་དང་འཁྲིལ་ཏེ། RCSC 2022 ནང་ སྐུགས་ ༢༠ ཡོད།)', 'ལན་གྱི་དཔེ་ (outline)
+
+མགོ་བཙུགས། འཛམ་གླིང་ཚ་དྲོད་ཡར་སེང་འདི་ ཁུག་རླངས་ཀྱི་རླངས་པ་ (CO2) ཡར་སེང་འགྱོ་མི་ལས་བརྟེན་ ས་གཞི་གི་ ཚ་དྲོད་ ཡར་འཕར་འགྱོཝ་ཨིན། འཕྲུལ་ཁང་ སྣུམ་འཁོར་ ནགས་ཚལ་ཆུད་ཟོས་ཚུ་ རྒྱུ་རྐྱེན་ཨིན།
+
+རང་བཞིན་མཐའ་འཁོར་དང་ འགྲོ་བ་ལུ་ གནོད་པ།
+༡. གངས་རི་ཞུ་སྟེ་ གངས་མཚོ་རྡོལ་ཉེན་ (GLOF) ཡར་སེང་འགྱོ་ནི།
+༢. ཆརཔ་ཚབས་ཆེན་ ཆུ་ལོག་ ས་རུད་དང་ ཐན་པ་ཚུ་ མང་སུ་བྱུང་ནི།
+༣. ནད་ཡམས་ཁྱབ་སྤེལ་དང་ ཚ་དྲོད་ཀྱི་ ནད་ཚུ།
+༤. སྲོག་ཆགས་དང་ ཤིང་རིགས་ལ་ལུ་ ཉམས་ཉེན།
+
+འབྲུག་གི་ནང་འཁོད་ཐོན་སྐྱེད་ལུ་ ཐོ་ཕོག་ཐངས།
+༡. ཆུ་གློག་ - ཆུ་ཚད་མ་འདྲཝ་ལས་ གློག་མེ་ཐོན་སྐྱེད་ཉུང་ནི་དང་ ཡོང་འབབ་མར་ཕབ།
+༢. སོ་ནམ་ - ཆརཔ་མ་འབབ་ནི་ ཐན་པ་ ནད་འབུ་ལས་བརྟེན་ ལོ་ཐོག་ཉུང་ནི།
+༣. ལམ་ ཟམ་ མཐུན་རྐྱེན་ཚུ་ ཆུ་ལོག་དང་ ས་རུད་ཀྱིས་ ཆག་སྐྱོན་བཏང་ནི་དང་ བསྐྱར་བཟོའི་ཟད་འགྲོ།
+༤. ལྟ་བཤལ་དང་ གསོ་བའི་ཟད་འགྲོ་ཚུ་ལུ་ ཐོ་ཕོག།
+
+ཐབས་ལམ། ནགས་ཚལ་ཉམས་སྲུང་ (བརྒྱ་ཆ་ ༦༠)། བསྐྱར་གསོ་ནུས་ཤུགས། གངས་མཚོ་ཉེན་བརྡ་ལམ་ལུགས། གནམ་གཤིས་ལུ་ བཟོད་ཐུབ་པའི་ སོ་ནམ་དང་ མཐུན་རྐྱེན།
+
+མཇུག་བསྡུ། འབྲུག་འདི་ ཁུག་རླངས་ མར་ཕབ་ཀྱི་རྒྱལ་ཁབ་ཨིན་རུང་ གནམ་གཤིས་འགྱུར་བའི་ ཉེན་ཁ་ཆེ་བའི་ནང་ཚུད་ཡོདཔ་ལས་ རྒྱལ་ཡོངས་དང་ འཛམ་གླིང་གི་ ཐབས་ལམ་ཅིག་ཁར་ བསྟེན་དགོ།', null, '[{"point": "མགོ་བཙུགས། འཛམ་གླིང་ཚ་དྲོད་ཡར་སེང་ (གནམ་གཤིས་འགྱུར་བ) གི་ངོ་སྤྲོད་དང་ རྒྱུ་རྐྱེན་ (ཁུག་རླངས་ཀྱི་རླངས་པ)", "marks": 6}, {"point": "རང་བཞིན་མཐའ་འཁོར་དང་ མི་དང་སེམས་ཅན་ལུ་ གནོད་པ་ (གངས་ཞུ་ནི་ གངས་མཚོ་རྡོལ་ཉེན། ཆུ་ལོག། ཐན་པ། ནད་ཡམས། སྲོག་ཆགས་ཉམས་ཉེན།)", "marks": 8}, {"point": "འབྲུག་གི་ནང་འཁོད་ཐོན་སྐྱེད་ཡོངས་འབོར་ལུ་ ཐོ་ཕོག་ཐངས་ (ཆུ་གློག་ ཆུ་ཚད་ཉུང་། སོ་ནམ་ ལོ་ཐོག། ལྟ་བཤལ། ལམ་དང་ མཐུན་རྐྱེན་ཆག་སྐྱོན། གསོ་བའི་ཟད་འགྲོ)", "marks": 10}, {"point": "ཐབས་ལམ་དང་ མཇུག་བསྡུ་ (ནགས་ཚལ་ཉམས་སྲུང་། ཉེན་བརྡ་ལམ་ལུགས། འབྲེལ་ཆགས་ཡོད་པའི་ འབྲི་བཀོད)", "marks": 6}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'essay'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 30,
+    3240, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2022, batch 2", "source": {"title": "BCSE 2022 Main Examination, General category, Paper I (Dzongkha Language and General Knowledge)", "year": 2022, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'E1', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2022 from me_q where key = 'E1' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 12.0, 1 from me_q where key = 'E1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 7.5, 2 from me_q where key = 'E1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 10.5, 3 from me_q where key = 'E1';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'essay', 'འོག་ལུ་དྲི་བ་ ཀ་ ཁ་ སྦེ་གཉིས་ཡོད་ས་ལས་ གང་རུང་ཅིག་གདམ་ཁ་རྐྱབ་སྟེ་ ཚིག་འབྲུ་ ༤༥༠-༥༠༠ གི་ནང་འཁོད་ལུ་བཅུད་བསྡུ་བའི་འབྲི་རྩོམ་ཅིག་བྲི་དགོ།
+
+ཁ༽ དུས་དང་ཕུ་ཕ་མའི་སྐབས་ལས་ གོམས་གཤིས་ཚུད་དེ་འོངས་པའི་ ཆོས་ལུགས་དང་སྔར་སྲོལ་གྱི་ལྟ་བ་ཚུ་དང་། ད་རེས་ནངས་པ་ངམ་ངམ་ཤུགས་ཀྱིས་གྲ་རྒྱས་ཏེ་འོངས་པའི་ ཚན་རིག་དང་འཕྲུལ་རིག་གི་གསར་གཏོད་རིག་པའི་ལྟ་བ་གཉིས་ རྒྱབ་འགལ་འགྱོ་ནིའི་ཉེན་ཁ་ཡོདཔ་ལས་ ཁྱོད་ཀྱིས་ལྟ་བ་དེ་གཉིས་ལུ་བསྟེན་པའི་ཁེ་ཕན་དང་མ་བསྟེན་པའི་གྱོང་རྒུད་ཚུ་ སོ་སོ་སྦེ་བཤད་ཞིནམ་ལས་མཇུག་ལུ་ལྟ་བ་དེ་གཉིས་ཟུང་འབྲེལ་སྦེ་ ལག་ལེན་འཐབ་བཏུབ་པའི་ཐབས་ཤེས་ཚུ་ཡང་དྲངས་ཏེ་ འགྲེལ་བཤད་འབྲི་རྩོམ་ཅིག་བྲིས།
+(སྐུགས་ ༣༠ - ད་ལྟོའི་དྲི་ཤོག་གི་ གཞི་ཚད་དང་འཁྲིལ་ཏེ། RCSC 2022 ནང་ སྐུགས་ ༢༠ ཡོད།)', 'ལན་གྱི་དཔེ་ (outline)
+
+མགོ་བཙུགས། ཕ་མེས་ཀྱི་སྐབས་ལས་ ཆོས་ལུགས་དང་ སྔར་སྲོལ་གྱི་ལྟ་བ་ཚུ་གིས་ འབྲུག་མི་ཚུ་གི་ མི་ཚེ་ལམ་སྟོན་འབད་དེ་ཡོདཔ་དང་ དེང་སང་ ཚན་རིག་དང་ འཕྲུལ་རིག་ མགྱོགས་དྲགས་སྦེ་ གྲ་རྒྱས་འགྱོ་དོ་ཡོད།
+
+བསྟེན་པའི་ཁེ་ཕན།
+ཆོས་དང་ སྔར་སྲོལ་ - ལས་རྒྱུ་འབྲས་ ཐ་དམ་ཚིག་ ལེ་འཇུམ་ཚུ་གིས་ ཀུན་སྤྱོད་བཟང་པོ་ སེམས་ཞི་བ་ མི་སྡེའི་མཐུན་སྒྲིལ་དང་ རྒྱལ་ཁབ་ཀྱི་ ངོ་རྐྱང་ བཟོཝ་ཨིན།
+ཚན་རིག་དང་ འཕྲུལ་རིག་ - གསོ་བ་ ཤེས་ཡོན་ བརྡ་དོན་ སོ་ནམ་ཚུ་ ཡར་དྲག་འགྱོ་སྟེ་ མི་ཚེ་ བདེ་སྐྱིད་དང་ དཔལ་འབོར་ ཡར་སེང་འགྱོཝ་ཨིན།
+
+མ་བསྟེན་པའི་གྱོང་རྒུད།
+ཆོས་དང་ སྔར་སྲོལ་ མ་བསྟེན་པ་ཅིན་ ཀུན་སྤྱོད་ཉམས་ཏེ་ རང་རྐྱང་དང་ ཉོ་སྤྱོད་ཀྱི་ སེམས་ཡར་སེང་ ངོ་རྐྱང་ཤོར་ཉེན།
+ཚན་རིག་ མ་བསྟེན་པ་ཅིན་ ནད་ཡམས་ ཉེས་མེད་ཀྱི་ དཀའ་ངལ་ཚུ་ སེལ་མ་ཚུགས་པར་ འཛམ་གླིང་ལས་ རྒྱབ་ཁར་ལུས་ཉེན།
+
+ཟུང་འབྲེལ་གྱི་ཐབས་ཤེས།
+༡. རྒྱལ་ཡོངས་དགའ་སྐྱིད་དཔལ་འཛོམས་ཀྱི་ ལྟ་བ་ - ཕྱི་དང་ནང་གི་ ཡར་རྒྱས་ ཆ་སྙོམས།
+༢. ཤེས་ཡོན་ནང་ ཚན་རིག་དང་ ཀུན་སྤྱོད་ ཆ་རའི་ སློབ་སྦྱོང་།
+༣. འཕྲུལ་རིག་ ལག་ལེན་འཐབ་སྟེ་ ཆོས་དང་ ལམ་སྲོལ་ ཉམས་སྲུང་ (དཔེར་ན་ དཔེ་ཆ་ ཌི་ཇི་ཊཱལ་བཟོ་ནི)།
+༤. སེམས་ཀྱི་ཚན་རིག་ (སྒོམ་ཆེན) བཟུམ་ གཉིས་ཆ་ར་ཡིད་ཆེས་པའི་ ལག་ལེན།
+
+མཇུག་བསྡུ། ལྟ་བ་གཉིས་འདི་ རྒྱབ་འགལ་མེན་པར་ ཕན་ཚུན་ཆ་རོགས་སྦེ་ བསྟེན་པ་ཅིན་ ཡར་རྒྱས་དང་ ངོ་རྐྱང་ གཉིས་ཆ་ར་ ཉམས་སྲུང་འབད་ཚུགས།', null, '[{"point": "མགོ་བཙུགས། ཆོས་ལུགས་དང་ སྔར་སྲོལ་གྱི་ལྟ་བ་ དང་ ཚན་རིག་འཕྲུལ་རིག་གི་ལྟ་བ་ གཉིས་ཀྱི་ངོ་སྤྲོད།", "marks": 5}, {"point": "ལྟ་བ་གཉིས་ལུ་བསྟེན་པའི་ཁེ་ཕན་ སོ་སོ་ (ཆོས་ - ཀུན་སྤྱོད་ སེམས་ཞི་ ངོ་རྐྱང་། ཚན་རིག་ - གསོ་བ་ ཤེས་ཡོན་ དཔལ་འབོར)", "marks": 8}, {"point": "མ་བསྟེན་པའི་གྱོང་རྒུད་ སོ་སོ་ (ཀུན་སྤྱོད་ཉམས་ ངོ་རྐྱང་ཤོར། / ཡར་རྒྱས་ཀྱི་གོ་སྐབས་ཤོར་ རྒྱབ་ལུ་ལུས)", "marks": 8}, {"point": "ཟུང་འབྲེལ་གྱི་ཐབས་ཤེས་ (རྒྱལ་ཡོངས་དགའ་སྐྱིད་དཔལ་འཛོམས། ཤེས་ཡོན་ནང་ གཉིས་ཆ་ར། སེམས་ཀྱི་ཚན་རིག) མཇུག་བསྡུ།", "marks": 9}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'essay'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 30,
+    3240, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2022, batch 2", "source": {"title": "BCSE 2022 Main Examination, General category, Paper I (Dzongkha Language and General Knowledge)", "year": 2022, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'E2', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2022 from me_q where key = 'E2' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 12.0, 1 from me_q where key = 'E2';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 7.5, 2 from me_q where key = 'E2';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 10.5, 3 from me_q where key = 'E2';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'long_answer', 'འོག་ལུ་དྲི་བ་ ཀ་ ཁ་ སྦེ་གཉིས་ཡོད་ས་ལས་ ག་འབད་རུང་ཅིག་གདམ་ཁ་རྐྱབ་ཞིནམ་ལས་ ཚིག་སྦྱོར་ཕུན་སུམ་ཚོགས་པའི་ཁར་ དོན་གྱི་གནད་འགག་ཚངམ་སྦེ་ཡོད་པའི་ ཡི་གུ་ཚད་ལྡན་ཅིག་བྲི་དགོ།
+
+ཀ༽ ཕྱི་རྒྱལ་ལུ་ལཱ་འབད་སྡོད་མི་ ཁྱོད་ཀྱི་ཆ་རོགས་པདྨ་ཟེར་མི་ཅིག་ཡོདཔ་སྦེ་ ཆ་བཞག་ཞིནམ་ལས་ མོ་གི་གཡུས་ཁ་ལུ་ མོ་རའི་ཕམ་རྒན་རྒས་གཉིས་ ལཱ་འབད་བར་འབུང་གིས་སྡུག་ ཟ་བར་འབད་འབདཝ་མེད་པར་ ཨ་རྟག་ར་ འུ་སྡུག་ཐང་ཆད་ཀྱི་ངང་ལུ་ ཆ་རོགས་འབད་མི་མེད་པར་ དཀའ་ངལ་གྱིས་ཉམས་ཐག་སྟེ་ཡོདཔ་ལས་ ཁྱོད་ཀྱིས་མོ་ལུ་ ཕྱི་རྒྱལ་ལས་ལོག་སྟེ་ རང་གི་གཡུས་ཁར་འོངས་ཞིནམ་ལས་ ཕམ་རྒན་རྒས་གཉིས་ལུ་ ཞབས་ཏོག་གང་དྲག་ཞུ་ཐོག་ལས་ དྲིན་ལན་འཇལ་བར་ཤོག་ཟེར་བའི་ དོན་ཚན་ཚུ་བཙུགས་ཏེ་ གཏང་ཡིག་འཁྲུལ་སི་སི་ཅིག་བྲིས།
+(སྐུགས་ ༢༠ - ད་ལྟོའི་དྲི་ཤོག་གི་ གཞི་ཚད་དང་འཁྲིལ་ཏེ། RCSC 2022 ནང་ སྐུགས་ ༡༥ ཡོད།)', 'ལན་གྱི་དཔེ།
+
+ཐིམ་ཕུག། སྤྱི་ཚེས་ ......
+
+ཆ་རོགས་ པདྨ་ལུ།
+
+བཀྲ་ཤིས་བདེ་ལེགས། ཁྱོད་ ཕྱི་རྒྱལ་ལུ་ ལུས་ཁམས་བཟང་ཏོག་ཏོ་སྦེ་ ཡོདཔ་ཨིན་པས། ང་གིས་ ཁྱོད་ཀྱི་ གཡུས་ཁར་ ཕམ་གཉིས་ཀྱི་ གནས་སྟངས་ཤེས་ཏེ་ སེམས་ཁར་ཕོག་ཡོདཔ་ལས་ ཡི་གུ་འདི་ བྲིཝ་ཨིན།
+
+ཁྱོད་ཀྱི་ ཕམ་རྒན་རྒས་གཉིས་ ད་ལྟོ་ ལཱ་འབད་ནིའི་ ཤུགས་མེད་ཡོདཔ་དང་ ཟ་ནི་ཡང་ དཀའ་ངལ་ཡོདཔ་ མཐོང་ཡི། ཁོང་གཉིས་ ཨ་རྟག་ར་ ཁྱོད་དྲན་ཏེ་ འུ་སྡུག་ཐང་ཆད་ཀྱི་ངང་ལུ་ ཆ་རོགས་འབད་མི་ མེད་པར་ ཉམས་ཐག་སྟེ་ ཡོདཔ་ཨིན།
+
+ཆ་རོགས། ཕ་མ་གིས་ ང་བཅས་ སྐྱེས་ལས་ ད་ཚུན་ ཚེ་གང་ དཀའ་སྤྱད་དང་ བརྩེ་བའི་ཐོག་ལས་ གསོ་སྐྱོང་འབད་ཡི། ཁོང་རྒས་ཁ་ལུ་ ཞབས་ཏོག་ཞུ་ནི་ ང་བཅས་ཀྱི་ ཐ་དམ་ཚིག་དང་ ལེ་འཇུམ་ཨིན། དངུལ་ཕྱོགས་ ག་དེམ་ཅིག་འཚོལ་རུང་ ཕ་མ་ཕངས་པའི་ དྲོད་འཇམ་ཚབ་ མི་ཐོབ། གཡུས་ཁར་ཡང་ དེང་སང་ སོ་ནམ་ ཚོང་ལཱ་ གཞུང་གི་ རྒྱབ་སྐྱོར་ཚུ་ ཡོདཔ་ལས་ ལཱ་འབད་ཚུགས།
+
+དེ་འབདཝ་ལས་ ཁྱོད་ མགྱོགས་པར་ ལོག་འོང་སྟེ་ ཕམ་གཉིས་ལུ་ ཞབས་ཏོག་གང་དྲག་ཞུ་སྟེ་ དྲིན་ལན་འཇལ་བར་ཤོག་ཟེར་ ཞུ་བ་ཨིན། ང་ཡང་ ག་དེ་ཚུགས་ཚུགས་ རོགས་རམ་འབད་ནི།
+
+ཁྱོད་ཀྱི་ ཆ་རོགས།
+(མིང་དང་ མཚན་རྟགས)', null, '[{"point": "གཏང་ཡིག་གི་འབྲི་བཀོད་ (ས་གནས་ ཚེས་གྲངས་ ཁ་བྱང་ བཀྲ་ཤིས་བདེ་ལེགས་ མཇུག་བསྡུ་ མཚན་རྟགས) དང་ ཆ་རོགས་ལུ་ འཚམས་འདྲི།", "marks": 5}, {"point": "ཕམ་རྒན་རྒས་གཉིས་ཀྱི་ གནས་སྟངས་ (ལཱ་འབད་མ་ཚུགས། འུ་སྡུག། ཆ་རོགས་མེད།) ཁ་གསལ།", "marks": 5}, {"point": "ལོག་འོང་དགོ་པའི་རྒྱུ་མཚན་ - དྲིན་ལན་འཇལ་ནི་ (ལེ་འཇུམ། ཐ་དམ་ཚིག) ཕ་མའི་ཞབས་ཏོག་ཞུ་ནི། གཡུས་ཁར་ ལཱ་དང་ གོ་སྐབས།", "marks": 6}, {"point": "སེམས་ལུ་ཕོག་པའི་ (འཁྲུལ་སི་སི) ཚིག་སྦྱོར་དང་ ཞེ་ས་ཚད་ལྡན།", "marks": 4}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'formal-writing'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 20,
+    2160, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2022, batch 2", "source": {"title": "BCSE 2022 Main Examination, General category, Paper I (Dzongkha Language and General Knowledge)", "year": 2022, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'L1', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2022 from me_q where key = 'L1' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 8.0, 1 from me_q where key = 'L1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 5.0, 2 from me_q where key = 'L1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 7.0, 3 from me_q where key = 'L1';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'long_answer', 'འོག་ལུ་དྲི་བ་ ཀ་ ཁ་ སྦེ་གཉིས་ཡོད་ས་ལས་ ག་འབད་རུང་ཅིག་གདམ་ཁ་རྐྱབ་ཞིནམ་ལས་ ཚིག་སྦྱོར་ཕུན་སུམ་ཚོགས་པའི་ཁར་ དོན་གྱི་གནད་འགག་ཚངམ་སྦེ་ཡོད་པའི་ ཡི་གུ་ཚད་ལྡན་ཅིག་བྲི་དགོ།
+
+ཁ༽ ཁྱོད་ར་འབྲུག་གི་མི་རྗེ་བློན་ཆེན་ཅིག་ཨིནམ་བཟོ་ཞིནམ་ལས་ ད་ལས་ཕར་ གཞུང་དང་གཞུང་མིན་ལས་ཚོགས་ཀྱི་འགོ་དཔོན་ཚུ་གིས་ གཞུང་དང་མི་སེར་ལུ་ གྱོང་རྒུད་ཆེ་བའི་ སྤང་བྱ་ལྔ་སྤང་དགོཔ་དང་། ཕན་ཐོགས་ཆེ་བའི་བླང་བྱ་ལྔ་ གཙོ་བོར་བཏོན་ཐོག་ལས་ ཞི་གཡོག་གི་བཅའ་ཡིག་དང་སྒྲིག་གཞི་ལས་མ་འགལ་བར་ རྩ་བ་གསུམ་ལུ་ཕྱག་ཕྱི་གང་དྲག་ཞུ་དགོ་པའི་བཀའ་ཤོག་ ན་རི་རི་ཅིག་བྲིས། སྤང་བྱ་ལྔ་དང་བླང་བྱ་ལྔའི་ཐད་ཁར་ ཁྱོད་ར་གིས་བཟོ་སྟེ་བྲི་ནི་ཨིན།
+(སྐུགས་ ༢༠ - ད་ལྟོའི་དྲི་ཤོག་གི་ གཞི་ཚད་དང་འཁྲིལ་ཏེ། RCSC 2022 ནང་ སྐུགས་ ༡༥ ཡོད།)', 'ལན་གྱི་དཔེ།
+
+འབྲུག་གཞུང་ བློན་ཆེན་གྱི་ཡིག་ཚང་།
+ཡིག་ཨང་། ......         སྤྱི་ཚེས། ......
+
+བཀའ་ཤོག
+
+གཞུང་དང་ གཞུང་མིན་ ལས་ཚོགས་ཀྱི་ འགོ་དཔོན་ག་ར་ལུ།
+
+རྩ་བ་གསུམ་ལུ་ ཕྱག་ཕྱིད་གང་དྲག་ཞུ་ནིའི་དོན་ལུ་ ད་ལས་ཕར་ འགོ་དཔོན་ག་ར་གིས་ ཞི་གཡོག་གི་ བཅའ་ཡིག་དང་ སྒྲིག་གཞི་ལས་ མ་འགལ་བར་ འོག་གི་ སྤང་བྱ་ལྔ་ སྤང་ཐོག་ལས་ བླང་བྱ་ལྔ་ གཙོ་བོར་བཏོན་དགོ།
+
+སྤང་བྱ་ལྔ།
+༡. ཞེ་ལོག་དང་ མ་རུང་བའི་ ཐོབ་ལམ།
+༢. ཉེ་རིང་དང་ ཕྱོགས་རིས།
+༣. དུས་ཚོད་དང་ གཞུང་གི་ མཐུན་རྐྱེན་ ཆུད་ཟོས་གཏང་ནི།
+༤. དབང་ཚད་ ལོག་སྤྱོད་འབད་ནི།
+༥. ཞབས་ཏོག་དང་ ལས་རིམ་ཚུ་ དུས་འགྱངས་བཏང་ནི།
+
+བླང་བྱ་ལྔ།
+༡. དྲང་བདེན་དང་ ཀུན་གསལ།
+༢. མི་སེར་ག་ར་ལུ་ དུས་ཐོག་ལུ་ འདྲ་མཉམ་གྱི་ ཞབས་ཏོག།
+༣. འགན་འཁྲི་དང་ ལཱ་ཤུལ་གྲུབ་འབྲས།
+༤. གསར་གཏོད་དང་ ཤེས་ཡོན་ཡར་རྒྱས།
+༥. ལས་གཡོགཔ་ཚུ་ལུ་ དཔེ་སྟོན་དང་ སྐུལ་སྤྲོ།
+
+བཀའ་ཤོག་འདི་ ཚེས་གྲངས་ ...... ལས་ འགོ་བཙུགས་ཏེ་ ལག་ལེན་འཐབ་དགོཔ་ཨིན།
+
+(མཚན་རྟགས)
+བློན་ཆེན།', null, '[{"point": "བཀའ་ཤོག་གི་ འབྲི་བཀོད་ (བློན་ཆེན་གྱི་ ཡིག་ཚང་ ཡིག་ཨང་ ཚེས་གྲངས་ ཁ་བྱང་ - གཞུང་དང་གཞུང་མིན་ ལས་ཚོགས་ཀྱི་འགོ་དཔོན་ཚུ་) མགོ་ཚིག་དང་ རྒྱབ་ཁུངས།", "marks": 4}, {"point": "སྤང་བྱ་ལྔ་ (དཔེར་ན་ ཞེ་ལོག། ཕྱོགས་རིས་ ཉེ་རིང་། དུས་ཚོད་དང་ མཐུན་རྐྱེན་ ཆུད་ཟོས། ཁེ་དབང་འཛིང་། ལས་རིམ་ དུས་འགྱངས།)", "marks": 6}, {"point": "བླང་བྱ་ལྔ་ (དྲང་བདེན་ ཀུན་གསལ། དུས་ཚོད་ལུ་ ཞབས་ཏོག། འགན་འཁྲི། གསར་གཏོད། ཞི་གཡོག་བཅའ་ཡིག་དང་ཁྲིལ)", "marks": 6}, {"point": "རྩ་བ་གསུམ་ལུ་ཕྱག་ཕྱིད་ཞུ་དགོཔ་ མཇུག་བསྡུ་ མཚན་རྟགས། ཚད་ལྡན་ཚིག་སྦྱོར།", "marks": 4}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'formal-writing'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 20,
+    2160, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2022, batch 2", "source": {"title": "BCSE 2022 Main Examination, General category, Paper I (Dzongkha Language and General Knowledge)", "year": 2022, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'L2', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2022 from me_q where key = 'L2' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 8.0, 1 from me_q where key = 'L2';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 5.0, 2 from me_q where key = 'L2';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 7.0, 3 from me_q where key = 'L2';
 with nq as (
   insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
                                 estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
@@ -21,7 +174,7 @@ with nq as (
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'comprehension'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 3,
     324, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2022 comprehension, batch 2", "source": {"title": "BCSE 2022 Main Examination, General category, Paper I (Dzongkha Language and General Knowledge)", "year": 2022, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2022b2-c1', 1, null, null, null, null)
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2022, batch 2", "source": {"title": "BCSE 2022 Main Examination, General category, Paper I (Dzongkha Language and General Knowledge)", "year": 2022, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2022b2-c1', 1, null, null, null, null)
   returning id
 )
 insert into me_q select 'C1a', id from nq;
@@ -48,7 +201,7 @@ with nq as (
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'comprehension'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 3,
     324, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2022 comprehension, batch 2", "source": {"title": "BCSE 2022 Main Examination, General category, Paper I (Dzongkha Language and General Knowledge)", "year": 2022, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2022b2-c1', 2, null, null, null, null)
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2022, batch 2", "source": {"title": "BCSE 2022 Main Examination, General category, Paper I (Dzongkha Language and General Knowledge)", "year": 2022, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2022b2-c1', 2, null, null, null, null)
   returning id
 )
 insert into me_q select 'C1b', id from nq;
@@ -75,7 +228,7 @@ with nq as (
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'comprehension'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 3,
     324, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2022 comprehension, batch 2", "source": {"title": "BCSE 2022 Main Examination, General category, Paper I (Dzongkha Language and General Knowledge)", "year": 2022, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2022b2-c1', 3, null, null, null, null)
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2022, batch 2", "source": {"title": "BCSE 2022 Main Examination, General category, Paper I (Dzongkha Language and General Knowledge)", "year": 2022, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2022b2-c1', 3, null, null, null, null)
   returning id
 )
 insert into me_q select 'C1c', id from nq;
@@ -102,7 +255,7 @@ with nq as (
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'comprehension'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 3,
     324, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2022 comprehension, batch 2", "source": {"title": "BCSE 2022 Main Examination, General category, Paper I (Dzongkha Language and General Knowledge)", "year": 2022, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2022b2-c1', 4, null, null, null, null)
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2022, batch 2", "source": {"title": "BCSE 2022 Main Examination, General category, Paper I (Dzongkha Language and General Knowledge)", "year": 2022, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2022b2-c1', 4, null, null, null, null)
   returning id
 )
 insert into me_q select 'C1d', id from nq;
@@ -129,7 +282,7 @@ with nq as (
     (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'comprehension'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 3,
     324, 'historical_official', 'awaiting_review',
     null, null,
-    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2022 comprehension, batch 2", "source": {"title": "BCSE 2022 Main Examination, General category, Paper I (Dzongkha Language and General Knowledge)", "year": 2022, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2022b2-c1', 5, null, null, null, null)
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2022, batch 2", "source": {"title": "BCSE 2022 Main Examination, General category, Paper I (Dzongkha Language and General Knowledge)", "year": 2022, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2022b2-c1', 5, null, null, null, null)
   returning id
 )
 insert into me_q select 'C1e', id from nq;

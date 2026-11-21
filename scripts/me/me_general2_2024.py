@@ -4,6 +4,7 @@ Section B topical any 2 of 4, Section C subjective any 2 of 4, Section D 20 MCQ.
 Section D left out (answer not certain or time-bound): Q1 (Lopen titles), Q2 (Descending Day), Q3 (Gyalsung
 academies), Q4 (TikTok bans), Q6 (constituencies - no option fits), Q7 (latest state visit), Q9 (Privy Council is
 also in the Constitution), Q14 (marathon position), Q15 (Boxing Day - no correct option).
+The 9 left-out MCQs are replaced by 9 new ones of the same kinds (keys N1-N9).
 Answers and marking guides were written by Claude: please check before publishing.
 """
 import os, runpy
@@ -195,4 +196,23 @@ dict(key="D19", real=True, type=MCQ, topic="General knowledge: Bhutan", stem="A 
      opts=["Speaker of the National Assembly", "Prime Minister", "Druk Gyalpo", "Chief Justice"], ans=2, exp="Under Article 13 of the Constitution, a Bill becomes law on receiving the Druk Gyalpo's Assent."),
 dict(key="D20", real=True, type=MCQ, topic="General knowledge: geography", stem="India is bordered by Bhutan, China, Nepal and Pakistan to the north, and Bangladesh and Myanmar to the east. Which country shares the longest boundary with India?",
      opts=["China", "Bangladesh", "Myanmar", "Pakistan"], ans=1, exp="Bangladesh shares India's longest land border (about 4,096 km)."),
+# ---- new questions of the same kinds, replacing the real MCQs left out above (written by Claude; check before publishing)
+dict(key="N1", new=True, type=MCQ, topic="General knowledge: Bhutan religion", stem="The Je Khenpo is the spiritual head of the:",
+     opts=["Zhung Dratshang (Central Monastic Body)", "National Council", "Royal Privy Council", "Dzongkhag Tshogdu"], ans=0, exp="The Je Khenpo heads the Zhung Dratshang, the Central Monastic Body."),
+dict(key="N2", new=True, type=MCQ, topic="General knowledge: Bhutan culture", stem="Lhabab Duechen (the Descending Day of Lord Buddha) marks the Buddha's return to earth from:",
+     opts=["The Heaven of the Thirty-Three (Trayastrimsha), where he taught his mother", "Mount Kailash", "Bodh Gaya", "Lumbini"], ans=0, exp="The Buddha descended from the Heaven of the Thirty-Three after teaching the Dharma to his mother."),
+dict(key="N3", new=True, type=MCQ, topic="General knowledge: Bhutan", stem="Under the Gyalsung (National Service) programme, Bhutanese youth are enrolled in the year they turn:",
+     opts=["16", "18", "21", "25"], ans=1, exp="Gyalsung is mandatory for young Bhutanese in the year they turn 18."),
+dict(key="N4", new=True, type=MCQ, topic="General knowledge: technology", stem="The video-sharing app TikTok is owned by which company?",
+     opts=["Tencent", "Alibaba", "ByteDance", "Meta"], ans=2, exp="TikTok is owned by ByteDance."),
+dict(key="N5", new=True, type=MCQ, topic="General knowledge: Bhutan politics", stem="How many members are there in the National Council of Bhutan?",
+     opts=["20", "25", "47", "72"], ans=1, exp="The National Council has 25 members: 20 elected (one per dzongkhag) and 5 eminent members nominated by the Druk Gyalpo."),
+dict(key="N6", new=True, type=MCQ, topic="General knowledge: Bhutan foreign relations", stem="Bhutan and India established formal diplomatic relations in:",
+     opts=["1949", "1961", "1968", "1971"], ans=2, exp="Formal diplomatic relations were established in 1968; the friendship treaty dates from 1949 (revised 2007)."),
+dict(key="N7", new=True, type=MCQ, topic="General knowledge: Bhutan constitution", stem="Under the Constitution of Bhutan, the Druk Gyalpo must step down on reaching the age of:",
+     opts=["60", "65", "70", "75"], ans=1, exp="Article 2 of the Constitution sets the Druk Gyalpo's retirement age at 65."),
+dict(key="N8", new=True, type=MCQ, topic="General knowledge: sports", stem="Bhutan first took part in the Olympic Games in:",
+     opts=["1972 Munich", "1980 Moscow", "1984 Los Angeles", "1992 Barcelona"], ans=2, exp="Bhutan debuted at the 1984 Los Angeles Olympics with archers."),
+dict(key="N9", new=True, type=MCQ, topic="General knowledge: sports", stem="In football, a 'hat-trick' means a player:",
+     opts=["Scores three goals in one match", "Receives three yellow cards", "Saves three penalties", "Plays three matches in a week"], ans=0, exp="A hat-trick is three goals by one player in a single match."),
 ]
