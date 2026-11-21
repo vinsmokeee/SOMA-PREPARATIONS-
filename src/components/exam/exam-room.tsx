@@ -7,6 +7,7 @@ import type { SaveInput, SaveResult, SubmitResult } from "@/app/exam/actions";
 import { clockOffset, countWords, dueTimeWarnings, formatClock, questionState, remainingSeconds, timeWarningText, timerTone, type QuestionState } from "@/lib/exam/logic";
 import type { AttemptPaper, MarkQuality, PaperQuestion } from "@/lib/exam/types";
 import { OmrBubble } from "./omr-bubble";
+import { HonestyNote } from "./pause-button";
 import { resumeIndex } from "@/lib/exam/resume";
 import { passageFolds, type Fold } from "@/lib/exam/passages";
 import { cn } from "@/lib/utils";
@@ -645,18 +646,7 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed, pa
           </div>
         </div>
       ) : null}
-      {honesty ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 p-6" role="alertdialog" aria-live="assertive" aria-label="Exam paused">
-          <div className="w-full max-w-sm rounded-2xl bg-background p-6 text-center shadow-xl">
-            <Pause className="mx-auto size-8 text-slate-600" aria-hidden />
-            <p className="mt-3 font-serif text-xl font-semibold text-ink">Please don&apos;t cheat</p>
-            <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-              This is a practice exam. Looking up answers while it is paused only cheats yourself: your marks would not show what you really know.
-            </p>
-            <p className="mt-3 text-sm font-medium text-ink">Your exam is paused. Continue it any time from Paused exam.</p>
-          </div>
-        </div>
-      ) : null}
+      {honesty ? <HonestyNote /> : null}
       {pauseError ? (
         <div className="fixed inset-x-3 bottom-24 z-50 mx-auto max-w-lg rounded-lg border border-[#f1cfca] bg-danger-soft p-4 text-sm shadow-lg lg:bottom-6" role="alert">
           <p className="flex items-start gap-2 text-danger"><AlertTriangle className="mt-0.5 size-4 shrink-0" aria-hidden /> {pauseError}</p>

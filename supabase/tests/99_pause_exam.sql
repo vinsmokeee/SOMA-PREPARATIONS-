@@ -45,6 +45,7 @@ select tests.login(:'s');
 select tests.assert(public.start_attempt(:'e1') = :'a'::uuid and (select status = 'in_progress' from public.exam_attempts where id = :'a'), 'a paused exam is not closed for time');
 select public.resume_attempt(:'a');
 select tests.assert((select paused_at is null and deadline_at > now() + interval '59 minutes' from public.exam_attempts where id = :'a'), 'Continue gives back the same time');
+select tests.assert((select started_at > now() - interval '15 minutes' from public.exam_attempts where id = :'a'), 'the start moves forward by the paused time (reading time is kept)');
 select public.save_answer(:'a', :'q1', null, false, null, false);
 select tests.assert(public.start_attempt(:'e2') is not null, 'after continuing, other mocks can start again');
 select public.submit_attempt(:'a');
