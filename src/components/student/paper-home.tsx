@@ -27,6 +27,15 @@ export const paperTypeLabel = (p: Pick<MeProgressPaper, "pattern">, t: string) =
   return parts.length === 1 ? parts[0].title : typeLabel(t);
 };
 
+/**
+ * Practice types in the order of the paper's RCSC sections (Section I, II, III… / Part A, B…).
+ * Types that are not a section of the latest paper come last, alphabetically.
+ */
+export const typesInPaperOrder = (p: Pick<MeProgressPaper, "pattern" | "types">) => {
+  const pos = (t: string) => { const i = p.pattern.findIndex((b) => b.type === t); return i < 0 ? Number.MAX_SAFE_INTEGER : i; };
+  return [...p.types].sort((a, b) => pos(a.type) - pos(b.type) || typeLabel(a.type).localeCompare(typeLabel(b.type)));
+};
+
 const STRONG = 70; // % and above: strong
 const WEAK = 50;   // below: work on
 
@@ -105,7 +114,7 @@ export function PaperHome({ p }: { p: MeProgressPaper }) {
         <p className="mt-1 text-sm text-muted-foreground">One question at a time, a new one each time. Write on paper and upload a photo, or type. AI marks it and shows how to improve.</p>
         {p.types.length ? (
           <div className="mt-4 grid gap-2">
-            {p.types.map((t) => <PracticeTypeButton key={t.type} paper={p.id} type={t.type} label={paperTypeLabel(p, t.type)} count={t.count} />)}
+            {typesInPaperOrder(p).map((t) => <PracticeTypeButton key={t.type} paper={p.id} type={t.type} label={paperTypeLabel(p, t.type)} count={t.count} />)}
           </div>
         ) : (
           <p className="mt-4 rounded-2xl bg-slate-100 p-4 text-sm text-muted-foreground">Questions for this paper are being prepared. They will appear here soon.</p>

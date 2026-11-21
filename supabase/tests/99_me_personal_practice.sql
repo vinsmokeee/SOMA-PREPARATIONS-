@@ -10,6 +10,10 @@ grant select on qs to authenticated;
 insert into public.questions (id, stage, question_type, stem, marks, paper_id, status, origin, verified_by, verified_at)
 select id, 'ME', 'essay', 'Personal practice test essay number ' || n, 10, :'p3', 'verified', 'original', :'b', now() from qs;
 update public.questions set status = 'published' where id in (select id from qs);
+-- A daily current-affairs question attached to the paper is practised in News, not as a section of the paper
+insert into public.questions (stage, question_type, stem, marks, paper_id, status, origin, verified_by, verified_at)
+values ('ME', 'short_answer', 'A current affairs short answer question for the test', 5, :'p3', 'verified', 'current_affairs', :'b', now());
+update public.questions set status = 'published' where origin = 'current_affairs' and paper_id = :'p3' and status = 'verified';
 
 set local role authenticated;
 -- Practice: a question the student has not seen, then another
@@ -31,6 +35,10 @@ set local role authenticated;
 -- Free students cannot practise ME
 select tests.login(:'f');
 select tests.assert_fails(format($$select public.start_paper_practice(%L, 'essay')$$, :'p3'), 'ME practice needs ME Premium');
+select tests.login(:'a');
+select tests.assert(not exists (select 1 from jsonb_array_elements(public.my_me_progress()) x, jsonb_array_elements(x -> 'types') t
+  where x ->> 'id' = :'p3' and t ->> 'type' = 'short_answer'), 'news questions are not listed as a section of the paper');
+select tests.assert_fails(format($$select public.start_paper_practice(%L, 'short_answer')$$, :'p3'), 'news questions are not picked for paper practice');
 
 -- Mock: none until the pattern is known
 select tests.login(:'a');
