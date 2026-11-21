@@ -7,6 +7,7 @@ import { chooseQuestionsAction } from "@/app/exam/[attemptId]/choose-actions";
 import { choiceProblems, choiceSections, fixedSections } from "@/lib/exam/choice";
 import type { AttemptPaper } from "@/lib/exam/types";
 import { cn } from "@/lib/utils";
+import { PauseButton } from "./pause-button";
 
 const clock = (s: number) => {
   const t = Math.max(0, Math.floor(s));
@@ -66,6 +67,7 @@ export function ChoosePaper({ paper, changing }: { paper: AttemptPaper; changing
             <p className="truncate text-sm font-semibold text-ink sm:text-base">{paper.exam.title}</p>
             <p className="text-xs text-muted-foreground">Question paper</p>
           </div>
+          <PauseButton attemptId={paper.attempt.id} stage={paper.exam.stage} />
           {now !== null ? (
             <div role="timer" className={cn("flex items-center gap-1.5 rounded-md px-2.5 py-1.5 font-mono text-sm font-semibold tabular-nums text-white", reading ? "bg-amber-600" : "bg-ink")}>
               <Clock3 className="size-4" aria-hidden />
