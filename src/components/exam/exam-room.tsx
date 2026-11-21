@@ -307,6 +307,7 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed, pa
   const [pauseOpen, setPauseOpen] = useState(false);
   const [pausing, setPausing] = useState(false);
   const [pauseError, setPauseError] = useState<string | null>(null);
+  const [honesty, setHonesty] = useState(false);
   const doPause = useCallback(async () => {
     if (!pause || finishedRef.current) return;
     setPauseOpen(false);
@@ -327,7 +328,10 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed, pa
     try { r = await pause(attemptId); } catch { r = { ok: false }; }
     if (r.ok) {
       finishedRef.current = true;   // stop the timer and autosave on this screen
-      onPaused?.();
+      // No time limit on a pause (founder, 22 Nov 2026), so a short honesty reminder, then the Paused exam section.
+      setPausing(false);
+      setHonesty(true);
+      setTimeout(() => onPaused?.(), 4000);
       return;
     }
     setPausing(false);
@@ -638,6 +642,18 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed, pa
           <div className="max-w-sm text-center">
             <Loader2 className="mx-auto size-8 animate-spin text-slate-600" aria-hidden />
             <p className="mt-4 font-serif text-xl font-semibold text-ink">Saving and pausing</p>
+          </div>
+        </div>
+      ) : null}
+      {honesty ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 p-6" role="alertdialog" aria-live="assertive" aria-label="Exam paused">
+          <div className="w-full max-w-sm rounded-2xl bg-background p-6 text-center shadow-xl">
+            <Pause className="mx-auto size-8 text-slate-600" aria-hidden />
+            <p className="mt-3 font-serif text-xl font-semibold text-ink">Please don&apos;t cheat</p>
+            <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
+              This is a practice exam. Looking up answers while it is paused only cheats yourself: your marks would not show what you really know.
+            </p>
+            <p className="mt-3 text-sm font-medium text-ink">Your exam is paused. Continue it any time from Paused exam.</p>
           </div>
         </div>
       ) : null}
