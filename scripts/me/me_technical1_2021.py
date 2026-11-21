@@ -202,3 +202,14 @@ dict(key="T1", real=True, type=T, marks=15, topic="Translation: English to Dzong
 
 མཐོང་སྣང་ ཟེར་མི་ ཚིག་འདི་ དོན་ཟབ་ཏོག་ཏོ་ཅིག་ཨིན་རུང་ ཨ་རྟག་ར་ ལོག་ལག་ལེན་ འཐབ་དོ་ཡོདཔ་ཨིན། ཤེས་རིག་གི་ གལ་གནད་ བཤད་ནི་ལུ་ ཚིག་འདི་ ལག་ལེན་འཐབ་ནི་ལས་ ལྷག་པའི་ རྒྱུ་མཚན་ མེད། གལ་སྲིད་ ང་བཅས་ཀྱི་ རྒྱལ་ཁབ་ཀྱི་ མཐོང་སྣང་འདི་ ང་བཅས་རའི་ ཨ་ལུ་ཚུ་གིས་ བཟུང་བའི་ དཔེ་དེབ་ཀྱི་ ཤོག་ལེབ་ནང་ མེད་པ་ཅིན་ སློབ་ཁང་ འགོ་འདྲེན་འཐབ་བའི་ སློབ་དཔོན་ཚུ་གི་ ཚིག་ནང་ མེད་པ་ཅིན་ དེ་ལས་ གཞུང་གི་ ཤེས་རིག་ སྲིད་བྱུས་ནང་ མེད་པ་ཅིན་ ང་བཅས་ལུ་ མཐོང་སྣང་ མེད་ཟེར་ བཤད་དགོ། (མི་དབང་མངའ་བདག་རིན་པོ་ཆེའི་ རྒྱལ་འཛིན་གཙུག་ལག་སློབ་སྡེའི་ ཤེས་ཚད་སྤྲོད་ཐེངས་ ༣ པའི་ གསུང་བཤད་ལས།)"""),
 ]
+
+# ---- Founder rule (21 Nov 2026): older-year questions follow the marks of the LATEST paper (2025: Dzongkha
+# comprehension 20, translation 15). The parts below are re-marked to fit; key points are scaled to match and the
+# original marks are noted in the stem.
+FIT = {'D1': 12, 'D2': 4, 'D3': 4}
+for _q in Q:
+    if _q["key"] in FIT:
+        _old, _new = _q["marks"], FIT[_q["key"]]
+        _kp = [(p, round(m * _new / _old * 2) / 2) for p, m in _q["key_points"]]
+        _kp[0] = (_kp[0][0], _kp[0][1] + _new - sum(m for _, m in _kp))
+        _q.update(marks=_new, key_points=_kp, stem=_q["stem"] + "\n\n(Marks: %s - set to the latest RCSC layout; the 2021 paper gave %s.)" % (_new, _old))

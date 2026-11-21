@@ -214,3 +214,14 @@ dict(key="T1", real=True, type=T, marks=15, topic="Translation: English to Dzong
 ]
 for x in Q:
     x.pop("issues_extra", None)
+
+# ---- Founder rule (21 Nov 2026): older-year questions follow the marks of the LATEST paper (2025: Dzongkha
+# comprehension 20, translation 15). The parts below are re-marked to fit; key points are scaled to match and the
+# original marks are noted in the stem.
+FIT = {'D1': 13, 'D2': 3, 'D3': 4}
+for _q in Q:
+    if _q["key"] in FIT:
+        _old, _new = _q["marks"], FIT[_q["key"]]
+        _kp = [(p, round(m * _new / _old * 2) / 2) for p, m in _q["key_points"]]
+        _kp[0] = (_kp[0][0], _kp[0][1] + _new - sum(m for _, m in _kp))
+        _q.update(marks=_new, key_points=_kp, stem=_q["stem"] + "\n\n(Marks: %s - set to the latest RCSC layout; the 2024 paper gave %s.)" % (_new, _old))
