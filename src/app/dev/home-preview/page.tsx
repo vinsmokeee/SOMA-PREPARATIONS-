@@ -18,6 +18,7 @@ import { EntryPicker, ExamArea, ExamChooser, FREE_POINTS, MeLocked, PackageChoic
 import type { TrainingData } from "@/lib/training/model";
 import { PaperHome, type MeProgressPaper } from "@/components/student/paper-home";
 import { MeResultPanel } from "@/components/exam/me-result-panel";
+import { Notebook, type Note } from "@/components/student/notebook";
 
 export const metadata: Metadata = { title: "Student flow preview", robots: { index: false } };
 export const instant = false;
@@ -53,6 +54,15 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
   const cats = [["administrative", "Administrative Service"], ["finance", "Finance Service"], ["pgde", "Education Service (PGDE)"], ["dzongkha", "Dzongkha"], ["bed", "Education Service (B.Ed.)"], ["technical", "Technical Service"]];
   const mePapers = ["Languages and General Knowledge", "General Subject Knowledge (common to subject groups)", "Subject Specialisation (for a specific position)"]
     .map((title, i) => ({ id: `8d000000-0000-4000-8000-00000000000${i}`, number: i + 1, title }));
+  const nb = (o: Partial<Note>): Note => ({ question_id: `nb-${Math.random()}`, kind: "mcq", paper_id: null, paper_number: null, paper_title: null, subject: "English communication", subject_order: 1,
+    stem: "Q", image_url: null, source_year: null, answer: null, explanation: null, model_answer: null, score: null, max_score: null, saved_at: "2027-01-03T00:00:00Z", ...o });
+  const notes: Note[] = [
+    nb({ stem: "Choose the word closest in meaning to PLATITUDE.", answer: "Cliché", explanation: "A platitude is a remark used too often to be interesting.", source_year: 2011 }),
+    nb({ stem: "Choose the correct sentence.", answer: "Neither of the boys has finished.", explanation: "'Neither' takes a singular verb." }),
+    nb({ subject: "Logic & analytical problem solving", subject_order: 3, stem: "A sum doubles in 8 years at simple interest. What is the rate per year?", answer: "12.5%", explanation: "Interest equals the principal in 8 years, so the rate is 100 ÷ 8 = 12.5%." }),
+    nb({ paper_id: mePapers[0].id, paper_number: 1, paper_title: mePapers[0].title, subject: "General knowledge", stem: "Which Dzongkhag is the largest by area?", answer: "Gasa" }),
+    nb({ kind: "written", paper_id: mePapers[0].id, paper_number: 1, paper_title: mePapers[0].title, subject: "Essay", stem: "Write an essay on the role of youth in nation building.", score: 14, max_score: 20, model_answer: "Introduction: youth as the largest group...\n\nBody: volunteering, entrepreneurship, civic duty...\n\nConclusion: ..." }),
+  ];
   const at = (d: number) => new Date(Date.UTC(2027, 0, d)).toISOString();
   const meProgress: MeProgressPaper[] = [
     { ...mePapers[0], weight: 15, duration_minutes: null, max_marks: null, marked: 3, recent: 72, types: [{ type: "essay", count: 8 }, { type: "short_answer", count: 20 }], by_type: [], by_topic: [], mocks: [], mock_ready: false, pattern: [] },
@@ -132,6 +142,8 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
         { stem: "A sum doubles in 8 years at simple interest. What is the rate per year?", image_url: null, explanation: "Interest = principal in 8 years, so rate = 100 ÷ 8 = 12.5%.", subject: "Logic & analytical problem solving", source_year: null, answer: "12.5%", past_paper: false },
       ],
       key_past: [{ stem: "Which word is the odd one out: apple, mango, potato, banana?", image_url: null, explanation: "Potato is a vegetable; the others are fruits.", subject: "Logic & analytical problem solving", source_year: 2010, answer: "Potato" }] }} />,
+    "notebook-pe": <Notebook stage="PE" papers={[]} paperId={null} notes={notes.filter((n) => !n.paper_id)} />,
+    "notebook-me": <Notebook stage="ME" papers={mePapers} paperId={null} notes={notes.filter((n) => n.paper_id)} />,
     "pe-scores": <><ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} /><ScoresHint /></>,
     "pe-new": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "pe-premium-new": <ExamArea d={area({ openAttempt: null })} />,

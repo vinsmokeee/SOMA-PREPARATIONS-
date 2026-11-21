@@ -105,6 +105,8 @@ select tests.assert((select count(*) from public.evaluations where status = 'que
 select tests.assert(((public.my_written_performance()) ->> 'avg_pct')::numeric = 70, 'written analytics average');
 select tests.assert(((public.my_written_performance()) -> 'weaknesses' -> 0 ->> 'tag') = 'lacks_examples', 'weakness tags aggregated');
 select tests.assert(jsonb_array_length(public.my_written_answers()) = 1, 'history lists the answer');
+select tests.assert(jsonb_array_length(public.my_notebook('ME')) = 1 and (public.my_notebook('ME') -> 0 ->> 'score')::numeric = 7
+  and public.my_notebook('ME') -> 0 ->> 'kind' = 'written' and public.my_notebook('ME') -> 0 ->> 'model_answer' is not null, 'a written answer marked 70% is a notebook note with the model answer');
 select tests.assert(public.request_improved_answer(:'ev') = true, 'improved answer requested');
 select tests.assert(public.request_improved_answer(:'ev') = false, 'improved answer not requested twice');
 select tests.assert((public.my_evaluation_allowance() ->> 'remaining')::int = 0, 'the improved answer uses one AI evaluation');

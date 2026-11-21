@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BarChart3, Check, ClipboardCheck, Crown, DoorOpen, Flame, Lightbulb, Lock, Newspaper, PenLine, PencilLine, PlayCircle } from "lucide-react";
+import { ArrowRight, BarChart3, BookMarked, Check, ClipboardCheck, Crown, DoorOpen, Flame, Lock, Newspaper, PenLine, PencilLine, PlayCircle } from "lucide-react";
 import { chooseExamAction, startFreeAction, setMeEntryAction } from "@/app/dashboard/exam-actions";
 import { StartButton } from "@/components/training/start-button";
 import { TodayPlan } from "@/components/training/today-plan";
@@ -325,13 +325,13 @@ export function ExamArea({ d }: { d: AreaData }) {
     ? [
         { href: "/dashboard/analytics?stage=PE", label: "My scores", sub: d.answered ? `${d.answered} answered` : "Your progress", icon: BarChart3, tint: "from-fuchsia-600 to-pink-500" },
         { href: "/dashboard/omr-practice", label: "OMR sketch practice", sub: "Practise your shading for the RCSC PE", icon: PencilLine, tint: "from-slate-700 to-slate-500" },
-        { href: "/dashboard/current-affairs#question-of-the-day", label: "Question of the Day", sub: "One news question a day", icon: Lightbulb, tint: "from-sky-600 to-cyan-500" },
-        { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
+        // Current affairs and the Question of the Day open the same page, so one tile (founder, 22 Nov 2026).
+        { href: "/dashboard/current-affairs", label: "Current affairs", sub: "News and the Question of the Day", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
       ]
     : [
         { href: "/dashboard/written/history", label: "My answers", sub: "Marks and AI feedback", icon: PenLine, tint: "from-rose-600 to-[#7a1e3a]" },
         { href: "/dashboard/last-minute?stage=ME", label: "Last-minute summary", sub: "Your key points to revise", icon: ClipboardCheck, tint: "from-[#be123c] to-[#f43f5e]" },
-        { href: "/dashboard/current-affairs", label: "Current affairs", sub: "Bhutan and world news", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
+        { href: "/dashboard/current-affairs", label: "Current affairs", sub: "News and the Question of the Day", icon: Newspaper, tint: "from-violet-600 to-purple-500" },
         { href: "/dashboard/analytics?stage=ME", label: "My scores", sub: d.written ? `${d.written} answer${d.written === 1 ? "" : "s"} marked` : "Your progress", icon: BarChart3, tint: "from-emerald-600 to-teal-500" },
       ];
 
@@ -428,6 +428,14 @@ export function ExamArea({ d }: { d: AreaData }) {
       <section aria-labelledby="sec-h">
         <h2 id="sec-h" className="mb-3 text-lg font-bold">{pe ? "PE" : "ME"} sections</h2>
         <div className="grid grid-cols-2 gap-3">
+          {/* Your notebook: every correct answer kept as a note (founder, 22 Nov 2026). */}
+          <Link href={`/dashboard/notebook?stage=${d.stage}`} className="col-span-2 flex min-h-24 items-center gap-4 rounded-2xl bg-gradient-to-br from-[#7c4a2d] to-[#a8703f] p-4 text-white shadow-md active:scale-[0.98]">
+            <BookMarked className="size-8 shrink-0" aria-hidden />
+            <span>
+              <span className="block text-base font-extrabold">Your notebook</span>
+              <span className="block text-xs text-white/85">All your correct answers are saved here as notes, with the answer, to revise any time.</span>
+            </span>
+          </Link>
           {tiles.map((s) => (
             <Link key={s.href} href={s.href} className={`flex min-h-28 flex-col justify-between rounded-2xl bg-gradient-to-br ${s.tint} p-4 text-white shadow-md active:scale-[0.98]`}>
               <s.icon className="size-7" aria-hidden />
