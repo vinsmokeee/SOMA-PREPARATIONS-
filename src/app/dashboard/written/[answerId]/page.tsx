@@ -37,13 +37,14 @@ export default async function WrittenAnswerPage({ params }: PageProps<"/dashboar
   if (!a) notFound();
   if (a.exam_attempts?.status === "in_progress") redirect(`/exam/${a.attempt_id}`);
 
-  const [{ data: result }, { data: evs }, { data: allowance }, { data: cfg }, { data: reports }] = await Promise.all([
+  const [{ data: result }, { data: evs }, { data: allowance }, { data: cfg }, { data: reports }, { data: reads }] = await Promise.all([
     db.rpc("get_attempt_result", { _attempt_id: a.attempt_id }),
-    db.from("evaluations").select("id, status, score, max_score, scored, confidence, weakness_tags, rubric_scores, details, error_message, completed_at, improved_requested_at, assigned_at")
+    db.from("evaluations").select("id, status, score, max_score, scored, confidence, weakness_tags, rubric_scores, details, error_message, completed_at, improved_requested_at, assigned_at, delivery")
       .eq("answer_id", answerId).eq("method", "ai_feedback").order("assigned_at", { ascending: false }).limit(1),
     db.rpc("my_evaluation_allowance"),
     db.rpc("evaluation_config"),
     db.from("evaluation_reports").select("evaluation_id").eq("user_id", user.id),
+    db.rpc("answer_read_info", { _answer_id: answerId }),
   ]);
   const q = (result as AttemptResult | null)?.questions.find((x) => x.exam_question_id === a.exam_question_id);
   if (!q) notFound();
@@ -81,6 +82,7 @@ export default async function WrittenAnswerPage({ params }: PageProps<"/dashboar
           transcript={{ status: a.transcript_status, text: a.transcript_text, confidence: a.transcript_confidence, notes: a.transcript_notes, editRatio: a.transcript_edit_ratio === null ? null : Number(a.transcript_edit_ratio) }}
           pageCount={a.answer_pages?.[0]?.count ?? 0} canEditPages={canEditPages} maxPages={config.max_pages ?? 10} dzongkhaBeta={config.dzongkha_handwriting !== false}
           evaluation={ev} allowance={allowance as WorkflowProps["allowance"]} reported={(reports ?? []).some((r) => r.evaluation_id === ev?.id)}
+          freeRereadsLeft={(reads as { free_rereads_left?: number } | null)?.free_rereads_left ?? null}
         />
       </div>
 

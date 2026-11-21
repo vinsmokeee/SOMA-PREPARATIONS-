@@ -15,6 +15,7 @@ export type EvaluationRow = {
   id: string; status: string; score: number | null; max_score: number | null; scored: boolean | null; confidence: string | null;
   weakness_tags: string[]; rubric_scores: { criterion: string; marks: number; max_marks: number; comment: string }[] | null;
   details: EvaluationDetails | null; error_message: string | null; completed_at: string | null; improved_requested_at: string | null;
+  delivery?: string | null;
 };
 
 export function EvaluationView({ ev, answerId, reported }: { ev: EvaluationRow; answerId: string; reported: boolean }) {
@@ -95,7 +96,7 @@ export function EvaluationView({ ev, answerId, reported }: { ev: EvaluationRow; 
           <p className="mt-2 flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" aria-hidden /> Writing an improved answer… this takes about a minute.</p>
         ) : (
           <>
-            <p className="mt-1 text-sm text-muted-foreground">See a stronger version of your answer that keeps your good points and fixes the gaps.</p>
+            <p className="mt-1 text-sm text-muted-foreground">See a stronger version of your answer that keeps your good points and fixes the gaps. This uses one AI evaluation from your plan.</p>
             <button type="button" className="mt-3 inline-flex h-10 items-center rounded-md border border-border-strong px-4 text-sm font-medium hover:bg-muted" onClick={async () => {
               setImproving(true); setImproveError(null);
               const r = await improvedAnswerAction(ev.id, answerId);

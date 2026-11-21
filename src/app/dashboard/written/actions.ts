@@ -28,6 +28,7 @@ const MESSAGES: Record<string, string> = {
   SUBMIT_FIRST: "Submit your answer before requesting an evaluation.",
   EMPTY_ANSWER: "The answer is empty.",
   NO_EVALUATIONS_LEFT: "You have used all AI evaluations included in your plan.",
+  NO_REREADS_LEFT: "You have used your free re-reads and all AI evaluations in your plan. You can still correct the text yourself in the box above.",
   NOTHING_TO_CONFIRM: "There is no text to confirm yet.",
   INVALID_TEXT: "The answer text is empty or too long.",
   ACCESS_REQUIRED: "This question is part of ME Premium.",
@@ -121,8 +122,8 @@ export async function readHandwritingAction(answerId: string): Promise<Result> {
   const db = await signedIn();
   const { data, error } = await db.rpc("begin_transcription", { _answer_id: answerId });
   if (error || !data) return { ok: false, message: message(error, "Could not start reading your handwriting.") };
-  const paths = (data as { paths: string[] }).paths;
-  after(() => runTranscription(answerId, paths));
+  const { paths, charge_id } = data as { paths: string[]; charge_id: string | null };
+  after(() => runTranscription(answerId, paths, charge_id ?? null));
   revalidatePath(`/dashboard/written/${answerId}`);
   return { ok: true, data: undefined };
 }
@@ -143,10 +144,11 @@ export async function requestEvaluationAction(answerId: string): Promise<Result>
   const db = await signedIn();
   const { data: evId, error } = await db.rpc("request_answer_evaluation", { _answer_id: answerId });
   if (error || !evId) return { ok: false, message: message(error, "The evaluation could not be requested.") };
-  const { data: ev } = await db.from("evaluations").select("status, assigned_at").eq("id", evId as string).single();
+  const { data: ev } = await db.from("evaluations").select("status, assigned_at, delivery").eq("id", evId as string).single();
+  // Mock-test answers are marked together by the scheduled job (half price); practice answers straight away.
   // Start it if new, or restart it if a previous run stopped without finishing (e.g. a timeout).
   const stale = ev && ev.status === "in_progress" && Date.now() - new Date(ev.assigned_at).getTime() > 10 * 60 * 1000;
-  if (ev && (ev.status === "queued" || stale)) after(() => runEvaluation(evId as string));
+  if (ev && ev.delivery !== "batch" && (ev.status === "queued" || stale)) after(() => runEvaluation(evId as string));
   revalidatePath(`/dashboard/written/${answerId}`);
   return { ok: true, data: undefined };
 }
