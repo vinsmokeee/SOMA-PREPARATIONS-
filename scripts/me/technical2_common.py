@@ -18,7 +18,7 @@ def build_q(mcq_json, key, topic, new_mcq=(), saq=()):
             continue
         letter, exp = key[m["n"]]
         q.append(dict(key=f"M{m['n']}", real=True, type="mcq", topic=topic, stem=m["stem"], opts=m["opts"],
-                      ans="abcd".index(letter), exp=exp))
+                      ans="abcd".index(letter), exp=exp, image=m.get("image")))
     for i, (stem, opts, letter, exp) in enumerate(new_mcq):
         q.append(dict(key=f"N{i + 1}", new=True, type="mcq", topic=topic, stem=stem, opts=list(opts), ans="abcd".index(letter), exp=exp))
     for i, s in enumerate(saq):
