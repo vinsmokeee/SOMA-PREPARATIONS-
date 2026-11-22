@@ -38,8 +38,10 @@ export default async function ExamPreviewPage({ searchParams }: PageProps<"/dev/
     section: "Paper II",
     marks: 10,
     type: n === 1 ? "short_answer" : "essay",
-    stem: n === 1 ? "Preview: explain the purpose of a preliminary examination in about 100 words." : "Preview: write an essay on public service in about 400 words.",
+    stem: n === 1 ? "Preview: draw a simple chart of the stages of the civil service examination and explain each in about 100 words." : "Preview: write an essay on public service in about 400 words.",
     word_limit: n === 1 ? 100 : 400,
+    // English answers are typed only; a drawing question keeps the upload option (src/lib/exam/upload.ts).
+    upload_allowed: n === 1,
     options: [],
   });
 

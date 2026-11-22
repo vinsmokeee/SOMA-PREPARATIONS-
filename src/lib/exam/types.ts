@@ -18,6 +18,8 @@ export type PaperQuestion = {
   choose_any?: number | null;
   section_order?: number | null;
   word_limit: number | null;
+  /** ME: false for English written answers (typed only); see src/lib/exam/upload.ts. */
+  upload_allowed?: boolean;
   options: PaperOption[];
 };
 

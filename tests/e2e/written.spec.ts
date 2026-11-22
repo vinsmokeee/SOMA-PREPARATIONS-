@@ -61,6 +61,14 @@ test.describe("handwritten answers in the exam room", () => {
     await expect(page.getByLabel("Your answer")).toBeVisible();
   });
 
+  test("an English essay is typed only (no upload option)", async ({ page }) => {
+    await page.goto("/dev/exam-preview?stage=ME");
+    await page.getByRole("button", { name: /^Next/ }).first().click();
+    await expect(page.getByText("Preview: write an essay on public service")).toBeVisible();
+    await expect(page.getByLabel("Your answer")).toBeVisible();
+    await expect(page.getByRole("radio", { name: "Upload handwritten" })).toHaveCount(0);
+  });
+
   test("untimed practice hides the countdown", async ({ page }) => {
     await page.goto("/dev/exam-preview?stage=ME&untimed=1");
     await expect(page.getByText("Untimed practice")).toBeVisible();

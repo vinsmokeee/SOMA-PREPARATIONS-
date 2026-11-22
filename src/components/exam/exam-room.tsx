@@ -796,7 +796,7 @@ function QuestionView({
         </div>
       ) : (
         <div className="mt-6">
-          {written ? <div className="mb-4"><ModeSwitch written={written} /></div> : null}
+          {written && q.upload_allowed !== false ? <div className="mb-4"><ModeSwitch written={written} /></div> : null}
           <label htmlFor={`a-${q.exam_question_id}`} className="sr-only">Your answer</label>
           <textarea
             id={`a-${q.exam_question_id}`}

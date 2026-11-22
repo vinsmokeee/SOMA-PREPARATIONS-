@@ -375,7 +375,7 @@ export function ExamArea({ d }: { d: AreaData }) {
                 <span className="block font-bold">
                   {d.freeUsedUp ? "You have used your 3 free AI marks" : `${Math.max((d.aiMarks?.limit ?? 3) - (d.aiMarks?.used ?? 0), 0)} of ${d.aiMarks?.limit ?? 3} free AI marks left`}
                 </span>
-                Join Premium for 100 AI-marked answers, handwritten answer upload and AI feedback.
+                Join Premium for 100 AI-marked answers, handwritten upload for Dzongkha answers and AI feedback.
               </>
             )}
           </span>
