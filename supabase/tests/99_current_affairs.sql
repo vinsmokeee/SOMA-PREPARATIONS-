@@ -98,5 +98,5 @@ select tests.login(:'pe'); select public.ensure_today_plan();
 reset role;
 select tests.assert(not exists (select 1 from public.daily_plan_items i join public.daily_plans p on p.id = i.plan_id where p.user_id = :'m' and i.kind = 'ca'), 'ME daily plan has no Question of the Day');
 select tests.assert(exists (select 1 from public.daily_plan_items i join public.daily_plans p on p.id = i.plan_id where p.user_id = :'pe' and i.kind = 'ca'), 'PE daily plan keeps the Question of the Day');
-select tests.assert((select features ? 'Current affairs: daily Bhutan and world news' from public.packages where slug = 'me-premium'), 'ME Premium lists news, not quizzes');
+select tests.assert((select features::text ilike '%Current affairs: Daily Bhutan and world news%' and features::text not ilike '%quiz%' from public.packages where slug = 'me-premium'), 'ME Premium lists news, not quizzes');
 rollback;
