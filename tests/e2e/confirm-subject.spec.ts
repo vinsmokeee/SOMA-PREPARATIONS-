@@ -15,3 +15,10 @@ test("ME Premium: subject confirmation pop-up, then the subject shows as locked"
   await expect(page.getByText("Subject locked")).toBeVisible();
   await expect(page.getByRole("link", { name: "Change entry" })).toHaveCount(0);
 });
+
+// Founder, 23 Nov 2026: Today's plan shows which day it is for (it renews at midnight Bhutan time).
+test("Today's plan shows today's date", async ({ page }) => {
+  await page.goto("/dev/home-preview?screen=pe");
+  await expect(page.getByRole("heading", { name: /Today's plan/ })).toBeVisible();
+  await expect(page.getByTestId("plan-day")).toHaveText(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),? \d{1,2} \w+$/);
+});

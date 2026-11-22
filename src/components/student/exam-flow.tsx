@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, BarChart3, BookMarked, Pause, Check, ClipboardCheck, Crown, DoorOpen, Lock, Newspaper, PenLine, PencilLine } from "lucide-react";
 import { chooseExamAction, startFreeAction, setMeEntryAction } from "@/app/dashboard/exam-actions";
+import { PlanDay } from "@/components/training/plan-day";
 import { TodayPlan } from "@/components/training/today-plan";
 import type { TrainingData } from "@/lib/training/model";
 import { cn } from "@/lib/utils";
@@ -389,7 +390,7 @@ export function ExamArea({ d }: { d: AreaData }) {
       {t && t.items.length ? (
         <section aria-labelledby="plan-h">
           <div className="mb-3 flex items-baseline justify-between">
-            <h2 id="plan-h" className="text-lg font-bold">Today&apos;s plan</h2>
+            <h2 id="plan-h" className="text-lg font-bold">Today&apos;s plan <PlanDay /></h2>
             <Link href="/dashboard/training" className="text-sm font-semibold text-primary">Streak &amp; badges →</Link>
           </div>
           <TodayPlan data={t} />
