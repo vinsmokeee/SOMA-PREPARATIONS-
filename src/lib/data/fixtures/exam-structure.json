@@ -306,11 +306,11 @@
       "description": "The same paper for all three B.Ed. sections.",
       "answer_format": "written",
       "weightage_percent": 15,
-      "max_marks": null,
-      "duration_minutes": null,
+      "max_marks": 100,
+      "duration_minutes": 180,
       "question_count": null,
       "params_source": null,
-      "bank_scope": "specialisation",
+      "bank_scope": "subject_group",
       "verification_status": "official_verified",
       "source_document_id": "00000000-0000-4000-8000-000000000101",
       "sort_order": 41
@@ -324,11 +324,11 @@
       "description": "Subject-wise paper with the same pattern for every subject; depends on the B.Ed. section and subject.",
       "answer_format": "written",
       "weightage_percent": 15,
-      "max_marks": null,
-      "duration_minutes": null,
+      "max_marks": 100,
+      "duration_minutes": 180,
       "question_count": null,
       "params_source": null,
-      "bank_scope": "specialisation",
+      "bank_scope": "subject_group",
       "verification_status": "official_verified",
       "source_document_id": "00000000-0000-4000-8000-000000000101",
       "sort_order": 42
@@ -342,8 +342,8 @@
       "description": "The same Teacher Aptitude Test for all three B.Ed. sections.",
       "answer_format": "written",
       "weightage_percent": 30,
-      "max_marks": null,
-      "duration_minutes": null,
+      "max_marks": 100,
+      "duration_minutes": 180,
       "question_count": null,
       "params_source": null,
       "bank_scope": "common",
@@ -563,7 +563,7 @@
   ],
   "subjects": [
     {
-      "id": "679ed472-f56d-4f00-b221-4ed2d10a0bf6",
+      "id": "2b4c1bbf-cd94-4234-bffa-c23e78faeb1a",
       "stage": "PE",
       "slug": "english-communication",
       "name": "English",
@@ -573,7 +573,7 @@
       "sort_order": 10
     },
     {
-      "id": "66ea2236-0739-460f-923e-383a293d3b46",
+      "id": "4f2f6eed-2f61-444d-9831-8b7e72ea4a69",
       "stage": "PE",
       "slug": "dzongkha-communication",
       "name": "Dzongkha",
@@ -583,7 +583,7 @@
       "sort_order": 20
     },
     {
-      "id": "fe569f95-bfd0-4407-899a-9f3e4b53ae1a",
+      "id": "c36d0d47-d05d-47c3-a784-5be5c4834790",
       "stage": "PE",
       "slug": "logic-analytical-problem-solving",
       "name": "Aptitude",
@@ -593,7 +593,7 @@
       "sort_order": 30
     },
     {
-      "id": "c9764d2d-e79d-4ddb-a4db-38128bf914c1",
+      "id": "42010723-d867-4617-866e-c6c66fc55682",
       "stage": "PE",
       "slug": "data-interpretation",
       "name": "Data Interpretation",
@@ -603,7 +603,7 @@
       "sort_order": 40
     },
     {
-      "id": "2bd52b01-9a05-4330-b695-e4b19a7774f9",
+      "id": "fcb14608-42d2-4826-86db-5ad570cf9dc2",
       "stage": "PE",
       "slug": "general-awareness-current-affairs",
       "name": "Current affairs (practice)",
@@ -613,7 +613,7 @@
       "sort_order": 50
     },
     {
-      "id": "f2ff8c51-b8f4-4554-ba69-27786f70cb9c",
+      "id": "895c653a-e039-474b-b348-cd952b55dabc",
       "stage": "ME",
       "slug": "dzongkha",
       "name": "Dzongkha",
@@ -623,7 +623,7 @@
       "sort_order": 110
     },
     {
-      "id": "b00fa6b3-0780-42bf-b449-bbe3c9546b83",
+      "id": "459642bd-84f1-43ac-a67d-51f0b6050a32",
       "stage": "ME",
       "slug": "english-general-knowledge",
       "name": "English & General Knowledge",
@@ -633,7 +633,7 @@
       "sort_order": 120
     },
     {
-      "id": "60626764-5979-4205-a59e-0ca14997f273",
+      "id": "cc1a2cc1-37b6-461e-b533-1cbf19c9d233",
       "stage": "ME",
       "slug": "bhutan-institutions-development",
       "name": "Bhutan: socio-political institutions and socio-economic development",
@@ -643,7 +643,7 @@
       "sort_order": 130
     },
     {
-      "id": "85961b23-5ecf-41d7-b304-88b938f42624",
+      "id": "b7242907-238b-4b3b-acf0-729a86b2d0bd",
       "stage": "ME",
       "slug": "dzongkha-language-general-knowledge",
       "name": "Dzongkha Language & General Knowledge",
@@ -653,7 +653,7 @@
       "sort_order": 210
     },
     {
-      "id": "f2ab16f4-5652-4ab2-8c8f-065e988ec2ab",
+      "id": "1483c883-f318-4505-8229-6501ac91251a",
       "stage": "ME",
       "slug": "english-language-current-affairs",
       "name": "English Language & Current Affairs",
@@ -663,7 +663,7 @@
       "sort_order": 220
     },
     {
-      "id": "0b8a8465-16ac-4a83-a01b-58d5c8e9d3f8",
+      "id": "57e64e15-d5a3-4e6a-bf2c-302061db0951",
       "stage": "ME",
       "slug": "buddhist-studies",
       "name": "Buddhist Studies",
@@ -673,7 +673,7 @@
       "sort_order": 230
     },
     {
-      "id": "fe994a65-3eff-4069-9e9c-7cd7d7cc4df5",
+      "id": "0226524a-a1e6-4ea7-b892-3da3771da54d",
       "stage": "ME",
       "slug": "language-general-knowledge",
       "name": "Language and General Knowledge",
@@ -683,7 +683,7 @@
       "sort_order": 310
     },
     {
-      "id": "09187281-f7bc-4f28-9b6b-3dd2d9dcec95",
+      "id": "4910b857-02aa-4928-b8f0-bdf0f3d00c37",
       "stage": "ME",
       "slug": "general-subject-knowledge",
       "name": "General Subject Knowledge",
@@ -693,7 +693,17 @@
       "sort_order": 320
     },
     {
-      "id": "5e17252d-ae45-4c60-911e-95466293f622",
+      "id": "0a24e7fb-73af-4093-add2-125552522f59",
+      "stage": "ME",
+      "slug": "subject-specialisation",
+      "name": "Subject Specialisation",
+      "description": "ME Paper III (Technical).",
+      "paper_id": "00000000-0000-4000-8000-000000000433",
+      "is_official": true,
+      "sort_order": 330
+    },
+    {
+      "id": "62ffbe9c-9bb0-4513-a28a-88da13864b16",
       "stage": "ME",
       "slug": "dzongkha-language",
       "name": "Dzongkha Language",
@@ -703,7 +713,7 @@
       "sort_order": 410
     },
     {
-      "id": "345b5712-7792-4cd2-afa2-731bd5cf824c",
+      "id": "52e9cf79-7e9c-4957-b72a-60248ad73223",
       "stage": "ME",
       "slug": "english-language",
       "name": "English Language",
@@ -713,7 +723,7 @@
       "sort_order": 420
     },
     {
-      "id": "5a55421e-e8cd-4ced-8ef9-87dcdf275c80",
+      "id": "53877ac8-5dd4-4d69-8f09-a21fce613330",
       "stage": "ME",
       "slug": "teacher-aptitude",
       "name": "Teacher Aptitude",
@@ -736,10 +746,10 @@
   ],
   "sections": [
     {
-      "id": "52eaa6fa-1d2c-42e6-a728-d73ead55d9e3",
+      "id": "5023a0c2-6db7-4f2f-a7aa-99cee9b50de8",
       "paper_id": "00000000-0000-4000-8000-000000000401",
       "title": "English",
-      "subject_id": "679ed472-f56d-4f00-b221-4ed2d10a0bf6",
+      "subject_id": "2b4c1bbf-cd94-4234-bffa-c23e78faeb1a",
       "question_count": null,
       "marks": null,
       "formats": "MCQs",
@@ -747,7 +757,7 @@
       "sort_order": 10
     },
     {
-      "id": "be13d402-6d91-4476-83fc-7d6f6ed52932",
+      "id": "c47182d4-9cba-4c3e-852f-72d36d721279",
       "paper_id": "00000000-0000-4000-8000-000000000431",
       "title": "Dzongkha",
       "subject_id": null,
@@ -758,10 +768,10 @@
       "sort_order": 10
     },
     {
-      "id": "c250fd41-b831-4fe1-9a39-13d3d21df5c6",
+      "id": "409f1a8e-8e17-4994-b2e5-2fbf446422ab",
       "paper_id": "00000000-0000-4000-8000-000000000401",
       "title": "Dzongkha",
-      "subject_id": "66ea2236-0739-460f-923e-383a293d3b46",
+      "subject_id": "4f2f6eed-2f61-444d-9831-8b7e72ea4a69",
       "question_count": null,
       "marks": null,
       "formats": "MCQs",
@@ -769,7 +779,7 @@
       "sort_order": 20
     },
     {
-      "id": "6e5cf33a-2a77-4747-ad14-9ca8072f7119",
+      "id": "559d6a4c-c1c6-4fb4-883e-4998c4b2bc13",
       "paper_id": "00000000-0000-4000-8000-000000000431",
       "title": "English and General Knowledge",
       "subject_id": null,
@@ -780,10 +790,10 @@
       "sort_order": 20
     },
     {
-      "id": "eacaf044-966a-43f4-a504-f8a0a72897f6",
+      "id": "9d95b0cb-356f-440b-a354-8925cd501a62",
       "paper_id": "00000000-0000-4000-8000-000000000401",
       "title": "Aptitude",
-      "subject_id": "fe569f95-bfd0-4407-899a-9f3e4b53ae1a",
+      "subject_id": "c36d0d47-d05d-47c3-a784-5be5c4834790",
       "question_count": null,
       "marks": null,
       "formats": "MCQs",
@@ -791,10 +801,10 @@
       "sort_order": 30
     },
     {
-      "id": "47f9e816-fb9d-4ae7-8a91-3d8eb24936d7",
+      "id": "08ad2e0c-6a4f-4122-b05d-4aeb8689afea",
       "paper_id": "00000000-0000-4000-8000-000000000401",
       "title": "Data Interpretation",
-      "subject_id": "c9764d2d-e79d-4ddb-a4db-38128bf914c1",
+      "subject_id": "42010723-d867-4617-866e-c6c66fc55682",
       "question_count": null,
       "marks": null,
       "formats": "MCQs",
@@ -808,515 +818,506 @@
       "value": 55,
       "unit": "percent",
       "verification_status": "unverified",
-      "source_document_id": "6ddf843e-2f7c-49fb-88a4-d07b861f518e"
+      "source_document_id": "dfaf4833-1995-4ef6-90f2-3e7a3a014e54"
     },
     {
       "year": 2025,
       "value": 55,
       "unit": "marks",
       "verification_status": "unverified",
-      "source_document_id": "1ef76e58-0889-441e-96b2-0bdf983c2570"
+      "source_document_id": "1472d543-0a7b-4901-9667-f3fdcc78a03f"
     },
     {
       "year": 2024,
       "value": 50,
       "unit": "percent",
       "verification_status": "unverified",
-      "source_document_id": "752b49bb-2763-46da-9abf-89d2aac4915c"
+      "source_document_id": "45a03607-97ec-4a50-8c66-512ae9ad2006"
     }
   ],
   "specialisations": [
     {
-      "id": "906484ef-7504-4845-9de2-27d51ed62bbe",
+      "id": "ea4206a6-54cf-46a2-85c6-4a8df8fe49c5",
       "code": "agriculture",
       "name": "Agriculture",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "f6229b2d-7abc-4c02-9ba2-bc616d92c7fe",
+      "subject_group_id": "47692415-6e1b-4990-82b4-ddc74149aff2",
       "pe_required": null,
       "sort_order": 1
     },
     {
-      "id": "b4ee9675-0554-42f8-9d10-97cc502d6ee6",
+      "id": "ae38ef58-c22e-47f9-b4ac-cd1ceb0a38eb",
       "code": "bed-general-graduate",
       "name": "B.Ed. General / Primary",
       "category_id": "00000000-0000-4000-8000-000000000305",
-      "subject_group_id": null,
+      "subject_group_id": "1ee9fa6a-69c3-4ab6-aef6-ddfdb191b3a8",
       "pe_required": null,
       "sort_order": 1
     },
     {
-      "id": "b3e1a82f-e473-4840-8c04-785e9dd3849a",
-      "code": "bed-secondary",
-      "name": "B.Ed. Secondary",
-      "category_id": "00000000-0000-4000-8000-000000000305",
-      "subject_group_id": null,
-      "pe_required": null,
-      "sort_order": 2
-    },
-    {
-      "id": "76a6c557-afcb-4c4f-ab2b-bf5396c1ed0e",
+      "id": "d2c6e20f-479c-424b-a940-84eba4877092",
       "code": "agriculture-engineering",
       "name": "Agriculture Engineering",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 2
     },
     {
-      "id": "6bd9d46a-ed62-49c2-89ac-a9732317d266",
-      "code": "animal-science",
-      "name": "Animal Science",
-      "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "f6229b2d-7abc-4c02-9ba2-bc616d92c7fe",
+      "id": "7829ee77-109b-4014-9440-adaedd0b0d88",
+      "code": "bed-secondary",
+      "name": "B.Ed. Secondary",
+      "category_id": "00000000-0000-4000-8000-000000000305",
+      "subject_group_id": "1ee9fa6a-69c3-4ab6-aef6-ddfdb191b3a8",
       "pe_required": null,
-      "sort_order": 3
+      "sort_order": 2
     },
     {
-      "id": "408fb521-e281-48d9-9de4-7f7b568c1d4d",
+      "id": "800ec446-7a50-4d0e-b632-6e9e55ad2f85",
       "code": "bed-dzongkha-graduate",
       "name": "B.Ed. Dzongkha",
       "category_id": "00000000-0000-4000-8000-000000000305",
-      "subject_group_id": null,
+      "subject_group_id": "4f113e0f-41fc-47b7-8e7b-4805100b3c14",
       "pe_required": null,
       "sort_order": 3
     },
     {
-      "id": "d507de82-7112-4adf-9bb0-1b8f9a3792ab",
+      "id": "5d42e9ef-29c7-44bc-9f1a-756e1b1c317f",
+      "code": "animal-science",
+      "name": "Animal Science",
+      "category_id": "00000000-0000-4000-8000-000000000306",
+      "subject_group_id": "47692415-6e1b-4990-82b4-ddc74149aff2",
+      "pe_required": null,
+      "sort_order": 3
+    },
+    {
+      "id": "03be4d71-16c4-4a77-b338-2d3cdc967f1b",
       "code": "automobile-engineering",
       "name": "Automobile Engineering",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 4
     },
     {
-      "id": "ab8bc583-f0ac-4e01-9a76-67f4da8fa7f0",
+      "id": "8342d8d2-5a61-4c34-b495-9be5e5353004",
       "code": "architecture",
       "name": "Architecture",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 5
     },
     {
-      "id": "2665d70c-1844-415c-9c25-d3c723804035",
+      "id": "d699fd34-09c1-49f1-bc54-6554953c85da",
       "code": "aeronautical-engineering",
       "name": "Aeronautical Engineering",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 6
     },
     {
-      "id": "db76abdd-8675-4812-8cb2-ab71a7bad503",
+      "id": "04203dd8-d870-4581-899b-82e5c2bbb030",
       "code": "biomedical-engineering",
       "name": "Biomedical Engineering",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 7
     },
     {
-      "id": "96e891b6-bd1a-4b95-87f4-b3522b5a7e66",
+      "id": "f8e26aab-9153-47ef-95ff-adc8f4606633",
       "code": "biotechnology",
       "name": "Biotechnology (Bio Technologist)",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "f6229b2d-7abc-4c02-9ba2-bc616d92c7fe",
+      "subject_group_id": "47692415-6e1b-4990-82b4-ddc74149aff2",
       "pe_required": null,
       "sort_order": 8
     },
     {
-      "id": "cbac0871-6972-4ad3-81da-0595d9aaac78",
+      "id": "a78491a2-eae0-4b34-892d-aa423296dd81",
       "code": "chemistry",
       "name": "Chemistry",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "f6229b2d-7abc-4c02-9ba2-bc616d92c7fe",
+      "subject_group_id": "47692415-6e1b-4990-82b4-ddc74149aff2",
       "pe_required": null,
       "sort_order": 9
     },
     {
-      "id": "b01351d7-3c11-433c-80eb-90f496085700",
+      "id": "5b2ced39-dbdc-428f-93f2-a09d3e84b5c5",
       "code": "civil-engineering",
       "name": "Civil Engineering",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 10
     },
     {
-      "id": "56d22ef2-8454-423d-ac16-a6e088b97c88",
+      "id": "75a17f1f-f69f-4a70-9c4e-4f99a1dc6705",
       "code": "conservator",
       "name": "Conservator",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "6a76f546-c4ad-4aa7-81f7-4599c3e56da6",
+      "subject_group_id": "72e6f3e0-0588-4538-8e21-e3bb09623d78",
       "pe_required": null,
       "sort_order": 11
     },
     {
-      "id": "b219d4ca-0df0-4083-ba7e-db67efdbf323",
+      "id": "dea092b0-04b4-4931-a3c6-be229a33bda6",
       "code": "cardiology",
       "name": "Cardiology",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "cf7fba92-cf66-4524-a9e6-bb3d72db06aa",
+      "subject_group_id": "c0da3e49-bd78-4fc3-a747-6fc8271cabf0",
       "pe_required": null,
       "sort_order": 12
     },
     {
-      "id": "11a27702-124e-4207-a811-aac8b526aaae",
+      "id": "6b93b138-d14e-417c-aa0d-f981693f620a",
       "code": "clinical-counselling",
       "name": "Clinical Counselling",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "cf7fba92-cf66-4524-a9e6-bb3d72db06aa",
+      "subject_group_id": "c0da3e49-bd78-4fc3-a747-6fc8271cabf0",
       "pe_required": null,
       "sort_order": 13
     },
     {
-      "id": "09d7ad38-d778-416e-9fc2-627ab57e2d85",
+      "id": "21288712-2f34-4b39-9e62-fa6201d223be",
       "code": "dental-surgery",
       "name": "Dental Surgery",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "cf7fba92-cf66-4524-a9e6-bb3d72db06aa",
+      "subject_group_id": "c0da3e49-bd78-4fc3-a747-6fc8271cabf0",
       "pe_required": null,
       "sort_order": 14
     },
     {
-      "id": "b490d338-12bc-46ab-90c5-d308143abc56",
+      "id": "00c9227e-1fa9-4011-9f08-dff2db4314ae",
       "code": "drungtsho",
       "name": "Drungtsho (Traditional Medicine)",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "b3d54008-a706-4c40-a276-1abda663ba72",
+      "subject_group_id": "4eeb9186-1c09-4714-80be-88e1bad1a2a3",
       "pe_required": null,
       "sort_order": 15
     },
     {
-      "id": "5be8b5fb-7843-4e81-ad69-33561f97235a",
+      "id": "3ab7f422-2540-48cb-9386-b0eea0659189",
       "code": "electrical-engineering-2025",
       "name": "Electrical Engineering",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 16
     },
     {
-      "id": "f4227256-939a-4d5e-b77d-318242f06760",
+      "id": "3dd36193-6138-4ad9-8d20-e5ddd856c9cd",
       "code": "electronics-communication-engineering",
       "name": "Electronics and Communication Engineering",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 17
     },
     {
-      "id": "91d36a7c-ff58-4acc-b461-3d5b24da32cb",
+      "id": "ce87a298-fb51-4245-921a-a7ffcb8c5743",
       "code": "emergency-medical-response",
       "name": "Emergency Medical Response",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "cf7fba92-cf66-4524-a9e6-bb3d72db06aa",
+      "subject_group_id": "c0da3e49-bd78-4fc3-a747-6fc8271cabf0",
       "pe_required": null,
       "sort_order": 18
     },
     {
-      "id": "c975a9fd-e02d-41e7-81a4-2fa8e55774fe",
-      "code": "bio-science",
-      "name": "Bio Science",
-      "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "f6229b2d-7abc-4c02-9ba2-bc616d92c7fe",
-      "pe_required": null,
-      "sort_order": 19
-    },
-    {
-      "id": "6aa569f3-8c20-4447-8a39-7c83b90c4628",
+      "id": "f0d352fa-2d4e-4d9c-8473-694a74d2820e",
       "code": "environmental-science",
       "name": "Environmental Science",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "f6229b2d-7abc-4c02-9ba2-bc616d92c7fe",
+      "subject_group_id": "47692415-6e1b-4990-82b4-ddc74149aff2",
       "pe_required": null,
       "sort_order": 20
     },
     {
-      "id": "0c38491e-e1bc-41da-b550-2731ed694620",
+      "id": "1fb592fa-b655-4871-a4d8-3ce15276d0c7",
       "code": "food-science",
       "name": "Food Science",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "f6229b2d-7abc-4c02-9ba2-bc616d92c7fe",
+      "subject_group_id": "47692415-6e1b-4990-82b4-ddc74149aff2",
       "pe_required": null,
       "sort_order": 21
     },
     {
-      "id": "25201550-ccde-4b88-bf90-a53772162405",
+      "id": "4dc09893-18cf-4e19-b1cf-ac36fb894ee5",
       "code": "forestry",
       "name": "Forestry",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "f6229b2d-7abc-4c02-9ba2-bc616d92c7fe",
+      "subject_group_id": "47692415-6e1b-4990-82b4-ddc74149aff2",
       "pe_required": null,
       "sort_order": 22
     },
     {
-      "id": "a8cb12a3-ed44-45b1-bd7e-9444ff30793c",
+      "id": "b4e3512b-b461-4853-82db-11a084434a1d",
       "code": "geology",
       "name": "Geology",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 23
     },
     {
-      "id": "178ffe3a-1855-47b2-b011-2ec85d0f2ff1",
+      "id": "7e607448-ab59-4f45-8deb-eaf573bb87ac",
       "code": "ict",
       "name": "ICT",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "af26d2d8-cd75-448c-a123-ca117710099b",
+      "subject_group_id": "bed31816-7682-42a4-8fa0-6a2f96b2a4b6",
       "pe_required": null,
       "sort_order": 24
     },
     {
-      "id": "84792291-8fb8-4a5f-9233-fc140b91a72b",
+      "id": "52e27f87-5f31-4043-8fe7-ba0b3cd5c399",
       "code": "mbbs-medicine",
       "name": "MBBS / Medicine",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "cf7fba92-cf66-4524-a9e6-bb3d72db06aa",
+      "subject_group_id": "c0da3e49-bd78-4fc3-a747-6fc8271cabf0",
       "pe_required": null,
       "sort_order": 25
     },
     {
-      "id": "146c4052-67b6-4d1f-ab52-c11e93c4e8ad",
+      "id": "6d80561f-79ee-44f8-ac41-d211f985b0a2",
       "code": "mechanical-engineering",
       "name": "Mechanical Engineering",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 26
     },
     {
-      "id": "94c989a8-4304-4ade-ae5a-ff6a1c731580",
+      "id": "06167b05-3786-4193-aada-3906dedab1fd",
       "code": "medical-laboratory-technology",
       "name": "Medical Laboratory Technology",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "cf7fba92-cf66-4524-a9e6-bb3d72db06aa",
+      "subject_group_id": "c0da3e49-bd78-4fc3-a747-6fc8271cabf0",
       "pe_required": null,
       "sort_order": 27
     },
     {
-      "id": "aa35dd8f-0e3d-4880-92f9-b218edfb994d",
+      "id": "65315edb-7f12-43cd-93ba-bb52221cfe5a",
       "code": "instrumentation-control-engineering",
       "name": "Instrumentation and Control Engineering",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 28
     },
     {
-      "id": "b1871e43-0d37-4ef7-86a4-f103faaea18f",
+      "id": "e2db0bee-d9fa-4770-87db-5b3bb192a803",
       "code": "meteorology-hydrology",
       "name": "Meteorology / Hydrology (Instrumentation)",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 29
     },
     {
-      "id": "df970a08-02fc-442f-9eea-966496c166ce",
+      "id": "fd0a45fb-74cd-41d4-bac4-fd010d24c8a9",
       "code": "nursing",
       "name": "Nursing",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "f13e3fd1-a19c-4615-937b-608059574c70",
+      "subject_group_id": "7f10a912-a2a0-4574-b06c-04caf1c5ad89",
       "pe_required": null,
       "sort_order": 30
     },
     {
-      "id": "f1b90f43-9478-4d62-aa08-4a263974b715",
+      "id": "32f7e034-7c9c-4943-b363-3c44c5b89fee",
       "code": "nutrition-dietetics",
       "name": "Nutrition and Dietetics",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "cf7fba92-cf66-4524-a9e6-bb3d72db06aa",
+      "subject_group_id": "c0da3e49-bd78-4fc3-a747-6fc8271cabf0",
       "pe_required": null,
       "sort_order": 31
     },
     {
-      "id": "16518451-4b7a-444d-90aa-85893c7cf32e",
+      "id": "bf6da32d-7ca3-46d7-b52b-bf395d809dbf",
       "code": "radiology",
       "name": "Radiology",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "cf7fba92-cf66-4524-a9e6-bb3d72db06aa",
+      "subject_group_id": "c0da3e49-bd78-4fc3-a747-6fc8271cabf0",
       "pe_required": null,
       "sort_order": 32
     },
     {
-      "id": "9233de7c-4849-40c5-bbb1-5c03ba3dc5d5",
+      "id": "796261f3-ca6b-490e-8dd1-9e07ae48e808",
       "code": "beautification-officer",
       "name": "Beautification Officer",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "f6229b2d-7abc-4c02-9ba2-bc616d92c7fe",
+      "subject_group_id": "47692415-6e1b-4990-82b4-ddc74149aff2",
       "pe_required": null,
       "sort_order": 33
     },
     {
-      "id": "d08b3393-8b77-4e91-a46c-b61c62fcfa93",
+      "id": "bc061b06-0106-48fb-b9d3-1049093a0779",
       "code": "physiotherapy",
       "name": "Physiotherapy",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "cf7fba92-cf66-4524-a9e6-bb3d72db06aa",
+      "subject_group_id": "c0da3e49-bd78-4fc3-a747-6fc8271cabf0",
       "pe_required": null,
       "sort_order": 34
     },
     {
-      "id": "80b974ba-1a30-4367-ad12-7fa0a98ed576",
+      "id": "64588610-b86b-418e-879a-b1443b21d3b5",
       "code": "public-health",
       "name": "Public Health",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "cf7fba92-cf66-4524-a9e6-bb3d72db06aa",
+      "subject_group_id": "c0da3e49-bd78-4fc3-a747-6fc8271cabf0",
       "pe_required": null,
       "sort_order": 35
     },
     {
-      "id": "d8894246-93a9-4b32-b719-547818df2227",
+      "id": "53aadc1c-6f7a-40ab-8e5b-968d2a1c5e4a",
       "code": "statistics",
       "name": "Statistics",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "e0a1b16a-b6e6-4c49-9371-92fae9d9c5c6",
+      "subject_group_id": "d909d03a-df52-40da-a865-748e44daeabb",
       "pe_required": null,
       "sort_order": 36
     },
     {
-      "id": "6f396c55-48b5-4301-afee-29c11da86c52",
+      "id": "dd972a5d-7214-4b8b-a00a-dbe33d0657d3",
       "code": "survey-engineering",
       "name": "Survey Engineering",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 37
     },
     {
-      "id": "472d95e1-4dc9-4dd4-950e-7028cfc67df9",
+      "id": "d936871a-c1a5-4d90-9fea-1567502558d8",
       "code": "urban-planning",
       "name": "Urban Planning",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 38
     },
     {
-      "id": "5f0c098c-6c9f-4dd4-8885-bab428dac45b",
+      "id": "00a439e2-ea98-4f4c-8efe-ab5aa3a6b5e0",
       "code": "water-engineering",
       "name": "Water Engineering",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 39
     },
     {
-      "id": "f6495b98-81b4-49a2-85fc-097c006f9070",
+      "id": "12f35beb-9426-4457-8218-f230a26ed7df",
       "code": "veterinary-science",
       "name": "Veterinary Science",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "f6229b2d-7abc-4c02-9ba2-bc616d92c7fe",
+      "subject_group_id": "47692415-6e1b-4990-82b4-ddc74149aff2",
       "pe_required": null,
       "sort_order": 40
     },
     {
-      "id": "d093a679-1fba-4dd6-93d9-350171c77cde",
+      "id": "06f5908a-e9d2-4baf-bd73-5d52e1063e30",
       "code": "occupational-therapy-technology",
       "name": "Occupational Therapy Technology",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "cf7fba92-cf66-4524-a9e6-bb3d72db06aa",
+      "subject_group_id": "c0da3e49-bd78-4fc3-a747-6fc8271cabf0",
       "pe_required": null,
       "sort_order": 41
     },
     {
-      "id": "f55d3973-0020-40cd-9dde-1ae2bb08b3e8",
+      "id": "867b0866-4efa-4c08-965b-0f7c502a33cf",
       "code": "optometry",
       "name": "Optometry",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "cf7fba92-cf66-4524-a9e6-bb3d72db06aa",
+      "subject_group_id": "c0da3e49-bd78-4fc3-a747-6fc8271cabf0",
       "pe_required": null,
       "sort_order": 42
     },
     {
-      "id": "61204bc1-b69c-401d-8b75-33ed4a0f897a",
+      "id": "5e80a0bb-17ba-41d3-9edc-1e4a55be3289",
       "code": "neurology",
       "name": "Neurology",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "cf7fba92-cf66-4524-a9e6-bb3d72db06aa",
+      "subject_group_id": "c0da3e49-bd78-4fc3-a747-6fc8271cabf0",
       "pe_required": null,
       "sort_order": 43
     },
     {
-      "id": "229474c3-f15a-4900-8b50-e1e4f8d152d0",
+      "id": "13b526a4-c054-46d5-810b-7737429e65c6",
       "code": "mining",
       "name": "Mining",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 44
     },
     {
-      "id": "13a53493-bc35-477c-a0aa-1e7dccda438f",
+      "id": "b1511566-fa56-42e4-8f72-30e2bd5b5d2a",
       "code": "microbiology",
       "name": "Microbiology",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "f6229b2d-7abc-4c02-9ba2-bc616d92c7fe",
+      "subject_group_id": "47692415-6e1b-4990-82b4-ddc74149aff2",
       "pe_required": null,
       "sort_order": 45
     },
     {
-      "id": "d9ef5133-65a4-4abc-abe4-6edd106d4983",
+      "id": "c5056e1d-14ce-4b0d-ac19-22897860af8c",
       "code": "mechatronic-engineering",
       "name": "Mechatronic Engineering",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "subject_group_id": "28568433-43df-4174-b024-cdc225932572",
       "pe_required": null,
       "sort_order": 46
     },
     {
-      "id": "9699a15f-34b2-4db7-b90c-5a957c175d83",
+      "id": "bcafc5e7-f40d-4cee-b84e-4bacc6dcde6e",
       "code": "horticulture",
       "name": "Horticulture",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "f6229b2d-7abc-4c02-9ba2-bc616d92c7fe",
+      "subject_group_id": "47692415-6e1b-4990-82b4-ddc74149aff2",
       "pe_required": null,
       "sort_order": 47
     },
     {
-      "id": "535bf6a3-32cc-4762-a699-2931be62204b",
+      "id": "893d32b4-b336-4ae7-8e69-4eb169a68edf",
       "code": "gis",
       "name": "Geographic Information System (GIS)",
       "category_id": "00000000-0000-4000-8000-000000000306",
-      "subject_group_id": "af26d2d8-cd75-448c-a123-ca117710099b",
+      "subject_group_id": "bed31816-7682-42a4-8fa0-6a2f96b2a4b6",
       "pe_required": null,
       "sort_order": 48
     }
   ],
   "subjectGroups": [
     {
-      "id": "2d42f2ab-4c32-4227-9025-5c30a2b493e8",
+      "id": "28568433-43df-4174-b024-cdc225932572",
       "name": "Engineering"
     },
     {
-      "id": "af26d2d8-cd75-448c-a123-ca117710099b",
+      "id": "bed31816-7682-42a4-8fa0-6a2f96b2a4b6",
       "name": "ICT"
     },
     {
-      "id": "f6229b2d-7abc-4c02-9ba2-bc616d92c7fe",
+      "id": "47692415-6e1b-4990-82b4-ddc74149aff2",
       "name": "Bio Science"
     },
     {
-      "id": "cf7fba92-cf66-4524-a9e6-bb3d72db06aa",
+      "id": "c0da3e49-bd78-4fc3-a747-6fc8271cabf0",
       "name": "Medical Science"
     },
     {
-      "id": "e0a1b16a-b6e6-4c49-9371-92fae9d9c5c6",
+      "id": "d909d03a-df52-40da-a865-748e44daeabb",
       "name": "Statistics"
     },
     {
-      "id": "b3d54008-a706-4c40-a276-1abda663ba72",
+      "id": "4eeb9186-1c09-4714-80be-88e1bad1a2a3",
       "name": "Traditional Medicine (Drungtsho)"
     },
     {
-      "id": "f13e3fd1-a19c-4615-937b-608059574c70",
+      "id": "7f10a912-a2a0-4574-b06c-04caf1c5ad89",
       "name": "Nursing"
     },
     {
-      "id": "6a76f546-c4ad-4aa7-81f7-4599c3e56da6",
+      "id": "72e6f3e0-0588-4538-8e21-e3bb09623d78",
       "name": "Conservator"
     }
   ]

@@ -9,7 +9,8 @@ select tests.assert((select count(distinct pc.paper_id) from public.exam_paper_c
   where p.stage = 'ME' and c.code in ('administrative', 'finance', 'pgde')) = 3, 'Administrative, Finance and PGDE share the same three papers');
 select tests.assert((select title from public.exam_papers where code = 'me-technical-1') = 'Languages and General Knowledge', 'Technical Paper I has its RCSC 2025 name');
 select tests.assert((select count(*) from public.specialisations s join public.exam_categories c on c.id = s.category_id where c.code = 'bed' and s.is_active) = 3, 'B.Ed. has three sections: General / Primary, Secondary, Dzongkha');
-select tests.assert((select count(*) from public.specialisations s join public.exam_categories c on c.id = s.category_id where c.code = 'technical' and s.is_active) = 48, 'the 48 BCSE 2025 specialisations can be chosen');
+select tests.assert((select count(*) from public.specialisations s join public.exam_categories c on c.id = s.category_id where c.code = 'technical' and s.is_active) = 47, 'the 47 BCSE Paper III specialisations can be chosen (no separate Bio Science Paper III)');
+select tests.assert(not (select is_active from public.specialisations where code = 'bio-science') and (select is_active from public.subject_groups where name = 'Bio Science'), 'Bio Science is a Paper II group only');
 select tests.assert((select count(*) from public.specialisations where list_source = 'CSCE 2009' and not is_active) = 17, 'earlier-list specialisations are kept, not offered');
 select tests.assert((select count(*) from public.specialisations where lower(name) = 'civil engineering') = 1, 'no duplicate rows for names on both lists');
 select tests.assert((select count(*) from public.subject_groups where is_active) = 8, 'eight Paper II groups can be chosen');
