@@ -7,9 +7,9 @@ import { Pause } from "lucide-react";
 import { pauseAttempt } from "@/app/exam/actions";
 
 /** The honesty reminder shown right after pausing (founder, 22 Nov 2026: no time limit on a pause). */
-export function HonestyNote() {
+export function HonestyNote({ onClose }: { onClose?: () => void }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 p-6" role="alertdialog" aria-live="assertive" aria-label="Exam paused">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 p-6" role="alertdialog" aria-live="assertive" aria-label="Exam paused" onClick={onClose}>
       <div className="w-full max-w-sm rounded-2xl bg-background p-6 text-center shadow-xl">
         <Pause className="mx-auto size-8 text-slate-600" aria-hidden />
         <p className="mt-3 font-serif text-xl font-semibold text-ink">Please don&apos;t cheat</p>
@@ -17,6 +17,9 @@ export function HonestyNote() {
           This is a practice exam. Looking up answers while it is paused only cheats yourself: your marks would not show what you really know.
         </p>
         <p className="mt-3 text-sm font-medium text-ink">Your exam is paused. Continue it any time from Paused exam.</p>
+        {onClose ? (
+          <button type="button" onClick={onClose} className="mt-5 h-11 w-full rounded-xl bg-slate-700 text-sm font-semibold text-white">OK, I understand</button>
+        ) : null}
       </div>
     </div>
   );
@@ -36,7 +39,8 @@ export function PauseButton({ attemptId, stage }: { attemptId: string; stage: "P
     if (!r.ok) { setError(r.message ?? "The examination could not be paused. Please try again."); return; }
     setOpen(false);
     setDone(true);
-    setTimeout(() => router.replace(`/dashboard/paused?stage=${stage}`), 4000);
+    // Straight to Paused exam, which shows the honesty reminder (founder, 23 Nov 2026: it must always appear).
+    router.replace(`/dashboard/paused?stage=${stage}&paused=1`);
   };
   return (
     <>

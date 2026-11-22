@@ -131,3 +131,14 @@ test.describe("ME written examination room", () => {
   });
 });
 
+test.describe("Pause exam", () => {
+  test("pausing shows the 'Please don't cheat' reminder on the Paused exam screen", async ({ page }) => {
+    await page.goto("/dev/exam-preview?stage=PE");
+    await page.getByRole("button", { name: "Pause", exact: true }).click();
+    await page.getByRole("button", { name: "Pause examination" }).click();
+    await expect(page.getByText("Please don't cheat")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Examination paused" })).toBeVisible();
+    await page.getByRole("button", { name: "OK, I understand" }).click();
+    await expect(page.getByText("Please don't cheat")).toBeHidden();
+  });
+});

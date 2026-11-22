@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { PausedExams, type PausedExam } from "@/components/student/paused-exams";
+import { JustPausedNote } from "@/components/student/just-paused-note";
 import { requireUser } from "@/lib/auth/dal";
 import { pageStage } from "@/lib/student/default-stage";
 import { createClient } from "@/lib/supabase/server";
@@ -12,5 +14,10 @@ export default async function PausedPage({ searchParams }: PageProps<"/dashboard
   const db = await createClient();
   const stage = await pageStage(db, user.id, sp.stage);
   const { data } = await db.rpc("my_paused_exams");
-  return <PausedExams stage={stage} exams={(data ?? []) as PausedExam[]} />;
+  return (
+    <>
+      <PausedExams stage={stage} exams={(data ?? []) as PausedExam[]} />
+      {sp.paused === "1" ? <Suspense fallback={null}><JustPausedNote /></Suspense> : null}
+    </>
+  );
 }

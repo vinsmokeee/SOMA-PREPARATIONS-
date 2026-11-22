@@ -51,6 +51,7 @@ set local role authenticated;
 select tests.login(:'a');
 select tests.assert(public.paper_mock_ready(:'p3'), 'mock ready once the pattern is known and the bank is big enough');
 select public.start_paper_mock(:'p3') as m1 \gset
+select tests.assert(public.start_paper_mock(:'p3') = :'m1'::uuid and (select count(*) = 1 from public.exams where owner_id = :'a'::uuid and kind = 'mock'), 'starting the same paper again reopens the running mock (no second mock)');
 reset role;
 select tests.assert((select count(*) = 2 and bool_and(eq.is_optional) and bool_and(eq.question_id not in (select question_id from seen_a))
   from public.exam_attempts at join public.exam_questions eq on eq.exam_id = at.exam_id where at.id = :'m1'), 'the mock follows the pattern with questions the student has not seen');

@@ -6,6 +6,7 @@ import type { PageInfo } from "@/app/dashboard/written/actions";
 import type { SaveInput, SaveResult, SubmitResult } from "@/app/exam/actions";
 import type { AttemptPaper } from "@/lib/exam/types";
 import { ExamRoom } from "./exam-room";
+import { HonestyNote } from "./pause-button";
 
 declare global {
   interface Window {
@@ -21,6 +22,7 @@ declare global {
 export function DevExamHarness({ paper, failSaves, untimed }: { paper: AttemptPaper; failSaves: number; untimed?: boolean }) {
   const [finished, setFinished] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [note, setNote] = useState(true);
   // In-memory answer-sheet storage for the handwritten option.
   const written = useMemo(() => {
     const store = (): Record<string, PageInfo[]> => (window.__somaPages ??= {});
@@ -77,6 +79,8 @@ export function DevExamHarness({ paper, failSaves, untimed }: { paper: AttemptPa
       <main id="main" className="mx-auto max-w-lg p-10 text-center">
         <h1 className="font-serif text-2xl font-semibold">Examination paused</h1>
         <p className="mt-2 text-muted-foreground">Development harness — the Paused exam page would open here.</p>
+        {/* Same as the real Paused exam page right after pausing (?paused=1). */}
+        {note ? <HonestyNote onClose={() => setNote(false)} /> : null}
       </main>
     );
   }

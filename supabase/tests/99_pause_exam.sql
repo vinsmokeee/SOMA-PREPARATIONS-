@@ -50,5 +50,5 @@ select public.save_answer(:'a', :'q1', null, false, null, false);
 select tests.assert(public.start_attempt(:'e2') is not null, 'after continuing, other mocks can start again');
 select public.submit_attempt(:'a');
 select tests.assert((select time_spent_seconds < 3600 from public.exam_attempts where id = :'a'), 'time spent leaves out the paused hours');
-select tests.assert(jsonb_array_length(public.my_paused_exams()) = 1 and not (public.my_paused_exams() -> 0 ->> 'paused')::boolean, 'a running exam is listed too, not as paused');
+select tests.assert(jsonb_array_length(public.my_paused_exams()) = 0, 'a running (not paused) exam is not listed under Paused exam');
 rollback;
