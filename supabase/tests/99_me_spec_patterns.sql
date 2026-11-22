@@ -6,8 +6,8 @@ select id as civ from public.specialisations where code = 'civil-engineering' \g
 select id as car from public.specialisations where code = 'cardiology' \gset
 select id as p from public.exam_papers where code = 'me-technical-3' \gset
 select id as subj from public.subjects limit 1 \gset
-update public.profiles set entry_category_id = (select id from public.exam_categories where code = 'technical'), specialisation_id = :'civ' where id = :'c';
-update public.profiles set entry_category_id = (select id from public.exam_categories where code = 'technical'), specialisation_id = :'car' where id = :'k';
+update public.profiles set entry_category_id = (select id from public.exam_categories where code = 'technical'), specialisation_id = :'civ', entry_confirmed_at = now() where id = :'c';
+update public.profiles set entry_category_id = (select id from public.exam_categories where code = 'technical'), specialisation_id = :'car', entry_confirmed_at = now() where id = :'k';
 insert into public.entitlements (user_id, package_id) select u, (select id from public.packages where slug = 'me-premium') from unnest(array[:'c', :'k']::uuid[]) u;
 -- Civil Engineering: 2 MCQs; Cardiology: 3 MCQs (different patterns of the same paper)
 insert into public.paper_blueprint_sections (paper_id, specialisation_id, sort_order, title, question_type, question_count, marks_each)

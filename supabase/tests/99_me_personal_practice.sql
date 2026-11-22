@@ -2,7 +2,7 @@ begin;
 select tests.create_user('pp-a@test.bt', 'A') as a \gset
 select tests.create_user('pp-b@test.bt', 'B') as b \gset
 select tests.create_user('pp-free@test.bt', 'Free') as f \gset
-update public.profiles set entry_category_id = (select id from public.exam_categories where code = 'administrative') where id in (:'a', :'b', :'f');
+update public.profiles set entry_category_id = (select id from public.exam_categories where code = 'administrative'), entry_confirmed_at = now() where id in (:'a', :'b', :'f');
 insert into public.entitlements (user_id, package_id) select u, (select id from public.packages where slug = 'me-premium') from unnest(array[:'a', :'b']::uuid[]) u;
 select id as p3 from public.exam_papers where code = 'me-general-3' \gset
 create temp table qs as select gen_random_uuid() as id, g as n from generate_series(1, 4) g;

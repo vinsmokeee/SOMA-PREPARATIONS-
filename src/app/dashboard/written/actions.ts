@@ -25,6 +25,7 @@ const MESSAGES: Record<string, string> = {
   NO_PAGES: "Upload at least one page first.",
   ALREADY_READING: "Your handwriting is already being read.",
   RATE_LIMIT: "Daily limit reached. Please try again tomorrow.",
+  ENTRY_NOT_CONFIRMED: "Please confirm your subject first on your ME home page.",
   CONFIRM_TRANSCRIPT_FIRST: "Check and confirm the text of your handwritten answer first.",
   SUBMIT_FIRST: "Submit your answer before requesting an evaluation.",
   EMPTY_ANSWER: "The answer is empty.",

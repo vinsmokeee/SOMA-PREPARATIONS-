@@ -1,7 +1,7 @@
 begin;
 select tests.create_user('wg-a@test.bt', 'A') as a \gset
 select tests.create_user('wg-v@test.bt', 'V') as v \gset
-update public.profiles set entry_category_id = (select id from public.exam_categories where code = 'administrative') where id = :'a';
+update public.profiles set entry_category_id = (select id from public.exam_categories where code = 'administrative'), entry_confirmed_at = now() where id = :'a';
 insert into public.entitlements (user_id, package_id) values (:'a', (select id from public.packages where slug = 'me-premium'));
 select id as p from public.exam_papers where code = 'me-general-2' \gset
 delete from public.paper_blueprint_sections where paper_id = :'p';

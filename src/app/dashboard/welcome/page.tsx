@@ -12,10 +12,10 @@ export default async function WelcomePage() {
   const [{ data: cats }, { data: specs }, { data: profile }, { data: meAccess }] = await Promise.all([
     db.from("exam_categories").select("id, name, public_group").eq("is_active", true).eq("is_offered", true).order("sort_order"),
     db.from("specialisations").select("id, name").eq("is_active", true).order("sort_order"),
-    db.from("profiles").select("pathway, entry_category_id, specialisation_id, phone, onboarded_at").eq("id", user.id).maybeSingle(),
+    db.from("profiles").select("pathway, entry_category_id, specialisation_id, phone, onboarded_at, entry_confirmed_at").eq("id", user.id).maybeSingle(),
     db.rpc("has_stage_access", { _stage: "ME" }),
   ]);
-  const locked = Boolean(meAccess) && Boolean(profile?.entry_category_id);
+  const locked = Boolean(meAccess) && Boolean(profile?.entry_confirmed_at);
   return (
     <div className="mx-auto max-w-lg">
       <PageTitle

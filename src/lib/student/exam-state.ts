@@ -8,7 +8,7 @@ export type ExamState = {
   pathway: "PE" | "ME" | "both" | null;
   started: Record<Stage, boolean>;           // the student has chosen Free or Premium for this exam
   premium: Record<Stage, string | null>;     // "Premium until 30 Jan 2027" when they have access
-  entry: { categoryId: string | null; code: string | null; specialisationId: string | null; subjectGroupId: string | null; group: string | null; label: string | null };
+  entry: { categoryId: string | null; code: string | null; specialisationId: string | null; subjectGroupId: string | null; group: string | null; label: string | null; confirmed: boolean };
   lastStage: Stage | null;                   // the exam to open when they come back
   openAttempt: Record<Stage, { id: string; title: string } | null>;
 };
@@ -17,7 +17,7 @@ export type ExamState = {
 export async function loadExamState(userId: string): Promise<ExamState> {
   const db = await createClient();
   const [{ data: profile }, { data: ents }, { data: attempts }] = await Promise.all([
-    db.from("profiles").select("pathway, entry_category_id, specialisation_id, subject_group_id, exam_categories(code, name, public_group), specialisations(name), subject_groups(name)").eq("id", userId).maybeSingle(),
+    db.from("profiles").select("pathway, entry_category_id, specialisation_id, subject_group_id, entry_confirmed_at, exam_categories(code, name, public_group), specialisations(name), subject_groups(name)").eq("id", userId).maybeSingle(),
     db.from("entitlements").select("ends_at, packages(includes_pe, includes_me, name)").is("revoked_at", null).eq("status", "active")
       .or(`ends_at.is.null,ends_at.gt.${new Date().toISOString()}`),
     db.from("exam_attempts").select("id, status, started_at, exams!exam_attempts_exam_id_fkey(title, stage)").eq("user_id", userId).order("started_at", { ascending: false }).limit(20),
@@ -51,6 +51,7 @@ export async function loadExamState(userId: string): Promise<ExamState> {
     entry: {
       categoryId: profile?.entry_category_id ?? null, code: cat?.code ?? null,
       specialisationId: profile?.specialisation_id ?? null, subjectGroupId: profile?.subject_group_id ?? null, group, label,
+      confirmed: Boolean(profile?.entry_confirmed_at),
     },
   };
 }
