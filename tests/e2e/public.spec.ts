@@ -51,7 +51,7 @@ test("ME page shows each category group with official weightages", async ({ page
   await expect(bed).toContainText("Academic Achievement 20%");
   await expect(page.getByText("None of it is an official RCSC mark.")).toBeVisible();
   await expect(page.getByText(/academic marks and the viva\/interview may also count/).first()).toBeVisible();
-  await expect(groups.filter({ hasText: "Technical Graduates" })).toContainText("Technical specialisations Soma covers (48)");
+  await expect(groups.filter({ hasText: "Technical Graduates" })).toContainText("Technical specialisations Soma covers (47)");
   await expect(bed).toContainText("General graduates and Dzongkha graduates write different");
   await expect(bed).not.toContainText("Soma does not offer preparation for this category yet.");
 });
