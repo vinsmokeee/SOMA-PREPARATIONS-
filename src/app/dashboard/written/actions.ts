@@ -15,6 +15,7 @@ import { runEvaluation, runImprovedAnswer, runTranscription } from "@/lib/writte
  */
 
 const MESSAGES: Record<string, string> = {
+  UPLOAD_NOT_ALLOWED: "English answers are typed. Photos of handwritten pages are only for Dzongkha answers and for questions that ask you to draw or show working.",
   ANSWER_LOCKED: "This answer can no longer be changed (the upload window has closed or evaluation has started).",
   QUESTION_NOT_CHOSEN: "You did not choose this question during the exam, so it cannot be evaluated.",
   UPLOAD_WINDOW_CLOSED: "The time for uploading answer sheets for this examination has ended.",

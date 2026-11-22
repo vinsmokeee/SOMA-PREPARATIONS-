@@ -46,7 +46,7 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
   const pePkg = { slug: "pe-premium", name: "PE Premium", price: 699, accessDays: 45, available: true,
     features: ["Every practice question in all four sections (English, Dzongkha, Aptitude, Data Interpretation)", "All timed mock tests, like the real PE", "Your daily plan with revision of your mistakes", "Explanations for every answer", "Scores and progress for every section", "Current affairs: daily news and quizzes"] };
   const mePkg = { slug: "me-premium", name: "ME Premium", price: 799, accessDays: 45, available: true,
-    features: ["Written questions and papers for your entry", "100 AI-marked answers: type your answer or upload photos of your handwritten pages", "AI feedback: strengths, missing points and an improved answer", "Model answers and marking guides", "Current affairs: daily Bhutan and world news", "Scores and progress"] };
+    features: ["Written questions and papers for your entry", "100 AI-marked answers: type your answer (Dzongkha answers can also be handwritten and uploaded)", "AI feedback: strengths, missing points and an improved answer", "Model answers and marking guides", "Current affairs: daily Bhutan and world news", "Scores and progress"] };
   const area = (over: Partial<AreaData>): AreaData => ({
     stage: "PE", entryLabel: null, premium: "Premium until 30 Jan 2027", openAttempt: { id: id(7), title: "Mock test: PE paper 1" },
     training, answered: 64, accuracy: 72, written: 0, freeUsedUp: false, aiMarks: null, premiumSlug: "pe-premium", ...over,

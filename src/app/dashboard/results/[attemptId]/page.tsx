@@ -14,6 +14,7 @@ import { createClient } from "@/lib/supabase/server";
 import { formatDate, requestTimeMs } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { ensureWrittenAnswerAction } from "@/app/dashboard/written/actions";
+import { uploadAllowed } from "@/lib/exam/upload";
 import type { ResultQuestion } from "@/lib/exam/types";
 import { MeResultPanel } from "@/components/exam/me-result-panel";
 import { retrySummary, type Compare, type Mistake } from "@/lib/exam/retry";
@@ -89,7 +90,7 @@ export default async function ResultsPage({ params }: PageProps<"/dashboard/resu
           <p className="mt-1 text-sm text-muted-foreground">Submitted on {formatDate(a.submitted_at)} · time used {formatDuration(a.time_spent_seconds)}</p>
         </>
       )}
-      {written.length > 0 ? <WrittenPanel attemptId={a.id} written={written} closedAt={a.submitted_at ?? a.deadline_at} deadline={a.deadline_at} /> : null}
+      {written.length > 0 ? <WrittenPanel attemptId={a.id} stage={r.exam.stage} written={written} closedAt={a.submitted_at ?? a.deadline_at} deadline={a.deadline_at} /> : null}
       {r.exam.negative_mark_per_wrong > 0 && mcqs.length > 0 ? (
         <p className="mt-3 text-xs text-muted-foreground">This practice examination deducted {Number(r.exam.negative_mark_per_wrong)} mark per wrong answer.</p>
       ) : null}
@@ -176,7 +177,7 @@ async function MeResultActions({ attemptId, examId, kind }: { attemptId: string;
   return <MeResultPanel attemptId={attemptId} sum={sum} rows={isRetry ? rows : []} back={back} paperNumber={paperNumber} />;
 }
 
-async function WrittenPanel({ attemptId, written, closedAt, deadline }: { attemptId: string; written: ResultQuestion[]; closedAt: string; deadline: string }) {
+async function WrittenPanel({ attemptId, stage, written, closedAt, deadline }: { attemptId: string; stage: string; written: ResultQuestion[]; closedAt: string; deadline: string }) {
   const db = await createClient();
   const ids = written.map((q) => q.answer?.id).filter(Boolean) as string[];
   const [{ data: rows }, { data: cfg }] = await Promise.all([
@@ -189,12 +190,14 @@ async function WrittenPanel({ attemptId, written, closedAt, deadline }: { attemp
   const windowMin = Number((cfg as { upload_window_minutes?: number } | null)?.upload_window_minutes ?? 15);
   const windowEnds = Math.min(new Date(closedAt).getTime(), new Date(deadline).getTime()) + windowMin * 60 * 1000;
   const windowOpen = requestTimeMs() <= windowEnds;
+  const canUpload = (q: ResultQuestion) => uploadAllowed(stage, q.type, q.stem);
+  const anyUpload = written.some(canUpload);
   return (
     <section className="mt-6 rounded-xl border border-border p-5" aria-labelledby="written-h">
       <h2 id="written-h" className="font-semibold text-ink">Written answers — AI-assisted evaluation</h2>
       <p className="mt-1 text-sm text-muted-foreground">
         Open each answer to check handwritten text and get indicative AI feedback. AI marks are not official RCSC marks.
-        {windowOpen ? ` You can still add handwritten answer-sheet photos for about ${Math.max(1, Math.round((windowEnds - requestTimeMs()) / 60000))} minutes.` : ""}
+        {windowOpen && anyUpload ? ` You can still add handwritten answer-sheet photos for about ${Math.max(1, Math.round((windowEnds - requestTimeMs()) / 60000))} minutes.` : ""}
       </p>
       <ul className="mt-3 divide-y divide-border">
         {written.map((q) => {
@@ -210,7 +213,7 @@ async function WrittenPanel({ attemptId, written, closedAt, deadline }: { attemp
               <Badge tone={ev?.status === "completed" ? "green" : hasContent ? "warning" : "neutral"}>{label}</Badge>
               {q.answer?.id && hasContent ? (
                 <Link href={`/dashboard/written/${q.answer.id}`} className="text-sm font-medium text-primary hover:underline">Open</Link>
-              ) : windowOpen ? (
+              ) : windowOpen && canUpload(q) ? (
                 <form action={ensureWrittenAnswerAction.bind(null, attemptId, q.exam_question_id)}>
                   <button type="submit" className="text-sm font-medium text-primary hover:underline">Upload handwritten pages</button>
                 </form>

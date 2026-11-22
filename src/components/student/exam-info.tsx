@@ -20,7 +20,7 @@ export const BENEFITS: Record<Stage, Benefit[]> = {
   ],
   ME: [
     { icon: FileText, title: "Written questions for your entry", text: "Practise the kind of questions set for your category or specialisation, with model answers." },
-    { icon: Camera, title: "Write by hand, like the real exam", text: "Type your answer or take photos of your handwritten pages. Soma reads them for you." },
+    { icon: Camera, title: "Type or write by hand", text: "Type your English answers. For Dzongkha answers, and questions where you draw or show working, you can also take photos of your handwritten pages." },
     { icon: Brain, title: "AI marking and feedback", text: "Get an estimated mark, your strengths, the points you missed and an improved answer to learn from." },
     { icon: MessageCircleHeart, title: "Guidance to improve", text: "Learn how to plan and structure your answers, what examiners look for, and where you can gain more marks." },
     { icon: Clock, title: "Timed papers", text: "Practise full papers under time, so you learn to finish on the day." },

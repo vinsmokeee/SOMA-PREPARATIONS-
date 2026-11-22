@@ -10,7 +10,7 @@ insert into public.subjects (stage, slug, name, paper_id) values ('ME', 'we-gove
 set local role authenticated;
 select tests.login(:'b');
 -- A published free-sample essay with a rubric and an answer guide
-select public.save_question(null, jsonb_build_object('stage','ME','question_type','essay','stem','Explain the importance of a constitutional monarchy.',
+select public.save_question(null, jsonb_build_object('stage','ME','question_type','essay','stem','Draw a labelled chart of the three branches of government and explain the importance of a constitutional monarchy.',
   'model_answer','A model answer of sufficient length for the test.','marks','10','is_free_sample',true,
   'subject_id',(select id from public.subjects where slug='we-governance'),'paper_id','00000000-0000-4000-8000-000000000412'),
   '[]'::jsonb, '[{"label":"Content","description":"d","max_marks":6},{"label":"Structure","description":"d","max_marks":4}]'::jsonb) as q \gset
