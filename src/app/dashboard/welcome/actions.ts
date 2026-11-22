@@ -16,7 +16,7 @@ const schema = z.object({
 });
 
 const DB_ERRORS: Record<string, string> = {
-  ENTRY_LOCKED: "Your ME entry cannot be changed while your ME subscription is active. Please contact support.",
+  ENTRY_LOCKED: "Your ME subject is confirmed and locked. Please contact support if it needs correcting.",
   ENTRY_NOT_OFFERED: "Soma does not offer preparation for that entry yet.",
   SPECIALISATION_MISMATCH: "Choose a specialisation that belongs to your category.",
 };

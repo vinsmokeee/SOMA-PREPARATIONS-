@@ -45,6 +45,20 @@ const ENTRY_ERRORS: Record<string, string> = {
   SPECIALISATION_MISMATCH: "mismatch",
 };
 
+/** ME Premium: the student confirms the subject shown in the pop-up; then all other subjects are locked. */
+export async function confirmMeEntryAction(formData: FormData): Promise<void> {
+  const user = await getCurrentUser();
+  if (!user) redirect("/login");
+  const parsed = z.object({ category: z.uuid(), specialisation: z.union([z.uuid(), z.literal("")]).optional() })
+    .safeParse({ category: formData.get("category"), specialisation: formData.get("specialisation") ?? "" });
+  if (!parsed.success) redirect("/dashboard/me");
+  const db = await createClient();
+  const { error } = await db.rpc("confirm_me_entry", { _category: parsed.data.category, _specialisation: parsed.data.specialisation || undefined });
+  if (error) redirect(`/dashboard/me?error=${error.message.includes("ENTRY_CHANGED") ? "changed" : "failed"}`);
+  revalidatePath("/dashboard", "layout");
+  redirect("/dashboard/me");
+}
+
 /** The student picked their ME entry: category; B.Ed. graduate type; Technical specialisation and Paper II group. */
 export async function setMeEntryAction(formData: FormData): Promise<void> {
   const user = await getCurrentUser();

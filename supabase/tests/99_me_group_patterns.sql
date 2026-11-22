@@ -6,8 +6,8 @@ select id as eng from public.subject_groups where code = 'engineering' \gset
 select id as nur from public.subject_groups where code = 'nursing' \gset
 select id as p from public.exam_papers where code = 'me-technical-2' \gset
 select id as subj from public.subjects where slug = 'general-subject-knowledge' \gset
-update public.profiles set entry_category_id = (select id from public.exam_categories where code = 'technical'), subject_group_id = :'eng' where id = :'e';
-update public.profiles set entry_category_id = (select id from public.exam_categories where code = 'technical'), subject_group_id = :'nur' where id = :'n';
+update public.profiles set entry_category_id = (select id from public.exam_categories where code = 'technical'), subject_group_id = :'eng', entry_confirmed_at = now() where id = :'e';
+update public.profiles set entry_category_id = (select id from public.exam_categories where code = 'technical'), subject_group_id = :'nur', entry_confirmed_at = now() where id = :'n';
 insert into public.entitlements (user_id, package_id) select u, (select id from public.packages where slug = 'me-premium') from unnest(array[:'e', :'n']::uuid[]) u;
 insert into public.topics (subject_id, slug, name) values (:'subj', 'gp-health', 'GP health'), (:'subj', 'gp-data', 'GP data');
 -- Engineering: 3 MCQs in 60 minutes; Nursing: 1 health MCQ + 1 data MCQ in 150 minutes

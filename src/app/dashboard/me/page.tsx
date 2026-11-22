@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { EntryPicker, ExamArea, MeLocked } from "@/components/student/exam-flow";
+import { ConfirmSubject } from "@/components/student/confirm-subject";
 import { requireUser } from "@/lib/auth/dal";
 import { createClient } from "@/lib/supabase/server";
 import { loadArea, loadMePapers, loadPackage } from "@/lib/student/area";
@@ -8,7 +9,8 @@ import { entryComplete, loadExamState } from "@/lib/student/exam-state";
 export const metadata: Metadata = { title: "ME" };
 
 const ERRORS: Record<string, string> = {
-  locked: "Your ME entry is fixed while your ME subscription is active. Contact support to change it.",
+  locked: "Your ME subject is confirmed and locked. Contact support if it needs correcting.",
+  changed: "Your subject changed on another screen. Please check it and confirm again.",
   "not-offered": "Soma does not offer preparation for that entry yet.",
   mismatch: "Please choose again.",
   failed: "Could not save. Please try again.",
@@ -21,7 +23,9 @@ export default async function MePage({ searchParams }: PageProps<"/dashboard/me"
   const state = await loadExamState(user.id);
   const changing = sp.change === "1";
   const catParam = typeof sp.cat === "string" ? sp.cat : null;
-  if (!entryComplete(state.entry) || changing || catParam) {
+  // A confirmed ME Premium subject is locked: no other subject can be chosen (founder, 22 Nov 2026).
+  const locked = Boolean(state.premium.ME) && state.entry.confirmed && entryComplete(state.entry);
+  if (!locked && (!entryComplete(state.entry) || changing || catParam)) {
     const db = await createClient();
     const [{ data: categories }, { data: specialisations }, { data: groups }] = await Promise.all([
       db.from("exam_categories").select("id, code, name").eq("is_active", true).eq("is_offered", true).order("sort_order"),
@@ -44,5 +48,16 @@ export default async function MePage({ searchParams }: PageProps<"/dashboard/me"
     const [papers, pkg] = await Promise.all([loadMePapers(state.entry.categoryId), loadPackage("ME")]);
     return <MeLocked entryLabel={state.entry.label} papers={papers} pkg={pkg} />;
   }
-  return <ExamArea d={await loadArea("ME", state)} />;
+  const area = <ExamArea d={{ ...(await loadArea("ME", state)), subjectLocked: state.entry.confirmed }} />;
+  if (!state.entry.confirmed) {
+    // ME Premium, subject chosen but not confirmed: ask once, in a pop-up, before any paper opens.
+    return (
+      <>
+        <div aria-hidden className="pointer-events-none select-none blur-[2px]">{area}</div>
+        <ConfirmSubject label={state.entry.label ?? ""} category={state.entry.categoryId ?? ""} specialisation={state.entry.specialisationId ?? ""}
+          error={sp.error === "changed" ? ERRORS.changed : sp.error === "failed" ? ERRORS.failed : null} />
+      </>
+    );
+  }
+  return area;
 }

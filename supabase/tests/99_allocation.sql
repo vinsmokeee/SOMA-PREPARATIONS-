@@ -12,9 +12,9 @@ select id as dzc from public.exam_categories where code = 'dzongkha' \gset
 select id as s_med from public.specialisations where name = 'MBBS / Medicine' \gset
 select id as s_agri from public.specialisations where name = 'Agriculture' \gset
 select id as t3 from public.exam_papers where code = 'me-technical-3' \gset
-update public.profiles set entry_category_id = :'tech', specialisation_id = :'s_med' where id in (:'boss', :'med');
-update public.profiles set entry_category_id = :'tech', specialisation_id = :'s_agri' where id = :'agri';
-update public.profiles set entry_category_id = :'dzc' where id = :'dz';
+update public.profiles set entry_category_id = :'tech', specialisation_id = :'s_med', entry_confirmed_at = now() where id in (:'boss', :'med');
+update public.profiles set entry_category_id = :'tech', specialisation_id = :'s_agri', entry_confirmed_at = now() where id = :'agri';
+update public.profiles set entry_category_id = :'dzc', entry_confirmed_at = now() where id = :'dz';
 
 insert into public.questions (stage, question_type, stem, explanation, model_answer, paper_id, specialisation_id, status, verified_by, verified_at, origin, source_year)
 values ('ME', 'short_answer', 'AL agriculture written question about crop rotation', 'x', 'x', :'t3', :'s_agri', 'verified', :'boss', now(), 'historical_official', 2024),

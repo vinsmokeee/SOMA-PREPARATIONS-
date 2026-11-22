@@ -41,7 +41,7 @@ export function WelcomeForm({ categories, specialisations, defaults, locked }: {
       {wantsMe ? (
         <fieldset disabled={locked} className="space-y-4 disabled:opacity-60">
           <legend className="text-sm font-medium text-ink">My ME pathway</legend>
-          {locked ? <p className="text-sm text-muted-foreground">Your ME entry is fixed while your ME subscription is active. Contact support to change it.</p> : null}
+          {locked ? <p className="text-sm text-muted-foreground">Your ME subject is confirmed and locked. Contact support if it needs correcting.</p> : null}
           <div className="grid gap-2">
             {groups.map((g) => (
               <label key={g} className="flex cursor-pointer items-start gap-2 rounded-lg border border-border-strong p-3 text-sm has-[:checked]:border-primary has-[:checked]:bg-primary-soft">

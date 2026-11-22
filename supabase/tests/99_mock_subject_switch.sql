@@ -19,7 +19,7 @@ select id, l, 'Option ' || l, l = 'A', p from qs, (values ('A', 1), ('B', 2)) v(
 update public.questions set status = 'published' where id in (select id from qs);
 insert into public.paper_blueprint_sections (paper_id, specialisation_id, sort_order, title, question_type, question_count, marks_each, source)
 select :'p3', sp, 1, 'MCQ', 'mcq', 1, 1, 'test' from unnest(array[:'civil', :'dental']::uuid[]) sp;
-update public.profiles set entry_category_id = :'tech', specialisation_id = :'civil' where id = :'s';
+update public.profiles set entry_category_id = :'tech', specialisation_id = :'civil', entry_confirmed_at = now() where id = :'s';
 
 set local role authenticated;
 select tests.login(:'s');

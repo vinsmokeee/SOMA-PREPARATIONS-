@@ -17,6 +17,7 @@ const MESSAGES: Record<string, string> = {
   NO_PATTERN: "Mock papers for this paper open once its RCSC pattern is loaded.",
   NOT_ENOUGH_QUESTIONS: "There are not yet enough questions for a full mock paper. Please practise by question type for now.",
   ACCESS_REQUIRED: "This is part of ME Premium.",
+  ENTRY_NOT_CONFIRMED: "Please confirm your subject first on your ME home page.",
   RATE_LIMIT: "Daily limit reached. Please try again tomorrow.",
   QUESTION_NOT_FOUND: "This paper is not available for your entry.",
   PAUSED_EXAM_EXISTS: "Finish your paused exam first. Open “Paused exam” on your home page to continue it.",

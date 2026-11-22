@@ -314,6 +314,8 @@ export type AreaData = {
   premiumSlug: string | null;
   papers?: MePaper[];               // ME: Paper I, II, III for the entry
   progress?: MeProgressPaper[];     // ME: progress per paper, combined on the ME home
+  /** ME: the student confirmed their subject; other subjects are locked. */
+  subjectLocked?: boolean;
 };
 
 export function ExamArea({ d }: { d: AreaData }) {
@@ -344,7 +346,7 @@ export function ExamArea({ d }: { d: AreaData }) {
 
   return (
     <div data-exam={d.stage} className="mx-auto max-w-2xl space-y-6">
-      <Header stage={d.stage} subtitle={d.entryLabel ?? STAGE_INFO[d.stage].full} badge={d.premium ?? "Free"} changeEntry={d.stage === "ME" && !!d.entryLabel} />
+      <Header stage={d.stage} subtitle={d.entryLabel ?? STAGE_INFO[d.stage].full} badge={d.premium ?? "Free"} changeEntry={d.stage === "ME" && !!d.entryLabel && !d.subjectLocked} subjectLocked={d.stage === "ME" && d.subjectLocked} />
 
       {/* ME: Paper I, II and III come first: the last step before practice (founder, 20 Nov 2026). */}
       {!pe && d.papers?.length ? (
@@ -430,7 +432,7 @@ export function ExamArea({ d }: { d: AreaData }) {
   );
 }
 
-function Header({ stage, subtitle, badge, changeEntry }: { stage: Stage; subtitle: string; badge?: string; changeEntry?: boolean }) {
+function Header({ stage, subtitle, badge, changeEntry, subjectLocked }: { stage: Stage; subtitle: string; badge?: string; changeEntry?: boolean; subjectLocked?: boolean }) {
   return (
     <div className="flex items-start justify-between gap-3">
       <div>
@@ -449,6 +451,7 @@ function Header({ stage, subtitle, badge, changeEntry }: { stage: Stage; subtitl
         <p className="text-sm text-muted-foreground">
           {subtitle}
           {changeEntry ? <> · <Link href="/dashboard/me?change=1" className="font-semibold text-primary underline underline-offset-2">Change entry</Link></> : null}
+          {subjectLocked ? <> · <span className="inline-flex items-center gap-1 font-semibold text-ink"><Lock className="size-3.5" aria-hidden />Subject locked</span></> : null}
         </p>
       </div>
 

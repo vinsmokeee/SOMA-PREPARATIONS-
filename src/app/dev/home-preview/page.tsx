@@ -14,6 +14,7 @@ import { CaPracticeBox } from "@/components/student/ca-practice-box";
 import { coach } from "@/lib/exam/coach";
 import { ResultHero, SectionBars } from "@/components/exam/result-hero";
 import { studentNav } from "@/components/app/student-nav";
+import { ConfirmSubject } from "@/components/student/confirm-subject";
 import { EntryPicker, ExamArea, ExamChooser, FREE_POINTS, MeLocked, PackageChoice, type AreaData } from "@/components/student/exam-flow";
 import type { TrainingData } from "@/lib/training/model";
 import { PaperHome, type MeProgressPaper } from "@/components/student/paper-home";
@@ -149,7 +150,13 @@ export default async function FlowPreviewPage({ searchParams }: PageProps<"/dev/
     "pe-scores": <><ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: true })} /><ScoresHint /></>,
     "pe-new": <ExamArea d={area({ premium: null, openAttempt: null, freeUsedUp: false })} />,
     "pe-premium-new": <ExamArea d={area({ openAttempt: null })} />,
-    me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Service · Civil Engineering · Engineering", premium: "Premium until 30 Jan 2027", openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 100 }, premiumSlug: "me-premium", papers: mePapers })} />,
+    me: <ExamArea d={area({ stage: "ME", entryLabel: "Technical Service · Civil Engineering · Engineering", premium: "Premium until 30 Jan 2027", openAttempt: null, training: null, written: 1, aiMarks: { used: 1, limit: 100 }, premiumSlug: "me-premium", papers: mePapers, subjectLocked: true })} />,
+    "me-confirm": (
+      <>
+        <div aria-hidden className="pointer-events-none select-none blur-[2px]"><ExamArea d={area({ stage: "ME", entryLabel: "Technical Service · Civil Engineering · Engineering", premium: "Premium until 30 Jan 2027", openAttempt: null, training: null, written: 0, aiMarks: { used: 0, limit: 100 }, premiumSlug: "me-premium", papers: mePapers })} /></div>
+        <ConfirmSubject label="Technical Service · Civil Engineering · Engineering" category="00000000-0000-4000-8000-000000000001" specialisation="00000000-0000-4000-8000-000000000002" />
+      </>
+    ),
     "me-overall": <ExamArea d={area({ stage: "ME", entryLabel: "Technical Service · Civil Engineering · Engineering", premium: "Premium until 30 Jan 2027", openAttempt: null, training: null, written: 12, aiMarks: { used: 12, limit: 100 }, premiumSlug: "me-premium", papers: mePapers, progress: meProgress })} />,
   }[screen as string] ?? null;
   return (

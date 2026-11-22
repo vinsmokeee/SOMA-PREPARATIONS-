@@ -13,6 +13,7 @@ export default async function MePaperPage({ params }: { params: Promise<{ paperI
   const user = await requireUser(`/dashboard/me/paper/${paperId}`);
   const state = await loadExamState(user.id);
   if (!state.premium.ME) redirect("/dashboard/me#join-me");
+  if (!state.entry.confirmed) redirect("/dashboard/me"); // confirm the subject first
   const paper = (await loadMeProgress()).find((p) => p.id === paperId);
   if (!paper) notFound();
   return <PaperHome p={paper} />;
