@@ -41,7 +41,7 @@ export function PausedExamCard({ e }: { e: PausedExam }) {
   );
 }
 
-/** "Paused exam": exams the student paused (and any exam still running), each with Continue. */
+/** "Paused exam": only the exams the student paused, each with Continue (founder, 23 Nov 2026). */
 export function PausedExams({ stage, exams }: { stage: "PE" | "ME"; exams: PausedExam[] }) {
   const mine = exams.filter((e) => e.stage === stage);
   const other = exams.filter((e) => e.stage !== stage);

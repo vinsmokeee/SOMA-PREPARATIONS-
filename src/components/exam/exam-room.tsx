@@ -332,7 +332,9 @@ export function ExamRoom({ paper, save, submit, onFinished, written, untimed, pa
       // No time limit on a pause (founder, 22 Nov 2026), so a short honesty reminder, then the Paused exam section.
       setPausing(false);
       setHonesty(true);
-      setTimeout(() => onPaused?.(), 4000);
+      // Go straight to Paused exam, which shows the honesty reminder: the exam page itself is replaced by its
+      // "This exam is paused" card as soon as the pause is saved, which used to hide the reminder.
+      onPaused?.();
       return;
     }
     setPausing(false);
