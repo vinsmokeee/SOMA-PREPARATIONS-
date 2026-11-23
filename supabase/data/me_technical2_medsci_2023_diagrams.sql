@@ -1,0 +1,20 @@
+-- ME Paper II (Technical, Medical Science): BCSE 2023, batch 1: ME questions loaded as drafts (awaiting review) for /admin/ai/review.
+begin;
+create temp table me_q (key text primary key, id uuid not null) on commit drop;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'general-subject-knowledge'), 'medical-science-general-subject-knowledge', 'Medical Science: general subject knowledge' on conflict (subject_id, slug) do nothing;
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'short_answer', 'In the following diagram of the human heart, name the parts of the heart numbered 1-19. The diagram need not be drawn, but each number should be written correctly with its part. (3 marks)', '1 - Arch of the aorta; 2 - Ascending aorta; 3 - Left pulmonary veins; 4 - Openings of the pulmonary veins into the left atrium; 5 - Left atrium; 6 - Mitral (bicuspid) valve; 7 - Aortic (semilunar) valve; 8 - Left ventricle; 9 - Interventricular septum; 10 - Descending aorta; 11 - Inferior vena cava; 12 - Right ventricle; 13 - Pulmonary (semilunar) valve; 14 - Tricuspid valve; 15 - Right atrium; 16 - Superior vena cava; 17 - Pulmonary trunk; 18 - Right pulmonary artery; 19 - Left pulmonary artery.', null, '[{"point": "1 Arch of aorta; 2 Ascending aorta; 3 Pulmonary veins (left); 4 Openings of pulmonary veins; 5 Left atrium; 6 Mitral (bicuspid) valve; 7 Aortic (semilunar) valve", "marks": 1}, {"point": "8 Left ventricle; 9 Interventricular septum; 10 Descending aorta; 11 Inferior vena cava; 12 Right ventricle; 13 Pulmonary (semilunar) valve", "marks": 1}, {"point": "14 Tricuspid valve; 15 Right atrium; 16 Superior vena cava; 17 Pulmonary trunk; 18 Right pulmonary artery; 19 Left pulmonary artery", "marks": 1}]'::jsonb, (select id from public.subjects where slug = 'general-subject-knowledge'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'general-subject-knowledge') and t.slug = 'medical-science-general-subject-knowledge'), (select id from public.exam_papers where code = 'me-technical-2'), 'standard', 3,
+    324, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Labels read from the diagram by Claude - check 1, 2, 4, 17, 18 and 19 against an anatomy text."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper II (Technical, Medical Science): BCSE 2023, batch 1", "source": {"title": "BCSE 2023 Main Examination, Technical Paper II, Medical Science", "year": 2023, "url": "https://rcsc.gov.bt/technical-paper-ii/"}}'::jsonb, null, null, null, (select id from public.subject_groups where code = 'medical-science'), null, '/papers/me/tech2-medsci-2023-heart.png')
+  returning id
+)
+insert into me_q select 'S1', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2023 from me_q where key = 'S1' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content', 'Correct facts, terms and reasoning; answers exactly what is asked.', 1.5, 1 from me_q where key = 'S1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Explanation', 'Explains clearly with examples, steps or a diagram description where useful.', 1.0, 2 from me_q where key = 'S1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Expression', 'Clear, concise and well-organised answer.', 0.5, 3 from me_q where key = 'S1';
+commit;
