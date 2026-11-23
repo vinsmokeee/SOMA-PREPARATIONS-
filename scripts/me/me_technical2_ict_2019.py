@@ -1,4 +1,5 @@
-"""ME Technical Paper II (General Subject Knowledge), ICT group, BCSE 2019 - real paper (PDF sent by the founder).
+"""Marks follow the latest (BCSE 2025) layout: every short answer is set to 5 marks by supabase/data/me_technical2_ict_marks_2025_layout.sql.
+ME Technical Paper II (General Subject Knowledge), ICT group, BCSE 2019 - real paper (PDF sent by the founder).
 Part I 70 MCQ x 1; Part II 10 short answers x 3 (kept as printed). MCQ 5 '0.59 × 104' read as 0.59 × 10⁴.
 Already on Soma (recorded as appearances, not loaded again): MCQ 44 (BCSE 2022 MCQ 57) and 49 (BCSE 2020 MCQ 43); MCQ 64
 asks the same question as MCQ 11 of this paper, so it is not loaded twice.

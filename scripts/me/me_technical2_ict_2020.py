@@ -1,4 +1,5 @@
-"""ME Technical Paper II (General Subject Knowledge), ICT group, BCSE 2020 (held February 2021) - real paper (PDF sent by
+"""Marks follow the latest (BCSE 2025) layout: every short answer is set to 5 marks by supabase/data/me_technical2_ict_marks_2025_layout.sql.
+ME Technical Paper II (General Subject Knowledge), ICT group, BCSE 2020 (held February 2021) - real paper (PDF sent by
 the founder). Part I 70 MCQ x 1; Part II 10 short answers x 3 (kept as printed). MCQ 15 (cubes) and 64 (circles) and
 Part II Q6 (HTML table) keep the paper's figure; Part II Q3 gives the code as text. MCQ 38 '3-inout' read as 3-input.
 Already on Soma (loaded from BCSE 2022, recorded as appearances): MCQ 2 and 8.

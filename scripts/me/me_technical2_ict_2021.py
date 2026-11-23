@@ -1,4 +1,5 @@
-"""ME Technical Paper II (General Subject Knowledge), ICT group, BCSE 2021 - real paper (PDF sent by the founder).
+"""Marks follow the latest (BCSE 2025) layout: every short answer is set to 5 marks by supabase/data/me_technical2_ict_marks_2025_layout.sql.
+ME Technical Paper II (General Subject Knowledge), ICT group, BCSE 2021 - real paper (PDF sent by the founder).
 Part I 70 MCQ x 1; Part II 10 short answers x 3 (kept as printed). Fractions, code and figures were read from the page
 images: MCQ 31 (hypervisor) and 49 (AND gate) and Part II Q8 (HTML table) keep the paper's figure; MCQ 15 and 61 give
 the code as text. MCQ 53 prints 'intmy_num' (missing space) - corrected to 'int my_num'.

@@ -1,4 +1,5 @@
-"""ME Technical Paper II (General Subject Knowledge), ICT group, BCSE 2024 - real paper. PDF sent by the founder.
+"""Marks follow the latest (BCSE 2025) layout: every short answer is set to 5 marks by supabase/data/me_technical2_ict_marks_2025_layout.sql.
+ME Technical Paper II (General Subject Knowledge), ICT group, BCSE 2024 - real paper. PDF sent by the founder.
 Part I 70 MCQ x 1 as in 2025. Part II in 2024 has 7 questions (six x 4 marks and one x 6 = 30) where 2025 has 6
 (6, 5, 5, 6, 3, 5 = 30); the same 30 marks, so the 2024 questions are kept as printed (merging unrelated questions would
 change them). Q7 says 'six-month period' but gives five months; read as five.
