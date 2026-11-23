@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PageTitle } from "@/components/app/app-shell";
-import { requireUser } from "@/lib/auth/dal";
+import { can, requireUser } from "@/lib/auth/dal";
 import { createClient } from "@/lib/supabase/server";
 import { WelcomeForm } from "./welcome-form";
 
@@ -15,7 +15,7 @@ export default async function WelcomePage() {
     db.from("profiles").select("pathway, entry_category_id, specialisation_id, phone, onboarded_at, entry_confirmed_at").eq("id", user.id).maybeSingle(),
     db.rpc("has_stage_access", { _stage: "ME" }),
   ]);
-  const locked = Boolean(meAccess) && Boolean(profile?.entry_confirmed_at);
+  const locked = !can(user, "users.manage") && Boolean(meAccess) && Boolean(profile?.entry_confirmed_at);
   return (
     <div className="mx-auto max-w-lg">
       <PageTitle
