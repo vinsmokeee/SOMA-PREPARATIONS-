@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { EntryPicker, ExamArea, MeLocked } from "@/components/student/exam-flow";
 import { ConfirmSubject } from "@/components/student/confirm-subject";
-import { requireUser } from "@/lib/auth/dal";
+import { can, requireUser } from "@/lib/auth/dal";
 import { createClient } from "@/lib/supabase/server";
 import { loadArea, loadMePapers, loadPackage } from "@/lib/student/area";
 import { entryComplete, loadExamState } from "@/lib/student/exam-state";
@@ -24,7 +24,9 @@ export default async function MePage({ searchParams }: PageProps<"/dashboard/me"
   const changing = sp.change === "1";
   const catParam = typeof sp.cat === "string" ? sp.cat : null;
   // A confirmed ME Premium subject is locked: no other subject can be chosen (founder, 22 Nov 2026).
-  const locked = Boolean(state.premium.ME) && state.entry.confirmed && entryComplete(state.entry);
+  // Staff accounts (founder's admin account) are never locked: they switch subjects to check every subject's questions.
+  const staff = can(user, "users.manage");
+  const locked = !staff && Boolean(state.premium.ME) && state.entry.confirmed && entryComplete(state.entry);
   if (!locked && (!entryComplete(state.entry) || changing || catParam)) {
     const db = await createClient();
     const [{ data: categories }, { data: specialisations }, { data: groups }] = await Promise.all([
@@ -48,8 +50,8 @@ export default async function MePage({ searchParams }: PageProps<"/dashboard/me"
     const [papers, pkg] = await Promise.all([loadMePapers(state.entry.categoryId), loadPackage("ME")]);
     return <MeLocked entryLabel={state.entry.label} papers={papers} pkg={pkg} />;
   }
-  const area = <ExamArea d={{ ...(await loadArea("ME", state)), subjectLocked: state.entry.confirmed }} />;
-  if (!state.entry.confirmed) {
+  const area = <ExamArea d={{ ...(await loadArea("ME", state)), subjectLocked: !staff && state.entry.confirmed }} />;
+  if (!staff && !state.entry.confirmed) {
     // ME Premium, subject chosen but not confirmed: ask once, in a pop-up, before any paper opens.
     return (
       <>

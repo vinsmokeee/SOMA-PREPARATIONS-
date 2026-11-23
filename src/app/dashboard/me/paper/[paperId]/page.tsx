@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { PaperHome } from "@/components/student/paper-home";
-import { requireUser } from "@/lib/auth/dal";
+import { can, requireUser } from "@/lib/auth/dal";
 import { loadMeProgress } from "@/lib/student/area";
 import { loadExamState } from "@/lib/student/exam-state";
 
@@ -13,7 +13,7 @@ export default async function MePaperPage({ params }: { params: Promise<{ paperI
   const user = await requireUser(`/dashboard/me/paper/${paperId}`);
   const state = await loadExamState(user.id);
   if (!state.premium.ME) redirect("/dashboard/me#join-me");
-  if (!state.entry.confirmed) redirect("/dashboard/me"); // confirm the subject first
+  if (!state.entry.confirmed && !can(user, "users.manage")) redirect("/dashboard/me"); // confirm the subject first
   const paper = (await loadMeProgress()).find((p) => p.id === paperId);
   if (!paper) notFound();
   return <PaperHome p={paper} />;
