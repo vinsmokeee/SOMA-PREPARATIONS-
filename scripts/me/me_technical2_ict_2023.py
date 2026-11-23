@@ -1,4 +1,5 @@
-"""ME Technical Paper II (General Subject Knowledge), ICT group, BCSE 2023 - real paper (PDF sent by the founder).
+"""Marks follow the latest (BCSE 2025) layout: every short answer is set to 5 marks by supabase/data/me_technical2_ict_marks_2025_layout.sql.
+ME Technical Paper II (General Subject Knowledge), ICT group, BCSE 2023 - real paper (PDF sent by the founder).
 Part I 70 MCQ x 1; Part II 7 short answers (4, 5, 5, 4, 4, 4, 4 = 30 marks), kept as printed like BCSE 2024.
 Figures for MCQ 18, 23 and 25 are cropped from the paper. MCQ 18 prints only 'Consider the following flow chart and
 answer the question:' - the question line is missing, so it is completed as 'which outcome does the circle marked 1

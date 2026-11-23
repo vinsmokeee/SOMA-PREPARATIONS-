@@ -1,4 +1,5 @@
-"""ME Technical Paper II (General Subject Knowledge), ICT group, BCSE 2025 - real paper. PDF sent by the founder.
+"""Marks follow the latest (BCSE 2025) layout: every short answer is set to 5 marks by supabase/data/me_technical2_ict_marks_2025_layout.sql.
+ME Technical Paper II (General Subject Knowledge), ICT group, BCSE 2025 - real paper. PDF sent by the founder.
 Pattern: Part I 70 MCQ x 1; Part II 6 short-answer questions, all compulsory, with marks 6, 5, 5, 6, 3, 5 (30).
 90 min + 15 min reading.
 Left out (answer not certain / two options correct): MCQ 13 (192.0.2.x and 203.0.113.x are also non-routable test

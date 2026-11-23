@@ -1,4 +1,5 @@
-"""ME Technical Paper II (General Subject Knowledge), ICT group, BCSE 2022 - real paper (PDF sent by the founder).
+"""Marks follow the latest (BCSE 2025) layout: every short answer is set to 5 marks by supabase/data/me_technical2_ict_marks_2025_layout.sql.
+ME Technical Paper II (General Subject Knowledge), ICT group, BCSE 2022 - real paper (PDF sent by the founder).
 Part I 70 MCQ x 1; Part II 7 short answers (4, 5, 5, 4, 4, 4, 4 = 30 marks), kept as printed.
 Already loaded from BCSE 2023 (word-for-word repeats, recorded as appearances): MCQ 4, 8, 11, 13, 14, 20, 22, 23, 25, 38,
 44 and 58. Left out: MCQ 42 (the stem is garbled - 'deleting data elements from and inserting at the rear'), 48 (BaaS is
