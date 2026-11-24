@@ -1,0 +1,1 @@
+select q.id, q.stage, q.status, q.ai_review->>'batch' b, (select jsonb_agg(to_jsonb(o) - 'question_id' - 'id') from question_options o where o.question_id=q.id) opts from questions q where q.stem ilike 'The chemical name of bleaching powder%';

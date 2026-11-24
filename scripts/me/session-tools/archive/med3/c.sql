@@ -1,0 +1,1 @@
+select q.ai_review->>'batch' b, (select string_agg(o.body||case when o.is_correct then '*' else '' end,' | ' order by o.position) from question_options o where o.question_id=q.id) from questions q where q.stem='Which is NOT a characteristic of plant cell walls?';

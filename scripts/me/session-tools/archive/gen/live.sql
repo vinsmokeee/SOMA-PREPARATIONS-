@@ -1,0 +1,1 @@
+select q.question_type t, q.stem, q.ai_review->>'batch' b from questions q join exam_papers p on p.id=q.paper_id where p.code in ('me-general-1','me-general-2','me-general-3') and q.status<>'archived';

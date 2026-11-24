@@ -1,0 +1,1 @@
+select q.ai_review->>'batch' b, left(stem,80) from questions q where stem in ('The metal that is used as a catalyst in the hydrogenation of oils is','Which of the following is NOT a greenhouse gas?');

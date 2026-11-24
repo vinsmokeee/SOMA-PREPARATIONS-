@@ -1,0 +1,1 @@
+select left(stem,110) from questions q join subject_groups g on g.id=q.subject_group_id where g.code='statistics' and (stem ilike '%chi-square%' or stem ilike '%standard error%' or stem ilike '%multiplied by%' or stem ilike '%fifth observation%' or stem ilike '%P(A|B)%' or stem ilike '%P(A | B)%' or stem ilike '%degrees of freedom%');
