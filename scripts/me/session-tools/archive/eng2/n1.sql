@@ -1,0 +1,1 @@
+select left(stem,90) from questions q join subject_groups g on g.id=q.subject_group_id where g.code='engineering' and (stem ilike '%K2Cr2O7%' or stem ilike '%K₂Cr₂O₇%' or stem ilike '%amphoteric%' or stem ilike '%f′(2)%' or stem ilike '%3x² − 4x%');

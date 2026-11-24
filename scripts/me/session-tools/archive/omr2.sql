@@ -1,0 +1,1 @@
+update supabase_migrations.schema_migrations set version='20261231002000' where name='pe_always_omr' returning version; select stage, kind, omr_mode, count(*) from exams group by 1,2,3 order by 1,2,3;

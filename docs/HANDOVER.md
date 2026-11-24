@@ -5,6 +5,7 @@ without the previous chat. Keep it up to date at the end of every working sessio
 
 ## Start here next session (updated 20 Nov 2026, Dzongkha category loading)
 
+- **STANDING RULE - save everything, always (founder, 25 Nov 2026).** After every finished piece of work: commit + push + PR, update this file, and copy scratchpad-only helpers into `scripts/me/session-tools/`. Nothing may live only in the scratchpad.
 - **PAUSED 25 Nov 2026 (founder's weekly limit) - resume Saturday.** Everything up to PR #151 is merged: General Papers I-III 2020 and 2021 are live as drafts. **Next to ask the founder for:** 2019 General Papers I, II and III, and 2019 Technical Paper I; after that the Dzongkha category, B.Ed and Paper III specialisations for older years (rough count left for 2019-2025 ~290 papers: General 9 before this round, Technical Paper I 2019, Dzongkha 15, B.Ed 28, Paper III ~238). The session helper scripts (loaders, audit, crop) are saved in `scripts/me/session-tools/` (see its README - fix the scratchpad paths first). Commit/push needs the founder's "Commit and push" (auto mode blocks it otherwise); do git add, commit and push as separate commands.
 
 - **Waiting on the founder:** (1) a fluent Dzongkha check of ME Paper I (General) drafts, then publish batch "ME Paper I (General, Dzongkha): BCSE 2025 + similar, batch 1"; (2) Paper I writing time: cover says 3 h 45 min, instruction says 3 h (site uses 3 h).

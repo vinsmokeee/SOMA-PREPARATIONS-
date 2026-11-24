@@ -3,6 +3,7 @@
 # Soma Preparations — working notes
 
 - **New session? Read docs/HANDOVER.md first** (founder preferences, accounts, what is live, open items).
+- **ALWAYS SAVE EVERYTHING (founder, 25 Nov 2026: "no matter what").** After every finished piece of work: commit and push to the session branch and open/update the PR; update docs/HANDOVER.md (where we stopped, what is next); copy any helper script that lives only in the scratchpad into `scripts/me/session-tools/`. Never leave work only in the scratchpad or uncommitted. Do git add, commit and push as separate commands.
 
 - Read docs/ARCHITECTURE.md and docs/DATABASE.md before changing structure.
 - Official RCSC information is data with a source (`source_documents`). Never hardcode or invent exam rules; leave unknown values NULL.

@@ -1,0 +1,1 @@
+select left(stem,100) from questions q join subject_groups g on g.id=q.subject_group_id where g.code='statistics' and (stem ilike '%coefficient of variation%' or stem ilike '%quartile deviation%' or stem ilike '%skewness%' or stem ilike '%kurtosis%' or stem ilike '%Poisson%');

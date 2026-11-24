@@ -1,0 +1,1 @@
+select q.question_type, q.marks, q.status, q.ai_review->'source'->>'year' y, left(q.stem,120) s from questions q join subject_groups g on g.id=q.subject_group_id join exam_papers p on p.id=q.paper_id where g.code='statistics' and p.code='me-technical-2' and q.question_type<>'mcq' order by 4,5;

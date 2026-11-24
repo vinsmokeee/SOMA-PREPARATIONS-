@@ -17,3 +17,9 @@ Main ones:
 
 Local test DB after a restart: `service postgresql start`, recreate `tests.create_user('tv@test.bt','V')`,
 and load the 2025 pattern module of the paper locally before `t2load.sh`.
+
+## archive/
+Every other script and SQL file from the scratchpad of the long build session (Nov 2026): one-off live data fixes,
+checks, screenshot scripts and per-batch parsers, kept so nothing done on the live database exists only in a wiped
+folder. Generated copies of `supabase/data/*.sql` (loc_*/pub_*), the RCSC PDFs (copyright), page images and query
+outputs were not kept. Treat these as history: re-read before re-running anything against live.
