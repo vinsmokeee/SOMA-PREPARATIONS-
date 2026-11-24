@@ -1,0 +1,381 @@
+-- ME Paper I (General, Dzongkha): BCSE 2020, batch 2: ME questions loaded as drafts (awaiting review) for /admin/ai/review.
+begin;
+create temp table me_q (key text primary key, id uuid not null) on commit drop;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'dzongkha'), 'comprehension', 'Comprehension' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'dzongkha'), 'essay', 'Essay' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'dzongkha'), 'formal-writing', 'Formal writing' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'dzongkha'), 'language-and-spelling', 'Language and spelling' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'dzongkha'), 'pr-cis', 'Précis' on conflict (subject_id, slug) do nothing;
+insert into public.topics (subject_id, slug, name) select (select id from public.subjects where slug = 'dzongkha'), 'translation', 'Translation' on conflict (subject_id, slug) do nothing;
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'essay', 'འོག་གི་འབྲི་རྩོམ་དོན་ཚན་ ༢ ལས་ ག་འབད་རུང་གཅིག་ གདམ་ཁ་རྐྱབ་སྟེ་ ཚིག་འབྲུ་ ༥༠༠ དེ་ཅིག་གི་ནང་འཁོད་ལུ་ འབྲི་རྩོམ་ཅིག་བྲིས། (སྐུགས་ཀྱི་ཚད་གཞི་ བརྗོད་དོན་ ཚིག་སྦྱོར་ འབྲི་བཀོད་ཚུ་ལུ་གཞི་བཞག་སྟེ་སྐུགས་བྱིན་ནི་ཨིན)
+
+༡༽ འབྲུག་རྒྱལ་ཁབ་ཀྱི་བཟོ་སྐྲུན་ལས་སྡེ་ཚུ་ནང་ ཕྱི་གི་ལས་མི་འཚོལ་མ་དགོ་པར་ འབྲུག་པའི་ན་གཞོན་ཚུ་ལུ་ ལྕོགས་གྲུབ་དང་རིག་རྩལ་བྱིན་ཐོག་ལས་ ག་ར་ང་བཅས་ར་གིས་འབད་ཚུགསཔ་སྦེ་བཟོ་ནི་དང་ དེའི་ཁེ་ཕན་ཡོད་ལུགས་ཀྱི་སྐོར་ལས་ འཆར་སྣང་འབྲི་རྩོམ་ཅིག་བྲིས།', 'ལན་གྱི་དཔེ་ (outline)
+
+མགོ་བཙུགས། ད་ལྟོ་ འབྲུག་ནང་ འཁོར་ལམ་ ཁྱིམ་བཟོ་ ཆུ་གློག་ལས་འགུལ་ལ་སོགས་པའི་ བཟོ་སྐྲུན་ལས་སྡེ་ཚུ་ནང་ ཕྱི་གི་ལས་མི་ སྟོང་ཕྲག་ལེ་ཤ་ལུ་ བརྟེན་སྡོད་དགོཔ་ཡོདཔ་ད་ འབྲུག་པའི་ན་གཞོན་ལེ་ཤ་ཅིག་ ལཱ་མེད་སྦེ་སྡོདཔ་ཨིན།
+
+ལྕོགས་གྲུབ་དང་ རིག་རྩལ་བྱིན་ཐབས།
+༡. ལག་ཤེས་སྦྱོང་བརྡར་སྤེལ་ཁང་ཚུ་ ཡར་རྒྱས་གཏང་སྟེ་ གྱང་རྩིག་ ཤིང་བཟོ་ གློག་ཐག་ ཆུ་དུང་ སྣུམ་འཁོར་བཟོ་བཅོས་ཀྱི་ སྦྱོང་བརྡར་བྱིན་ནི།
+༢. བཟོ་སྐྲུན་ཚོང་པ་ཚུ་དང་ མཉམ་འབྲེལ་ཐོག་ ལཱ་ཐོག་སྦྱོང་བརྡར་ (apprenticeship) བྱིན་ནི།
+༣. གླ་ཆ་དང་ ཉེན་སྲུང་ ལཱ་གི་གནས་སྟངས་ཚུ་ ལེགས་བཅོས་འབད་ནི།
+༤. ལག་ལཱ་ལུ་ དམའ་འབེབས་མ་འབད་བར་ གུས་ཞབས་ཀྱི་ལྟ་བ་ བསྐྱེད་ནི།
+
+ཁེ་ཕན།
+༡. ན་གཞོན་ལཱ་མེད་ཀྱི་ དཀའ་ངལ་ མར་ཕབ་འགྱོ་ནི།
+༢. ཕྱི་གི་ལས་མི་ལུ་ སྤྲོད་དགོ་པའི་ དངུལ་ (རྒྱ་དངུལ) ནང་འཁོད་ལུ་ ལུས་ནི།
+༣. རྒྱལ་ཁབ་ རང་མགོ་རང་འདྲོང་ འགྱོ་ནི་དང་ ནད་ཡམས་བཟུམ་གྱི་ དུས་སྐབས་ལུ་ཡང་ ལཱ་མ་ཆད་པར་ འཕྲོ་མཐུད་འགྱོ་ནི།
+༤. ལཱ་གི་སྤུས་ཚད་དང་ ཉེན་སྲུང་ ཡར་དྲག་འགྱོ་ནི།
+
+མཇུག་བསྡུ། ན་གཞོན་ཚུ་ལུ་ ལྕོགས་གྲུབ་བྱིན་ཏེ་ ང་བཅས་རའི་ལཱ་ ང་བཅས་ར་གིས་ འབད་ཚུགས་པ་ཅིན་ རྩ་བ་གསུམ་ལུ་ ཕན་ཐོགས་ཆེ།', null, '[{"point": "མགོ་བཙུགས། བཟོ་སྐྲུན་ལས་སྡེ་ (འཁོར་ལམ། ཁྱིམ་བཟོ། ཆུ་གློག་ལས་འགུལ) ནང་ ཕྱི་གི་ལས་མི་ལུ་ བརྟེན་སྡོད་པའི་ ད་ལྟོའི་གནས་སྟངས།", "marks": 6}, {"point": "ན་གཞོན་ལུ་ ལྕོགས་གྲུབ་དང་ རིག་རྩལ་བྱིན་ཐབས་ (ལག་ཤེས་སྦྱོང་བརྡར་སྤེལ་ཁང་། ལཱ་ཐོག་སྦྱོང་བརྡར། གླ་ཆ་དང་ ལཱ་གི་གནས་སྟངས་ལེགས་བཅོས། ལཱ་ལུ་གུས་ཞབས་བསྐྱེད་ནི)", "marks": 12}, {"point": "ཁེ་ཕན་ (ན་གཞོན་ལཱ་མེད་ཉུང་སུ། དངུལ་ཕྱི་ཁར་མ་འགྱོ་བར་ ནང་འཁོད་ལུ་ལུས་ནི། རང་མགོ་རང་འདྲོང། ལཱ་གི་སྤུས་ཚད་དང་ ཉེན་སྲུང)", "marks": 6}, {"point": "མཇུག་བསྡུ་དང་ འབྲི་བཀོད་ ཚིག་སྦྱོར་ ཚིག་འབྲུ་ ༥༠༠ དེ་ཅིག", "marks": 6}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'essay'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 30,
+    3240, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2020, batch 2", "source": {"title": "BCSE 2020 Main Examination, General category, Paper I (Dzongkha)", "year": 2020, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'E1', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2020 from me_q where key = 'E1' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 12.0, 1 from me_q where key = 'E1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 7.5, 2 from me_q where key = 'E1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 10.5, 3 from me_q where key = 'E1';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'essay', 'འོག་གི་འབྲི་རྩོམ་དོན་ཚན་ ༢ ལས་ ག་འབད་རུང་གཅིག་ གདམ་ཁ་རྐྱབ་སྟེ་ ཚིག་འབྲུ་ ༥༠༠ དེ་ཅིག་གི་ནང་འཁོད་ལུ་ འབྲི་རྩོམ་ཅིག་བྲིས། (སྐུགས་ཀྱི་ཚད་གཞི་ བརྗོད་དོན་ ཚིག་སྦྱོར་ འབྲི་བཀོད་ཚུ་ལུ་གཞི་བཞག་སྟེ་སྐུགས་བྱིན་ནི་ཨིན)
+
+༢༽ ད་རེས་ནངས་པ་འཛམ་གླིང་ནང་ རྒྱུ་རྐྱེན་ག་ཅི་ལུ་བརྟེན་ཏེ་ གནམ་གཤིས་འགྱུར་བ་འགྱོཝ་ཨིན་ན་དང་ གནམ་གཤིས་འགྱུར་བ་འགྱོཝ་ད་ མི་སྡེ་དང་རང་བཞིན་གནས་སྟངས་ལུ་ གནོད་པ་ག་ཅི་བཟུམ་ར་ འབྱུང་ནིའི་ཉེན་ཁ་ཡོདཔ་ཨིན་ནའི་སྐོར་ལས་ ཁུངས་ཁ་གསལ་སྦེ་བཀལ་ཏེ་ རྒྱས་བཤད་འབྲི་རྩོམ་ཅིག་བྲིས།', 'ལན་གྱི་དཔེ་ (outline)
+
+མགོ་བཙུགས། གནམ་གཤིས་འགྱུར་བ་ཟེར་མི་འདི་ འཛམ་གླིང་གི་ ཚ་གྲང་དང་ ཆརཔ་ རླུང་གི་གནས་སྟངས་ ཡུན་རིངམོ་ཅིག་ནང་ འགྱུར་བ་འགྱོ་མི་འདི་ཨིན།
+
+རྒྱུ་རྐྱེན།
+༡. སྣུམ་དང་ རྡོ་སོལ་ བཏང་མི་ལས་ ཁ་རླངས་ (CO2) ཡར་སེང་འགྱོ་སྟེ་ ནམ་མཁའ་ནང་ ཚ་དྲོད་ བཀག་འཛིན་འབདཝ་ཨིན།
+༢. ནགས་ཚལ་ རྩ་མེད་གཏང་ནི།
+༣. བཟོ་གྲྭ་དང་ སྣུམ་འཁོར་གྱི་ གྱངས་ཁ་ ཡར་སེང།
+༤. མི་རློབས་ཡར་འཕར་དང་ ལོངས་སྤྱོད་ ཤུགས་ཐལ་བ།
+
+གནོད་པ།
+༡. ཚ་དྲོད་ཡར་སེང་འགྱོ་སྟེ་ གངས་རི་ཚུ་ ཞུ་ནི་དང་ འབྲུག་ནང་ གངས་མཚོ་རྡོལ་ནིའི་ ཉེན་ཁ།
+༢. ཆུ་ལོག་ ས་རུད་ ཐན་པ་ཚུ་ ཡར་སེང།
+༣. སོ་ནམ་ཐོན་སྐྱེད་ མར་ཕབ་ - མི་སྡེ་གི་ བཟའ་འཐུང་ ཉེན་སྲུང་ལུ་ གནོད་པ།
+༤. ནད་ཡམས་གསརཔ་ ཁྱབ་སྤེལ།
+༥. སྐྱེ་ལྡན་དང་ སེམས་ཅན་གྱི་རིགས་ མེད་འགྱོ་ནི།
+༦. ཆུ་གློག་ལུ་ བརྟེན་ཡོད་པའི་ འབྲུག་གི་ དཔལ་འབྱོར་ལུ་ཡང་ ཐོ་ཕོག་ནི།
+
+མཇུག་བསྡུ། ནགས་ཚལ་བཟོ་ནི་ གློག་མེ་སྣུམ་འཁོར་ ཁ་རླངས་མར་ཕབ་ལ་སོགས་པའི་ ཐབས་ལམ་ཚུ་ མི་རེ་རེ་གིས་ལག་ལེན་འཐབ་དགོ།', null, '[{"point": "མགོ་བཙུགས། གནམ་གཤིས་འགྱུར་བ་གི་ངོ་སྤྲོད།", "marks": 6}, {"point": "རྒྱུ་རྐྱེན་ (སྣུམ་དང་ རྡོ་སོལ་བཏང་མི་ལས་ དུ་པ་/ ཁ་རླངས་ (CO2)། ནགས་ཚལ་རྩ་མེད། བཟོ་གྲྭ། སྣུམ་འཁོར་ཡར་འཕར། མི་རློབས་ཡར་སེང)", "marks": 9}, {"point": "གནོད་པ་ (ཚ་དྲོད་ཡར་སེང། གངས་ཞུ་སྟེ་ མཚོ་རྡོལ་ཉེན་ཁ། ཆུ་ལོག། ཐན་པ། སོ་ནམ་ལུ་གནོད་པ། ནད་ཡམས། སྐྱེ་ལྡན་རིགས་མེད་འགྱོ་ནི) འབྲུག་ལུ་དཔེ་དང་བཅས།", "marks": 9}, {"point": "མཇུག་བསྡུ་ (ཐབས་ལམ་ཁ་སྐོང་) དང་ འབྲི་བཀོད།", "marks": 6}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'essay'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 30,
+    3240, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2020, batch 2", "source": {"title": "BCSE 2020 Main Examination, General category, Paper I (Dzongkha)", "year": 2020, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'E2', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2020 from me_q where key = 'E2' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 12.0, 1 from me_q where key = 'E2';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 7.5, 2 from me_q where key = 'E2';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 10.5, 3 from me_q where key = 'E2';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'long_answer', 'འོག་གི་གཏང་ཡིག་གི་དྲི་བ་ ཀ་ དང་ ཁ་ གཉིས་ལས་ ག་འབད་རུང་ གཅིག་གི་ལན་བྲིས།
+
+ཀ༽ འོག་གི་ལཱ་གཡོག་ས་སྟོང་གི་གསལ་བསྒྲགས་དང་འཁྲིལ་ཏེ་ དེང་སང་ལམ་ལུགས་ཐོག་ལུ་ ཞུ་ཡིག་ཅིག་བྲིས། ཞུ་ཡིག་ནང་ལུ་ སྤྱིར་བཏང་ཞུ་ཡིག་གི་ཁྱད་རྣམ་ཚུ་ག་ར་ཚང་དགོ་པའི་ཁར་ ལཱ་གཡོག་འདི་ནང་ སྤྲོ་བ་བསྐྱེད་དགོ་པའི་རྒྱུ་མཚན་དང་ ཕྱག་ག་དེ་སྦེ་ར་ཞུ་ནིའི་ཁས་བླངས་ཡོད་ག་ཚུ་ ཁ་གསལ་བྲི་དགོ།
+
+ཤེས་རིག་ལྷན་ཁག།
+ལཱ་གཡོག་ས་སྟོང་གསལ་བསྒྲགས།
+ཤེར་ལྷན/མི་སྟོབས་(༠༧)༢༠༢༠-༢༠༢༡/༧༦༤          སྤྱི་ཚེས་ ༡༥/༡༡/༢༠༢༠ ལུ།
+ཤེས་རིག་སློབ་གྲྭ་ཁག་ནང་ལས་ཕར་ སློབ་ཕྲུག་ན་གཞོན་ཚུ་གི་བསམ་སྤྱོད་ལེགས་བཅོས་དང་ མ་འོངས་ལམ་སྟོན་གྱི་དོན་ལུ་ ན་གཞོན་ལམ་སྟོན་པ་ ༡༠ གཏན་འཇགས་ཀྱི་དོན་ལུ་ དགོཔ་ཡོདཔ་ལས་ དང་འདོད་ཡོད་མི་ མཐོ་རིམ་ཤེས་ཡོན་མཐར་འཁྱོལ་མི་ཚུ་གིས་ རང་སོའི་ཞུ་ཡིག་ཚུ་ སྤྱི་ཚེས་ ༣༠/༡༡/༢༠༢༠ ཀྱི་ནང་འཁོད་ གཤམ་འཁོད་ཁ་བྱང་ནང་ལུ་ བཙུགས་དགོ་པའི་གསལ་བསྒྲགས་འབདཝ་ཨིན།
+མི་སྟོབས་གཙོ་འཛིན་འགོ་དཔོན།
+མི་སྟོབས་སྡེ་ཚན།
+ཤེས་རིག་ལྷན་ཁག། ཐིམ་ཕུག།', 'ལན་གྱི་དཔེ།
+
+ཞུ་མི། ...... (མིང) ཁ་བྱང་ ...... ཁ་པར་ ......          སྤྱི་ཚེས། ......
+
+མི་སྟོབས་གཙོ་འཛིན་འགོ་དཔོན།
+མི་སྟོབས་སྡེ་ཚན། ཤེས་རིག་ལྷན་ཁག། ཐིམ་ཕུག།
+
+དོན་ཚན། ན་གཞོན་ལམ་སྟོན་པའི་ ས་སྟོང་གི་དོན་ལུ་ ཞུ་ཡིག།
+
+ཤེས་རིག་ལྷན་ཁག་གིས་ སྤྱི་ཚེས་ ༡༥/༡༡/༢༠༢༠ ལུ་ ཡིག་ཨང་ ཤེར་ལྷན/མི་སྟོབས་(༠༧)༢༠༢༠-༢༠༢༡/༧༦༤ ཐོག་ལས་ ན་གཞོན་ལམ་སྟོན་པ་ ༡༠ གི་ ས་སྟོང་གསལ་བསྒྲགས་འབད་མི་ལུ་ ང་གིས་ཞུ་ཡིག་འདི་ ཕུལ་དོ་ཡོདཔ་ཨིན།
+ང་ ...... ལས་ ཤེས་ཚད་ཀྱི་ ...... (དཔེར་ན་ ལམ་སྟོན་དང་ བསམ་འཆར་རིག་པ) མཐར་འཁྱོལ་ཡོད།
+
+སྤྲོ་བ་བསྐྱེད་པའི་རྒྱུ་མཚན། ད་ལྟོ་ སློབ་ཕྲུག་ཚུ་ ནང་སྦྱིན་ཟད་འགྲོ་ ལོག་སྤྱོད་ ཡིད་མ་ཚིམ་པ་ལ་སོགས་པའི་ དཀའ་ངལ་ལེ་ཤ་ ཕོག་དོ་ཡོདཔ་ལས་ ང་གིས་ ན་གཞོན་ཚུ་ལུ་ ཕན་ཐོགས་ཡོད་པའི་ ཞབས་ཏོག་ཞུ་ནི་ལུ་ སྤྲོ་བ་ཆེ། ང་ལུ་ ན་གཞོན་ལས་རིམ་ (དཔེར་ན་ Desuung / ན་གཞོན་ཚོགས་སྡེ) ནང་ ཉམས་མྱོང་ཡོད།
+
+ཁས་བླངས། ང་གིས་ སློབ་ཕྲུག་རེ་རེ་ལུ་ ལམ་སྟོན་དང་ སྐྱབས་བསྟེན་བྱིན་ནི། ཕམ་དང་ སློབ་དཔོན་ཚུ་དང་ མཉམ་འབྲེལ་འཐབ་སྟེ་ བསམ་སྤྱོད་ལེགས་བཅོས་ཀྱི་ ལས་རིམ་ཚུ་ བཀོལ་སྤྱོད་འབད་ནི། ཞི་གཡོག་གི་ བཅའ་ཡིག་དང་ཁྲིལ་ཏེ་ རྩ་བ་གསུམ་ལུ་ ཕྱག་ཕྱི་ དྲང་བདེན་ཐོག་ལས་ ཞུ་ནི་ཨིན།
+
+ཟུར་སྦྲགས། ཤེས་ཚད་ལག་ཁྱེར། ཨང་རྟགས་ཐོ། ངོ་སྤྲོད་ལག་ཁྱེར། ཁྲིམས་བཀག་མེད་པའི་ ཡི་གུ།
+
+ཞུ་ཡིག་འདི་ ཆ་འཇོག་གནང་ཟེར་ ཞུ་བ་ཕུལ་ཨིན།
+
+(མཚན་རྟགས)
+......', null, '[{"point": "དེང་སང་ལམ་ལུགས་ཀྱི་ ཞུ་ཡིག་ - ཞུ་མིའི་ཁ་བྱང་ སྤྱི་ཚེས་ ལེན་མིའི་ཁ་བྱང་ (མི་སྟོབས་གཙོ་འཛིན་འགོ་དཔོན། ཤེས་རིག་ལྷན་ཁག) དོན་ཚན།", "marks": 4}, {"point": "གསལ་བསྒྲགས་ཨང་དང་ ས་སྟོང་ (ན་གཞོན་ལམ་སྟོན་པ) བཀོད་ནི། རང་ངོ་སྤྲོད་དང་ ཤེས་ཚད།", "marks": 4}, {"point": "སྤྲོ་བ་བསྐྱེད་དགོ་པའི་རྒྱུ་མཚན་ (ན་གཞོན་ལུ་ ཕན་ཐོགས། ཉམས་མྱོང། ལམ་སྟོན་གྱི་ཤེས་ཚད)", "marks": 5}, {"point": "ཁས་བླངས་ (བསམ་སྤྱོད་ལེགས་བཅོས། ལམ་སྟོན། སྐྱབས་བསྟེན) དང་ ཟུར་སྦྲགས་ཡིག་ཆ།", "marks": 5}, {"point": "མཇུག་བསྡུ་ མཚན་རྟགས་ ཚིག་སྦྱོར་ ཚད་ལྡན།", "marks": 2}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'formal-writing'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 20,
+    2160, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2020, batch 2", "source": {"title": "BCSE 2020 Main Examination, General category, Paper I (Dzongkha)", "year": 2020, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'L1', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2020 from me_q where key = 'L1' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 8.0, 1 from me_q where key = 'L1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 5.0, 2 from me_q where key = 'L1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 7.0, 3 from me_q where key = 'L1';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'long_answer', 'འོག་གི་གཏང་ཡིག་གི་དྲི་བ་ ཀ་ དང་ ཁ་ གཉིས་ལས་ ག་འབད་རུང་ གཅིག་གི་ལན་བྲིས།
+
+ཁ༽ སྔར་སྲོལ་ལམ་ལུགས་ཐོག་ལས་ འོག་གི་གསལ་བསྒྲགས་དང་འཁྲིལ་ཏེ་ ལཱ་གཡོག་གི་ ཞུ་ཡིག་ཅིག་བྲིས།
+
+ཕུན་སུམ་སྐད་ཡིག་དང་ལམ་སྲོལ་སྤེལ་ཁང་།
+སློབ་གཉེར་གྲོགས་རམ་གསལ་བསྒྲགས།
+པི་ཨེལ་སི་ཨའི་/མི་སྟོབས/༠༧/༢༠༢༠-༢༠༢༡/༧༦༥          སྤྱི་ཚེས་ ༡༥/༡༡/༢༠༢༠ ལུ།
+ཕུན་སུམ་སྐད་ཡིག་དང་ལམ་སྲོལ་སྤེལ་ཁང་གིས་ ན་གཞོན་གསུམ་ སྐད་ཡིག་དང་ལམ་སྲོལ་གྱི་ནང་ལུ་ གཙུག་ལག་མཐོ་རིམ་ཤེས་ཡོན་སྦྱང་ནིའི་དོན་ལུ་ ལོ་གཉིས་ཀྱི་རིང་ ཕྱི་རྒྱལ་ཨོགསི་ཕོརཌ་གཙུག་ལག་སློབ་སྡེའི་ནང་ སློབ་གཉེར་གྲོགས་རམ་ཆ་ཚང་བྱིན་ཏེ་ གཏང་ནིའི་གྲ་སྒྲིག་ཡོདཔ་ལས་ དང་འདོད་ཡོད་མི་ཚུ་གིས་ འོག་གི་གནད་དོན་དང་འཁྲིལ་བའི་ བསམ་ལན་ཚུ་བཀོད་དེ་ ཞུ་ཡིག་ཚུ་ སྤྱི་ཚེས་ ༣༠/༡༡/༢༠༢༠ ཀྱི་ནང་འཁོད་བཙུགས་གནང་ཟེར་བའི་གསལ་བསྒྲགས་འབདཝ་ཨིན།
+ཞུ་ཡིག་ནང་ཚུད་དགོཔ།
+- རང་གི་ངོ་སྤྲོད་དང་ཤེས་ཚད།
+- ཤེས་ཡོན་འདི་དང་འབྲེལ་བའི་ཉམས་མྱོང་།
+- སློབ་རིམ་གྲོགས་རམ་འདི་ནང་ སྤྲོ་བ་བསྐྱེད་དགོ་པའི་ཁུངས།
+- ཤེས་ཡོན་གྱི་ལག་ཁྱེར་དང་སྐུགས་ཚད་ཟུར་སྦྲགས།
+འཛིན་སྐྱོང་མདོ་ཆེན།
+ཕུན་སུམ་སྐད་ཡིག་དང་ལམ་སྲོལ་སྤེལ་ཁང་།
+ལྕང་ཟམ་ཏོག། ཐིམ་ཕུག།', 'ལན་གྱི་དཔེ།
+
+སྐུ་མདུན།
+ཕུན་སུམ་སྐད་ཡིག་དང་ལམ་སྲོལ་སྤེལ་ཁང་གི་ འཛིན་སྐྱོང་མདོ་ཆེན་མཆོག། ལྕང་ཟམ་ཏོག། ཐིམ་ཕུག་ལུ།
+
+ཞུ་དོན། ཨོགསི་ཕོརཌ་གཙུག་ལག་སློབ་སྡེའི་ སློབ་གཉེར་གྲོགས་རམ་གྱི་དོན་ལུ།
+
+ཞུ་ཡིག་ཕུལ་བའི་དོན་ནི། སྤེལ་ཁང་གིས་ སྤྱི་ཚེས་ ༡༥/༡༡/༢༠༢༠ ལུ་ ཡིག་ཨང་ པི་ཨེལ་སི་ཨའི་/མི་སྟོབས/༠༧/༢༠༢༠-༢༠༢༡/༧༦༥ ཐོག་ལས་ གསལ་བསྒྲགས་གནང་མི་ལྟར་ ང་ ...... ཟེར་མི་འདི་གིས་ ཞུ་བ་ཕུལ་བ་ཨིན།
+
+༡. ངོ་སྤྲོད་དང་ ཤེས་ཚད། ང་ ...... ལས་ རྫོང་ཁ་དང་ ལམ་སྲོལ་གྱི་ ཤེས་ཚན་ནང་ མཐོ་རིམ་ཤེས་ཚད་ ...... ལོ་ལུ་ མཐར་འཁྱོལ་ཡོད།
+༢. ཉམས་མྱོང་། ...... ལོ་ཅིག་གི་རིང་ ...... (དཔེར་ན་ རྫོང་ཁ་གོང་འཕེལ་ ཡང་ན་ སློབ་གྲྭ་ནང་ རྫོང་ཁ་སློབ་དཔོན) འབད་ཡོད།
+༣. སྤྲོ་བ་བསྐྱེད་པའི་ ཁུངས། སྐད་ཡིག་དང་ལམ་སྲོལ་འདི་ རྒྱལ་ཁབ་ཀྱི་ ངོ་རྟགས་ཨིནམ་ལས་ ཕྱི་རྒྱལ་གྱི་ ཞིབ་འཚོལ་ཐབས་ལམ་ཚུ་ ལྷབ་ཞིནམ་ལས་ ལོག་འོང་སྟེ་ འབྲུག་གི་སྐད་ཡིག་དང་ ལམ་སྲོལ་ ཉམས་སྲུང་དང་ གོང་འཕེལ་ལུ་ ཕྱག་ཕྱི་ཞུ་ནིའི་ རེ་བ་ཡོད།
+༤. ཟུར་སྦྲགས། ཤེས་ཡོན་གྱི་ ལག་ཁྱེར་དང་ སྐུགས་ཚད་ཀྱི་ འདྲ་བཤུས།
+
+དེ་འབདཝ་ལས་ ང་ལུ་ གོ་སྐབས་འདི་ གནང་གནང་ཟེར་ ཞུ་བ་ཕུལ་ཨིན།
+
+ཞུ་མི། (མཚན་རྟགས) ...... ཁ་བྱང་ ...... ཁ་པར་ ......
+སྤྱི་ཚེས། ......', null, '[{"point": "སྔར་སྲོལ་ལམ་ལུགས་ - ཁ་བྱང་ སྐུ་མདུན་ ཞེ་ས་ཅན་གྱི་ མགོ་བརྗོད་ (འཛིན་སྐྱོང་མདོ་ཆེན་མཆོག) དོན་ཚན།", "marks": 4}, {"point": "རང་གི་ངོ་སྤྲོད་དང་ ཤེས་ཚད།", "marks": 4}, {"point": "སྐད་ཡིག་དང་ལམ་སྲོལ་ ཤེས་ཡོན་དང་འབྲེལ་བའི་ ཉམས་མྱོང།", "marks": 4}, {"point": "སློབ་གཉེར་གྲོགས་རམ་ནང་ སྤྲོ་བ་བསྐྱེད་པའི་ ཁུངས་ (ཤེས་ཡོན་ལོག་འོང་ཞིནམ་ལས་ རྒྱལ་ཁབ་ལུ་ ཕན་ཐོགས)", "marks": 5}, {"point": "ཟུར་སྦྲགས་ (ལག་ཁྱེར་དང་ སྐུགས་ཚད) དང་ མཇུག་ ཞེ་ས་ མཚན་རྟགས།", "marks": 3}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'formal-writing'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 20,
+    2160, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2020, batch 2", "source": {"title": "BCSE 2020 Main Examination, General category, Paper I (Dzongkha)", "year": 2020, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'L2', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2020 from me_q where key = 'L2' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 8.0, 1 from me_q where key = 'L2';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 5.0, 2 from me_q where key = 'L2';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 7.0, 3 from me_q where key = 'L2';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'descriptive', 'འོག་གི་གནས་ཚུལ་དེ་ནང་ལས་ ཤེས་དགོ་པའི་ གནད་དོན་ཁག་ཆེ་དྲགས་ཚུ་མ་གཏོགས་ གཞན་ཁུངས་མེད་པའི་ཚིག་དོན་ཚུ་བཏོག་སྟེ་ གནས་ཚུལ་འདི་ ཚིག་འབྲུ་ ༢༠༠ དེ་ཅིག་ནང་ བཅུད་བསྡུས་ཏེ་བྲིས།
+
+ཁ་ཙང་ དབང་འདུས་རྫོང་ཁག་གི་ ག་ནི་བ་དགའ་བའི་ས་གནས་ བར་གྱོང་དང་ སྤུ་ན་ཁ་རྫོང་ཁག་གི་ ཁྲོམ་ཆགས་སའི་ས་གོ་ ཁུ་རུ་ཐང་གི་བར་ན་ ས་གནས་ བསམ་ཐང་ཟེར་སར་མ་ལྷོདཔ་ཅིག་ཁར་ སྣུམ་འཁོར་ཨཱལ་ཀྲོ་ ཚོས་གཞི་ཧོནམ་གཅིག་དང་ མ་རུ་ཏི་བཱེན་ ཚོས་གཞི་དཀརཔོ་གསརཔ་གསར་རྐྱང་གཅིག་ ཁ་ཙང་ཕྱི་རུ་ཁམས་ ཆུ་ཚོད་དྲུག་དེ་ཅིག་ཁར་ འཐུག་རྐྱེན་སྦོམ་ར་བྱུང་ཡོདཔ་ཨིནམ་ ས་གནས་དེ་ཁའི་ མི་ག་ར་གིས་ མངོན་སུམ་སྦེ་ར་མཐོང་ནུག།
+ས་གནས་དེ་ནང་ འཐུག་རྐྱེན་འབྱུང་ས་མཐོང་མི་ ལེ་ཤ་ར་ཡོད་པའི་གྲས་ལས་ ཨ་རྒས་སྐྱེས་ལོ་ ༨༦ ལང་སྟེ་ གཟུགས་འཁརཝ་ལུ་བརྟེན་ཏེ་ འགྱོ་དགོ་མི་ཅིག་གིས་ སླབ་དོ་བཟུམ་འབད་བ་ཅིན་ ཁོ་མ་ཎི་བགྱངས་ཏེ་ ལམ་དེ་ཁ་ལས་ཕར་ འགྲོས་ཀྱིས་འབད་འགྱོཝ་ད་ སྣུམ་འཁོར་གཉིས་ཆ་ར་ ཤུགས་ཡོད་ཚད་མེད་ཚད་བཏོན་ཏེ་འགྱོཝ་ད་ གཅིག་གིས་གཅིག་ལས་ གཟུར་མ་ཚུགས་པར་ འཐུག་རྐྱེན་བྱུངམ་ཡོདཔ་ལས་ ཁོ་གིས་བལྟ་བལྟ་བའི་བར་ན་ར་ སྣུམ་འཁོར་གཉིས་ཆ་ར་ ལམ་འོག་ལས་མར་ མགུ་མཇུག་ཚར་གསུམ་རེ་ལོག་སྟེ་ རྡོ་སྦོམ་ཅིག་རྦབ་རིལ་འགྱོ་དོ་བཟུམ་ རྦབ་རིལ་ཡར་སོ་ཡི་ཟེར་ཨིན་མས།
+འཐུག་རྐྱེན་བྱུང་པའི་སྐབས་ལུ་ སྣུམ་འཁོར་ཨཱལ་ཀྲོ་དེ་ནང་ བུམོ་གཞོནམ་དམར་ཁྲ་དཀྱི་ར་དཀྱིས་མི་ སྐྱེ་ལོ་ ༡༥ ལང་མི་གཅིག་དང་ མོ་གི་ཨའི་ སེར་ཁྲ་དཀྱི་ར་དཀྱིས་མི་ སྐྱེ་ལོ་ ༥༨ ལང་མི་ ཁོང་གཉིས་ཆ་ར་ མགུ་ཏོ་དང་ ལགཔ་ རྐངམ་ ཕོཝ་ཚུ་ལུ་ རྨ་སྐྱོན་དུམ་གྲ་རེ་བྱུང་ཡོདཔ་དང་། སྣུམ་འཁོར་གཏང་མི་འདི་ དྲན་མེད་ཀྱི་ངང་ལུ་ཡོདཔ་ལས་ མི་ཚུ་གིས་ གཡས་རུབ་གཡོན་རུབ་ཀྱི་ཐོག་ལས་ སྲོག་སྐྱབས་འབད་དེ་ བར་གྱོང་སྨན་ཁང་ནང་ཚ་ངེར་བཏོན་ཏེ་བསྐྱལ་བའི་སྐབས་ སྣུམ་འཁོར་འདེད་གཡོགཔ་དེ་གི་ཁ་ནང་ལས་ ཆང་གིས་དྲིམ་ཡང་ གནམ་མེད་ས་མེད་མནམ་དེས་ཟེར་ཨིན་མས།
+སྣུམ་འཁོར་ མ་རུ་ཏི་བཱེན་དེ་ནང་ འདེད་གཡོགཔ་ ཁོ་ར་ཕུད་རོག་གཅིག་ར་མ་གཏོགས་ གཞན་འགྲུལ་པ་ཕོ་མོ་ག་ཡང་མེདཔ་དང་། འདེད་གཡོགཔ་འདི་ གཟུགས་ཁ་ལུ་འབུ་རས་གོ་དམརཔོ་ཅིག་གྱོན་ཏེ་ཡོད་མི་འདི་ མགུ་ལས་མཇུག་ཚུན་ག་ར་ཧྲལ་བཏང་སྟེ་ རྐངམ་གཡསཔ་དང་གཡོནམ། ལགཔ་གཡསཔ་དང་གཡོནམ་ ཕོཝ་དང་སྒལ་ཏོ་ཚུ་ག་ར་ རྨ་སྐྱོན་དུམ་གྲ་རེ་བྱུང་ཡོད་རུང་ གནོད་སྐྱོན་སྦོམ་ག་ནི་ཡང་མ་བྱུངམ་ཨིན་མས། ད་ལྟོ་འཐུག་རྐྱེན་འདི་གི་སྐོར་ལས་ ཉེ་འདབས་ཀྱི་ཁྲིམས་སྲུང་འགག་སྡེ་ཚུ་གིས་ ཞིབ་དཔྱད་ཚུ་འབད་བའི་བསྒང་ཨིན་མས།', 'ལན་གྱི་དཔེ།
+
+ཁ་ཙང་ ཕྱི་རུ་ཆུ་ཚོད་ ༦ དེ་ཅིག་ཁར་ དབང་འདུས་ བར་གྱོང་དང་ སྤུ་ན་ཁ་ ཁུ་རུ་ཐང་གི་བར་ན་ བསམ་ཐང་གི་ ཉེ་འདབས་ལུ་ སྣུམ་འཁོར་ཨཱལ་ཀྲོ་ (ཧོནམ) གཅིག་དང་ མ་རུ་ཏི་བཱེན་ (དཀརཔོ་གསརཔ) གཅིག་ འཐུག་རྐྱེན་བྱུང་ནུག། མཐོང་མི་ ཨ་རྒས་ ལོ་ ༨༦ ལང་མི་ཅིག་གིས་ སླབ་མི་ལྟར་ སྣུམ་འཁོར་གཉིས་ཆ་ར་ ཤུགས་ཅན་སྦེ་ བཏང་སྟེ་ གཟུར་མ་ཚུགས་པར་ འཐུག་སྟེ་ ལམ་འོག་ལུ་ ཚར་གསུམ་རེ་ ལོག་ནུག།
+ཨཱལ་ཀྲོ་ནང་ཡོད་མི་ བུམོ་ ལོ་ ༡༥ དང་ མོ་གི་ཨའི་ ལོ་ ༥༨ གཉིས་ལུ་ རྨ་སྐྱོན་དུམ་གྲ་བྱུང་སྟེ་ ཨཱལ་ཀྲོ་གི་ འདེད་གཡོགཔ་ དྲན་མེད་སྦེ་ཡོདཔ་ལས་ མི་ཚུ་གིས་ བར་གྱོང་སྨན་ཁང་ལུ་ བསྐྱལ་ནུག། བཱེན་ནང་ འདེད་གཡོགཔ་ ཁོ་རྐྱངམ་ཅིག་ཡོདཔ་ད་ ཁོ་ ཆང་ཕོག་ཡོདཔ་དང་ རྨ་སྐྱོན་དུམ་གྲ་བྱུང་རུང་ གནོད་སྐྱོན་སྦོམ་མ་བྱུང་། ཁྲིམས་སྲུང་འགག་སྡེ་གིས་ ཞིབ་དཔྱད་འབད་དོ་ཡོདཔ་ཨིན།
+
+(ཡིག་རྒྱུགས་ནང་ ཨཱལ་ཀྲོ་དང་ བཱེན་གྱི་ འདེད་གཡོགཔ་ག་ཅི་ཨིན་ན་ ཁ་གསལ་མེདཔ་ལས་ བཅུད་དོན་ནང་ ཡིག་རྒྱུགས་དང་འཁྲིལ་ཏེ་བཀོད་ནི།)', null, '[{"point": "ས་གནས་ - དབང་འདུས་ བར་གྱོང་དང་ སྤུ་ན་ཁ་ ཁུ་རུ་ཐང་གི་བར་ན་ བསམ་ཐང་གི་ ཉེ་འདབས། དུས་ཚོད་ - ཕྱི་རུ་ཆུ་ཚོད་ ༦། སྣུམ་འཁོར་ཨཱལ་ཀྲོ་ (ཧོནམ) དང་ མ་རུ་ཏི་བཱེན་ (དཀརཔོ་གསརཔ) འཐུག་ཡོདཔ།", "marks": 4}, {"point": "རྒྱུ་རྐྱེན་ - སྣུམ་འཁོར་གཉིས་ཆ་ར་ ཤུགས་ཅན་སྦེ་ བཏང་ཡོདཔ་ (མཐོང་མི་ ཨ་རྒས་ ལོ་ ༨༦)། བཱེན་གྱི་ འདེད་གཡོགཔ་ ཆང་ཕོག་ཡོདཔ། རྨ་སྐྱོན་ - ཨཱལ་ཀྲོ་ནང་ བུམོ་ (ལོ་ ༡༥) དང་ ཨའི་ (ལོ་ ༥༨) དང་ འདེད་གཡོགཔ། བར་གྱོང་སྨན་ཁང་ལུ་ བསྐྱལ་ཡོདཔ།", "marks": 4}, {"point": "ཁྲིམས་སྲུང་གིས་ ཞིབ་དཔྱད་འབད་དོ་ཡོདཔ། ཚིག་འབྲུ་ ༢༠༠ ནང་འཁོད་ རང་གི་ཚིག་ཐོག་ལུ།", "marks": 2}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'pr-cis'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 10,
+    1080, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2020, batch 2", "source": {"title": "BCSE 2020 Main Examination, General category, Paper I (Dzongkha)", "year": 2020, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'P1', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2020 from me_q where key = 'P1' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 4.0, 1 from me_q where key = 'P1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 2.5, 2 from me_q where key = 'P1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 3.5, 3 from me_q where key = 'P1';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'short_answer', 'འོག་ལུ་བཀོད་ཡོད་མི་ དྲི་བ་ ཀ་ དང་ ཁ་ གཉིས་ཆ་རའི་ལན་བྲིས།
+ཀ༽ སྐད་ཡིག་གི་དྲི་བ། འོག་གི་རྗོད་ཚིག་རེའི་ནང་ རྫོང་ཁ་མ་དགཔ་དང་ མ་བཏུབ་ ༢ རེ་ཡོད་མི་ཚུ་ བཅོ་ཁ་རྐྱབ་སྟེ་ རྗོད་ཚིག་ཚུལ་མཐུན་ཐོག་ལུ་བྲིས། སྐུགས་ ༥།
+༡- དོརམ་གྱོན་ ཁེན་ཇ་བཙུགས་སྦེ་ ཤོག་སྨ་རེ།
+༢- གཅིག་ལུ་ དགུ་བཅུ་གྱ་ལྔ་དང་ གཅིག་ལུ་ བརྒྱད་ཅུ་རེ་དྲུག་སྤྲོད་དེ་ཉོ་ཡི།
+༣- བློན་པོ་ལས་ལེན་ཏེ་ མདོ་ཆེན་ལུ་ སྤྲོད་ཅི།
+༤- ཁེན་ཇ་ རལ་བཏང་དཔ་ལས་ ཤུགས་འབད་ར་ ཙིགཔ་བཟའ་ཡི།
+༥- ཨ་ཞང་གི་ཨམ་སྲུ་ལུ་ ཨམ་ཅུངམ་དང་ ཨའི་གི་ཨ་ཞེམོ་ལུ་ ཨ་ནེ་ཟེར་སླབ་ཨིན།
+
+ཁ༽ འོག་ལུ་ཨང་གྲངས་བཀོད་ཡོད་པའི་ས་སྟོང་ནང་ ཕྲད་དང་ རྣམ་དབྱེ་ཚུ་ག་འོས་འབབ་ཡོད་ག་ ཐིག་སྒྲོམ་ནང་ལས་ གདམ་ཁ་རྐྱབ་སྟེ་བཙུགས། སྐུགས་ ༥།
+[ གི་  དེ་  གྱིས་  ཀྱིས་  སྟེ་  ཀྱི་  ལུ་  ཏེ་  གྱི་  གིས་  ལས་ ]
+ས་གནས་གཞི་བཞག་ཤེས་ཡོན་ ཟེར་མི་འདི་ ཤེས་ཡོན་ལྷབ་སྦྱང་གི་ཐབས་ལམ་ཅིག་ ...(༡)... གོཝ་ཨིན། ལྷབ་སྦྱང་འདི་ རང་སྡོད་སའི་ས་གནས་ལུ་ གཞི་བཞག་སྟེ་ ཤེས་ཡོན་བྱིནམ་འདྲཝ་ཅིག་འབད་བ་ཅིན་ མིག་མཐོང་ལག་གཟུང་ ...(༢)... གྲལ་གཏོགས་ཚུ་འབད་ཚུགསཔ་ལས་བརྟེན་ ...(༣)... ཤེས་ཡོན་གྱི་གྲུབ་འབྲས་དང་ མི་སྡེ་ལུ་ཁེ་ཕན་ཚུ་ གོང་འཕེལ་བཏང་ ...(༤)... གྲུབ་འབྲས་སྦོམ་ར་བཏོན་ཚུགས་ ཟེར་བཤདཔ་ཨིན་མས། ཤེས་རིག་གི་མཁས་མཆོག་མང་ཤོས་ ...(༥)... འབད་བ་ཅིན་ ས་གནས་གཞི་བཞག་ཤེས་ཡོན་འདི་ དངོས་མཐོང་ལག་གཟུང་དང་འབྲེལ་བའི་ཉམས་མྱོང་གི་ གོ་སྐབས་འདི་ སློབ་ཕྲུག་ཚུ་ལུ་བྱིནམ་ད་ ཁོང་ ...(༦)... ཁོང་རའི་ ས་གནས་ ...(༧)... ལམ་སྲོལ། སྐྱེ་ལྡན་གནས་སྟངས། དཔལ་འབྱོར་གོང་འཕེལ་ཚུ་དང་ འབྲེལ་མཐུད་འབད་ཚུགས་ ཟེར་ཨིན་མས། འདི་འབདཝ་ལས་བརྟེན་ ཆོས་ཚན་མ་འདྲཝ་ཆ་མཉམ་ ...(༨)... གཞི་འགྱམ་འདི་ ས་གནས་གཞི་བཞག་ཤེས་ཡོན་ཨིནམ་འབད་བཤད་ ...(༩)... འདུག། དེ་འབདཝ་ལས་ ང་བཅས་ འབྲུག་མི་ཆ་མཉམ་ ...(༡༠)... ལྟ་བ་འདི་ལུ་ གཙོ་རིམ་གཟུང་དགོཔ་འདི་ ག་ནི་བ་གལ་ཆེ་བས་ཟེར་ཞུ་ནི།', 'a) (ལན་གྱི་དཔེ - རྫོང་ཁ་སློབ་དཔོན་གྱིས་ བལྟ་དགོ)
+༡༽ དོརམ་ བགོ་སྟེ་ ཁེན་ཇ་ གྱོན་ཏེ་ ཤོག་མ་རེ། (བྱ་ཚིག་ཚུལ་མཐུན - ངེས་གཏན་མེད། རྫོང་ཁ་སློབ་དཔོན་གྱིས་ བལྟ་དགོ)
+༢༽ གཅིག་ལུ་ དགུ་བཅུ་གོ་ལྔ་དང་ གཅིག་ལུ་ བརྒྱད་ཅུ་གྱ་དྲུག་ སྤྲོད་དེ་ཉོ་ཡི། (༩༠ ཚུ་ལུ་ ''གོ''། ༨༠ ཚུ་ལུ་ ''གྱ'')
+༣༽ བློན་པོ་ལས་ ཞུ་སྟེ་ མདོ་ཆེན་ལུ་ ཕུལ་ཅི། (ཞེ་ས)
+༤༽ ཁེན་ཇ་ རལ་བཏངམ་ལས་ ཤུགས་ཅན་སྦེ་ ཙིགཔ་ཟ་ཡི།
+༥༽ ཨ་ཞང་གི་ཨམ་སྲུ་ལུ་ ཨ་ནེ་དང་ ཨའི་གི་ཨ་ཞེམོ་ལུ་ ཨ་སྡུམ་ཟེར་སླབ་ཨིན། (ཉེ་ཚན་གྱི་མིང་ཚུ་ རྫོང་ཁ་སློབ་དཔོན་གྱིས་ བལྟ་དགོ)
+
+b)
+༡ ལུ། ༢ གི། ༣ ཏེ། ༤ སྟེ། ༥ ཀྱིས། ༦ གིས། ༧ ཀྱི། ༨ གྱི། ༩ དེ། ༡༠ གྱིས། (ལྷག་ལུས་མི - ལས)', null, '[{"point": "a) ༡ (དོརམ་/ ཁེན་ཇ་ གི་ བྱ་ཚིག་ཚུལ་མཐུན) ༢ དགུ་བཅུ་གོ་ལྔ། བརྒྱད་ཅུ་གྱ་དྲུག ༣ ཞུ་སྟེ། ཕུལ་ཅི། ༤ རལ་བཏངམ་ལས། ཟ་ཡི། ༥ ཨ་ཞང་གི་ཨམ་སྲུ་ - ཨ་ནེ། ཨའི་གི་ཨ་ཞེམོ་ - ཨ་སྡུམ (ཚིག་གཉིས་ བརྗེ་སོར)། (བཅོ་ཁ་རེ་ལུ་ སྐུགས་ ༠.༥)", "marks": 5}, {"point": "b) ༡ ལུ ༢ གི ༣ ཏེ ༤ སྟེ ༥ ཀྱིས ༦ གིས ༧ ཀྱི ༨ གྱི ༩ དེ ༡༠ གྱིས (ལྷག་ - ལས)", "marks": 5}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'language-and-spelling'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 10,
+    1080, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing.", "Grammar answers need a Dzongkha teacher''s confirmation, especially part (a) items 1, 4 and 5 (kinship terms and clothing words)."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2020, batch 2", "source": {"title": "BCSE 2020 Main Examination, General category, Paper I (Dzongkha)", "year": 2020, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'G1', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2020 from me_q where key = 'G1' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 4.0, 1 from me_q where key = 'G1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 2.5, 2 from me_q where key = 'G1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 3.5, 3 from me_q where key = 'G1';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'passage', 'འོག་གི་གནས་ཚུལ་འདི་ ལྷག་ཞིནམ་ལས་ དྲི་བ་ག་རའི་ལན་བྲིས།
+སྤྱི་ལོ་ ༢༠༢༠ ལུ་ སློབ་དཔོན་ ༡༦༣ དགོངས་ཞུ་འབད་ཡོདཔ།
+༉ ལོ་བསར་ཤེས་རིག་གནས་སྡུད་ ༢༠༢༠ ཅན་མ་དང་འཁྲིལཝ་ད་ དུས་ཅི་ སློབ་དཔོན་ ༡༦༣ གྱིས་ དགོངས་ཞུ་འབད་ནུག། སློབ་དཔོན་ ༡༦༣ ལས་ ༡༡༢ ཁས་བླངས་དང་ ༢༧ ལོ་གྲངས་ཚང་ཡོདཔ་ད་ དེ་ལས་ ངེས་པར་དུ་ དགོངས་ཞུ་འབད་དགོཔ་ཐོན་མི་ སློབ་དཔོན་ ༣ དང་ སློབ་དཔོན་ ༦ ཁག་འབག་གི་ གནས་ཡུན་ཚང་ཡོདཔ་ཨིན་པས།
+སློབ་དཔོན་དགོངས་ཞུ་འབད་མིའི་ ཚད་གཞི་དེ་ ལོ་བསར་བཞིན་དུ་ ཡར་སེང་སོང་ཡོད་རུང་ སྤྱི་ལོ་ ༢༠༢༠ ལུ་ དགོངས་ཞུའི་ཚད་གཞི་ བརྒྱ་ཆ་ ༡.༩ མར་བབས་སོང་མི་དེ་ འདས་པའི་ལོ་ ༦ གི་ནང་འཁོད་ལུ་ དམའ་ཤོས་ཅིག་ཨིན་པས།
+ལ་ལོ་ཅིག་གིས་ སླབ་མིའི་ནང་ ད་རེས་ སློབ་དཔོན་དགོངས་ཞུ་འབད་མི་ མར་བབས་སོང་མི་དེ་ ནད་ཡམས་ཀོ་བིཌ་-༡༩ ལུ་བརྟེན་ ཕྱིའི་རྒྱལ་ཁབ་ཚུ་ནང་ འགྱོ་ནི་གི་ གོ་སྐབས་མ་ཐོབ་ནི་དེ་གིས་ འོང་ནི་མས་ཟེར་ཨིནམ་ད་ ལ་ལོ་གིས་འབད་བ་ཅིན་ སློབ་དཔོན་ ༡ དགོངས་ཞུ་འབད་རུང་ ཚ་གྱང་སྦོམ་ཡོད་ཟེར་ཨིན་པས།
+ལོ་ ༦ གི་ནང་འཁོད་ལུ་ སློབ་དཔོན་ ༡,༧༣༨ ཤེས་རིག་གི་ ཁྱད་གཡོག་བཤོལ་བཞག་ཡོདཔ་ད་ ན་ཧིང་ སློབ་དཔོན་ ༤༨༠ (བརྒྱ་ཆ་ ༣.༦) དགོངས་ཞུ་འབད་མི་དེ་ ལོ་དེ་ཚུ་ནང་ མཐོ་ཤོས་ཅིག་ཨིན་མས་ཟེར་ སྙན་ཞུ་ནང་བཀོད་ནུག།
+སྤྱི་ལོ་ ༢༠༢༠ ལུ་ སློབ་དཔོན་དགོངས་ཞུ་འབད་མིའི་གྲས་ལས་ ཞི་གཡོགཔ་ ༡༣༥ དང་ ཕྱིའི་སློབ་དཔོན་ ༤ རྒྱལ་ཡོངས་ཁག་འབག་སློབ་དཔོན་ ༡༦ ལོགས་སུ་སྦེ་བཏོན་བཞག་མི་སློབ་དཔོན་ ༡ དེ་ལས་ གཏན་འཇགས་ཀྱི་ སློབ་དཔོན་ ༧ ཨིན་པས། སྤྱིར་སྙོམས་ལུ་ གཞུང་གི་སློབ་གྲྭ་ཚུ་ལས་ སློབ་དཔོན་ ༣.༦ དེ་ཅིག་གིས་ སློབ་གྲྭ་བཤོལ་བཞགཔ་ཨིན་པས།
+འདས་པའི་ལོ་ཚུ་ནང་ལས་ ནང་འཁོད་སློབ་དཔོན་གྱི་གྱངས་ཁ་ ཡར་འཕར་དང་ ཕྱིའི་སློབ་དཔོན་མར་བབས་སོང་ཡོདཔ་ད་ སྤྱི་ལོ་ ༢༠༢༠ ལུ་ གཞུང་དང་ སྒེར་གྱི་སློབ་གྲྭ་ཚུ་ནང་ ཕྱིའི་སློབ་དཔོན་ ༡༤༨ དང་ འབྲུག་མི་སློབ་དཔོན་ ༡༠༠༤༢ དེ་ཅིག་ཡོདཔ་ཨིན་པའི་གནས་ཚུལ།
+
+འོག་ལུ་བཀོད་ཡོད་མི་ དྲི་བ་ག་རའི་ལན་བྲིས། སྐུགས་ ༥x༣=༡༥།
+༡༽ འདས་པའི་ལོ་ངོ་ བཅུ་ཕྲག་ཕྱེད་ལྷག་ཙམ་ཅིག་གི་ནང་ལུ་ སློབ་དཔོན་དགོངས་ཞུ་མི་ ཉུང་ཤོས་ར་ སྤྱི་ལོ་ནམ་འཐོན་ཡོད་ག་དང་། དགོངས་ཞུའི་གནས་ཚུལ་བར་དོན་འདི་ ག་ཅི་ལུ་གཞི་བཞག་སྟེ་ བཤདཔ་ཨིན་མས་གོ?', 'སློབ་དཔོན་དགོངས་ཞུ་འབད་མི་ ཉུང་ཤོས་ར་ སྤྱི་ལོ་ ༢༠༢༠ ལུ་ཨིན་ (ཚད་གཞི་ བརྒྱ་ཆ་ ༡.༩ - འདས་པའི་ལོ་ ༦ གི་ནང་འཁོད་ དམའ་ཤོས)། གནས་ཚུལ་འདི་ ལོ་བསར་ཤེས་རིག་གནས་སྡུད་ ༢༠༢༠ ལུ་ གཞི་བཞག་སྟེ་ བཤདཔ་ཨིན།', null, '[{"point": "ཉུང་ཤོས་ - སྤྱི་ལོ་ ༢༠༢༠ (བརྒྱ་ཆ་ ༡.༩ - ལོ་ ༦ གི་ནང་ དམའ་ཤོས)། གཞི་བཞག་ - ལོ་བསར་ཤེས་རིག་གནས་སྡུད་ ༢༠༢༠།", "marks": 3}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'comprehension'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 3,
+    324, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2020, batch 2", "source": {"title": "BCSE 2020 Main Examination, General category, Paper I (Dzongkha)", "year": 2020, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2020b2-c1', 1, null, null, null, null)
+  returning id
+)
+insert into me_q select 'C1a', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2020 from me_q where key = 'C1a' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 1.0, 1 from me_q where key = 'C1a';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 1.0, 2 from me_q where key = 'C1a';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 1.0, 3 from me_q where key = 'C1a';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'passage', 'འོག་གི་གནས་ཚུལ་འདི་ ལྷག་ཞིནམ་ལས་ དྲི་བ་ག་རའི་ལན་བྲིས།
+སྤྱི་ལོ་ ༢༠༢༠ ལུ་ སློབ་དཔོན་ ༡༦༣ དགོངས་ཞུ་འབད་ཡོདཔ།
+༉ ལོ་བསར་ཤེས་རིག་གནས་སྡུད་ ༢༠༢༠ ཅན་མ་དང་འཁྲིལཝ་ད་ དུས་ཅི་ སློབ་དཔོན་ ༡༦༣ གྱིས་ དགོངས་ཞུ་འབད་ནུག། སློབ་དཔོན་ ༡༦༣ ལས་ ༡༡༢ ཁས་བླངས་དང་ ༢༧ ལོ་གྲངས་ཚང་ཡོདཔ་ད་ དེ་ལས་ ངེས་པར་དུ་ དགོངས་ཞུ་འབད་དགོཔ་ཐོན་མི་ སློབ་དཔོན་ ༣ དང་ སློབ་དཔོན་ ༦ ཁག་འབག་གི་ གནས་ཡུན་ཚང་ཡོདཔ་ཨིན་པས།
+སློབ་དཔོན་དགོངས་ཞུ་འབད་མིའི་ ཚད་གཞི་དེ་ ལོ་བསར་བཞིན་དུ་ ཡར་སེང་སོང་ཡོད་རུང་ སྤྱི་ལོ་ ༢༠༢༠ ལུ་ དགོངས་ཞུའི་ཚད་གཞི་ བརྒྱ་ཆ་ ༡.༩ མར་བབས་སོང་མི་དེ་ འདས་པའི་ལོ་ ༦ གི་ནང་འཁོད་ལུ་ དམའ་ཤོས་ཅིག་ཨིན་པས།
+ལ་ལོ་ཅིག་གིས་ སླབ་མིའི་ནང་ ད་རེས་ སློབ་དཔོན་དགོངས་ཞུ་འབད་མི་ མར་བབས་སོང་མི་དེ་ ནད་ཡམས་ཀོ་བིཌ་-༡༩ ལུ་བརྟེན་ ཕྱིའི་རྒྱལ་ཁབ་ཚུ་ནང་ འགྱོ་ནི་གི་ གོ་སྐབས་མ་ཐོབ་ནི་དེ་གིས་ འོང་ནི་མས་ཟེར་ཨིནམ་ད་ ལ་ལོ་གིས་འབད་བ་ཅིན་ སློབ་དཔོན་ ༡ དགོངས་ཞུ་འབད་རུང་ ཚ་གྱང་སྦོམ་ཡོད་ཟེར་ཨིན་པས།
+ལོ་ ༦ གི་ནང་འཁོད་ལུ་ སློབ་དཔོན་ ༡,༧༣༨ ཤེས་རིག་གི་ ཁྱད་གཡོག་བཤོལ་བཞག་ཡོདཔ་ད་ ན་ཧིང་ སློབ་དཔོན་ ༤༨༠ (བརྒྱ་ཆ་ ༣.༦) དགོངས་ཞུ་འབད་མི་དེ་ ལོ་དེ་ཚུ་ནང་ མཐོ་ཤོས་ཅིག་ཨིན་མས་ཟེར་ སྙན་ཞུ་ནང་བཀོད་ནུག།
+སྤྱི་ལོ་ ༢༠༢༠ ལུ་ སློབ་དཔོན་དགོངས་ཞུ་འབད་མིའི་གྲས་ལས་ ཞི་གཡོགཔ་ ༡༣༥ དང་ ཕྱིའི་སློབ་དཔོན་ ༤ རྒྱལ་ཡོངས་ཁག་འབག་སློབ་དཔོན་ ༡༦ ལོགས་སུ་སྦེ་བཏོན་བཞག་མི་སློབ་དཔོན་ ༡ དེ་ལས་ གཏན་འཇགས་ཀྱི་ སློབ་དཔོན་ ༧ ཨིན་པས། སྤྱིར་སྙོམས་ལུ་ གཞུང་གི་སློབ་གྲྭ་ཚུ་ལས་ སློབ་དཔོན་ ༣.༦ དེ་ཅིག་གིས་ སློབ་གྲྭ་བཤོལ་བཞགཔ་ཨིན་པས།
+འདས་པའི་ལོ་ཚུ་ནང་ལས་ ནང་འཁོད་སློབ་དཔོན་གྱི་གྱངས་ཁ་ ཡར་འཕར་དང་ ཕྱིའི་སློབ་དཔོན་མར་བབས་སོང་ཡོདཔ་ད་ སྤྱི་ལོ་ ༢༠༢༠ ལུ་ གཞུང་དང་ སྒེར་གྱི་སློབ་གྲྭ་ཚུ་ནང་ ཕྱིའི་སློབ་དཔོན་ ༡༤༨ དང་ འབྲུག་མི་སློབ་དཔོན་ ༡༠༠༤༢ དེ་ཅིག་ཡོདཔ་ཨིན་པའི་གནས་ཚུལ།
+
+འོག་ལུ་བཀོད་ཡོད་མི་ དྲི་བ་ག་རའི་ལན་བྲིས། སྐུགས་ ༥x༣=༡༥།
+༢༽ གནས་ཡུན། བཤོལ་བཞག། ངེས་པར་དུ། ཟེར་བའི་ ཚིག་ཚུ་གི་གོ་དོན་བྲིས།', '༡. གནས་ཡུན་ - ལཱ་ཡང་ན་ ཁག་འབག་གི་ དུས་ཡུན། ༢. བཤོལ་བཞག་ - ལཱ་བཞག་སྟེ་ འཐོན་འགྱོ་ནི། ༣. ངེས་པར་དུ་ - བཏུབ་ཐབས་མེད་པར་ ཏན་ཏན་སྦེ།', null, '[{"point": "གནས་ཡུན་ - ལཱ་འབད་དགོ་པའི་ དུས་ཡུན་/ ལོ་ཚད། བཤོལ་བཞག་ - ལཱ་བཞག་ནི་/ ཕྱིར་བཏོན། ངེས་པར་དུ་ - བཏུབ་ཐབས་མེད་པར་/ ཏན་ཏན།", "marks": 3}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'comprehension'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 3,
+    324, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2020, batch 2", "source": {"title": "BCSE 2020 Main Examination, General category, Paper I (Dzongkha)", "year": 2020, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2020b2-c1', 2, null, null, null, null)
+  returning id
+)
+insert into me_q select 'C1b', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2020 from me_q where key = 'C1b' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 1.0, 1 from me_q where key = 'C1b';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 1.0, 2 from me_q where key = 'C1b';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 1.0, 3 from me_q where key = 'C1b';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'passage', 'འོག་གི་གནས་ཚུལ་འདི་ ལྷག་ཞིནམ་ལས་ དྲི་བ་ག་རའི་ལན་བྲིས།
+སྤྱི་ལོ་ ༢༠༢༠ ལུ་ སློབ་དཔོན་ ༡༦༣ དགོངས་ཞུ་འབད་ཡོདཔ།
+༉ ལོ་བསར་ཤེས་རིག་གནས་སྡུད་ ༢༠༢༠ ཅན་མ་དང་འཁྲིལཝ་ད་ དུས་ཅི་ སློབ་དཔོན་ ༡༦༣ གྱིས་ དགོངས་ཞུ་འབད་ནུག། སློབ་དཔོན་ ༡༦༣ ལས་ ༡༡༢ ཁས་བླངས་དང་ ༢༧ ལོ་གྲངས་ཚང་ཡོདཔ་ད་ དེ་ལས་ ངེས་པར་དུ་ དགོངས་ཞུ་འབད་དགོཔ་ཐོན་མི་ སློབ་དཔོན་ ༣ དང་ སློབ་དཔོན་ ༦ ཁག་འབག་གི་ གནས་ཡུན་ཚང་ཡོདཔ་ཨིན་པས།
+སློབ་དཔོན་དགོངས་ཞུ་འབད་མིའི་ ཚད་གཞི་དེ་ ལོ་བསར་བཞིན་དུ་ ཡར་སེང་སོང་ཡོད་རུང་ སྤྱི་ལོ་ ༢༠༢༠ ལུ་ དགོངས་ཞུའི་ཚད་གཞི་ བརྒྱ་ཆ་ ༡.༩ མར་བབས་སོང་མི་དེ་ འདས་པའི་ལོ་ ༦ གི་ནང་འཁོད་ལུ་ དམའ་ཤོས་ཅིག་ཨིན་པས།
+ལ་ལོ་ཅིག་གིས་ སླབ་མིའི་ནང་ ད་རེས་ སློབ་དཔོན་དགོངས་ཞུ་འབད་མི་ མར་བབས་སོང་མི་དེ་ ནད་ཡམས་ཀོ་བིཌ་-༡༩ ལུ་བརྟེན་ ཕྱིའི་རྒྱལ་ཁབ་ཚུ་ནང་ འགྱོ་ནི་གི་ གོ་སྐབས་མ་ཐོབ་ནི་དེ་གིས་ འོང་ནི་མས་ཟེར་ཨིནམ་ད་ ལ་ལོ་གིས་འབད་བ་ཅིན་ སློབ་དཔོན་ ༡ དགོངས་ཞུ་འབད་རུང་ ཚ་གྱང་སྦོམ་ཡོད་ཟེར་ཨིན་པས།
+ལོ་ ༦ གི་ནང་འཁོད་ལུ་ སློབ་དཔོན་ ༡,༧༣༨ ཤེས་རིག་གི་ ཁྱད་གཡོག་བཤོལ་བཞག་ཡོདཔ་ད་ ན་ཧིང་ སློབ་དཔོན་ ༤༨༠ (བརྒྱ་ཆ་ ༣.༦) དགོངས་ཞུ་འབད་མི་དེ་ ལོ་དེ་ཚུ་ནང་ མཐོ་ཤོས་ཅིག་ཨིན་མས་ཟེར་ སྙན་ཞུ་ནང་བཀོད་ནུག།
+སྤྱི་ལོ་ ༢༠༢༠ ལུ་ སློབ་དཔོན་དགོངས་ཞུ་འབད་མིའི་གྲས་ལས་ ཞི་གཡོགཔ་ ༡༣༥ དང་ ཕྱིའི་སློབ་དཔོན་ ༤ རྒྱལ་ཡོངས་ཁག་འབག་སློབ་དཔོན་ ༡༦ ལོགས་སུ་སྦེ་བཏོན་བཞག་མི་སློབ་དཔོན་ ༡ དེ་ལས་ གཏན་འཇགས་ཀྱི་ སློབ་དཔོན་ ༧ ཨིན་པས། སྤྱིར་སྙོམས་ལུ་ གཞུང་གི་སློབ་གྲྭ་ཚུ་ལས་ སློབ་དཔོན་ ༣.༦ དེ་ཅིག་གིས་ སློབ་གྲྭ་བཤོལ་བཞགཔ་ཨིན་པས།
+འདས་པའི་ལོ་ཚུ་ནང་ལས་ ནང་འཁོད་སློབ་དཔོན་གྱི་གྱངས་ཁ་ ཡར་འཕར་དང་ ཕྱིའི་སློབ་དཔོན་མར་བབས་སོང་ཡོདཔ་ད་ སྤྱི་ལོ་ ༢༠༢༠ ལུ་ གཞུང་དང་ སྒེར་གྱི་སློབ་གྲྭ་ཚུ་ནང་ ཕྱིའི་སློབ་དཔོན་ ༡༤༨ དང་ འབྲུག་མི་སློབ་དཔོན་ ༡༠༠༤༢ དེ་ཅིག་ཡོདཔ་ཨིན་པའི་གནས་ཚུལ།
+
+འོག་ལུ་བཀོད་ཡོད་མི་ དྲི་བ་ག་རའི་ལན་བྲིས། སྐུགས་ ༥x༣=༡༥།
+༣༽ སློབ་དཔོན་དགོངས་ཞུ་འབད་མིའི་ དཀའ་ངལ་སེལ་ཐབས་ལུ་ གཞུང་གིས་ག་ཅི་ར་ མཛད་དགོཔ་འདུག་གོ?', '༡. སློབ་དཔོན་གྱི་ གླ་ཆ་དང་ ཁེ་ཕན་ ཡར་སེང་གཏང་ནི། ༢. ལཱ་གི་ཁུར་ཚད་ (འཛིན་གྲྭ་ཆ་ཚད། ཡིག་ཐོག་ལཱ) མར་ཕབ་འབད་ནི། ༣. གོ་གནས་ཡར་འཕར་དང་ སྦྱོང་བརྡར་གྱི་ གོ་སྐབས་བྱིན་ནི། ༤. སློབ་དཔོན་ལུ་ ངོས་འཛིན་དང་ གུས་ཞབས་ བསྐྱེད་ནི།', null, '[{"point": "གཞུང་གི་ཐབས་ལམ་ ༢-༣ (གླ་ཆ་དང་ ཁེ་ཕན་ཡར་སེང། ལཱ་གི་ཁུར་ཚད་མར་ཕབ། གོ་གནས་ཡར་འཕར་དང་ སྦྱོང་བརྡར་གྱི་ གོ་སྐབས། ངོས་འཛིན་དང་ གུས་ཞབས། ཁྱིམ་དང་ ལཱ་གི་གནས་སྟངས་ལེགས་བཅོས)", "marks": 3}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'comprehension'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 3,
+    324, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2020, batch 2", "source": {"title": "BCSE 2020 Main Examination, General category, Paper I (Dzongkha)", "year": 2020, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2020b2-c1', 3, null, null, null, null)
+  returning id
+)
+insert into me_q select 'C1c', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2020 from me_q where key = 'C1c' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 1.0, 1 from me_q where key = 'C1c';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 1.0, 2 from me_q where key = 'C1c';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 1.0, 3 from me_q where key = 'C1c';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'passage', 'འོག་གི་གནས་ཚུལ་འདི་ ལྷག་ཞིནམ་ལས་ དྲི་བ་ག་རའི་ལན་བྲིས།
+སྤྱི་ལོ་ ༢༠༢༠ ལུ་ སློབ་དཔོན་ ༡༦༣ དགོངས་ཞུ་འབད་ཡོདཔ།
+༉ ལོ་བསར་ཤེས་རིག་གནས་སྡུད་ ༢༠༢༠ ཅན་མ་དང་འཁྲིལཝ་ད་ དུས་ཅི་ སློབ་དཔོན་ ༡༦༣ གྱིས་ དགོངས་ཞུ་འབད་ནུག། སློབ་དཔོན་ ༡༦༣ ལས་ ༡༡༢ ཁས་བླངས་དང་ ༢༧ ལོ་གྲངས་ཚང་ཡོདཔ་ད་ དེ་ལས་ ངེས་པར་དུ་ དགོངས་ཞུ་འབད་དགོཔ་ཐོན་མི་ སློབ་དཔོན་ ༣ དང་ སློབ་དཔོན་ ༦ ཁག་འབག་གི་ གནས་ཡུན་ཚང་ཡོདཔ་ཨིན་པས།
+སློབ་དཔོན་དགོངས་ཞུ་འབད་མིའི་ ཚད་གཞི་དེ་ ལོ་བསར་བཞིན་དུ་ ཡར་སེང་སོང་ཡོད་རུང་ སྤྱི་ལོ་ ༢༠༢༠ ལུ་ དགོངས་ཞུའི་ཚད་གཞི་ བརྒྱ་ཆ་ ༡.༩ མར་བབས་སོང་མི་དེ་ འདས་པའི་ལོ་ ༦ གི་ནང་འཁོད་ལུ་ དམའ་ཤོས་ཅིག་ཨིན་པས།
+ལ་ལོ་ཅིག་གིས་ སླབ་མིའི་ནང་ ད་རེས་ སློབ་དཔོན་དགོངས་ཞུ་འབད་མི་ མར་བབས་སོང་མི་དེ་ ནད་ཡམས་ཀོ་བིཌ་-༡༩ ལུ་བརྟེན་ ཕྱིའི་རྒྱལ་ཁབ་ཚུ་ནང་ འགྱོ་ནི་གི་ གོ་སྐབས་མ་ཐོབ་ནི་དེ་གིས་ འོང་ནི་མས་ཟེར་ཨིནམ་ད་ ལ་ལོ་གིས་འབད་བ་ཅིན་ སློབ་དཔོན་ ༡ དགོངས་ཞུ་འབད་རུང་ ཚ་གྱང་སྦོམ་ཡོད་ཟེར་ཨིན་པས།
+ལོ་ ༦ གི་ནང་འཁོད་ལུ་ སློབ་དཔོན་ ༡,༧༣༨ ཤེས་རིག་གི་ ཁྱད་གཡོག་བཤོལ་བཞག་ཡོདཔ་ད་ ན་ཧིང་ སློབ་དཔོན་ ༤༨༠ (བརྒྱ་ཆ་ ༣.༦) དགོངས་ཞུ་འབད་མི་དེ་ ལོ་དེ་ཚུ་ནང་ མཐོ་ཤོས་ཅིག་ཨིན་མས་ཟེར་ སྙན་ཞུ་ནང་བཀོད་ནུག།
+སྤྱི་ལོ་ ༢༠༢༠ ལུ་ སློབ་དཔོན་དགོངས་ཞུ་འབད་མིའི་གྲས་ལས་ ཞི་གཡོགཔ་ ༡༣༥ དང་ ཕྱིའི་སློབ་དཔོན་ ༤ རྒྱལ་ཡོངས་ཁག་འབག་སློབ་དཔོན་ ༡༦ ལོགས་སུ་སྦེ་བཏོན་བཞག་མི་སློབ་དཔོན་ ༡ དེ་ལས་ གཏན་འཇགས་ཀྱི་ སློབ་དཔོན་ ༧ ཨིན་པས། སྤྱིར་སྙོམས་ལུ་ གཞུང་གི་སློབ་གྲྭ་ཚུ་ལས་ སློབ་དཔོན་ ༣.༦ དེ་ཅིག་གིས་ སློབ་གྲྭ་བཤོལ་བཞགཔ་ཨིན་པས།
+འདས་པའི་ལོ་ཚུ་ནང་ལས་ ནང་འཁོད་སློབ་དཔོན་གྱི་གྱངས་ཁ་ ཡར་འཕར་དང་ ཕྱིའི་སློབ་དཔོན་མར་བབས་སོང་ཡོདཔ་ད་ སྤྱི་ལོ་ ༢༠༢༠ ལུ་ གཞུང་དང་ སྒེར་གྱི་སློབ་གྲྭ་ཚུ་ནང་ ཕྱིའི་སློབ་དཔོན་ ༡༤༨ དང་ འབྲུག་མི་སློབ་དཔོན་ ༡༠༠༤༢ དེ་ཅིག་ཡོདཔ་ཨིན་པའི་གནས་ཚུལ།
+
+འོག་ལུ་བཀོད་ཡོད་མི་ དྲི་བ་ག་རའི་ལན་བྲིས། སྐུགས་ ༥x༣=༡༥།
+༤༽ དམའ་ཤོས། ཁག་འབག། སྤྱིར་སྙོམས། ཟེར་བའི་ཚིག་ཚུ་ ལག་ལེན་འཐབ་སྟེ་ རྗོད་ཚིག་རེ་བཟོ། ཡིག་རྒྱུགས་ནང་ལས་ འདྲ་བཤུས་རྐྱབ་མི་ཆོག།', '༡. ཡིག་རྒྱུགས་འདི་ནང་ ང་གི་སྐུགས་ དམའ་ཤོས་ཅིག་ཐོབ་ཅི། ༢. ཁོ་ ལོ་གསུམ་གྱི་ ཁག་འབག་ཐོག་ལས་ ལཱ་འབད་དོ་ཡོདཔ་ཨིན། ༣. སྤྱིར་སྙོམས་ལུ་ ཉིནམ་རེ་ལུ་ ཆུ་ཚོད་ བརྒྱད་ ལཱ་འབདཝ་ཨིན། (དཔེ)', null, '[{"point": "ཚིག་ ༣ རེ་ལུ་ རྗོད་ཚིག་ ཚུལ་མཐུན་ རེ་རེ་ (ཡིག་རྒྱུགས་ནང་ལས་ འདྲ་བཤུས་མེད་པར)", "marks": 3}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'comprehension'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 3,
+    324, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2020, batch 2", "source": {"title": "BCSE 2020 Main Examination, General category, Paper I (Dzongkha)", "year": 2020, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2020b2-c1', 4, null, null, null, null)
+  returning id
+)
+insert into me_q select 'C1d', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2020 from me_q where key = 'C1d' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 1.0, 1 from me_q where key = 'C1d';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 1.0, 2 from me_q where key = 'C1d';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 1.0, 3 from me_q where key = 'C1d';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'passage', 'འོག་གི་གནས་ཚུལ་འདི་ ལྷག་ཞིནམ་ལས་ དྲི་བ་ག་རའི་ལན་བྲིས།
+སྤྱི་ལོ་ ༢༠༢༠ ལུ་ སློབ་དཔོན་ ༡༦༣ དགོངས་ཞུ་འབད་ཡོདཔ།
+༉ ལོ་བསར་ཤེས་རིག་གནས་སྡུད་ ༢༠༢༠ ཅན་མ་དང་འཁྲིལཝ་ད་ དུས་ཅི་ སློབ་དཔོན་ ༡༦༣ གྱིས་ དགོངས་ཞུ་འབད་ནུག། སློབ་དཔོན་ ༡༦༣ ལས་ ༡༡༢ ཁས་བླངས་དང་ ༢༧ ལོ་གྲངས་ཚང་ཡོདཔ་ད་ དེ་ལས་ ངེས་པར་དུ་ དགོངས་ཞུ་འབད་དགོཔ་ཐོན་མི་ སློབ་དཔོན་ ༣ དང་ སློབ་དཔོན་ ༦ ཁག་འབག་གི་ གནས་ཡུན་ཚང་ཡོདཔ་ཨིན་པས།
+སློབ་དཔོན་དགོངས་ཞུ་འབད་མིའི་ ཚད་གཞི་དེ་ ལོ་བསར་བཞིན་དུ་ ཡར་སེང་སོང་ཡོད་རུང་ སྤྱི་ལོ་ ༢༠༢༠ ལུ་ དགོངས་ཞུའི་ཚད་གཞི་ བརྒྱ་ཆ་ ༡.༩ མར་བབས་སོང་མི་དེ་ འདས་པའི་ལོ་ ༦ གི་ནང་འཁོད་ལུ་ དམའ་ཤོས་ཅིག་ཨིན་པས།
+ལ་ལོ་ཅིག་གིས་ སླབ་མིའི་ནང་ ད་རེས་ སློབ་དཔོན་དགོངས་ཞུ་འབད་མི་ མར་བབས་སོང་མི་དེ་ ནད་ཡམས་ཀོ་བིཌ་-༡༩ ལུ་བརྟེན་ ཕྱིའི་རྒྱལ་ཁབ་ཚུ་ནང་ འགྱོ་ནི་གི་ གོ་སྐབས་མ་ཐོབ་ནི་དེ་གིས་ འོང་ནི་མས་ཟེར་ཨིནམ་ད་ ལ་ལོ་གིས་འབད་བ་ཅིན་ སློབ་དཔོན་ ༡ དགོངས་ཞུ་འབད་རུང་ ཚ་གྱང་སྦོམ་ཡོད་ཟེར་ཨིན་པས།
+ལོ་ ༦ གི་ནང་འཁོད་ལུ་ སློབ་དཔོན་ ༡,༧༣༨ ཤེས་རིག་གི་ ཁྱད་གཡོག་བཤོལ་བཞག་ཡོདཔ་ད་ ན་ཧིང་ སློབ་དཔོན་ ༤༨༠ (བརྒྱ་ཆ་ ༣.༦) དགོངས་ཞུ་འབད་མི་དེ་ ལོ་དེ་ཚུ་ནང་ མཐོ་ཤོས་ཅིག་ཨིན་མས་ཟེར་ སྙན་ཞུ་ནང་བཀོད་ནུག།
+སྤྱི་ལོ་ ༢༠༢༠ ལུ་ སློབ་དཔོན་དགོངས་ཞུ་འབད་མིའི་གྲས་ལས་ ཞི་གཡོགཔ་ ༡༣༥ དང་ ཕྱིའི་སློབ་དཔོན་ ༤ རྒྱལ་ཡོངས་ཁག་འབག་སློབ་དཔོན་ ༡༦ ལོགས་སུ་སྦེ་བཏོན་བཞག་མི་སློབ་དཔོན་ ༡ དེ་ལས་ གཏན་འཇགས་ཀྱི་ སློབ་དཔོན་ ༧ ཨིན་པས། སྤྱིར་སྙོམས་ལུ་ གཞུང་གི་སློབ་གྲྭ་ཚུ་ལས་ སློབ་དཔོན་ ༣.༦ དེ་ཅིག་གིས་ སློབ་གྲྭ་བཤོལ་བཞགཔ་ཨིན་པས།
+འདས་པའི་ལོ་ཚུ་ནང་ལས་ ནང་འཁོད་སློབ་དཔོན་གྱི་གྱངས་ཁ་ ཡར་འཕར་དང་ ཕྱིའི་སློབ་དཔོན་མར་བབས་སོང་ཡོདཔ་ད་ སྤྱི་ལོ་ ༢༠༢༠ ལུ་ གཞུང་དང་ སྒེར་གྱི་སློབ་གྲྭ་ཚུ་ནང་ ཕྱིའི་སློབ་དཔོན་ ༡༤༨ དང་ འབྲུག་མི་སློབ་དཔོན་ ༡༠༠༤༢ དེ་ཅིག་ཡོདཔ་ཨིན་པའི་གནས་ཚུལ།
+
+འོག་ལུ་བཀོད་ཡོད་མི་ དྲི་བ་ག་རའི་ལན་བྲིས། སྐུགས་ ༥x༣=༡༥།
+༥༽ སློབ་དཔོན་དགོངས་ཞུ་འབད་བའི་གནས་ཚུལ་འདི་ གནས་ཚུལ་གསར་ཤོག་ནང་ བཀོད་དགོ་པའི་ རྒྱུ་མཚན་ག་ཅི་འོང་ནི་བཟུམ་འདུག་གོ?', '༡. སློབ་དཔོན་ཡོད་ཚད་ ཤེས་རིག་གི་ རྩ་བ་ཨིནམ་ལས་ མི་མང་ལུ་ བརྡ་སྤྲོད་འབད་དགོ། ༢. གཞུང་གིས་ སྲིད་བྱུས་ བཟོ་ནིའི་ གཞི་རྟེན་ཨིན། ༣. ཤེས་རིག་གི་ སྤུས་ཚད་ལུ་ གནོད་པའི་ ཉེན་ཁ་ཡོདཔ་ལས་ དྭངས་གསལ་གྱི་ཐོག་ལས་ ཤེས་དགོཔ་ཨིན།', null, '[{"point": "རྒྱུ་མཚན་ ༢-༣ (མི་མང་དང་ གཞུང་ལུ་ བརྡ་སྤྲོད། ཤེས་རིག་གི་ སྤུས་ཚད་ལུ་ ཐུགས་ཁུར། སྲིད་བྱུས་བཟོ་ནིའི་ གཞི་རྟེན། དྭངས་གསལ)", "marks": 3}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'comprehension'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 3,
+    324, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2020, batch 2", "source": {"title": "BCSE 2020 Main Examination, General category, Paper I (Dzongkha)", "year": 2020, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, 'me-general-1-2020b2-c1', 5, null, null, null, null)
+  returning id
+)
+insert into me_q select 'C1e', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2020 from me_q where key = 'C1e' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 1.0, 1 from me_q where key = 'C1e';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 1.0, 2 from me_q where key = 'C1e';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 1.0, 3 from me_q where key = 'C1e';
+with nq as (
+  insert into public.questions (stage, question_type, stem, model_answer, explanation, key_points, subject_id, topic_id, paper_id, difficulty, marks,
+                                estimated_seconds, origin, status, parent_question_id, variation_type, ai_review, passage_group, passage_position, verified_by, subject_group_id, specialisation_id, image_url)
+  values ('ME', 'translation', 'འོག་ལུ་ཨིང་སྐད་ནང་ཡོད་མི་ གསུང་བཤད་འདི་ རྫོང་ཁའི་ཐོག་ལུ་ སྐད་སྒྱུར་འབད་དེ་བྲིས།
+"Our most important long term national goals include: enhancing our security and sovereignty; promoting our unique traditions and cultural heritage; conserving our environment; promoting peaceful and harmonious coexistence with other nations, and enhancing the reputation and national identity of our glorious nation of Palden Drukpa.
+Our greatest wealth in human resources is epitomised by our civil servants who serve in every Dzongkhag, Gewog, and village, and should know intimately the most pressing issues, and the concerns and aspirations of the people. At the same time, they are well travelled around the world, so we expect them to be well informed and aware of the outside world. They should be up-to-date with advancements in technology and new practices, and able to use this knowledge for the benefit of our country.
+Thus, it is important that the civil servants, equipped with immense knowledge, skills, and experience, render their unstinted support to the government''s endeavour aimed at improving the welfare of the people."
+(An excerpt from the English translation of the 111th National Day Address of His Majesty The King, 17th December 2018.)', 'ལན་གྱི་དཔེ།
+
+ང་བཅས་ཀྱི་ ཡུན་རིང་གི་ རྒྱལ་ཡོངས་དམིགས་ཡུལ་ གལ་ཆེ་ཤོས་ཚུ་ནང་ ཉེན་སྲུང་དང་ རང་དབང་ ཡར་དྲག་གཏང་ནི། ང་བཅས་ཀྱི་ ཁྱད་ཆོས་ཅན་གྱི་ སྔར་སྲོལ་དང་ ལམ་སྲོལ་གྱི་ཤུལ་བཞག་ གོང་འཕེལ་གཏང་ནི། མཐའ་འཁོར་ཉམས་སྲུང་འབད་ནི། རྒྱལ་ཁབ་གཞན་ཚུ་དང་ ཞི་བདེ་དང་ མཐུན་ཏོག་ཏོ་སྦེ་ སྡོད་ནི་དང་ དཔལ་ལྡན་འབྲུག་པ་ ང་བཅས་ཀྱི་ རྒྱལ་ཁབ་ཀྱི་ གཟི་བརྗིད་དང་ ངོ་རྟགས་ ཡར་དྲག་གཏང་ནི་ཚུ་ཨིན།
+
+ང་བཅས་ཀྱི་ མི་སྟོབས་ཀྱི་ ནོར་ཆེ་ཤོས་འདི་ རྫོང་ཁག་ རྒེད་འོག་ གཡུས་ཚན་ག་ར་ནང་ ཕྱག་ཞུ་མི་ ཞི་གཡོགཔ་ཚུ་ཨིན། ཁོང་ཚུ་གིས་ མི་མང་གི་ དཀའ་ངལ་གལ་ཆེ་ཤོས་ཚུ་དང་ ཁོང་གི་ ཐུགས་ཁུར་དང་ རེ་འདོད་ཚུ་ ལེགས་ཤོམ་སྦེ་ ཤེས་དགོ། དེ་དང་གཅིག་ཁར་ ཁོང་ཚུ་ འཛམ་གླིང་ནང་ ལེ་ཤ་ བསྐྱོད་ཡོདཔ་ལས་ ཕྱི་རྒྱལ་གྱི་ གནས་སྟངས་ཚུ་ ཤེས་ཏེ་ ཡོད་དགོཔ་ང་བཅས་ཀྱིས་ རེ་བ་ཡོད། ཁོང་ཚུ་གིས་ འཕྲུལ་རིག་གི་ ཡར་རྒྱས་དང་ ལག་ལེན་གསརཔ་ཚུ་ ཤེས་ཏེ་ ཤེས་ཡོན་དེ་ རྒྱལ་ཁབ་ཀྱི་ ཕན་ལུ་ ལག་ལེན་འཐབ་ཚུགས་དགོ།
+
+དེ་འབདཝ་ལས་ ཤེས་ཡོན་ ལྕོགས་གྲུབ་ ཉམས་མྱོང་ ཚད་མེད་ཡོད་པའི་ ཞི་གཡོགཔ་ཚུ་གིས་ མི་མང་གི་ བདེ་ཐབས་ ཡར་དྲག་གཏང་ནིའི་ གཞུང་གི་ བརྩོན་ཤུགས་ལུ་ རྒྱབ་སྐྱོར་ ཆ་ཚང་ཕུལ་དགོཔ་འདི་ གལ་ཆེ།
+
+- མི་དབང་མངའ་བདག་རིན་པོ་ཆེའི་ རྒྱལ་ཡོངས་དུས་ཆེན་ ཐེངས་ ༡༡༡ པའི་ གསུང་བཤད་ (༢༠༡༨ ཟླ་ ༡༢ ཚེས་ ༡༧) ལས་ ཕྱུང་མི།', null, '[{"point": "དོན་ཚན་ ༡ - ཡུན་རིང་གི་ དམིགས་ཡུལ་ (ཉེན་སྲུང་དང་ རང་དབང། ལམ་སྲོལ་དང་ སྔར་སྲོལ་ཤུལ་བཞག། མཐའ་འཁོར་ཉམས་སྲུང། རྒྱལ་ཁབ་གཞན་དང་ མཐུན་ལམ། དཔལ་ལྡན་འབྲུག་པའི་ གཟི་བརྗིད་དང་ ངོ་རྟགས)", "marks": 5}, {"point": "དོན་ཚན་ ༢ - མི་སྟོབས་ཀྱི་ ནོར་ཆེ་ཤོས་ ཞི་གཡོགཔ། རྫོང་ཁག་ རྒེད་འོག་ གཡུས་ཚན། མི་མང་གི་ དཀའ་ངལ་དང་ རེ་འདོད་ཤེས་དགོཔ། འཛམ་གླིང་དང་ འཕྲུལ་རིག་གི་ ཤེས་ཡོན་ རྒྱལ་ཁབ་ཀྱི་ཕན་ལུ།", "marks": 6}, {"point": "དོན་ཚན་ ༣ - ཤེས་ཡོན་ ལྕོགས་གྲུབ་ ཉམས་མྱོང་ལྡན་པའི་ ཞི་གཡོགཔ་ཚུ་གིས་ གཞུང་གི་ མི་མང་བདེ་ཐབས་ཀྱི་ བརྩོན་ཤུགས་ལུ་ རྒྱབ་སྐྱོར། ཚིག་སྦྱོར་ཚུལ་མཐུན།", "marks": 4}]'::jsonb, (select id from public.subjects where slug = 'dzongkha'),
+    (select t.id from public.topics t where t.subject_id = (select id from public.subjects where slug = 'dzongkha') and t.slug = 'translation'), (select id from public.exam_papers where code = 'me-general-1'), 'standard', 15,
+    1620, 'historical_official', 'awaiting_review',
+    null, null,
+    '{"verdict": "pass", "issues": ["Dzongkha question text copied from the PDF (font repaired) and model answer written by Claude: a fluent Dzongkha reader must check both before publishing."], "checker_notes": "Model answer, marking guide and rubric written by Claude from the RCSC paper; facts were checked against what is widely published, but please read before publishing. Real past-paper questions keep RCSC wording.", "batch": "ME Paper I (General, Dzongkha): BCSE 2020, batch 2", "source": {"title": "BCSE 2020 Main Examination, General category, Paper I (Dzongkha)", "year": 2020, "url": "https://rcsc.gov.bt/bcse-past-question-papers/"}}'::jsonb, null, null, null, null, null, null)
+  returning id
+)
+insert into me_q select 'T1', id from nq;
+insert into public.question_appearances (question_id, year) select id, 2020 from me_q where key = 'T1' on conflict do nothing;
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Content (ནང་དོན།)', 'Answers what is asked with relevant, correct and well-developed points.', 6.0, 1 from me_q where key = 'T1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Structure (འབྲི་བཀོད།)', 'Correct format for the task (essay, letter, agreement, précis), logical order and paragraphs.', 4.0, 2 from me_q where key = 'T1';
+insert into public.rubric_criteria (question_id, label, description, max_marks, position) select id, 'Language and spelling (སྐད་ཡིག་དང་ཡིག་སྦྱོར།)', 'Correct Dzongkha grammar, honorifics, spelling and punctuation.', 5.0, 3 from me_q where key = 'T1';
+commit;
