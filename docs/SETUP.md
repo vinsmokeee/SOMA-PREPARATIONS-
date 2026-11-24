@@ -27,7 +27,7 @@ SOMA_PUBLIC_DATA=fixture npm run dev   # …browse public pages without Supabase
   matches the files in `supabase/migrations`.
 - **Still to do (needs the production URL):** Auth → Site URL, redirect URLs, the
   email templates in `supabase/templates/` (confirmation, recovery; set the
-  subjects to "Confirm your Soma Preparations account" and "Reset your Soma
+  subjects to "Confirm your SOMA Academy account" and "Reset your Soma
   Preparations password"), password minimum length 8 with letters + digits, and a
   custom SMTP sender.
 

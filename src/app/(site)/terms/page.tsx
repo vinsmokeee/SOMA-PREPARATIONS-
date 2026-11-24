@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Terms of use" };
 export default function TermsPage() {
   return (
     <LegalPage title="Terms of use" updated="15 November 2026">
-      <p>These terms govern your use of Soma Preparations (&quot;Soma&quot;). By creating an account you agree to them.</p>
+      <p>These terms govern your use of SOMA Academy (&quot;Soma&quot;). By creating an account you agree to them.</p>
       <h2>Independent service</h2>
       <p>Soma is an independent preparation service. It is not affiliated with the Royal Civil Service Commission (RCSC). Soma practice examinations, scores and readiness estimates are not official RCSC papers, marks or assessments.</p>
       <h2>Your account</h2>

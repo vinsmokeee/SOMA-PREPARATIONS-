@@ -15,7 +15,7 @@ export const PARAMS_SOURCE_OPTIONS = [
 
 /** Shown wherever the ME is described or sold. */
 export const ME_RESULT_NOTE =
-  "Soma Preparations trains you for the written examination of the ME. Your academic marks and the viva/interview may also count toward the final selection result.";
+  "SOMA Academy trains you for the written examination of the ME. Your academic marks and the viva/interview may also count toward the final selection result.";
 
 export type CutoffRow = { year: number; value: number; unit: "percent" | "marks" };
 

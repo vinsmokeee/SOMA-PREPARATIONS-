@@ -1,4 +1,4 @@
-# Soma Preparations
+# SOMA Academy
 
 **Prepare. Practice. Progress.**
 

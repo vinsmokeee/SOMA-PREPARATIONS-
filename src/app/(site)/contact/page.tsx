@@ -5,7 +5,7 @@ import { ContactForm } from "./contact-form";
 
 export const metadata: Metadata = {
   title: "Contact and support",
-  description: "Contact Soma Preparations for help with your account, payments or content.",
+  description: "Contact SOMA Academy for help with your account, payments or content.",
 };
 
 export default function ContactPage() {

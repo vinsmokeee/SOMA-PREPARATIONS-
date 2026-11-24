@@ -85,7 +85,7 @@ export async function startGatewayPaymentAction(_prev: { error?: string }, formD
   const t = data as { transaction_id: string; amount: number; currency: string; reference: string };
   const r = await provider.createPayment({
     transactionId: t.transaction_id, orderReference: t.reference, amount: Number(t.amount), currency: t.currency,
-    description: `Soma Preparations ${t.reference}`,
+    description: `SOMA Academy ${t.reference}`,
     returnUrl: `${siteConfig.url}/pay/return?tx=${t.transaction_id}`, webhookUrl: `${siteConfig.url}/api/payments/webhook/${provider.id}`,
     customer: { name: user.fullName, email: user.email },
   });

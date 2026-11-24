@@ -11,7 +11,7 @@ import { cn, formatDate, formatNu } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Packages and pricing",
-  description: "Soma Preparations packages for the BCSE Preliminary and Main Examinations, priced in Ngultrum.",
+  description: "SOMA Academy packages for the BCSE Preliminary and Main Examinations, priced in Ngultrum.",
 };
 
 export default async function PackagesPage() {

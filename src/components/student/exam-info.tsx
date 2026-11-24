@@ -31,7 +31,7 @@ export const BENEFITS: Record<Stage, Benefit[]> = {
 };
 
 const ABOUT: Benefit[] = [
-  { icon: HeartHandshake, title: "Who we are", text: "Soma Preparations is an online platform that helps graduates in Bhutan prepare for the BCSE: the Preliminary Examination (PE) and the Main Examination (ME)." },
+  { icon: HeartHandshake, title: "Who we are", text: "SOMA Academy is an online platform that helps graduates in Bhutan prepare for the BCSE: the Preliminary Examination (PE) and the Main Examination (ME)." },
   { icon: MapPin, title: "For every graduate, wherever you are", text: "Many graduates live in remote places without coaching classes or study materials. With Soma, all you need is your phone: practice, papers, feedback and news, anytime." },
   { icon: BookOpen, title: "What we teach", text: "English, Dzongkha, Aptitude and Data Interpretation for the PE (with OMR shading practice), and written answers for your ME entry: General, Technical and Dzongkha graduates." },
   { icon: Brain, title: "AI that helps you learn", text: "Instant marking with explanations, AI marking of your written answers (typed or handwritten) with feedback, and a coach that shows you where to gain marks." },
@@ -68,7 +68,7 @@ export function ChooserInfo({ packages }: { packages: Record<Stage, PackageInfo>
         <p className="mt-1 text-sm text-muted-foreground">Who we are, and what is included for each exam.</p>
       </div>
       <section aria-labelledby="info-about" className="space-y-3">
-        <h3 id="info-about" className="text-lg font-extrabold text-ink">About Soma Preparations</h3>
+        <h3 id="info-about" className="text-lg font-extrabold text-ink">About SOMA Academy</h3>
         <Grid items={ABOUT} />
       </section>
       {(["PE", "ME"] as const).map((s) => (

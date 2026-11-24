@@ -32,11 +32,11 @@ const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&
 /** Plain, branded notification e-mail. */
 export function renderNotificationEmail(n: { title: string; body: string | null; link: string | null }, siteUrl: string): Omit<EmailMessage, "to"> {
   const url = n.link ? `${siteUrl.replace(/\/$/, "")}${n.link}` : siteUrl;
-  const text = `${n.title}\n\n${n.body ?? ""}\n\nOpen Soma: ${url}\n\nSoma Preparations — BCSE preparation. You receive this because you have a Soma account.`;
+  const text = `${n.title}\n\n${n.body ?? ""}\n\nOpen Soma: ${url}\n\nSOMA Academy — BCSE preparation. You receive this because you have a Soma account.`;
   const html = `<div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;color:#1a1a1a">
-<p style="font-family:Georgia,serif;font-size:20px;margin:0 0 16px"><b>Soma</b> Preparations</p>
+<p style="font-family:Georgia,serif;font-size:20px;margin:0 0 16px"><b>SOMA</b> Academy</p>
 <h1 style="font-size:18px">${esc(n.title)}</h1><p style="line-height:1.6">${esc(n.body ?? "")}</p>
 <p><a href="${esc(url)}" style="background:#c2410c;color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none">Open Soma</a></p>
-<p style="color:#666;font-size:12px">You receive this because you have a Soma Preparations account.</p></div>`;
+<p style="color:#666;font-size:12px">You receive this because you have a SOMA Academy account.</p></div>`;
   return { subject: n.title, text, html };
 }

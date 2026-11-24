@@ -7,7 +7,7 @@ import { Container, PageHeader } from "@/components/ui/container";
 
 export const metadata: Metadata = {
   title: "Free practice",
-  description: "Free BCSE practice questions with explanations from Soma Preparations.",
+  description: "Free BCSE practice questions with explanations from SOMA Academy.",
 };
 
 export default function PracticePage() {
