@@ -31,7 +31,7 @@ export async function fetchDocument(input: string, allowedHosts: string[]): Prom
       res = await fetch(check.url, {
         redirect: "manual",
         signal: AbortSignal.timeout(30_000),
-        headers: { "User-Agent": "SomaPreparations-DocumentImport/1.0", Accept: "application/pdf" },
+        headers: { "User-Agent": "SomaAcademy-DocumentImport/1.0", Accept: "application/pdf" },
       });
     } catch {
       return { ok: false, reason: "The site did not respond. It may be temporarily unavailable." };

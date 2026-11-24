@@ -5,11 +5,11 @@ import { Container, PageHeader } from "@/components/ui/container";
 
 export const metadata: Metadata = {
   title: "Frequently asked questions",
-  description: "Answers to common questions about Soma Preparations and BCSE preparation.",
+  description: "Answers to common questions about SOMA Academy and BCSE preparation.",
 };
 
 const faqs: { q: string; a: React.ReactNode }[] = [
-  { q: "Is Soma part of the RCSC?", a: "No. Soma Preparations is an independent, private preparation platform. It is not affiliated with, endorsed by, or part of the Royal Civil Service Commission. Always confirm official information on rcsc.gov.bt." },
+  { q: "Is Soma part of the RCSC?", a: "No. SOMA Academy is an independent, private preparation platform. It is not affiliated with, endorsed by, or part of the Royal Civil Service Commission. Always confirm official information on rcsc.gov.bt." },
   { q: "What is the difference between the PE and the ME?", a: <>The Preliminary Examination (PE) is an objective-type examination common to all categories of graduates; it shortlists candidates for the Main Examination. The Main Examination (ME) includes written papers that differ by category, along with academic achievement and a viva voce. See <Link className="text-primary underline" href="/pe">PE preparation</Link> and <Link className="text-primary underline" href="/me">ME preparation</Link>.</> },
   { q: "Are Soma's mock examinations the real RCSC papers?", a: "No. Soma's mock examinations are practice simulations written by Soma, designed to reflect the format and conditions of the BCSE. Where we present historical material, we label it clearly and only reproduce it where permitted." },
   { q: "Can Soma guarantee that I will pass the BCSE?", a: "No. Nobody can guarantee selection. Soma helps you prepare more effectively; readiness indicators are Soma estimates, not official assessments." },

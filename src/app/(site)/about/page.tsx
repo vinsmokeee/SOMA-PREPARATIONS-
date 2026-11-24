@@ -5,7 +5,7 @@ import { Container, Eyebrow, PageHeader } from "@/components/ui/container";
 
 export const metadata: Metadata = {
   title: "About Soma",
-  description: "Why Soma Preparations exists and how we build trustworthy BCSE preparation for Bhutanese graduates.",
+  description: "Why SOMA Academy exists and how we build trustworthy BCSE preparation for Bhutanese graduates.",
 };
 
 export default function AboutPage() {
@@ -14,7 +14,7 @@ export default function AboutPage() {
       <PageHeader
         eyebrow="About Soma"
         title="Serious preparation for an important examination"
-        description="Soma Preparations is a Bhutanese education platform helping graduates prepare for the Bhutan Civil Service Examination with structure, realism and honesty."
+        description="SOMA Academy is a Bhutanese education platform helping graduates prepare for the Bhutan Civil Service Examination with structure, realism and honesty."
       />
       <Container className="grid gap-12 py-12 sm:py-16 lg:grid-cols-[1fr_1fr]">
         <section className="space-y-5 text-[17px] leading-relaxed text-foreground">
@@ -28,8 +28,8 @@ export default function AboutPage() {
             revise next.
           </p>
           <p>
-            Soma means <em>preparation</em> in the sense we care about most: steady, deliberate work. Our tagline says it
-            simply — <strong className="text-ink">Prepare. Practice. Progress.</strong>
+            SOMA stands for the way we want you to prepare: steady, deliberate work. Our logo says it
+            simply — <strong className="text-ink">Study. Observe. Master. Advance.</strong>
           </p>
         </section>
         <section className="space-y-8">
@@ -51,7 +51,7 @@ export default function AboutPage() {
           <div>
             <Eyebrow>Independent</Eyebrow>
             <p className="mt-2 max-w-2xl text-muted-foreground">
-              Soma Preparations is not affiliated with, endorsed by, or part of the Royal Civil Service Commission.
+              SOMA Academy is not affiliated with, endorsed by, or part of the Royal Civil Service Commission.
             </p>
           </div>
           <Button asChild variant="secondary">

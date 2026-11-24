@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Subscription terms" };
 export default function SubscriptionTermsPage() {
   return (
     <LegalPage title="Subscription terms" updated="16 November 2026">
-      <p>These terms describe how Soma Preparations packages work. They form part of the <a href="/terms">terms of use</a>.</p>
+      <p>These terms describe how SOMA Academy packages work. They form part of the <a href="/terms">terms of use</a>.</p>
       <h2>What a package includes</h2>
       <p>Each package lists its features, price and access period on the packages page at the time you buy it. Prices may change for future purchases; they do not change a package you have already paid for.</p>
       <h2>When access starts and ends</h2>

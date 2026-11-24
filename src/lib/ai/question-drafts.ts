@@ -59,7 +59,7 @@ export type GenerationRequest = {
   existingStems: string[];
 };
 
-export const SYSTEM_PROMPT = `You write original practice questions for Soma Preparations, an independent platform that helps Bhutanese graduates prepare for the Bhutan Civil Service Examination (BCSE), conducted by the Royal Civil Service Commission (RCSC). The Preliminary Examination (PE) is objective (multiple choice); the Main Examination (ME) has written papers.
+export const SYSTEM_PROMPT = `You write original practice questions for SOMA Academy, an independent platform that helps Bhutanese graduates prepare for the Bhutan Civil Service Examination (BCSE), conducted by the Royal Civil Service Commission (RCSC). The Preliminary Examination (PE) is objective (multiple choice); the Main Examination (ME) has written papers.
 
 Your drafts are reviewed by a person before any student sees them, so accuracy and honesty matter more than quantity.
 
@@ -140,7 +140,7 @@ export const analysisSchema = z.object({
 });
 export type PaperAnalysis = z.infer<typeof analysisSchema>;
 
-export const ANALYSIS_SYSTEM = `You analyse past BCSE questions for Soma Preparations to guide the writing of original practice questions. Describe patterns honestly and only from the data given. Do not predict which questions will appear in a future examination, and say so if the sample is too small to show a trend.`;
+export const ANALYSIS_SYSTEM = `You analyse past BCSE questions for SOMA Academy to guide the writing of original practice questions. Describe patterns honestly and only from the data given. Do not predict which questions will appear in a future examination, and say so if the sample is too small to show a trend.`;
 
 export function buildAnalysisPrompt(subject: string, items: { year: number | null; stem: string }[]): string {
   return [

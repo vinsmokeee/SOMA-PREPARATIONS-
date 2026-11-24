@@ -28,7 +28,7 @@ export async function fetchFeed(url: string): Promise<{ ok: true; text: string }
       res = await fetch(check.url, {
         redirect: "manual",
         signal: AbortSignal.timeout(20_000),
-        headers: { "User-Agent": "SomaPreparations-CurrentAffairs/1.0 (+education; feed reader)", Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.5" },
+        headers: { "User-Agent": "SomaAcademy-CurrentAffairs/1.0 (+education; feed reader)", Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.5" },
       });
     } catch {
       return { ok: false, reason: "No response (timeout or network error)" };

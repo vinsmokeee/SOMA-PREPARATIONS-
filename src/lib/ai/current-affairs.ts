@@ -30,7 +30,7 @@ export const triageSchema = z.object({
 });
 export type Triage = z.infer<typeof triageSchema>["items"][number];
 
-export const TRIAGE_SYSTEM = `You screen news for Soma Preparations, which prepares Bhutanese graduates for the Bhutan Civil Service Examination (BCSE). Score how useful each item is for the general-awareness and current-affairs parts of the examination.
+export const TRIAGE_SYSTEM = `You screen news for SOMA Academy, which prepares Bhutanese graduates for the Bhutan Civil Service Examination (BCSE). Score how useful each item is for the general-awareness and current-affairs parts of the examination.
 
 High relevance (70-100): Royal Government of Bhutan decisions, policies, budget and economy, Gelephu Mindfulness City, hydropower, major infrastructure, education and civil service, Bhutan's foreign relations, significant developments in India, China, Nepal, Bangladesh and South Asia that affect the region, major international agreements, summits, UN and multilateral decisions, major global economic, scientific and climate developments.
 Low relevance (0-40): crime and accidents without wider significance, celebrity, sport results, local events, advertising, obituaries, routine statements.
@@ -61,7 +61,7 @@ export const noteSchema = z.object({
 });
 export type CaNote = z.infer<typeof noteSchema>;
 
-export const NOTE_SYSTEM = `You write short current-affairs study notes for Bhutanese graduates preparing for the Bhutan Civil Service Examination, on the Soma Preparations platform.
+export const NOTE_SYSTEM = `You write short current-affairs study notes for Bhutanese graduates preparing for the Bhutan Civil Service Examination, on the SOMA Academy platform.
 
 Strict rules:
 - Use ONLY facts stated in the numbered sources. Every key fact must cite the source numbers that state it. Never add names, numbers, dates or events that are not in the sources.
@@ -94,7 +94,7 @@ export const caQuestionsSchema = z.object({
 });
 export type CaQuestion = z.infer<typeof caQuestionsSchema>["questions"][number];
 
-export const QUESTIONS_SYSTEM = `You write practice questions for Bhutan Civil Service Examination candidates from a verified current-affairs study note on Soma Preparations. These are Soma practice questions, never official RCSC questions.
+export const QUESTIONS_SYSTEM = `You write practice questions for Bhutan Civil Service Examination candidates from a verified current-affairs study note on SOMA Academy. These are Soma practice questions, never official RCSC questions.
 
 Rules:
 - Every question must be answerable from the note alone. Do not add facts.

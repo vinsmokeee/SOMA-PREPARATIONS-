@@ -44,7 +44,7 @@ export function Citations({ citations, className }: { citations: Citation[]; cla
 export function NotOfficialNotice({ className }: { className?: string }) {
   return (
     <Alert tone="info" title="Soma is independent of the RCSC" className={className}>
-      Soma Preparations is a private preparation platform. Our practice examinations are simulations designed to
+      SOMA Academy is a private preparation platform. Our practice examinations are simulations designed to
       familiarise you with BCSE conditions — they are not official RCSC papers, and Soma scores are not RCSC marks.
       Always confirm dates, rules and requirements in the latest RCSC announcement.
     </Alert>

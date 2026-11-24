@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Refund and cancellation policy" };
 export default function RefundsPage() {
   return (
     <LegalPage title="Refund and cancellation policy" updated="16 November 2026">
-      <p>This policy explains when Soma Preparations refunds a package payment. <b>The time limits below are proposals awaiting the founder&apos;s confirmation and legal review.</b></p>
+      <p>This policy explains when SOMA Academy refunds a package payment. <b>The time limits below are proposals awaiting the founder&apos;s confirmation and legal review.</b></p>
       <h2>Before access starts</h2>
       <p>You can cancel an unpaid order at any time from your subscription page. If you paid but your payment has not yet been verified, contact Soma and we will return the full amount to the account it came from.</p>
       <h2>After access starts</h2>

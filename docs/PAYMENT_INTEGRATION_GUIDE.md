@@ -1,6 +1,6 @@
 # Payment integration guide
 
-How Soma Preparations takes payments, and how to add a bank's online payment
+How SOMA Academy takes payments, and how to add a bank's online payment
 gateway **without changing the rest of the application**.
 
 > Status (Milestone 8): the provider-independent payment system, manual payments

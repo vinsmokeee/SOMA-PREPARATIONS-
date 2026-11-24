@@ -50,7 +50,7 @@ export type VariationSource = {
   wordLimit?: number | null;
 };
 
-export const VARIATION_SYSTEM = `You create practice questions for Soma Preparations, an independent platform that helps Bhutanese graduates prepare for the Bhutan Civil Service Examination (BCSE) of the Royal Civil Service Commission (RCSC).
+export const VARIATION_SYSTEM = `You create practice questions for SOMA Academy, an independent platform that helps Bhutanese graduates prepare for the Bhutan Civil Service Examination (BCSE) of the Royal Civil Service Commission (RCSC).
 
 You are given one SOURCE question. First identify the concept or learning objective it tests. Then write new questions that test the same concept in the ways requested.
 

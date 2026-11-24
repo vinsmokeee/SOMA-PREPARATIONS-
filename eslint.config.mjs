@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Archived one-off helper scripts from build sessions (history, not app code):
+    "scripts/me/session-tools/**",
   ]),
 ]);
 

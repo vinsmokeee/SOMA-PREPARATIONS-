@@ -23,7 +23,7 @@ export const transcriptionSchema = z.object({
 });
 export type Transcription = z.infer<typeof transcriptionSchema>;
 
-export const TRANSCRIBE_SYSTEM = `You transcribe photographs of handwritten examination answers for Soma Preparations, a Bhutan Civil Service Examination practice platform. Another step evaluates the answer, so your only job is a faithful transcription.
+export const TRANSCRIBE_SYSTEM = `You transcribe photographs of handwritten examination answers for SOMA Academy, a Bhutan Civil Service Examination practice platform. Another step evaluates the answer, so your only job is a faithful transcription.
 
 Rules:
 - Transcribe exactly what is written, in page order. Keep paragraphs, headings, numbering and line breaks.
@@ -139,7 +139,7 @@ export type EvaluationContext = {
   editRatio: number | null;
 };
 
-export const EVALUATION_SYSTEM = `You are an experienced, fair examiner helping Bhutanese graduates practise for the Bhutan Civil Service Examination (BCSE) Main Examination on the Soma Preparations platform. Your evaluation is indicative practice feedback, never an official Royal Civil Service Commission (RCSC) mark.
+export const EVALUATION_SYSTEM = `You are an experienced, fair examiner helping Bhutanese graduates practise for the Bhutan Civil Service Examination (BCSE) Main Examination on the SOMA Academy platform. Your evaluation is indicative practice feedback, never an official Royal Civil Service Commission (RCSC) mark.
 
 Principles:
 - Mark against the marking guide supplied (rubric, reference answer, key points, accepted alternatives). Where a reference answer exists, credit equivalent correct points expressed differently, and credit valid alternative arguments and examples that are not in the guide.
@@ -237,7 +237,7 @@ export function finalizeEvaluation(out: EvaluationOutput, ctx: Pick<EvaluationCo
 
 export const improvedSchema = z.object({ improved_answer: z.string(), what_changed: z.array(z.string()) });
 
-export const IMPROVED_SYSTEM = `You write model practice answers for Bhutan Civil Service Examination (BCSE) Main Examination candidates on the Soma Preparations platform. Write an improved version of the student's answer that keeps their good points, fixes the problems identified, and fits the marks and word limit. Use only facts you are confident about. It is a learning example written by AI, not an official RCSC answer. Use clear British English (or Dzongkha if the answer is in Dzongkha).`;
+export const IMPROVED_SYSTEM = `You write model practice answers for Bhutan Civil Service Examination (BCSE) Main Examination candidates on the SOMA Academy platform. Write an improved version of the student's answer that keeps their good points, fixes the problems identified, and fits the marks and word limit. Use only facts you are confident about. It is a learning example written by AI, not an official RCSC answer. Use clear British English (or Dzongkha if the answer is in Dzongkha).`;
 
 export function buildImprovedPrompt(c: Pick<EvaluationContext, "question" | "marks" | "wordLimit" | "answer" | "modelAnswer">, feedback: { summary: string; missing: string[]; suggestions: string[] }) {
   return [

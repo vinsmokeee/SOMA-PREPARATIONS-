@@ -1,22 +1,23 @@
 /**
  * Brand and site configuration.
  *
- * LOGO: the founder's official logo is /public/brand/soma-logo.png (square,
- * shown whole: never crop or alter it). soma-logo-256.png is the same image
- * resized for the header. Do not modify the supplied artwork.
+ * LOGO (founder, 25 Nov 2026: new name SOMA Academy): the official logo is
+ * /public/brand/soma-logo.png (square, as supplied). soma-logo-256.png and the
+ * app icons are the same image with only the empty white border trimmed, so the
+ * whole logo shows larger. Never cut into or alter the artwork itself.
  */
 export const siteConfig = {
-  name: "Soma Preparations",
+  name: "SOMA Academy",
   shortName: "Soma",
-  tagline: "Prepare. Practice. Progress.",
+  tagline: "Study. Observe. Master. Advance.",
   description:
     "Structured preparation for the Bhutan Civil Service Examination (BCSE): Preliminary Examination (PE) practice, Main Examination (ME) written-paper preparation, realistic timed simulations and clear explanations.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   logo: {
-    src: "/brand/soma-logo-256.png" as string | null, // the founder's logo, whole and unchanged (original: /brand/soma-logo.png)
+    src: "/brand/soma-logo-256.png" as string | null, // the founder's logo, white border trimmed only (original: /brand/soma-logo.png)
     width: 256,
     height: 256,
-    alt: "Soma Preparations",
+    alt: "SOMA Academy",
   },
   contact: {
     // Set NEXT_PUBLIC_SUPPORT_EMAIL once the business mailbox exists.

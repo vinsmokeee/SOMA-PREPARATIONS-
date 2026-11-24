@@ -1,6 +1,6 @@
 # Architecture
 
-Soma Preparations is one Next.js application backed by Supabase. Additional
+SOMA Academy is one Next.js application backed by Supabase. Additional
 services (background workers, AI providers, payment gateways) plug into it
 later through clear boundaries; nothing in Milestone 1 locks those choices in.
 
