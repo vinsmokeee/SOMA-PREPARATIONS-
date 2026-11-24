@@ -2,9 +2,11 @@
  * Brand and site configuration.
  *
  * LOGO (founder, 25 Nov 2026: new name SOMA Academy): the official logo is
- * /public/brand/soma-logo.png (square, as supplied). soma-logo-256.png and the
- * app icons are the same image with only the empty white border trimmed, so the
- * whole logo shows larger. Never cut into or alter the artwork itself.
+ * /public/brand/soma-logo.png (the founder's PNG with a transparent background,
+ * as supplied). soma-logo-256.png and the app icons are the same image with only
+ * the empty border trimmed, so the whole logo shows larger (apple-icon gets a
+ * white background because iPhones do not allow transparent icons). Never cut
+ * into or alter the artwork itself.
  */
 export const siteConfig = {
   name: "SOMA Academy",

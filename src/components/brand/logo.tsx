@@ -9,7 +9,7 @@ export function Logo({ className, href = "/" }: { className?: string; href?: str
   return (
     <Link href={href} className={cn("inline-flex items-center gap-2.5", className)} aria-label={`${siteConfig.name} — home`}>
       {logo.src ? (
-        <Image src={logo.src} alt="" width={logo.width} height={logo.height} priority className="size-12 shrink-0 rounded-xl bg-white shadow-sm ring-1 ring-border" />
+        <Image src={logo.src} alt="" width={logo.width} height={logo.height} priority className="size-12 shrink-0" />
       ) : null}
       <span className="font-serif text-[1.3rem] font-semibold tracking-tight text-ink">
         SOMA <span className="font-normal text-muted-foreground">Academy</span>
