@@ -8,7 +8,7 @@
 - Read docs/ARCHITECTURE.md and docs/DATABASE.md before changing structure.
 - **Founder's standing rules (short list; details in docs/HANDOVER.md - follow them without being reminded):**
   - Founder is non-technical, on an iPhone: plain words, short replies, one PR link to merge per change.
-  - Accuracy first. Loading papers: the founder sends PDFs subject by subject (~5 per round); Claude says which papers it needs. Target: at least 10 mocks per paper.
+  - Accuracy first. Loading papers: the founder sends PDFs subject by subject (~5 per round); Claude says which papers it needs. Target: at least 15 mocks per paper (founder, 28 Nov 2026; was 10).
   - Every older paper follows the LATEST year's layout and marks (scale marks, key points, stem marks, rubric); run the audit after every load.
   - Keep diagram questions with the figure cropped from the paper. Repeats are recorded as appearances, never loaded twice. Uncertain questions are replaced by new ones of the same kind (marked new).
   - Check all drafts in the database before saying a paper is missing.
